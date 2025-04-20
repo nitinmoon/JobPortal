@@ -232,6 +232,8 @@ Route::middleware(['guest'])->group(function () {
         Route::get('/candidate-register', 'register')->name('candidateRegister');
         Route::get('/employer-login', 'login')->name('employerLogin');
         Route::get('/candidate-login', 'login')->name('candidateLogin');
-        Route::post('/send-otp', 'sendOtp')->name('sendOtp');
+        Route::post('/verify-email', 'verifyEmail')->name('verifyEmail');
+        Route::post('/verify-otp', 'verifyOtp')->name('verifyOtp');
+        Route::post('/register-user', 'registerUser')->name('registerUser');
     });
 });

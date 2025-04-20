@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Services;
+
+use App\Repositories\UserRepository;
+
+class UserService
+{
+    private $userRepository;
+
+    public function __construct(
+        UserRepository $userRepository
+    ) {
+        $this->userRepository = $userRepository;
+    }
+
+    /**
+     * ******************************************
+     * method used to save user data in session
+     * ------------------------------------------
+     * @param array $inputArray
+     * @return data
+     * ******************************************
+     */
+    public function saveUserDataInSession($inputArray)
+    {
+        return $this->userRepository->saveUserDataInSession($inputArray);
+    }
+
+    /**
+     * **********************************
+     * method used to save verify otp
+     * ----------------------------------
+     * @param array $inputArray
+     * @return data
+     * **********************************
+     */
+    public function saveVerifyOtp($inputArray)
+    {
+        return $this->userRepository->saveVerifyOtp($inputArray);
+    }
+
+    /**
+     * *************************************
+     * method used to send verify otp mail
+     * -------------------------------------
+     * @param string $email
+     * @param int $otp
+     * @return data
+     * *************************************
+     */
+    public function sendVerifyOtpMail($email, $otp)
+    {
+        return $this->userRepository->sendVerifyOtpMail($email, $otp);
+    }
+
+    /**
+     * **********************************
+     * method used to verify otp
+     * ----------------------------------
+     * @param array $inputArray
+     * @return data
+     * **********************************
+     */
+    public function verifyOtp($inputArray)
+    {
+        return $this->userRepository->verifyOtp($inputArray);
+    }
+}

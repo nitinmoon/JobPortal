@@ -8,7 +8,7 @@ $(function () {
     const inputs = document.querySelectorAll(".otp-field > input");
 
     window.addEventListener("load", () => inputs[0].focus());
-    $("#submitBtn").prop('disabled', true);
+    $("#submitOtpBtn").prop('disabled', true);
 
     inputs[0].addEventListener("paste", function(event) {
         event.preventDefault();
@@ -61,7 +61,7 @@ $(function () {
                 });
             }
 
-            $("#submitBtn").prop('disabled', true);
+            $("#submitOtpBtn").prop('disabled', true);
 
             const inputsNo = inputs.length;
             if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
@@ -69,8 +69,8 @@ $(function () {
                 $('#otp').val($('.otpField').map(function() {
                     return $(this).val();
                 }).get().join(''));
-                $("#submitBtn").prop('disabled', false);
-                $('#candidateOtp').submit();
+                $("#submitOtpBtn").prop('disabled', false);
+                // $('#candidateOtp').submit();
                 return;
             }
         });
@@ -133,19 +133,21 @@ $(function () {
                 },
                 success: function (res) {
                     if (res.status == true) {
-                        $('#sentOtpMsg').html(res.msg);
-                        $('#showEmail').val(res.email);
-                        $('#candidateOtp').removeClass('d-none');
-                        $('#candidateLogin').addClass('d-none');
-                    } else if (res.status == 'Invalid_User') {
-                        $('#emailError').html(res.msg);
-                    } else if (res.status == '2'){
-                        $("#captchaError").html(res.msg);
-                    }  else {
-                        $.notify({
-                            message: res.msg
-                        }, {
-                            type: 'danger'
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
+                        });
+                        $('#verifyEmailBtn').addClass('d-none');
+                        $('#otpDiv').removeClass('d-none');
+                        $('#submitOtpBtn').removeClass('d-none');
+                    } else {
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
                     }
                 },
@@ -165,5 +167,56 @@ $(function () {
                 }
             });
         }
+    });
+
+    $("#verifyOtpForm").validate({
+        rules: {
+            otp: {
+                required: true,
+            },
+        },
+        messages: {
+            otp: {
+                required: "Please enter otp.",
+            },
+        },
+        errorClass: "error is-invalid",
+        errorElement: "span",
+        submitHandler: function () {
+            var href = $("#verifyOtpForm").attr("action");
+            var serializeData = $("#verifyOtpForm").serialize();
+            $.ajax({
+                type: "POST",
+                url: href,
+                data: serializeData,
+                beforeSend: function () {
+                    $("#preloader").show();
+                },
+                success: function (res) {
+                    if (res.status == true) {
+                        $("#emailMsg").html('<span class="badge rounded-pill bg-success"><i class="fas fa-check-circle" aria-hidden="true"></i> '+ res.msg +'</span>');
+                        $('#otpDiv').addClass('d-none');
+                        $('#submitOtpBtn').addClass('d-none');
+                        $('.passwordDiv').removeClass('d-none');
+                        $('#createAccountBtn').removeClass('d-none');
+                    } else {
+                        $("#otpError").html(res.msg);
+                    }
+                },
+                complete: function () {
+                    $("#preloader").hide();
+                },
+                error: function (err) {
+                    $("#preloader").hide();
+                    if (err.status == 422) {
+                        $errResponse = JSON.parse(err.responseText);
+                        $.each($errResponse.errors, function (key, value) {
+                            console.log(key + "----" + value);
+                            $("#l_error_" + key).html(value);
+                        });
+                    }
+                },
+            });
+        },
     });
 });

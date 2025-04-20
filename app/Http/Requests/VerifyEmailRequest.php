@@ -22,11 +22,23 @@ class VerifyEmailRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user = User::find($this->user_id);
         return [
             'first_name' => 'required|max:50',
             'last_name' => 'required|max:50',
-            'email' => 'required|email|unique:users,email,'.(isset($user->id) ? $user->id  : ''),
+            'email' => 'required|email|unique:users,email',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'first_name.required' => 'First name is required',
+            'first_name.max' => 'First name not be greater than 50 characters',
+            'last_name.required' => 'Last name is required',
+            'last_name.max' => 'Last name not be greater than 50 characters',
+            'email.required' => 'Email is required',
+            'email.email' => 'Enter a valid email address',
+            'email.unique' => 'Email already exists'
         ];
     }
 }

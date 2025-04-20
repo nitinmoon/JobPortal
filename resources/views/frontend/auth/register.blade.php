@@ -35,7 +35,8 @@
                 <div class="col-md-12 m-b30">
                     <div class="card max-w500 radius-sm m-auto">
                         <div class="tab-content">
-                            <form id="verifyEmailForm" class="tab-pane active" action="{{ route('sendOtp') }}">
+                            <form id="verifyEmailForm" class="tab-pane active" action="{{ route('verifyEmail') }}">
+                                @csrf
                                 <h4 class="font-weight-700 m-b5">{{ strtoupper($title) }} REGISTER</h4>
                                 <p class="font-weight-600">Already have an account? <a href="{{ $roleId == App\Models\Constants\UserRoleConstants::EMPLOYER ? route('employerLogin') : route('candidateLogin') }}">Login</a>.</p>
                                 <div class="form-group">
@@ -47,14 +48,15 @@
                                     <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name" required>
                                 </div>
                                 <div class="form-group">
-                                    <label class="font-weight-700">E-MAIL *</label>
+                                    <label class="font-weight-700">E-MAIL *</label>&emsp;&emsp;&emsp13;<span id="emailMsg"></span>
                                     <input type="email" class="form-control" name="email" placeholder="Enter Email Address" autocomplete="username" required>
                                 </div>
                                 <div class="text-left">
                                     <button type="submit" class="site-button button-lg outline outline-2" id="verifyEmailBtn">VERIFY EMAIL</button>
                                 </div>
                             </form>
-                            <form id="verifyOtpForm" class="tab-pane active">
+                            <form id="verifyOtpForm" class="tab-pane active" action="{{ route('verifyOtp') }}">
+                                @csrf
                                 <div class="form-group d-none" id="otpDiv">
                                     <label class="font-weight-700">Enter OTP *</label>
                                     <div class="otp-field mb-4">
@@ -68,10 +70,12 @@
                                     <span class="error" id="otpError"></span>
                                 </div>
                                 <div class="text-left">
+                                    <input type="hidden" class="form-control" placeholder="Enter OTP" name="otp" id="otp" maxlength="6">
                                     <button type="submit" class="site-button button-lg outline outline-2 d-none" id="submitOtpBtn">SUBMIT OTP</button>
                                 </div>
                             </form>
-                            <form id="registerUserForm" class="tab-pane active">
+                            <form id="registerUserForm" class="tab-pane active" action="{{ route('registerUser') }}">
+                                @csrf
                                 <div class="form-group passwordDiv d-none">
                                     <label class="font-weight-700">Password *</label>
                                     <input type="password" class="form-control" name="password" placeholder="Enter Password" autocomplete="new-password" required>

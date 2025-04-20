@@ -5,11 +5,21 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VerifyEmailRequest;
 use App\Models\Constants\UserRoleConstants;
+use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request as RouteRequest;
 
 class AuthController extends Controller
 {
+    private $userService;
+
+    public function __construct(
+        UserService $userService
+    ) {
+        $this->userService = $userService;
+    }
+
     /**
      * ***************************************
      * Method is used to view auth type page
@@ -51,33 +61,168 @@ class AuthController extends Controller
         return view('frontend.auth.login', compact('roleId'));
     }
 
-    public function sendOtp(VerifyEmailRequest $request)
+    /**
+     * ********************************************
+     * method used to verify email by sending otp
+     * --------------------------------------------
+     *
+     * @param  object $request
+     * @return request
+     * ********************************************
+     */
+    public function verifyEmail(VerifyEmailRequest $request)
     {
-        // Validate inputs  
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-        ]);
+        try {
+            $inputArray = $this->validateVerifyEmailRequest($request);
+            $this->userService->saveUserDataInSession($inputArray);
+            $otp = $this->userService->saveVerifyOtp($inputArray);
+            $this->userService->sendVerifyOtpMail($inputArray['email'], $otp);
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg'    => 'OTP sent to ' . $inputArray['email'].', Please check your inbox.',
+                ]
+            );
+        } catch (\Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage(),
+                ]
+            );
+        }
+    }
 
-        // Generate a random OTP  
-        $otp = mt_rand(100000, 999999);
+    /**
+     * *****************************************************
+     * method used to validate verify email request input
+     * -----------------------------------------------------
+     *
+     * @param  object $request
+     * @return request
+     * *****************************************************
+     */
+    private function validateVerifyEmailRequest(Request $request)
+    {
+        return $request->only(
+            [
+                'first_name',
+                'last_name',
+                'email'
+            ]
+        );
+    }
 
-        // Store user info and OTP in the session to use later  
-        session([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'otp' => $otp,
-            'otp_expires_at' => now()->addMinutes(10),
-        ]);
+    /**
+     * ****************************
+     * method used to verify otp
+     * ----------------------------
+     *
+     * @param  object $request
+     * @return request
+     * ****************************
+     */
+    public function verifyOtp(Request $request)
+    {
+        try {
+            $inputArray = $this->validateVerifyOtpRequest($request);
+            $verifyOtp = $this->userService->verifyOtp($inputArray);
+            if ($verifyOtp == false) {
+                return response()->json(
+                    [
+                        'status' => false,
+                        'msg' => 'The OTP you entered is invalid or expired. Please enter the correct OTP.'
+                    ]
+                );
+            }
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => 'Email Verified'
+                ]
+            );
+        } catch (\Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage(),
+                ]
+            );
+        }
+    }
 
-        // Send OTP via Email  
-        Mail::send('emails.otp', ['otp' => $otp], function ($message) use ($request) {
-            $message->to($request->email)
-                ->subject('Your OTP Code for Verification');
-        });
+    /**
+     * *****************************************************
+     * method used to validate verify otp request input
+     * -----------------------------------------------------
+     *
+     * @param  object $request
+     * @return request
+     * *****************************************************
+     */
+    private function validateVerifyOtpRequest(Request $request)
+    {
+        return $request->only(['otp']);
+    }
 
-        return redirect()->back()->with('success', 'OTP sent to your email!');
+    /**
+     * ****************************
+     * method used to verify otp
+     * ----------------------------
+     *
+     * @param  object $request
+     * @return request
+     * ****************************
+     */
+    public function registerUser(Request $request)
+    {
+        try {
+            $inputArray = $this->validateRegisterUserRequest($request);
+            $user = $this->userService->registerUser($inputArray);
+            if ($user == false) {
+                return response()->json(
+                    [
+                        'status' => false,
+                        'msg' => 'The OTP you entered is invalid or expired. Please enter the correct OTP.'
+                    ]
+                );
+            }
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => 'Email Verified'
+                ]
+            );
+        } catch (\Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage(),
+                ]
+            );
+        }
+    }
+
+    /**
+     * *****************************************************
+     * method used to validate verify otp request input
+     * -----------------------------------------------------
+     *
+     * @param  object $request
+     * @return request
+     * *****************************************************
+     */
+    private function validateRegisterUserRequest(Request $request)
+    {
+        return $request->only(
+            [
+                'password',
+                'confirm_password',
+                'role_id'
+            ]
+        );
     }
 }

@@ -26,7 +26,7 @@
 	<script src="js/html5shiv.min.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-	
+
 	<!-- STYLESHEETS -->
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/plugins.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/style.css') }}">
@@ -34,17 +34,19 @@
 	<link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/skin/skin-1.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/dark-layout.css') }}">
 
-	
 	<!-- Google Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/custom-css/custom-css.css') }}">
+    <!-- Bootstrap Toaster -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/css/bootstrap-toaster.min.css">
     @yield('style')
 </head>
 
 <body id="bg">
     <div id="loading-area"></div>
+    <div id="preloader"></div>
     <div class="page-wraper">
         <!-- header -->
         @include('frontend.includes.header')
@@ -74,6 +76,8 @@
     <script src="{{ asset('frontend/assets/js/custom-theme.js') }}"></script><!-- CUSTOM FUCTIONS  -->
     <script src="{{ asset('frontend/assets/js/dz.carousel.js') }}"></script><!-- SORTCODE FUCTIONS  -->
     <script src="{{ asset('frontend/assets/js/dz.ajax.js') }}"></script><!-- CONTACT JS  -->
+    <!-- Bootstrap Toaster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/umd/bootstrap-toaster.min.js"></script>
     <!-- Validation JS  -->
     <script src="{{ asset('frontend/assets/js/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/jquery-validation/additional-methods.min.js') }}"></script>
