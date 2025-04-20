@@ -21,14 +21,13 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('mobile_verified_at')->nullable();
-            $table->string('verify_otp', 10)->nullable();
             $table->string('phone', 15)->nullable();
             $table->date('dob')->nullable();
-            $table->enum('gender', ['M', 'F', 'T', 'O'])->default('M')->comment('M - Male, F - Female, T - Transgender, O - Others');
+            $table->enum('gender', [1, 2, 3, 4])->nullable()->comment('1 - Male, 2 - Female, 3 - Transgender, 4 - Others');
             $table->date('date_of_joining')->nullable();
             $table->date('date_of_exit')->nullable();
             $table->string('profile_photo', 10)->nullable();
-            $table->enum('portal_access', [0, 1])->default(1)->comment('0 - No Login , 1 - Login Granted');
+            $table->enum('portal_access', [1, 2])->default(1)->comment('1 - Login Granted, 2 - No Login');
             $table->enum('status', [1, 2])->default(1)->comment('1 - Approved, 2 - Disapproved');
             $table->integer('role_id')->unsigned()->nullable()->comment('foreign key (roles)');
             $table->foreign('role_id')->references('id')->on('roles');

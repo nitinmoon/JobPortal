@@ -71,9 +71,12 @@
     <script src="{{ asset('frontend/assets/plugins/masonry/masonry.filter.js') }}"></script><!-- MASONRY -->
     <script src="{{ asset('frontend/assets/plugins/owl-carousel/owl.carousel.js') }}"></script><!-- OWL SLIDER -->
     <script src="{{ asset('frontend/assets/plugins/scroll/scrollbar.min.js') }}"></script><!-- OWL SLIDER -->
-    <script src="{{ asset('frontend/assets/js/custom.js') }}"></script><!-- CUSTOM FUCTIONS  -->
+    <script src="{{ asset('frontend/assets/js/custom-theme.js') }}"></script><!-- CUSTOM FUCTIONS  -->
     <script src="{{ asset('frontend/assets/js/dz.carousel.js') }}"></script><!-- SORTCODE FUCTIONS  -->
     <script src="{{ asset('frontend/assets/js/dz.ajax.js') }}"></script><!-- CONTACT JS  -->
+    <!-- Validation JS  -->
+    <script src="{{ asset('frontend/assets/js/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/jquery-validation/additional-methods.min.js') }}"></script>
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip();

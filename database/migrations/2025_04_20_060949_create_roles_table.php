@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100);
-            $table->enum('status', [0, 1])->default(1)->comment('0 - Inactive, 1 - Active');
+            $table->integer('created_by')->unsigned()->nullable()->comment('Auth/Login User');
+            $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');
+            $table->enum('status', [1, 2])->default(1)->comment('1 - Active, 2 - Inactive');
+            $table->timestamps();
+            $table->softDeletes();
             $table->index(['status']);
         });
     }

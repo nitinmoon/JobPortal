@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Country;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,11 +15,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            AdminSeeder::class,
+            SuperAdminSeeder::class,
             CountrySeeder::class,
             StateSeeder::class,
             CitySeeder::class,
-            WorkTypeSeeder::class,
+            // WorkTypeSeeder::class,
         ]);
     }
 }

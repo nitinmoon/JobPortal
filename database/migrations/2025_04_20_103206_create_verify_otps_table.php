@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE apply_jobs CHANGE status
-        status ENUM('1', '2', '3', '4') COMMENT '1 - Application Sent, 2 - Resume Viewed, 3 - Shortlisted, 4 - Hired' NUll");
+        Schema::create('verify_otps', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('email', 100);
+            $table->string('otp', 10)->nullable();
+            $table->timestamp('expires_at')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('apply_jobs', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('verify_otps');
     }
 };

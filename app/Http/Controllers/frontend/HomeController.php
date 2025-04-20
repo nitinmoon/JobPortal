@@ -17,17 +17,4 @@ class HomeController extends Controller
     {
         return view('frontend.home');
     }
-
-    /**
-     * ***************************************
-     * Method is used to view auth type page
-     * ---------------------------------------
-     * @return view
-     * ***************************************
-     */
-    public function authType($flag)
-    {
-        $type = base64_decode($flag);
-        return view('frontend.auth.auth-type', compact('type'));
-    }
 }

@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Constants\UserRoleConstants;
 use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AdminSeeder extends Seeder
+class SuperAdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,12 +15,12 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'role_id' => 1,
-            'first_name' => 'Admin',
-            'last_name' => 'Demo',
+            'first_name' => 'Super',
+            'last_name' => 'Admin',
             'email' => 'admin@jobportal.com',
+            'password' => bcrypt('123456'),
             'email_verified_at' => date('Y-m-d H:i:s'),
-            'password' => bcrypt('123456')
+            'role_id' => UserRoleConstants::SUPER_ADMIN
         ]);
     }
 }

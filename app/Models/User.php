@@ -36,6 +36,7 @@ class User extends Authenticatable
         'portal_access',
         'status',
         'role_id',
+        'last_login',
         'created_by',
         'updated_by'
     ];

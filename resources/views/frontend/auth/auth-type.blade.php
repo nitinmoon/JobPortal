@@ -22,7 +22,7 @@
                             <div class="clearifx">
                                 <h6 class="m-b10">I am a Employer</h6>
                                 <p class="m-b20">Let's hire your next great candidate.</p>
-                                <a href="account-professional.html" class="site-button">{{ $title }}</a>
+                                <a href="{{ $type == 'signup' ? route('employerRegister') : route('employerLogin') }}" class="site-button">{{ $title }}</a>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                             <div class="clearifx">
                                 <h6 class="m-b10">I am a Candidate</h6>
                                 <p class="m-b20">Let's find a perfect job for you.</p>
-                                <a href="account-fresher.html" class="site-button">{{ $title }}</a>
+                                <a href="{{ $type == 'signup' ? route('candidateRegister') : route('candidateLogin') }}" class="site-button">{{ $title }}</a>
                             </div>
                         </div>
                     </div>

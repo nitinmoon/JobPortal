@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
-    use HasFactory;
-
-    public $timestamps = false;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
+        'created_by',
+        'updated_by',
         'status'
     ];
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\backend\JobCategoryController;
 use App\Http\Controllers\backend\JobController;
 use App\Http\Controllers\backend\JobTypeController;
 use App\Http\Controllers\backend\LoginController;
+use App\Http\Controllers\frontend\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\HomeController;
 
@@ -30,6 +31,7 @@ use App\Http\Controllers\frontend\HomeController;
 |--------------------------------------------------------------------------
 |
 */
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/console', function () {
         return redirect(route('adminLogin'));
@@ -209,14 +211,27 @@ Route::controller(AjaxController::class)->group(function () {
     Route::get('/get-city', 'getCity')->name('getCity');
     Route::get('/autocomplete-location', 'autocompleteLocation')->name('autocompleteLocation');
     Route::get('/autocomplete-search-apply-candidate', 'autocompleteSearchApplyCandidate')
-    ->name('autocompleteSearchApplyCandidate');
+        ->name('autocompleteSearchApplyCandidate');
 });
 
-/*
-| Home Routes
-*/
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index');
-    Route::get('/home', 'index')->name('home');
-    Route::get('/auth-type/{flag}', 'authType')->name('authType');
+Route::middleware(['guest'])->group(function () {
+    /*
+    | Home Routes
+    */
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/home', 'index')->name('home');
+    });
+
+    /*
+    | Login Routes
+    */
+    Route::controller(AuthController::class)->group(function () {
+        Route::get('/auth-type/{flag}', 'authType')->name('authType');
+        Route::get('/employer-register', 'register')->name('employerRegister');
+        Route::get('/candidate-register', 'register')->name('candidateRegister');
+        Route::get('/employer-login', 'login')->name('employerLogin');
+        Route::get('/candidate-login', 'login')->name('candidateLogin');
+        Route::post('/send-otp', 'sendOtp')->name('sendOtp');
+    });
 });
