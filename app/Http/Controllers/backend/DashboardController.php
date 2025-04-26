@@ -37,7 +37,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_ADMIN) {
+        if (auth()->user()->role_id != UserRoleConstants::SUPER_ADMIN) {
             return back();
         }
         return view('backend.dashboard.admin-dashboard');

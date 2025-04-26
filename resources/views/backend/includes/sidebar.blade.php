@@ -1,4 +1,4 @@
-@if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::USER_ROLE_ADMIN)
+@if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::SUPER_ADMIN)
 @include('backend.includes.admin-sidebar')
 @endif
 @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::USER_ROLE_EMPLOYER)

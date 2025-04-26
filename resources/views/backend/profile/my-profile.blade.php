@@ -60,7 +60,7 @@
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                 </li>
-                @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::USER_ROLE_ADMIN)
+                @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::SUPER_ADMIN)
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
                 </li>
@@ -168,7 +168,7 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::USER_ROLE_ADMIN)
+                  @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::SUPER_ADMIN)
                   <form action="{{ route('updateAdminProfile') }}" id="adminProfileForm" method="post">
                     @csrf
                     <div class="row mb-3">

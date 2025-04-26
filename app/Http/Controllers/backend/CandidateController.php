@@ -51,7 +51,7 @@ class CandidateController extends Controller
      */
     public function index(Request $request)
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_ADMIN) {
+        if (auth()->user()->role_id != UserRoleConstants::SUPER_ADMIN) {
             return back();
         }
         if ($request->ajax()) {

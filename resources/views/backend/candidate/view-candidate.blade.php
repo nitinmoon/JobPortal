@@ -4,8 +4,8 @@
 <div class="pagetitle">
   <h1>View {{ trans('candidate.candidate') }}</h1>
   <nav>
-    <ol class="breadcrumb">
-      @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::USER_ROLE_ADMIN)
+    <ol class="breadcrumb">SUPER_ADMIN
+      @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::SUPER_ADMIN)
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('candidates') }}">{{ trans('candidate.candidates') }}</a></li>
         <li class="breadcrumb-item active"> {{ trans('candidate.view_candidate') }}</li>
