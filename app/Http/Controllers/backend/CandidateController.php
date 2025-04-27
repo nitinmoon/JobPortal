@@ -274,4 +274,29 @@ class CandidateController extends Controller
             return $this->applyJobService->candidateApplyJobsAjaxDatatable($request);
         }
     }
+
+    /**
+     * ****************************
+     * method use to view profile
+     * ----------------------------
+     * @param int $authId
+     * @return jsonResponse
+     * ****************************
+     */
+    public function myProfile()
+    {
+        $title = getEnum('users', 'title');
+        $genders = getEnum('users', 'gender');
+        $states = [];
+        $cities = [];
+        $countries = $this->countryService->getAllCountry();
+        return view(
+            'frontend.candidate.my-profile',
+            compact(
+                'title',
+                'genders',
+                'countries'
+            )
+        );
+    }
 }

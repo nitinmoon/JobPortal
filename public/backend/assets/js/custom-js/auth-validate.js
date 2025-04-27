@@ -44,10 +44,6 @@ $("document").ready(function() {
         submitHandler: function() {
             var href = $('#login-form').attr('action');
             var serializeData = $('#login-form').serialize();
-            if (grecaptcha.getResponse() == "") {
-                $("#captchaError").html("Please check on the reCAPTCHA box.");
-                return false;
-            }
             $.ajax({
                 type: 'POST',
                 url: href,

@@ -24,7 +24,7 @@
                                     </div>
                                     @endif
                                 </div>
-                                <form class="row g-3" id="login-form" action="{{ route('checkLogin') }}">
+                                <form class="row g-3" id="login-form" action="{{ route('checkAdminLogin') }}">
                                     <div class="col-12">
                                         <label for="email" class="form-label">Username</label>
                                         <input type="email" name="email" class="form-control login-input" placeholder="abc@example.com">
@@ -35,13 +35,13 @@
                                         <input type="password" name="password" class="form-control login-input" placeholder="******">
                                         <span class="error" id="error_password"></span>
                                     </div>
-                                    <div class="col-md-12 mb-5">
-                                        <div class="form-group">
+                                    <!-- <div class="col-md-12 mb-5">
+                                        <div class="form-group"> -->
                                         <!-- Google Recaptcha -->
-                                        <div class="g-recaptcha mt-4" data-callback="recaptchaCallback" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                                        <!-- <div class="g-recaptcha mt-4" data-callback="recaptchaCallback" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                                         <span id="captchaError" class="error"></span>
-                                        </div>
-                                    </div>
+                                        </div> -->
+                                    <!-- </div> -->
                                     <div class="col-12">
                                         <button class="btn w-100 btnOrg text-white" type="submit">Login</button>
                                     </div>

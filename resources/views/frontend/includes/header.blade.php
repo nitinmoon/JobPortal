@@ -24,8 +24,8 @@
 								<input type="checkbox">
 								<span class="mode-label"></span>
 							</a> -->
-                        @if(isset(auth()->user->id))
-                        <a href="{{ route('logout', ['flag' => base64_encode('login')]) }}" class="site-button"><i class="fa fa-lock"></i> Sign Out</a>
+                        @if(isset(auth()->user()->id))
+                        <a href="{{ route('logout') }}" class="site-button"><i class="fa fa-lock"></i> Sign Out</a>
                         @else
                         <a href="{{ route('authType', ['flag' => base64_encode('signup')]) }}" class="site-button"><i class="fa fa-user"></i> Sign Up</a>
                         <a href="{{ route('authType', ['flag' => base64_encode('login')]) }}" class="site-button"><i class="fa fa-lock"></i> Login</a>

@@ -222,16 +222,16 @@ class EmployerController extends Controller
     public function addUpdateEmployer(AddUpdateEmployerInputRequest $request)
     {
         // try {
-            $inputArray = $this->validateEmployerInput($request);
-            $this->employerService->addUpdateEmployer($inputArray);
-            $msg = $inputArray['employerId'] == 0 ? 'Employer added successfully!' : 'Employer updated successfully!';
-            return response()->json(
-                [
-                    'status' => true,
-                    'msg' => $msg,
-                    'redirectRoute' => route('employers')
-                ]
-            );
+        $inputArray = $this->validateEmployerInput($request);
+        $this->employerService->addUpdateEmployer($inputArray);
+        $msg = $inputArray['employerId'] == 0 ? 'Employer added successfully!' : 'Employer updated successfully!';
+        return response()->json(
+            [
+                'status' => true,
+                'msg' => $msg,
+                'redirectRoute' => route('employers')
+            ]
+        );
         // } catch (Exception  $exception) {
         //     Log::channel('exceptionLog')->error("Exception: ".$exception->getMessage().' in '.$exception->getFile().' StackTrace:'.$exception->getTraceAsString());
         //     return response()->json(
@@ -254,9 +254,31 @@ class EmployerController extends Controller
     private function validateEmployerInput(Request $request)
     {
         return $request->only(
-            ['employerId', 'title', 'first_name', 'middle_name', 'last_name', 'email', 'phone', 'dob', 'gender', 'company_address',
-             'zip', 'country_id', 'state_id', 'city_id', 'company_name', 'company_contact_person', 'company_contact_email',
-              'company_contact_no', 'company_description', 'company_logo', 'foundation_date', 'no_of_employees', 'gst_no']
+            [
+                'employerId',
+                'title',
+                'first_name',
+                'middle_name',
+                'last_name',
+                'email',
+                'phone',
+                'dob',
+                'gender',
+                'company_address',
+                'zip',
+                'country_id',
+                'state_id',
+                'city_id',
+                'company_name',
+                'company_contact_person',
+                'company_contact_email',
+                'company_contact_no',
+                'company_description',
+                'company_logo',
+                'foundation_date',
+                'no_of_employees',
+                'gst_no'
+            ]
         );
     }
 
@@ -299,13 +321,16 @@ class EmployerController extends Controller
      * @return jsonResponse
      * ****************************
      */
-    public function myProfile() {
+    public function myProfile()
+    {
         $title = getEnum('users', 'title');
         $genders = getEnum('users', 'gender');
         $states = [];
         $cities = [];
         $countries = $this->countryService->getAllCountry();
-        return view('frontend.employer.my-profile', compact(
+        return view(
+            'frontend.employer.my-profile',
+            compact(
                 'title',
                 'genders',
                 'countries'
@@ -321,12 +346,15 @@ class EmployerController extends Controller
      * @return jsonResponse
      * ************************************
      */
-    public function companyProfile() {
+    public function companyProfile()
+    {
         $states = [];
         $cities = [];
         $countries = $this->countryService->getAllCountry();
         $jobCategories = $this->jobCategoryService->getAllJobCategory();
-        return view('frontend.employer.company-profile', compact(
+        return view(
+            'frontend.employer.company-profile',
+            compact(
                 'countries',
                 'jobCategories'
             )
@@ -341,13 +369,16 @@ class EmployerController extends Controller
      * @return jsonResponse
      * ************************************
      */
-    public function companyJobPost() {
+    public function companyJobPost()
+    {
         $states = [];
         $cities = [];
         $countries = $this->countryService->getAllCountry();
         $genders = getEnum('users', 'gender');
         $englishLevels = getEnum('jobs', 'english_level');
-        return view('frontend.employer.company-job-post', compact(
+        return view(
+            'frontend.employer.company-job-post',
+            compact(
                 'countries',
                 'genders',
                 'englishLevels'
@@ -363,7 +394,8 @@ class EmployerController extends Controller
      * @return jsonResponse
      * ***************************************
      */
-    public function companyTransactions() {
+    public function companyTransactions()
+    {
         return view('frontend.employer.transaction');
     }
 
@@ -375,7 +407,8 @@ class EmployerController extends Controller
      * @return jsonResponse
      * ***************************************
      */
-    public function companyManageJobs() {
+    public function companyManageJobs()
+    {
         return view('frontend.employer.company-manage-job');
     }
 
@@ -387,7 +420,8 @@ class EmployerController extends Controller
      * @return jsonResponse
      * ***************************************
      */
-    public function companyResume() {
+    public function companyResume()
+    {
         return view('frontend.employer.company-resume');
     }
 
@@ -399,7 +433,8 @@ class EmployerController extends Controller
      * @return jsonResponse
      * ***************************************
      */
-    public function employerChangePassword() {
+    public function employerChangePassword()
+    {
         return view('frontend.employer.change-password');
     }
 

@@ -18,8 +18,7 @@ class DatabaseSeeder extends Seeder
             SuperAdminSeeder::class,
             CountrySeeder::class,
             StateSeeder::class,
-            CitySeeder::class,
-            // WorkTypeSeeder::class,
+            CitySeeder::class
         ]);
     }
 }
