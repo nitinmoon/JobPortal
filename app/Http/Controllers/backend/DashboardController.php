@@ -37,7 +37,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_ADMIN) {
+        if (auth()->user()->role_id != UserRoleConstants::SUPER_ADMIN) {
             return back();
         }
         return view('backend.dashboard.admin-dashboard');
@@ -52,7 +52,7 @@ class DashboardController extends Controller
      */
     public function employerDashboard()
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_EMPLOYER) {
+        if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
             return back();
         }
         $totalApplyJobCount = $this->applyJobService->getTotalApplyJobCount();

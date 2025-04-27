@@ -220,118 +220,17 @@
                     some form, by injected humour, or look even slightly believable.</p>
             </div>
             <div class="row sp20 wrapper-spacing">
+                @foreach($jobCategories as $category)
                 <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
                     <a href="company-manage-job.html" class="job-bx-wraper">
                         <div class="icon-content">
-                            <i class="fa fa-calculator fa-2x"></i> <!-- Accounting Icon with increased size -->
-                            <h5 class="job-name">Accounting</h5>
+                            <i class="{{ $category->icon }} fa-2x"></i> <!-- Accounting Icon with increased size -->
+                            <h5 class="job-name">{{ $category->name }}</h5>
                             <span>100+ Posted New Jobs</span>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-code fa-2x"></i> <!-- Development Icon with increased size -->
-                            <h5 class="job-name">Development</h5>
-                            <span>200+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-laptop fa-2x"></i> <!-- Technology Icon with increased size -->
-                            <h5 class="job-name">Technology</h5>
-                            <span>150+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-newspaper fa-2x"></i> <!-- Media & News Icon with increased size -->
-                            <h5 class="job-name">Media & News</h5>
-                            <span>100+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-heartbeat fa-2x"></i> <!-- Medical Icon with increased size -->
-                            <h5 class="job-name">Medical</h5>
-                            <span>110+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-university fa-2x"></i> <!-- Government Icon with increased size -->
-                            <h5 class="job-name">Government</h5>
-                            <span>250+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-palette fa-2x"></i>
-                            <!-- Design & Creative Icon with increased size -->
-                            <h5 class="job-name">Design & Creative</h5>
-                            <span>150+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-bullhorn fa-2x"></i> <!-- Marketing Icon with increased size -->
-                            <h5 class="job-name">Marketing</h5>
-                            <span>150+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-phone-alt fa-2x"></i>
-                            <!-- Telemarketing Icon with increased size -->
-                            <h5 class="job-name">Telemarketing</h5>
-                            <span>100+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-laptop-code fa-2x"></i>
-                            <!-- Software & Web Icon with increased size -->
-                            <h5 class="job-name">Software & Web</h5>
-                            <span>200+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-cogs fa-2x"></i> <!-- Engineering Icon with increased size -->
-                            <h5 class="job-name">Engineering</h5>
-                            <span>250+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-chalkboard-teacher fa-2x"></i>
-                            <!-- Teaching & Education Icon with increased size -->
-                            <h5 class="job-name">Teaching & Education</h5>
-                            <span>150+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
             </div>
         </div>
 

@@ -9,7 +9,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                         <div class="d-flex justify-content-center py-4">
-                            <a href="{{ route('adminLogin') }}" class="logo d-flex align-items-center w-auto">
+                            <a href="{{ route('adminLogin') }}" class="logo d-flex align-items-center w-auto" style="color: #223d78;">
                                 <span class="d-lg-block">Job </span>&nbsp;Portal
                             </a>
                         </div>

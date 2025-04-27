@@ -33,7 +33,7 @@ class ApplyJobController extends Controller
      */
     public function index(Request $request)
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_EMPLOYER) {
+        if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
             return back();
         }
         $jobCategory = getJobCategory();

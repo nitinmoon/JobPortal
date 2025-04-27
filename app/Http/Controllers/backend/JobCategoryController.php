@@ -30,7 +30,7 @@ class JobCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_ADMIN) {
+        if (auth()->user()->role_id != UserRoleConstants::SUPER_ADMIN) {
             return back();
         }
         if ($request->ajax()) {
@@ -126,7 +126,7 @@ class JobCategoryController extends Controller
     {
         try {
             $this->jobCategoryService->changeJobCategoryStatus($request);
-            $msg = $request->status == 1 ? trans('job-category.status_active_msg'): trans('job-category.status_inactive_msg');
+            $msg = $request->status == 2 ? trans('job-category.status_active_msg'): trans('job-category.status_inactive_msg');
             return response()->json(
                 [
                     'status' => true,

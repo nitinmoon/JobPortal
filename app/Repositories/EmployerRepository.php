@@ -33,11 +33,11 @@ class EmployerRepository extends BaseRepository
             $user->title = '1';
             $user->email = $inputArray['email'];
             $user->verify_otp = $otp;
-            $user->role_id = UserRoleConstants::USER_ROLE_EMPLOYER;
+            $user->role_id = UserRoleConstants::EMPLOYER;
             $user->save();
         } else {
             $checkEmailRole = $this->getModel()->where('email', $inputArray['email'])
-            ->where('role_id', UserRoleConstants::USER_ROLE_EMPLOYER)
+            ->where('role_id', UserRoleConstants::EMPLOYER)
             ->first();
             if ($checkEmailRole == null) {
                 return 'Invalid_User';
@@ -100,7 +100,7 @@ class EmployerRepository extends BaseRepository
             'employer_details.company_contact_no',
         )
         ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'users.id')
-        ->where('users.role_id', UserRoleConstants::USER_ROLE_EMPLOYER);
+        ->where('users.role_id', UserRoleConstants::EMPLOYER);
         if (!empty($filterData['employer'])) {
             $queryBuilder = $queryBuilder->where('users.id', $filterData['employer']);
         }
@@ -172,7 +172,7 @@ class EmployerRepository extends BaseRepository
             $user->phone = strip_tags($inputArray['phone']);
             $user->dob = strip_tags($inputArray['dob']);
             $user->gender = strip_tags($inputArray['gender']);
-            $user->role_id = UserRoleConstants::USER_ROLE_EMPLOYER;
+            $user->role_id = UserRoleConstants::EMPLOYER;
             $user->created_by = auth()->user()->id;
             $user->save();
             $LastInsertId = $user->id;
@@ -187,7 +187,7 @@ class EmployerRepository extends BaseRepository
                     'phone' => $inputArray['phone'],
                     'dob' => $inputArray['dob'],
                     'gender' => strip_tags($inputArray['gender']),
-                    'role_id' => UserRoleConstants::USER_ROLE_EMPLOYER,
+                    'role_id' => UserRoleConstants::EMPLOYER,
                     'updated_by' => auth()->user()->id
                 ]
             );
@@ -248,7 +248,7 @@ class EmployerRepository extends BaseRepository
                 'phone' => $inputArray['phone'],
                 'dob' => $inputArray['dob'],
                 'gender' => strip_tags($inputArray['gender']),
-                'role_id' => UserRoleConstants::USER_ROLE_EMPLOYER,
+                'role_id' => UserRoleConstants::EMPLOYER,
                 'updated_by' => auth()->user()->id
             ]
         );
@@ -292,7 +292,7 @@ class EmployerRepository extends BaseRepository
 
         $queryBuilder = User::select('users.id', 'users.title', 'users.first_name', 'users.last_name')
             ->where('users.portal_access', '1')
-            ->where('users.role_id', UserRoleConstants::USER_ROLE_EMPLOYER);
+            ->where('users.role_id', UserRoleConstants::EMPLOYER);
 
         if (!empty($searchString) && $searchString != '') {
             $queryBuilder = $queryBuilder->where('users.title', 'LIKE', "%{$searchString}%")

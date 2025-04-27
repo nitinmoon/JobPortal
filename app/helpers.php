@@ -53,8 +53,10 @@ if (!function_exists('getGender')) {
             $genderName = "Male";
         } elseif ($gender == '2') {
             $genderName = "Female";
+        } elseif ($gender == '3') {
+            $genderName = "Transgenders";
         } else {
-            $genderName = "Both";
+            $genderName = "Others";
         }
         return $genderName;
     }

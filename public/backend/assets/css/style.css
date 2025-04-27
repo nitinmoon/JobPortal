@@ -388,7 +388,7 @@ h6 {
 .logo span {
   font-size: 26px;
   font-weight: 700;
-  color: #ff9902;
+  color: #1ab2be;
   font-family: "Nunito", sans-serif;
 }
 .logo {
@@ -1268,10 +1268,10 @@ h6 {
 }
 
 .btnOrg {
-  background-color: #ff9902;
+  background-color: #1ab2be;
 }
 .btnOrg:hover {
-  background-color: #ff9902;
+  background-color: #169fa8;
 }
 .badge {
     display: inline-block;

@@ -50,6 +50,19 @@ Route::middleware(['guest'])->group(function () {
 });
 
 /*
+| Employer Routes
+*/
+Route::controller(EmployerController::class)->group(function () {
+    Route::get('/my-profile', 'myProfile')->name('myProfile');
+    Route::get('/company-profile', 'companyProfile')->name('companyProfile');
+    Route::get('/company-job-post', 'companyJobPost')->name('companyJobPost');
+    Route::get('/company-transactions', 'companyTransactions')->name('companyTransactions');
+    Route::get('/company-manage-jobs', 'companyManageJobs')->name('companyManageJobs');
+    Route::get('/company-resume', 'companyResume')->name('companyResume');
+    Route::get('/employer-change-password', 'employerChangePassword')->name('employerChangePassword');
+});
+
+/*
 |--------------------------------------------------------------------------
 | After Login Admin Routes
 |--------------------------------------------------------------------------
@@ -167,7 +180,7 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
         */
         Route::controller(EmployerController::class)->group(function () {
             Route::get('/employer-logout', 'employerLogout')->name('employerLogout');
-            Route::get('/my-profile', 'myProfile')->name('employerMyProfile');
+            // Route::get('/my-profile', 'myProfile')->name('employerMyProfile');
         });
 
         /*

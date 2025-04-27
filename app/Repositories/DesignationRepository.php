@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Constants\StatusConstants;
 use App\Models\Designation;
 use App\Repositories\BaseRepository;
 

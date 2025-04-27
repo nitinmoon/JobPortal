@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Models\Constants\UserRoleConstants;
+use App\Services\DesignationService;
+use App\Services\JobCategoryService;
+use App\Services\JobTypeService;
 
 class EmployerController extends Controller
 {
@@ -21,17 +24,26 @@ class EmployerController extends Controller
     private $countryService;
     private $stateService;
     private $cityService;
+    private $jobCategoryService;
+    private $designationService;
+    private $jobTypeService;
 
     public function __construct(
         EmployerService $employerService,
         CountryService $countryService,
         StateService $stateService,
-        CityService $cityService
+        CityService $cityService,
+        JobCategoryService $jobCategoryService,
+        DesignationService $designationService,
+        JobTypeService $jobTypeService
     ) {
         $this->employerService = $employerService;
         $this->countryService = $countryService;
         $this->stateService = $stateService;
         $this->cityService = $cityService;
+        $this->jobCategoryService = $jobCategoryService;
+        $this->designationService = $designationService;
+        $this->jobTypeService = $jobTypeService;
     }
 
     /**
@@ -57,7 +69,7 @@ class EmployerController extends Controller
      */
     public function index(Request $request)
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_ADMIN) {
+        if (auth()->user()->role_id != UserRoleConstants::SUPER_ADMIN) {
             return back();
         }
         if ($request->ajax()) {
@@ -287,58 +299,170 @@ class EmployerController extends Controller
      * @return jsonResponse
      * ****************************
      */
-    public function myProfile()
-    {
-        if (auth()->user()->role_id == UserRoleConstants::USER_ROLE_CANDIDATE) {
-            return back();
-        }
-        $employerDetails = $this->employerService->getEmployerDetails(auth()->user()->id);
-        // dd($employerDetails);
+    public function myProfile() {
         $title = getEnum('users', 'title');
-        $gender = getEnum('users', 'gender');
-        $countries = $this->countryService->getAllCountry();
+        $genders = getEnum('users', 'gender');
         $states = [];
         $cities = [];
-        if (isset($employerDetails->country_id) && $employerDetails->country_id != '') {
-            $states = $this->stateService->getState($employerDetails->country_id);
-        }
-        if (isset($employerDetails->state_id) && $employerDetails->state_id != '') {
-            $cities = $this->cityService->getCity($employerDetails->state_id);
-        }
-        return view(
-            'backend.profile.my-profile',
-            compact(
-                'employerDetails',
+        $countries = $this->countryService->getAllCountry();
+        return view('frontend.employer.my-profile', compact(
                 'title',
-                'gender',
-                'countries',
-                'states',
-                'cities',
+                'genders',
+                'countries'
             )
         );
     }
 
-    public function updateEmployerProfile(EmployerProfileInputRequest $request)
-    {
-        try {
-            $inputArray = $this->validateEmployerProfileInput($request);
-            $this->employerService->updateEmployerProfile($inputArray);
-            return response()->json(
-                [
-                    'status' => true,
-                    'msg' => 'Profile updated successfully!'
-                ]
-            );
-        } catch (Exception $exception) {
-            Log::channel('exceptionLog')->error("Exception: ".$exception->getMessage().' in '.$exception->getFile().' StackTrace:'.$exception->getTraceAsString());
-            return response()->json(
-                [
-                    'status' => false,
-                    'msg' => $exception->getMessage()
-                ]
-            );
-        }
+    /**
+     * ************************************
+     * method use to view company profile
+     * ------------------------------------
+     * @param int $authId
+     * @return jsonResponse
+     * ************************************
+     */
+    public function companyProfile() {
+        $states = [];
+        $cities = [];
+        $countries = $this->countryService->getAllCountry();
+        $jobCategories = $this->jobCategoryService->getAllJobCategory();
+        return view('frontend.employer.company-profile', compact(
+                'countries',
+                'jobCategories'
+            )
+        );
     }
+
+    /**
+     * ************************************
+     * method use to view copany job post
+     * ------------------------------------
+     * @param int $authId
+     * @return jsonResponse
+     * ************************************
+     */
+    public function companyJobPost() {
+        $states = [];
+        $cities = [];
+        $countries = $this->countryService->getAllCountry();
+        $genders = getEnum('users', 'gender');
+        $englishLevels = getEnum('jobs', 'english_level');
+        return view('frontend.employer.company-job-post', compact(
+                'countries',
+                'genders',
+                'englishLevels'
+            )
+        );
+    }
+
+    /**
+     * ***************************************
+     * method use to view copany transactions
+     * ---------------------------------------
+     * @param int $authId
+     * @return jsonResponse
+     * ***************************************
+     */
+    public function companyTransactions() {
+        return view('frontend.employer.transaction');
+    }
+
+    /**
+     * ***************************************
+     * method use to view copany transactions
+     * ---------------------------------------
+     * @param int $authId
+     * @return jsonResponse
+     * ***************************************
+     */
+    public function companyManageJobs() {
+        return view('frontend.employer.company-manage-job');
+    }
+
+    /**
+     * ***************************************
+     * method use to view copany transactions
+     * ---------------------------------------
+     * @param int $authId
+     * @return jsonResponse
+     * ***************************************
+     */
+    public function companyResume() {
+        return view('frontend.employer.company-resume');
+    }
+
+    /**
+     * ***************************************
+     * method use to view copany transactions
+     * ---------------------------------------
+     * @param int $authId
+     * @return jsonResponse
+     * ***************************************
+     */
+    public function employerChangePassword() {
+        return view('frontend.employer.change-password');
+    }
+
+    /**
+     * ****************************
+     * method use to view profile
+     * ----------------------------
+     * @param int $authId
+     * @return jsonResponse
+     * ****************************
+     */
+    // public function myProfile()
+    // {
+    //     if (auth()->user()->role_id == UserRoleConstants::USER_ROLE_CANDIDATE) {
+    //         return back();
+    //     }
+    //     $employerDetails = $this->employerService->getEmployerDetails(auth()->user()->id);
+    //     // dd($employerDetails);
+    //     $title = getEnum('users', 'title');
+    //     $gender = getEnum('users', 'gender');
+    //     $countries = $this->countryService->getAllCountry();
+    //     $states = [];
+    //     $cities = [];
+    //     if (isset($employerDetails->country_id) && $employerDetails->country_id != '') {
+    //         $states = $this->stateService->getState($employerDetails->country_id);
+    //     }
+    //     if (isset($employerDetails->state_id) && $employerDetails->state_id != '') {
+    //         $cities = $this->cityService->getCity($employerDetails->state_id);
+    //     }
+    //     return view(
+    //         'backend.profile.my-profile',
+    //         compact(
+    //             'employerDetails',
+    //             'title',
+    //             'gender',
+    //             'countries',
+    //             'states',
+    //             'cities',
+    //         )
+    //     );
+    // }
+
+    // public function updateEmployerProfile(EmployerProfileInputRequest $request)
+    // {
+    //     try {
+    //         $inputArray = $this->validateEmployerProfileInput($request);
+    //         $this->employerService->updateEmployerProfile($inputArray);
+    //         return response()->json(
+    //             [
+    //                 'status' => true,
+    //                 'msg' => 'Profile updated successfully!'
+    //             ]
+    //         );
+    //     } catch (Exception $exception) {
+    //         Log::channel('exceptionLog')->error("Exception: ".$exception->getMessage().' in '.$exception->getFile().' StackTrace:'.$exception->getTraceAsString());
+    //         return response()->json(
+    //             [
+    //                 'status' => false,
+    //                 'msg' => $exception->getMessage()
+    //             ]
+    //         );
+    //     }
+    // }
 
     /**
      ******************************************
@@ -348,14 +472,14 @@ class EmployerController extends Controller
      * @return object request
      ******************************************
      */
-    private function validateEmployerProfileInput(Request $request)
-    {
-        return $request->only(
-            ['employerId', 'title', 'first_name', 'middle_name', 'last_name', 'email', 'phone', 'dob', 'gender', 'company_address',
-             'zip', 'country_id', 'state_id', 'city_id', 'company_name', 'company_description', 'company_contact_person', 'company_contact_email',
-              'company_contact_no', 'company_logo', 'foundation_date', 'no_of_employees', 'gst_no']
-        );
-    }
+    // private function validateEmployerProfileInput(Request $request)
+    // {
+    //     return $request->only(
+    //         ['employerId', 'title', 'first_name', 'middle_name', 'last_name', 'email', 'phone', 'dob', 'gender', 'company_address',
+    //          'zip', 'country_id', 'state_id', 'city_id', 'company_name', 'company_description', 'company_contact_person', 'company_contact_email',
+    //           'company_contact_no', 'company_logo', 'foundation_date', 'no_of_employees', 'gst_no']
+    //     );
+    // }
 
     /**
      * *********************************************

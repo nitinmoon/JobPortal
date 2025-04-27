@@ -19,7 +19,7 @@
                                       <i class="bi bi-person"></i>
                                   </div>
                                   <div class="ps-3">
-                                      <h6>{{ getDashboardUsersCount(App\Models\Constants\UserRoleConstants::USER_ROLE_EMPLOYER) }}</h6>
+                                      <h6>{{ getDashboardUsersCount(App\Models\Constants\UserRoleConstants::EMPLOYER) }}</h6>
                                       <span class="text-success small pt-1 fw-bold text-end"><a href="{{ route('employers') }}">View All</a></span>
                                   </div>
                               </div>
@@ -35,7 +35,7 @@
                                       <i class="bi bi-person"></i>
                                   </div>
                                   <div class="ps-3">
-                                      <h6>{{ getDashboardUsersCount(App\Models\Constants\UserRoleConstants::USER_ROLE_CANDIDATE) }}</h6>
+                                      <h6>{{ getDashboardUsersCount(App\Models\Constants\UserRoleConstants::CANDIDATE) }}</h6>
                                       <span class="text-success small pt-1 fw-bold text-end"><a href="{{ route('candidates') }}">View All</a></span>
                                   </div>
                               </div>
