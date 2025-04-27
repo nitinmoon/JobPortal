@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\VerifyEmailRequest;
 use App\Models\Constants\UserRoleConstants;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request as RouteRequest;
 
@@ -80,7 +83,7 @@ class AuthController extends Controller
             return response()->json(
                 [
                     'status' => true,
-                    'msg'    => 'OTP sent to ' . $inputArray['email'].', Please check your inbox.',
+                    'msg'    => 'OTP sent to ' . $inputArray['email'] . ', Please check your inbox.',
                 ]
             );
         } catch (\Exception  $exception) {
@@ -176,23 +179,15 @@ class AuthController extends Controller
      * @return request
      * ****************************
      */
-    public function registerUser(Request $request)
+    public function registerUser(RegisterUserRequest $request)
     {
         try {
             $inputArray = $this->validateRegisterUserRequest($request);
-            $user = $this->userService->registerUser($inputArray);
-            if ($user == false) {
-                return response()->json(
-                    [
-                        'status' => false,
-                        'msg' => 'The OTP you entered is invalid or expired. Please enter the correct OTP.'
-                    ]
-                );
-            }
+            $userId = $this->userService->registerUser($inputArray);
             return response()->json(
                 [
                     'status' => true,
-                    'msg' => 'Email Verified'
+                    'msg' => 'Account created successfully!'
                 ]
             );
         } catch (\Exception  $exception) {
@@ -224,5 +219,94 @@ class AuthController extends Controller
                 'role_id'
             ]
         );
+    }
+
+    /**
+     * **********************************
+     * method used to check login
+     * ----------------------------------
+     *
+     * @param  object $request
+     * @return jsonResponse
+     * **********************************
+     */
+    public function checkLogin(LoginRequest $request)
+    {
+        // Google reCAPTCHA API key configuration
+        $siteKey = env('RECAPTCHA_SITE_KEY');
+        $secretKey = env('RECAPTCHA_SITE_SECRET');
+
+        $data = $request->all();
+        if (isset($data['g-recaptcha-response']) && !empty($data['g-recaptcha-response'])) {
+            // Verify the reCAPTCHA response
+            $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secretKey . '&response=' . $_POST['g-recaptcha-response']);
+            // Decode json data
+            $responseData = json_decode($verifyResponse);
+            // If reCAPTCHA response is valid
+            if ($responseData->success) {
+                $credentials = $this->validateLoginRequest($request);
+                $user = $this->userService->checkLoginStatus($credentials);
+                if (!empty($user)) {
+                    if ($user->deleted_at != null) {
+                        return response()->json(
+                            [
+                                'status' => '2',
+                                'msg' => 'Account is deactivated!',
+                            ]
+                        );
+                    }
+                    $remember = isset($credentials['remember']) ? true : false;
+                    if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], $remember)) {
+                        return response()->json(
+                            [
+                                'status' => true,
+                                'redirectRoute' => route('home'),
+                                'msg' => 'Login successfully!'
+                            ]
+                        );
+                    }
+                }
+                return response()->json(
+                    [
+                        'status' => '3',
+                        'msg' => 'Credentials are not matched!',
+                    ]
+                );
+            }
+        } else {
+            return response()->json(
+                [
+                    'status' => '4',
+                    'msg' => 'Please check on the reCAPTCHA box',
+                ]
+            );
+        }
+    }
+
+    /**
+     * ***********************************************
+     * method used to check required input for login
+     * -----------------------------------------------
+     *
+     * @param  object $request
+     * @return request
+     * ***********************************************
+     */
+    private function validateLoginRequest(Request $request)
+    {
+        return $request->only(['email', 'password']);
+    }
+
+    /**
+     * *************************
+     * method used to logout
+     * -------------------------
+     * @return redirect
+     * **************************
+     */
+    public function logout()
+    {
+        Auth::logout();
+        return redirect(route('home'));
     }
 }

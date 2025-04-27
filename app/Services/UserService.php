@@ -66,4 +66,31 @@ class UserService
     {
         return $this->userRepository->verifyOtp($inputArray);
     }
+
+    /**
+     * **********************************
+     * method used to register user
+     * ----------------------------------
+     * @param array $inputArray
+     * @return data
+     * **********************************
+     */
+    public function registerUser($inputArray)
+    {
+        return $this->userRepository->registerUser($inputArray);
+    }
+
+    /**
+     * **********************************
+     * method used to check login
+     * ----------------------------------
+     *
+     * @param  array $credentials
+     * @return data
+     * **********************************
+     */
+    public function checkLoginStatus($credentials)
+    {
+        return $this->userRepository->checkLoginStatus($credentials);
+    }
 }

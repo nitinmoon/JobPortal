@@ -35,7 +35,7 @@
                 <div class="col-md-12 m-b30">
                     <div class="card max-w500 radius-sm m-auto">
                         <div class="tab-content">
-                            <form id="verifyEmailForm" class="tab-pane active" action="{{ route('verifyEmail') }}">
+                            <form id="verifyEmailForm" class="tab-pane active" action="{{ route('verifyEmail') }}" method="POST">
                                 @csrf
                                 <h4 class="font-weight-700 m-b5">{{ strtoupper($title) }} REGISTER</h4>
                                 <p class="font-weight-600">Already have an account? <a href="{{ $roleId == App\Models\Constants\UserRoleConstants::EMPLOYER ? route('employerLogin') : route('candidateLogin') }}">Login</a>.</p>
@@ -55,7 +55,7 @@
                                     <button type="submit" class="site-button button-lg outline outline-2" id="verifyEmailBtn">VERIFY EMAIL</button>
                                 </div>
                             </form>
-                            <form id="verifyOtpForm" class="tab-pane active" action="{{ route('verifyOtp') }}">
+                            <form id="verifyOtpForm" class="tab-pane active" action="{{ route('verifyOtp') }}" method="POST">
                                 @csrf
                                 <div class="form-group d-none" id="otpDiv">
                                     <label class="font-weight-700">Enter OTP *</label>
@@ -74,15 +74,17 @@
                                     <button type="submit" class="site-button button-lg outline outline-2 d-none" id="submitOtpBtn">SUBMIT OTP</button>
                                 </div>
                             </form>
-                            <form id="registerUserForm" class="tab-pane active" action="{{ route('registerUser') }}">
+                            <form id="registerUserForm" class="tab-pane active" action="{{ route('registerUser') }}" method="POST">
                                 @csrf
                                 <div class="form-group passwordDiv d-none">
                                     <label class="font-weight-700">Password *</label>
-                                    <input type="password" class="form-control" name="password" placeholder="Enter Password" autocomplete="new-password" required>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" autocomplete="new-password" required>
+                                    <span class="text-danger" id="error_password"></span>
                                 </div>
                                 <div class="form-group passwordDiv d-none">
                                     <label class="font-weight-700">Confirm Password *</label>
                                     <input type="password" class="form-control" name="confirm_password" placeholder="Enter Confirm Password" autocomplete="new-password" required>
+                                    <span class="text-danger" id="error_confirm_password"></span>
                                 </div>
                                 <div class="text-left">
                                     <input type="hidden" name="role_id" value="{{ $roleId }}">

@@ -22,12 +22,12 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if(Auth::user()->role_id == UserRoleConstants::USER_ROLE_ADMIN) {
+                if (Auth::user()->role_id == UserRoleConstants::SUPER_ADMIN) {
                     return redirect(RouteServiceProvider::ADMIN_DASHBOARD);
-                } else if(Auth::user()->role_id == UserRoleConstants::USER_ROLE_EMPLOYER) {
-                    return redirect(RouteServiceProvider::EMPLOYER_DASHBOARD);
+                } elseif (Auth::user()->role_id == UserRoleConstants::EMPLOYER) {
+                    return redirect(RouteServiceProvider::EMPLOYER_PROFILE);
                 } else {
-                    return redirect(RouteServiceProvider::HOME);
+                    return redirect(RouteServiceProvider::CANDIDATE_PROFILE);
                 }
             }
         }

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Mail\VerifyOtpMail;
+use App\Models\Constants\UserStatusConstants;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use App\Models\VerifyOtp;
@@ -92,10 +93,53 @@ class UserRepository extends BaseRepository
             ->where('expires_at', '>', Carbon::now())
             ->first();
         if ($otpRecord != null) {
+            session(['email_verified_at' => date('Y-m-d H:i:s')]);
             // Clear OTP record
             $otpRecord->delete();
             return true;
         }
         return false;
+    }
+
+    /**
+     * **********************************
+     * method used to register user
+     * ----------------------------------
+     * @param array $inputArray
+     * @return data
+     * **********************************
+     */
+    public function registerUser($inputArray)
+    {
+        $user = new User();
+        $user->first_name = session('first_name');
+        $user->last_name = session('last_name');
+        $user->email = session('email');
+        $user->password = bcrypt($inputArray['password']);
+        $user->email_verified_at = session('email_verified_at');
+        $user->role_id = $inputArray['role_id'];
+        $user->save();
+
+        User::where('id', $user->id)->update([
+            'created_by' => $user->id
+        ]);
+
+        return $user->id;
+    }
+
+    /**
+     * **********************************
+     * method used to check login
+     * ----------------------------------
+     *
+     * @param  array $credentials
+     * @return data
+     * **********************************
+     */
+    public function checkLoginStatus($credentials)
+    {
+        return User::where('email', $credentials['email'])
+            ->where('status', UserStatusConstants::APPROVED)
+            ->first();
     }
 }

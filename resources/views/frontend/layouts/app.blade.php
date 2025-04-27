@@ -81,6 +81,8 @@
     <!-- Validation JS  -->
     <script src="{{ asset('frontend/assets/js/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/jquery-validation/additional-methods.min.js') }}"></script>
+    <!-- Google recaptcha API library -->
+    <script async src="https://www.google.com/recaptcha/api.js"></script>
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip();

@@ -72,7 +72,7 @@ Route::middleware(['isUserLoggedIn'])->group(function () {
         | Logout Routes
         */
         Route::controller(LoginController::class)->group(function () {
-            Route::get('/logout', 'logout')->name('logout');
+            Route::get('/admin-logout', 'logout')->name('adminLogout');
         });
 
         /*
@@ -216,14 +216,6 @@ Route::controller(AjaxController::class)->group(function () {
 
 Route::middleware(['guest'])->group(function () {
     /*
-    | Home Routes
-    */
-    Route::controller(HomeController::class)->group(function () {
-        Route::get('/', 'index');
-        Route::get('/home', 'index')->name('home');
-    });
-
-    /*
     | Login Routes
     */
     Route::controller(AuthController::class)->group(function () {
@@ -235,5 +227,21 @@ Route::middleware(['guest'])->group(function () {
         Route::post('/verify-email', 'verifyEmail')->name('verifyEmail');
         Route::post('/verify-otp', 'verifyOtp')->name('verifyOtp');
         Route::post('/register-user', 'registerUser')->name('registerUser');
+        Route::post('/check-login', 'checkLogin')->name('checkLogin');
     });
+});
+
+/*
+| Home Routes
+*/
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/home', 'index')->name('home');
+});
+
+/*
+| Logout Routes
+*/
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/logout', 'logout')->name('logout');
 });

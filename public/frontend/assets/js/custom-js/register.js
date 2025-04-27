@@ -219,4 +219,63 @@ $(function () {
             });
         },
     });
+
+    $("#registerUserForm").validate({
+        rules: {
+            password: {
+                required: true,
+            },
+            confirm_password: {
+                required: true,
+                equalTo: "#password",
+            }
+        },
+        messages: {
+            password: {
+                required: "Please enter new password."
+            },
+            confirm_password: {
+                required: "Please enter confirm password.",
+                equalTo: "Confirm password should match with password."
+            }
+        },
+        errorClass: "text-danger is-invalid",
+        errorElement: "label",
+        submitHandler: function() {
+            var href = $('#registerUserForm').attr('action');
+            var serializeData = $('#registerUserForm').serialize();
+            $.ajax({
+                type: "POST",
+                url: href,
+                data: serializeData,
+                beforeSend: function () {
+                    $("#preloader").show();
+                },
+                success: function(res) {
+                    if (res.status == true) {
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
+                        });
+                        setTimeout(function() {
+                            // location.href = res.redirectRoute;
+                            location.reload();
+                        }, 2000);
+                    } else {
+                        Toast.create({
+                            title: "Error!",
+                            message: 'Something went wrong!',
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000
+                        });
+                    }
+                },
+                complete: function () {
+                    $("#preloader").hide();
+                }
+            });
+        }
+    });
 });

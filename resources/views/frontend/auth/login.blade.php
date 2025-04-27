@@ -30,19 +30,27 @@
             <div class="max-w500 m-auto bg-white m-b30">
                 <div class="p-a30 card browse-job radius-sm">
                     <div class="tab-content nav">
-                        <form id="login" class="tab-pane active col-12 p-a0 ">
+                        <form id="loginForm" class="tab-pane active col-12 p-a0" action="{{ route('checkLogin') }}" method="POST">
+                            @csrf
                             <h4 class="font-weight-700">{{ strtoupper($title) }} LOGIN</h4>
                             <p class="font-weight-600">Don't have an account? <a href="{{ $roleId == App\Models\Constants\UserRoleConstants::EMPLOYER ? route('employerRegister') : route('candidateRegister') }}">Sign Up</a></p>
                             <div class="form-group">
                                 <label class="font-weight-700">Email *</label>
-                                <input type="email" class="form-control" name="email" placeholder="Enter Email Address" autocomplete="username" required>
+                                <input type="email" class="form-control login-input" name="email" placeholder="Enter Email Address" autocomplete="username" required>
+                                <span class="error" id="error_email"></span>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-700">Password *</label>
-                                <input type="password" class="form-control" name="password" placeholder="Enter Password" autocomplete="current-password" required>
+                                <input type="password" class="form-control login-input" name="password" placeholder="Enter Password" autocomplete="current-password" required>
+                                <span class="error" id="error_password"></span>
+                            </div>
+                            <div class="form-group">
+                                <!-- Google Recaptcha -->
+                                <div class="g-recaptcha mt-4" data-callback="recaptchaCallback" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                                <span id="captchaError" class="error"></span>
                             </div>
                             <div class="text-left">
-                                <button class="site-button m-r5 button-lg">login</button>
+                                <button type="submit" class="site-button m-r5 button-lg" id="loginSubmitBtn">login</button>
                                 <a data-bs-toggle="tab" href="#forgot-password" class="m-l5 m-t15 forget-pass float-end"><i class="fa fa-unlock-alt"></i> Forgot Password</a>
                             </div>
                         </form>
@@ -66,4 +74,7 @@
     </div>
     <!-- contact area  END -->
 </div>
+@endsection
+@section('script')
+<script src="{{ asset('frontend/assets/js/custom-js/login.js') }}"></script>
 @endsection
