@@ -227,7 +227,7 @@ class CandidateController extends Controller
      */
     public function database(Request $request)
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_EMPLOYER) {
+        if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
             return back();
         }
         if ($request->ajax()) {

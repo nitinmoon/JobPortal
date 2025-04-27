@@ -140,7 +140,7 @@ Route::middleware(['isUserLoggedIn'])->group(function () {
             Route::get('/add-employer-form', 'addEmployer')->name('addEmployer');
             Route::post('/add-update-employer', 'addUpdateEmployer')->name('addUpdateEmployer');
             Route::get('/edit-employer/{id}', 'editEmployer')->name('editEmployer');
-            // Route::get('/my-profile', 'myProfile')->name('adminMyProfile');
+            Route::get('/my-profile', 'myProfile')->name('adminMyProfile');
             Route::post('/update-employer-profile', 'updateEmployerProfile')->name('updateEmployerProfile');
             Route::get('/autocomplete-search-employer', 'autoCompleteSearchEmployer')->name('autoCompleteSearchEmployer');
         });

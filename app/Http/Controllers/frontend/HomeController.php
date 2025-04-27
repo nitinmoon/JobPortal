@@ -3,9 +3,18 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Services\JobCategoryService;
 
 class HomeController extends Controller
 {
+    private $jobCategoryService;
+
+    public function __construct(
+        JobCategoryService $jobCategoryService,
+    ) {
+        $this->jobCategoryService = $jobCategoryService;
+    }
+
     /**
      * **********************************
      * Method is used to view home page
@@ -15,6 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.home');
+        $jobCategories = $this->jobCategoryService->getAllJobCategory();
+        return view('frontend.home', compact('jobCategories'));
     }
 }

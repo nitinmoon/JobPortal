@@ -94,7 +94,7 @@
                     <div class="col-lg-3 col-md-4 label">Gender</div>
                     <div class="col-lg-9 col-md-8">{{ isset(auth()->user()->gender) ? getUserGender(auth()->user()->gender) : '--' }}</div>
                   </div>
-                  @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::USER_ROLE_EMPLOYER)
+                  @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::EMPLOYER)
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Address</div>
                     <div class="col-lg-9 col-md-8">{{ isset($employerDetails->company_address) ? $employerDetails->company_address : '--' }}</div>
@@ -120,7 +120,7 @@
                     <div class="col-lg-9 col-md-8">{{ isset($employerDetails->city_id) ? $employerDetails->city->name : '--' }}</div>
                   </div>
                   @endif
-                  @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::USER_ROLE_EMPLOYER)
+                  @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::EMPLOYER)
                   <hr>
                   <h5 class="card-title">Company Details</h5>
                   <div class="row">
@@ -240,7 +240,7 @@
                       <button type="submit" class="btn btn-primary adminSubmitBtn">Update</button>
                     </div>
                   </form>
-                  @elseif(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::USER_ROLE_EMPLOYER)
+                  @elseif(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::EMPLOYER)
                   <form action="{{ route('updateEmployerProfile') }}" id="employerProfileForm" method="post">
                     @csrf
                     <div class="row mb-3">

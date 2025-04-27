@@ -45,7 +45,7 @@ $(function() {
     //Change Job Category Status
     $(document).on('click', '.change-job-category-status', function (e) {
         e.preventDefault();
-        var status = $(this).is(":checked") ? '1' : '0';
+        var status = $(this).is(":checked") ? '2' : '1';
         var jobCategoryId = $(this).attr("id");
         var url = $(this).data("url");
         Swal.fire({

@@ -4,6 +4,6 @@ namespace App\Models\Constants;
 
 interface StatusConstants
 {
-    public const ACTIVE = '1';
-    public const INACTIVE = '0';
+    public const ACTIVE = '2';
+    public const INACTIVE = '1';
 }

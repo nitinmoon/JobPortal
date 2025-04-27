@@ -52,7 +52,7 @@ class DashboardController extends Controller
      */
     public function employerDashboard()
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_EMPLOYER) {
+        if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
             return back();
         }
         $totalApplyJobCount = $this->applyJobService->getTotalApplyJobCount();
