@@ -94,3 +94,7 @@
 .tenureTypeActive:focus {
     background-color: #0d6efd !important;
 }
+.admin-login-logo {
+    height: 60px !important;
+    width: 200px !important;
+}

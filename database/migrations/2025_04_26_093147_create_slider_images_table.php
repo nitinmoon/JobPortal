@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('title')->nullable();
             $table->string('image')->nullable();
-            $table->enum('status', [1, 2])->default(2)->comment('1 - Inactive, 2 - Active');
+            $table->enum('status', [1, 2])->default(1)->comment('1 - Active, 2 - Inactive');
             $table->integer('created_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->timestamps();

@@ -44,7 +44,7 @@ return new class extends Migration
             $table->integer('city_id')->unsigned()->nullable()->comment('foreign key (cities)');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->text('upload_file')->nullable();
-            $table->enum('status', [1, 2])->default(2)->comment('1 - Inactive, 2 - Active');
+            $table->enum('status', [1, 2])->default(1)->comment('1 - Active, 2 - Inactive');
             $table->integer('created_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->timestamps();

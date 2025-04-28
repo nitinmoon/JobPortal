@@ -58,7 +58,7 @@ class JobTypeService
                 function ($row) {
                     if ($row->deleted_at == null) {
                         $activeChecked = "";
-                                if ($row->status == 2) {
+                                if ($row->status == 1) {
                                     $activeChecked = 'checked';
                                 }
                         return '<input type="hidden" name="_token" value="'.csrf_token().'">

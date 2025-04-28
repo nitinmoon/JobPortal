@@ -26,6 +26,7 @@
     <link href="{{ asset('backend/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/assets/css/custom-css.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toaster/4.0.1/css/bootstrap-toaster.min.css" integrity="sha512-RLiJ5uLcu8jWxsJBevOZWLU0zWv51vwpha0Gh4jRKOqkcWbVR7+U8kKaiGsMhSua3fIkviCHRClSH+XZYKIoZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Template Main CSS File -->
     <link href="{{ asset('backend/assets/css/style.css') }}" rel="stylesheet">
 </head>
@@ -36,9 +37,13 @@
     <!-- Vendor JS Files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ asset('backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Load TinyMCE first -->
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
+
     <!-- Template Main JS File -->
     <script src="{{ asset('backend/assets/js/main.js') }}"></script>
     <script src="{{ asset('backend/assets/js/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toaster/4.0.1/js/bootstrap-toaster.min.js" integrity="sha512-YmkrdAXo8RdHV1JFfepR7QWLDfF7vs8Mc/t+6qKIxrEFeWbi0u/lajryYSPK6GC5nupW5t6XfPdxQpIY79+USg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- jQuery validation -->
     <script src="{{ asset('backend/assets/js/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/jquery-validation/additional-methods.min.js') }}"></script>
