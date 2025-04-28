@@ -35,13 +35,13 @@
                                         <input type="password" name="password" class="form-control login-input" placeholder="******">
                                         <span class="error" id="error_password"></span>
                                     </div>
-                                    <!-- <div class="col-md-12 mb-5">
-                                        <div class="form-group"> -->
+                                    <div class="col-md-12 mb-5">
+                                        <div class="form-group">
                                         <!-- Google Recaptcha -->
-                                        <!-- <div class="g-recaptcha mt-4" data-callback="recaptchaCallback" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                                        <div class="g-recaptcha mt-4" data-callback="recaptchaCallback" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                                         <span id="captchaError" class="error"></span>
-                                        </div> -->
-                                    <!-- </div> -->
+                                        </div>
+                                    </div>
                                     <div class="col-12">
                                         <button class="btn w-100 btnOrg text-white" type="submit">Login</button>
                                     </div>

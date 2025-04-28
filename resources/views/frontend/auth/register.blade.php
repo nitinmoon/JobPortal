@@ -49,7 +49,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="font-weight-700">E-MAIL *</label>&emsp;&emsp;&emsp13;<span id="emailMsg"></span>
-                                    <input type="email" class="form-control" name="email" placeholder="Enter Email Address" autocomplete="username" required>
+                                    <input type="email" class="form-control r-input" name="email" placeholder="Enter Email Address" autocomplete="username" required>
+                                    <span class="error" id="error_email"></span>
                                 </div>
                                 <div class="text-left">
                                     <button type="submit" class="site-button button-lg outline outline-2" id="verifyEmailBtn">VERIFY EMAIL</button>

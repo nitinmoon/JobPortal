@@ -5,7 +5,7 @@
                 <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12">
                     <div class="widget">
                         <div class="logo-white">
-                            <img class="logo m-b15" src="{{ asset('frontend/assets/images/logo.png') }}" width="180" alt="" />
+                            <img class="logo m-b15" src="{{ asset('frontend/assets/images/footer-logo.png') }}" width="180" alt="" />
                         </div>
                         <p class="text-capitalize m-b20">Lorem Ipsum is simply dummy text of the printing and typesetting industry has been the industry's standard dummy text ever since the.</p>
                         <div class="subscribe-form m-b20">

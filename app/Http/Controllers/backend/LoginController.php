@@ -47,18 +47,18 @@ class LoginController extends Controller
     public function checkLogin(LoginRequest $request)
     {
         // Google reCAPTCHA API key configuration
-        // $siteKey     = env('RECAPTCHA_SITE_KEY');
-        // $secretKey     = env('RECAPTCHA_SITE_SECRET');
+        $siteKey     = env('RECAPTCHA_SITE_KEY');
+        $secretKey     = env('RECAPTCHA_SITE_SECRET');
 
-        // $data = $request->all();
-        // if (isset($data['g-recaptcha-response']) && !empty($data['g-recaptcha-response'])) {
+        $data = $request->all();
+        if (isset($data['g-recaptcha-response']) && !empty($data['g-recaptcha-response'])) {
 
-        //     // Verify the reCAPTCHA response
-        //     $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']);
-        //     // Decode json data
-        //     $responseData = json_decode($verifyResponse);
-        //     // If reCAPTCHA response is valid
-        //     if ($responseData->success) {
+            // Verify the reCAPTCHA response
+            $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secretKey . '&response=' . $_POST['g-recaptcha-response']);
+            // Decode json data
+            $responseData = json_decode($verifyResponse);
+            // If reCAPTCHA response is valid
+            if ($responseData->success) {
                 $credentials = $this->validateLoginRequest($request);
                 $user = $this->loginService->checkLoginStatus($credentials);
                 if (!empty($user)) {
@@ -92,15 +92,15 @@ class LoginController extends Controller
                         'msg' => 'Credentials are not matched!',
                     ]
                 );
-          //  }
-        // } else {
-        //     return response()->json(
-        //         [
-        //             'status' => '4',
-        //             'msg' => 'Please check on the reCAPTCHA box',
-        //         ]
-        //     );
-        // }
+            }
+        } else {
+            return response()->json(
+                [
+                    'status' => '4',
+                    'msg' => 'Please check on the reCAPTCHA box',
+                ]
+            );
+        }
     }
 
     /**
@@ -128,7 +128,7 @@ class LoginController extends Controller
         return view('backend.auth.forgot-password');
     }
 
-      /**
+    /**
      * ***********************************
      * method used to view forgot password
      * --------------------------------------
@@ -145,30 +145,31 @@ class LoginController extends Controller
                 if ($user->portal_access == 0) {
                     return response()->json(
                         [
-                        'status' => 2,
-                        'msg' => 'Account is deactivated!'
-                            ]
+                            'status' => 2,
+                            'msg' => 'Account is deactivated!'
+                        ]
                     );
                 }
                 $this->loginService->sendForgotPasswordLink($credentials);
                 return response()->json(
                     [
-                    'status' => 1,
-                    'msg' => 'Reset password link sent successfully, Please check email!'
-                        ]
-                );
-            }
-                return response()->json(
-                    [
-                    'status' => 0,
-                    'msg' => 'You are not authorized user!'
+                        'status' => 1,
+                        'msg' => 'Reset password link sent successfully, Please check email!'
                     ]
                 );
+            }
+            return response()->json(
+                [
+                    'status' => 0,
+                    'msg' => 'You are not authorized user!'
+                ]
+            );
         } catch (Exception  $exception) {
             return response()->json(
-                ['
+                [
+                    '
                 status' => 0,
-                'msg' => $exception->getMessage()
+                    'msg' => $exception->getMessage()
                 ]
             );
         }
@@ -223,8 +224,8 @@ class LoginController extends Controller
             if (!$checkToken) {
                 return response()->json(
                     [
-                    'status' => '2',
-                    'msg' => 'Invalid token!'
+                        'status' => '2',
+                        'msg' => 'Invalid token!'
                     ]
                 );
             }
@@ -232,25 +233,25 @@ class LoginController extends Controller
             if (empty($user)) {
                 return response()->json(
                     [
-                    'status' => '0',
-                    'msg' => 'Invalid user!'
+                        'status' => '0',
+                        'msg' => 'Invalid user!'
                     ]
                 );
             }
         } catch (Exception $exception) {
             return response()->json(
                 [
-                'status' => '0',
-                'msg' => $exception->getMessage()
+                    'status' => '0',
+                    'msg' => $exception->getMessage()
                 ]
             );
         }
         $this->loginService->updateResetPassword($user, $request);
         return response()->json(
             [
-            'status' => true,
-            'msg' => 'Password reset successfully!',
-            'redirectRoute' => route('adminLogin')
+                'status' => true,
+                'msg' => 'Password reset successfully!',
+                'redirectRoute' => route('adminLogin')
             ]
         );
     }

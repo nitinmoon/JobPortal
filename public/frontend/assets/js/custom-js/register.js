@@ -160,13 +160,17 @@ $(function () {
                         $errResponse = JSON.parse(err.responseText);
                         $.each($errResponse.errors, function (key, value) {
                             console.log(key + "----" + value)
-                            $("#l_error_" + key).html(value)
+                            $("#error_" + key).html(value)
                         })
 
                     }
                 }
             });
         }
+    });
+
+    $(".r-input").keypress(function () {
+        $("#error_email").html("");
     });
 
     $("#verifyOtpForm").validate({
@@ -212,7 +216,7 @@ $(function () {
                         $errResponse = JSON.parse(err.responseText);
                         $.each($errResponse.errors, function (key, value) {
                             console.log(key + "----" + value);
-                            $("#l_error_" + key).html(value);
+                            $("#error_" + key).html(value);
                         });
                     }
                 },
@@ -260,8 +264,7 @@ $(function () {
                             timeout: 5000,
                         });
                         setTimeout(function() {
-                            // location.href = res.redirectRoute;
-                            location.reload();
+                            location.href = res.redirectRoute;
                         }, 2000);
                     } else {
                         Toast.create({
@@ -274,7 +277,17 @@ $(function () {
                 },
                 complete: function () {
                     $("#preloader").hide();
-                }
+                },
+                error: function (err) {
+                    $("#preloader").hide();
+                    if (err.status == 422) {
+                        $errResponse = JSON.parse(err.responseText);
+                        $.each($errResponse.errors, function (key, value) {
+                            console.log(key + "----" + value);
+                            $("#error_" + key).html(value);
+                        });
+                    }
+                },
             });
         }
     });

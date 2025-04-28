@@ -2476,6 +2476,7 @@
 .main-slider .container{
 	z-index: 99;
 	position: relative;
+	max-width:1400px !important;
 }
 .main-slider:after{
 	content: "";

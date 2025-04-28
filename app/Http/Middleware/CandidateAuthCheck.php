@@ -17,7 +17,7 @@ class CandidateAuthCheck
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect('candidate-login');
+            return redirect(route('candidateLogin'));
         }
         return $next($request);
     }

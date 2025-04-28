@@ -124,6 +124,8 @@ class UserRepository extends BaseRepository
             'created_by' => $user->id
         ]);
 
+        session()->flush();
+
         return $user->id;
     }
 

@@ -17,7 +17,7 @@ class EmployerAuthCheck
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect('employer-login');
+            return redirect(route('employerLogin'));
         }
         return $next($request);
     }
