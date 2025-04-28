@@ -39,10 +39,10 @@ $(function () {
         submitHandler: function () {
             var href = $("#loginForm").attr("action");
             var serializeData = $("#loginForm").serialize();
-            if (grecaptcha.getResponse() == "") {
-                $("#captchaError").html("Please check on the reCAPTCHA box.");
-                return false;
-            }
+            // if (grecaptcha.getResponse() == "") {
+            //     $("#captchaError").html("Please check on the reCAPTCHA box.");
+            //     return false;
+            // }
             $.ajax({
                 type: "POST",
                 url: href,
