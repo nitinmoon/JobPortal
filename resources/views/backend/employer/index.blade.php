@@ -41,7 +41,7 @@
                                             <label for="status" class="form-label">Status</label>
                                             <select class="form-control input-solid" id="status" style="width:100%;">
                                                 <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="2">Inactive</option>
                                                 <option value="">All</option>
                                             </select>
                                         </div>

@@ -45,7 +45,7 @@ $(function() {
     //Change Job Type Status
     $(document).on('click', '.change-job-type-status', function (e) {
         e.preventDefault();
-        var status = $(this).is(":checked") ? '2' : '1';
+        var status = $(this).is(":checked") ? '1' : '2';
         var jobTypeId = $(this).attr("id");
         var url = $(this).data("url");
         Swal.fire({

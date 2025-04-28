@@ -44,7 +44,7 @@ $(function() {
     //Change Designation Status
     $(document).on('click', '.change-designation-status', function (e) {
         e.preventDefault();
-        var status = $(this).is(":checked") ? '2' : '1';
+        var status = $(this).is(":checked") ? '1' : '2';
         var designationId = $(this).attr("id");
         var url = $(this).data("url");
         Swal.fire({

@@ -112,10 +112,10 @@ class EmployerRepository extends BaseRepository
             }
         }
         if (isset($filterData['status'])) {
-            if ($filterData['status'] == '0') {
-                $queryBuilder = $queryBuilder->where('users.status', '0');
-            } else {
+            if ($filterData['status'] == '1') {
                 $queryBuilder = $queryBuilder->where('users.status', '1');
+            } else {
+                $queryBuilder = $queryBuilder->where('users.status', '2');
             }
         }
         return $queryBuilder->orderBy('users.id', 'desc')->withTrashed()->get();

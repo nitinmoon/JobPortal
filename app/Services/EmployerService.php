@@ -83,15 +83,15 @@ class EmployerService
                 'action',
                 function ($row) {
                     $button = '';
-                    if ($row->deleted_at == null) {
-                        $button .= '<a class=" btn btn-sm btn-warning btn-warning  text-white" title="View"
-                        href="' . route('viewEmployer', base64_encode($row->id)) . '" title="View Employer">
-                        <i class="bi bi-eye"></i></a>&nbsp;&nbsp;';
+                    // if ($row->deleted_at == null) {
+                    //     $button .= '<a class=" btn btn-sm btn-warning btn-warning  text-white" title="View"
+                    //     href="' . route('viewEmployer', base64_encode($row->id)) . '" title="View Employer">
+                    //     <i class="bi bi-eye"></i></a>&nbsp;&nbsp;';
 
-                        $button .= '<a class="edit-employer btn btn-sm btn-primary btn-blue"
-                            href="'. route('editEmployer', base64_encode($row->id)) .'" title="Edit Employer">
-                            <i class="bi bi-pencil-square"></i></a>&nbsp;&nbsp;';
-                    }
+                    //     $button .= '<a class="edit-employer btn btn-sm btn-primary btn-blue"
+                    //         href="'. route('editEmployer', base64_encode($row->id)) .'" title="Edit Employer">
+                    //         <i class="bi bi-pencil-square"></i></a>&nbsp;&nbsp;';
+                    // }
                     if ($row->deleted_at == null) {
                         $button .= '<a class="deleteEmployer btn btn-sm btn-danger" data-url="'. route('deleteEmployer', $row->id) .'" title="Delete Employer" href="#" data-bs-toggle="modal" data-bs-target="#deleteCandidateModal">
                         <i class="bi bi-trash"></i></a>&nbsp;&nbsp;';

@@ -349,11 +349,11 @@ if (!function_exists('isCandidateApplyJob')) {
 if (!function_exists('getUserGender')) {
     function getUserGender($gender)
     {
-        if ($gender == 'M') {
+        if ($gender == '1') {
             $genderName = "Male";
-        } elseif ($gender == 'F') {
+        } elseif ($gender == '2') {
             $genderName = "Female";
-        } elseif ($gender == 'T') {
+        } elseif ($gender == '3') {
             $genderName = "Transgender";
         } else {
             $genderName = "Others";

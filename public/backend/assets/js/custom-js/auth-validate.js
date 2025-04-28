@@ -60,12 +60,25 @@ $("document").ready(function() {
                         setTimeout(() => {
                             window.location = res.redirectRoute;
                         }, 3000);
+                        console.log(res.msg);
+                        // Toast.create({
+                        //     title: "Success!",
+                        //     message: res.msg,
+                        //     status: TOAST_STATUS.SUCCESS,
+                        //     timeout: 5000,
+                        // });
                         $.notify({
                             message: res.msg
                         },{
                             type: 'success'
                         });
                     } else if(res.status == '2') {
+                        // Toast.create({
+                        //     title: "Error!",
+                        //     message: res.msg,
+                        //     status: TOAST_STATUS.DANGER,
+                        //     timeout: 5000,
+                        // });
                         $.notify({
                             message: res.msg
                         },{
@@ -76,6 +89,12 @@ $("document").ready(function() {
                     } else if (res.status == '4'){
                         $("#captchaError").html(res.msg);
                     } else {
+                        // Toast.create({
+                        //     title: "Error!",
+                        //     message: res.msg,
+                        //     status: TOAST_STATUS.DANGER,
+                        //     timeout: 5000,
+                        // });
                         $.notify({
                             message: res.msg
                         },{

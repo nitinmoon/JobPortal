@@ -150,7 +150,7 @@ class EmployerController extends Controller
         try {
             $this->employerService->changeEmployerStatus($request);
             $msg = $request->status == 1 ?  'Status active successfully!' : 'Status inactive successfully!';
-            saveActivityLog('Job', $msg);
+            // saveActivityLog('Job', $msg);
             return response()->json(
                 [
                     'status' => true,

@@ -1,8 +1,11 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
-        <a href="{{ url('/') }}" class="logo d-flex align-items-center">
-            <span class="d-lg-block">Job</span>&nbsp;Portal
+        <a class="logo d-flex align-items-center" shref="index.html">
+            <img class="admin-logo" src="{{ asset('frontend/assets/images/logo.png') }}" alt="">
         </a>
+        <!-- <a href="{{ url('/') }}" class="logo d-flex align-items-center">
+            <span class="d-lg-block">Job</span>&nbsp;Portal
+        </a> -->
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
     <nav class="header-nav ms-auto">

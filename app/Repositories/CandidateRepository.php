@@ -56,7 +56,7 @@ class CandidateRepository extends BaseRepository
             'candidate_details.updated_by'
         )
         ->leftJoin('candidate_details', 'candidate_details.candidate_id', '=', 'users.id')
-        ->where('users.role_id', UserRoleConstants::USER_ROLE_CANDIDATE);
+        ->where('users.role_id', UserRoleConstants::CANDIDATE);
         if (!empty($filterData['candidate'])) {
             $queryBuilder = $queryBuilder->where('users.id', $filterData['candidate']);
         }
