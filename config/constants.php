@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'DEFAULT_PROFILE' => 'backend/assets/img/default_profile.png',
+    'DEFAULT_PROFILE' => 'frontend/assets/images/logo/icon2.png',
     'PROFILE_PATH' => public_path().'/../uploads/profiles/',
     'CANDIDATE_RESUME_PATH' => public_path().'/../uploads/candidate_resume/',
     'DOWNLOAD_RESUME_PATH' => 'uploads/candidate_resume/',

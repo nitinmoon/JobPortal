@@ -5,9 +5,9 @@
   <h1>{{ isset($employerDetails->id) ? 'Edit' : 'Add' }} {{ trans('employer.employer') }}</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ route('employerDashboard') }}">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
       <li class="breadcrumb-item"><a href="{{ route('employers') }}">{{ trans('employer.employers') }}</a></li>
-      <li class="breadcrumb-item active"> {{ trans('employer.employer') }}</li>
+      <li class="breadcrumb-item active">{{ isset($employerDetails->id) ? 'Edit' : 'Add' }} {{ trans('employer.employer') }}</li>
     </ol>
   </nav>
 </div>
@@ -73,6 +73,86 @@
                 </div>
             </div>
             <div class="row mt-3">
+                <div class="col-md-6">
+                  <label for="company_name" class="form-label">Company Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" name="company_name" placeholder="Enter Company Name" value="{{ isset($employerDetails->company_name) ? $employerDetails->company_name : '' }}">
+                  <span class="error" id="error_company_name"></span>
+                </div>
+                <div class="col-md-6">
+                  <label for="company_website" class="form-label">Company Website <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" name="company_website" placeholder="Enter Company Website" value="{{ isset($employerDetails->company_website) ? $employerDetails->company_website : '' }}">
+                  <span class="error" id="error_company_website"></span>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                  <label for="company_contact_person" class="form-label">Company Contact Person</label>
+                  <input type="text" class="form-control" name="company_contact_person" placeholder="Enter Contact Person" value="{{ isset($employerDetails->company_contact_person) ? $employerDetails->company_contact_person : '' }}">
+                  <span class="error" id="error_company_contact_person"></span>
+                </div>
+                <div class="col-md-6">
+                  <label for="company_contact_email" class="form-label">Company Contact Email</label>
+                  <input type="email" class="form-control" name="company_contact_email" placeholder="Enter Contact Email" value="{{ isset($employerDetails->company_contact_email) ? $employerDetails->company_contact_email : '' }}">
+                  <span class="error" id="error_company_contact_email"></span>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                  <label for="company_contact_no" class="form-label">Company Contact No</label>
+                  <input type="text" class="form-control" id="company_contact_no" name="company_contact_no" maxlength="10" placeholder="Enter Company Contact No" value="{{ isset($employerDetails->company_contact_no) ? $employerDetails->company_contact_no : '' }}">
+                  <span class="error" id="error_company_contact_no"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="job_category_id" class="form-label">Job Category <span class="text-danger">*</span></label>
+                    <select class="form-select" name="job_category_id" data-error="#error_job_category_id">
+                        <option value="">Select</option>
+                        @foreach($jobCategories as $category)
+                        <option value="{{ $category->id }}" {{ isset($employerDetails->job_category_id) && ($category->id == $employerDetails->job_category_id) ? 'selected' : '' }}>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                    <span class="error" id="error_job_category_id"></span>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label for="foundation_date" class="form-label">Foundation Date </label>
+                    <input type="date" class="form-control" name="foundation_date" placeholder="Enter Foundation Date" max="{{ date('Y-m-d') }}" value="{{ isset($employerDetails->foundation_date) ? $employerDetails->foundation_date : '' }}">
+                    <span class="error" id="error_foundation_date"></span>
+                </div>
+                <div class="col-md-3">
+                    <label for="no_of_employees" class="form-label">No Of Employees </label>
+                    <input type="text" class="form-control" id="no_of_employees" name="no_of_employees" placeholder="Enter No Of Employees" value="{{ isset($employerDetails->no_of_employees) ? $employerDetails->no_of_employees : '' }}">
+                    <span class="error" id="error_no_of_employees"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="gst_no" class="form-label">GST Number </label>
+                    <input type="text" class="form-control" name="gst_no" placeholder="Enter GST Number" value="{{ isset($employerDetails->gst_no) ? $employerDetails->gst_no : '' }}">
+                    <span class="error" id="error_gst_no"></span>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label for="company_description" class="form-label">Company Description <span class="text-danger">*</span></label>
+                    <textarea class="basic-example" id="company_description" name="company_description" data-error="#error_company_description">{!! isset($employerDetails->company_description) ? $employerDetails->company_description : '' !!}</textarea>
+                    <span class="error" id="error_company_description"></span>
+                </div>
+                <!-- <div class="col-md-6">
+                   <div class="row">
+                    <div class="col-md-6">
+                        <label for="company_logo" class="form-label">Company Logo</label>
+                        <input type="file" class="form-control" id="company_logo" name="company_logo" value="" onchange="addLoadFile(event)">
+                        <span class="error" id="error_company_logo"></span>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" id="close" class="btn btn-danger btn-sm px-2 uploadBtn d-none" style="margin-top:23px;margin-left:-15px;"><i class="bi bi-x-circle"></i></button>
+                    </div>
+                    <div class="col-md-5">
+                        <img class="d-none" src="" alt="" id="logoPreview" width="200" height="150">
+                    </div>
+                   </div>
+                </div> -->
+            </div>
+            <div class="row mt-3">
                 <div class="col-md-12">
                     <label for="company_address" class="form-label">Company Address <span class="text-danger">*</span></label>
                     <textarea class="form-control" name="company_address" placeholder="Enter Company Address">{{ isset($employerDetails->company_address) ? $employerDetails->company_address : '' }}</textarea>
@@ -81,7 +161,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col-md-3">
-                    <label class="labels">Zip Code <span class="text-danger">*</span></label>
+                    <label class="form-label">Zip Code <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" placeholder="Enter zip code" name="zip" id="zip" maxlength="6" value="{{ isset($employerDetails->zip) && $employerDetails->zip != null ? $employerDetails->zip : '' }}">
                 </div>
                 <div class="col-md-3">
@@ -127,67 +207,6 @@
                         @endif
                     </select>
                     <span class="error" id="error_city_id"></span>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-md-3">
-                  <label for="company_name" class="form-label">Company Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" name="company_name" placeholder="Enter Company Name" value="{{ isset($employerDetails->company_name) ? $employerDetails->company_name : '' }}">
-                  <span class="error" id="error_company_name"></span>
-                </div>
-                <div class="col-md-3">
-                  <label for="company_contact_person" class="form-label">Company Contact Person</label>
-                  <input type="text" class="form-control" name="company_contact_person" placeholder="Enter Contact Person" value="{{ isset($employerDetails->company_contact_person) ? $employerDetails->company_contact_person : '' }}">
-                  <span class="error" id="error_company_contact_person"></span>
-                </div>
-                <div class="col-md-3">
-                  <label for="company_contact_email" class="form-label">Company Contact Email</label>
-                  <input type="email" class="form-control" name="company_contact_email" placeholder="Enter Contact Email" value="{{ isset($employerDetails->company_contact_email) ? $employerDetails->company_contact_email : '' }}">
-                  <span class="error" id="error_company_contact_email"></span>
-                </div>
-                <div class="col-md-3">
-                  <label for="company_contact_no" class="form-label">Company Contact No</label>
-                  <input type="text" class="form-control" id="company_contact_no" name="company_contact_no" maxlength="10" placeholder="Enter Company Contact No" value="{{ isset($employerDetails->company_contact_no) ? $employerDetails->company_contact_no : '' }}">
-                  <span class="error" id="error_company_contact_no"></span>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <label for="company_description" class="form-label">Company Description <span class="text-danger">*</span></label>
-                    <textarea class="basic-example" id="company_description" name="company_description" data-error="#error_company_description">{!! isset($employerDetails->company_description) ? $employerDetails->company_description : '' !!}</textarea>
-                    <span class="error" id="error_company_description"></span>
-                </div>
-                <div class="col-md-6">
-                   <div class="row">
-                    <div class="col-md-6">
-                        <label for="company_logo" class="form-label">Company Logo</label>
-                        <input type="file" class="form-control" id="company_logo" name="company_logo" value="" onchange="addLoadFile(event)">
-                        <span class="error" id="error_company_logo"></span>
-                    </div>
-                    <div class="col-md-1">
-                        <button type="button" id="close" class="btn btn-danger btn-sm px-2 uploadBtn d-none" style="margin-top:23px;margin-left:-15px;"><i class="bi bi-x-circle"></i></button>
-                    </div>
-                    <div class="col-md-5">
-                        <img class="d-none" src="" alt="" id="logoPreview" width="200" height="150">
-                    </div>
-                   </div>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-md-3">
-                    <label for="foundation_date" class="form-label">Foundation Date </label>
-                    <input type="date" class="form-control" name="foundation_date" placeholder="Enter Foundation Date" max="{{ date('Y-m-d') }}" value="{{ isset($employerDetails->foundation_date) ? $employerDetails->foundation_date : '' }}">
-                    <span class="error" id="error_foundation_date"></span>
-                </div>
-                <div class="col-md-3">
-                    <label for="no_of_employees" class="form-label">No Of Employees </label>
-                    <input type="text" class="form-control" id="no_of_employees" name="no_of_employees" placeholder="Enter No Of Employees" value="{{ isset($employerDetails->no_of_employees) ? $employerDetails->no_of_employees : '' }}">
-                    <span class="error" id="error_no_of_employees"></span>
-                </div>
-                <div class="col-md-3">
-                    <label for="gst_no" class="form-label">GST Number </label>
-                    <input type="text" class="form-control" name="gst_no" placeholder="Enter GST Number" value="{{ isset($employerDetails->gst_no) ? $employerDetails->gst_no : '' }}">
-                    <span class="error" id="error_gst_no"></span>
                 </div>
             </div>
             <hr>

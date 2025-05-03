@@ -1,17 +1,25 @@
 <div class="candidate-info company-info">
         <div class="candidate-detail text-center">
-                <div class="canditate-des">
-                        <a href="javascript:void(0);">
-                                <img alt="" src="images/logo/icon3.jpg">
-                        </a>
-                        <div class="upload-link" title="update" data-bs-toggle="tooltip" data-placement="right">
-                                <input type="file" class="update-flie">
-                                <i class="fas fa-pencil-alt"></i>
+                <form action="{{ route('updateUserProfileImage', Auth::user()->id) }}" method="POST" enctype="multipart/form-data" id="updateUserProfileImg">
+                @csrf
+                        <div class="canditate-des">
+                                <a href="javascript:void(0);">
+                                        <img alt="" src="{{ asset('frontend/assets/images/logo/icon3.jpg') }}" id="output">
+                                </a>
+                                <div class="upload-link" title="update" data-bs-toggle="tooltip" data-placement="right">
+                                        <input type="file" name="profile_photo" accept="image/jpg, image/jpeg, image/png" id="profile_photo">
+                                        <i class="fas fa-pencil-alt"></i>
+                                </div>
+                                <div class="col-md-12 text-center mt-2">
+                                        <button type="submit" id="upload_img" class="btn btn-info btn-sm d-none p-2"><i class="bi bi-upload" aria-hidden="true"></i></button>
+                                        <button type="button" id="close" class="btn btn-danger btn-sm d-none p-2"><i class="bi bi-x" aria-hidden="true"></i></button>
+                                        <span id="imageUplaoderro" class="badge bg-danger mt-3"></span>
+                                </div>
                         </div>
-                </div>
-                <div class="candidate-title">
-                        <h4 class="m-b5"><a href="javascript:void(0);">@COMPANY</a></h4>
-                </div>
+                        <div class="candidate-title">
+                                <h4 class="m-b5"><a href="javascript:void(0);">@COMPANY</a></h4>
+                        </div>
+                </form>
         </div>
         <ul>
                 <li><a href="{{ route('myProfile') }}" class="{{ (Request::routeIs('myProfile')) ? 'active' : '' }}">
@@ -40,3 +48,7 @@
                                 <span>Log Out</span></a></li>
         </ul>
 </div>
+@section('script')
+<script>
+</script>
+@endsection

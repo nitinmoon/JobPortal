@@ -13,4 +13,5 @@ return [
     'restore_msg' => 'Candidate restore successfully!',
     'job_type' => 'Job Type',
     'is_deleted' => 'Is Deleted',
+    'view_employer' => 'View Employer',
 ];

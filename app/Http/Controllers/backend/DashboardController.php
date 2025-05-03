@@ -122,7 +122,7 @@ class DashboardController extends Controller
             return response()->json(['status' => 2, 'msg' => "Old password does not matched!"]);
         }
         $this->loginService->changePassword($credentials);
-        return response()->json(['status' => 1, 'msg' => "Password updated successfully!", 'redirect_url' => route('logout')]);
+        return response()->json(['status' => 1, 'msg' => "Password updated successfully!", 'redirect_url' => route('    ')]);
     }
 
     /**

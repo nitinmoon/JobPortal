@@ -41,7 +41,6 @@
 	 >image off color
 	 >image on color
  
-
 11. CONTENT SHOW ON IMAGE BOX
  
 12. FORM ELEMENTS
@@ -1388,7 +1387,6 @@ dl dd {
 	background-color:rgba(0,0,0,0.9)
 }
 
-
 /*=== >background image ===*/
 
 .bg-img-fix {
@@ -1738,8 +1736,6 @@ dl dd {
 .dez-box:hover .dez-img-overlay12:before{
 	opacity:0.4;
 }
-
-
 
 /* Overlay Gradient */
 /*---------------------------------------------------------------
@@ -2509,7 +2505,7 @@ blockquote:before {
 /*without top bar*/
 .extra-nav {
     float: right;
-    padding: 26px 0;
+    padding: 5px 0;
     position: relative;
     z-index: 9;
 }
@@ -2663,7 +2659,6 @@ blockquote:before {
 		padding:0 5px;
 	}
 }
-
 
 /*=== >eamil-phone (left) ===*/
 
@@ -4164,7 +4159,6 @@ header[class*="bg-"] .navbar-toggler span {
 	.dez-bnr-inr {
 		height: 250px;  
 		
-		
 	}
 	.dez-bnr-inr ul li {
 		font-size: 15px;
@@ -4426,7 +4420,6 @@ header[class*="bg-"] .navbar-toggler span {
 	-webkit-transition:all 2s ease 2s;
 	-o-transition:all 2s ease 2s;
 }
-
 
 /*owl button top to center  */
 
@@ -4888,7 +4881,6 @@ header[class*="bg-"] .navbar-toggler span {
 .blog-lg .dez-post-media {
 	border-radius: 4px;
 }
-
 
 /* blog-rounded */
 .blog-rounded [class*="border-"]{
@@ -6968,7 +6960,6 @@ a,
 }
 /* Outline */
 
-
 .text-white .site-button.outline {
 	color:#fff;
 }
@@ -7355,8 +7346,6 @@ a,
 .site-button-link.whatsapp.hover:active{
 	color:#01c854;
 }
-
-
 
 .site-button.facebook{
 	background-color:#3B5998;
@@ -10718,8 +10707,6 @@ ul[class*="list-"]{
 		margin-bottom:30px;
 	}
 }
-
-
 
 /*DataTable  pagination */
 

@@ -21,7 +21,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card pt-2">
+                            <div class="card">
                                 <div class="card-body">
                                     <form class="row g-3" id="form-filter">
                                         <div class="col-md-3 form-group">
@@ -159,7 +159,7 @@
         $('#btn-reset').click(function() {
             $("#employer_search").val('').trigger('change');
             $('#form-filter')[0].reset();
-            $("#status").val('');
+            $("#status").val('1');
             $("#delete").val('1');
             $(".employer-table").DataTable().ajax.reload();
         });
