@@ -50,6 +50,7 @@
                                 <span id="captchaError" class="error"></span> -->
                             <!-- </div> -->
                             <div class="text-left">
+                                <input type="hidden" name="role_id" value="{{ $roleId }}">
                                 <button type="submit" class="site-button m-r5 button-lg" id="loginSubmitBtn">login</button>
                                 <!-- <a data-bs-toggle="tab" href="#forgot-password" class="m-l5 m-t15 forget-pass float-end"><i class="fa fa-unlock-alt"></i> Forgot Password</a> -->
                             </div>

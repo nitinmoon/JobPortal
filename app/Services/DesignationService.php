@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Designation;
 use App\Repositories\DesignationRepository;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
@@ -39,13 +40,13 @@ class DesignationService
                 function ($row) {
                     if ($row->deleted_at == null) {
                         $activeChecked = "";
-                                if ($row->status == 1) {
-                                    $activeChecked = 'checked';
-                                }
-                        return '<input type="hidden" name="_token" value="'.csrf_token().'">
+                        if ($row->status == 1) {
+                            $activeChecked = 'checked';
+                        }
+                        return '<input type="hidden" name="_token" value="' . csrf_token() . '">
                         <label class="switch">
                         <input type="hidden" name="active" value="0">
-                        <input type="checkbox" class="change-designation-status" name="status" data-url="'.route('changeDesignationStatus').'" id="' . $row->id . '" '.$activeChecked.'>
+                        <input type="checkbox" class="change-designation-status" name="status" data-url="' . route('changeDesignationStatus') . '" id="' . $row->id . '" ' . $activeChecked . '>
                         <span class="slider round"></span>
                         <input type="hidden" name="action" value="submit" />
                         </label>';
@@ -59,16 +60,16 @@ class DesignationService
                 function ($row) {
                     $button = '';
                     if ($row->deleted_at == null) {
-                        $button .= '<a class="edit-designation btn btn-sm btn-primary btn-blue" data-url=" '.route('editDesignationModal', $row->id).' "
+                        $button .= '<a class="edit-designation btn btn-sm btn-primary btn-blue" data-url=" ' . route('editDesignationModal', $row->id) . ' "
                             href="javascript:void(0)" data-bs-toggle="modal"
                             title="Edit Designation" data-bs-target="#edit_designation">
                             <i class="bi bi-pencil-square"></i></a>&nbsp;&nbsp;';
                     }
                     if ($row->deleted_at == null) {
-                        $button .= '<a class="deleteDesignation btn btn-sm btn-danger" data-url="'.route('deleteDesignation', $row->id).'" title="Delete Designation" href="#" data-bs-toggle="modal" data-bs-target="#deleteJobTypeModal">
+                        $button .= '<a class="deleteDesignation btn btn-sm btn-danger" data-url="' . route('deleteDesignation', $row->id) . '" title="Delete Designation" href="#" data-bs-toggle="modal" data-bs-target="#deleteJobTypeModal">
                         <i class="bi bi-trash"></i></a>&nbsp;&nbsp;';
                     } else {
-                        $button .= '<a class="restoreDesignation btn btn-sm btn-success" data-url="'.route('restoreDesignation', $row->id).'" href="#" title="Restore Designation" data-bs-toggle="modal" data-bs-target="#restoreJobTypeModal">
+                        $button .= '<a class="restoreDesignation btn btn-sm btn-success" data-url="' . route('restoreDesignation', $row->id) . '" href="#" title="Restore Designation" data-bs-toggle="modal" data-bs-target="#restoreJobTypeModal">
                         <i class="bi bi-upload"></i></a>';
                     }
                     return $button;
@@ -102,7 +103,7 @@ class DesignationService
      */
     public function getDesignationDetails($designationId)
     {
-       return $this->designationRepository->getById($designationId);
+        return $this->designationRepository->getById($designationId);
     }
 
     /**
@@ -145,5 +146,17 @@ class DesignationService
     public function restoreDesignation($designationId)
     {
         return $this->designationRepository->getModel()->where('id', $designationId)->withTrashed()->restore();
+    }
+
+    /**
+     ********************************
+     * Method to get all designation
+     * ------------------------------
+     * @return data
+     ********************************
+     */
+    public function getAllDesignations()
+    {
+        return $this->designationRepository->getAllDesignations();
     }
 }

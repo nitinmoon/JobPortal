@@ -9,8 +9,10 @@ use App\Http\Controllers\backend\JobCategoryController;
 use App\Http\Controllers\backend\JobTypeController;
 use App\Http\Controllers\backend\LoginController;
 use App\Http\Controllers\frontend\AuthController;
+use App\Http\Controllers\frontend\EmployerController as FrontendEmployerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\HomeController;
+use App\Http\Controllers\frontend\JobController as FrontendJobController;
 
 /*
 |--------------------------------------------------------------------------
@@ -199,6 +201,16 @@ Route::controller(HomeController::class)->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| Frontend Job Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::controller(FrontendJobController::class)->group(function () {
+    Route::get('/jobs', 'index')->name('jobs');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Frontend Logout Routes
 |--------------------------------------------------------------------------
 |
@@ -215,10 +227,11 @@ Route::controller(AuthController::class)->group(function () {
 */
 Route::middleware(['isEmployerLoggedIn'])->group(function () {
     Route::prefix('employer')->group(function () {
-        Route::controller(EmployerController::class)->group(function () {
+        Route::controller(FrontendEmployerController::class)->group(function () {
             Route::get('/employer-profile', 'myProfile')->name('myProfile');
             Route::get('/company-profile', 'companyProfile')->name('companyProfile');
             Route::get('/company-job-post', 'companyJobPost')->name('companyJobPost');
+            Route::post('/add-update-job', 'addUpdateJob')->name('addUpdateJob');
             Route::get('/company-transactions', 'companyTransactions')->name('companyTransactions');
             Route::get('/company-manage-jobs', 'companyManageJobs')->name('companyManageJobs');
             Route::get('/company-resume', 'companyResume')->name('companyResume');

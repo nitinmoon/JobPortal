@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/custom-css/custom-css.css') }}">
     <!-- Bootstrap Toaster -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/css/bootstrap-toaster.min.css">
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @yield('style')
 </head>
 
@@ -78,6 +80,9 @@
     <script src="{{ asset('frontend/assets/js/custom-theme.js') }}"></script><!-- CUSTOM FUCTIONS  -->
     <script src="{{ asset('frontend/assets/js/dz.carousel.js') }}"></script><!-- SORTCODE FUCTIONS  -->
     <script src="{{ asset('frontend/assets/js/dz.ajax.js') }}"></script><!-- CONTACT JS  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.1/tinymce.min.js" integrity="sha512-bib7srucEhHYYWglYvGY+EQb0JAAW0qSOXpkPTMgCgW8eLtswHA/K4TKyD4+FiXcRHcy8z7boYxk0HTACCTFMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Bootstrap Toaster -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/umd/bootstrap-toaster.min.js"></script>
     <!-- Validation JS  -->

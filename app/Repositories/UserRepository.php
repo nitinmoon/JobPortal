@@ -3,12 +3,14 @@
 namespace App\Repositories;
 
 use App\Mail\VerifyOtpMail;
+use App\Models\Constants\UserRoleConstants;
 use App\Models\Constants\UserStatusConstants;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use App\Models\VerifyOtp;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Request;
 
 class UserRepository extends BaseRepository
 {
@@ -141,6 +143,7 @@ class UserRepository extends BaseRepository
     public function checkLoginStatus($credentials)
     {
         return User::where('email', $credentials['email'])
+            ->where('role_id', $credentials['role_id'])
             ->where('status', UserStatusConstants::APPROVED)
             ->first();
     }

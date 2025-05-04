@@ -1,15 +1,17 @@
 @extends('frontend.employer.index')
+
 @section('prifole-content')
 <div class="job-bx-title clearfix">
     <h5 class="font-weight-700 float-start text-uppercase">Post A Job</h5>
     <a href="{{ route('companyProfile') }}" class="site-button right-arrow button-sm float-end">Back</a>
 </div>
-<form>
+<form id="jobForm" action="{{ route('addUpdateJob') }}" method="POST">
+    @csrf
     <div class="row">
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>Job Title</label>
-                <input type="text" class="form-control" placeholder="Enter Job Title">
+                <input type="text" class="form-control" name="job_title" placeholder="Enter Job Title">
             </div>
         </div>
         <div class="col-lg-6 col-md-6">
@@ -17,7 +19,7 @@
                 <label>Designation</label>
                 <select class="form-control select2" name="designation_id" id="designation_id" data-error="#error_job_category_id">
                     <option value="">Select</option>
-                    @foreach(getDesignation() as $designation)
+                    @foreach($designations as $designation)
                     <option value="{{ $designation->id }}">{{ $designation->name }}</option>
                     @endforeach
                 </select>
@@ -29,7 +31,7 @@
                 <label>Job Category</label>
                 <select class="form-control select2" name="job_category_id" id="job_category_id" data-error="#error_job_category_id">
                     <option value="">Select</option>
-                    @foreach(getJobCategory() as $jobCategory)
+                    @foreach($jobCategories as $jobCategory)
                     <option value="{{ $jobCategory->id }}">{{ $jobCategory->name }}</option>
                     @endforeach
                 </select>
@@ -41,7 +43,7 @@
                 <label>Job Type</label>
                 <select class="form-control select2" name="job_type_id" id="job_type_id" data-error="#error_job_type_id">
                     <option value="">Select</option>
-                    @foreach(getJobType() as $jobType)
+                    @foreach($jobTypes as $jobType)
                     <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
                     @endforeach
                 </select>
@@ -130,7 +132,7 @@
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>English Level</label>
-                <select class="form-control" name="gender" data-error="#error_english_level">
+                <select class="form-control" name="english_level" data-error="#error_english_level">
                     <option value="">Select</option>
                     @foreach($englishLevels as $level)
                     <option value="{{ $level }}" >{{ $level }}</option>
@@ -225,23 +227,17 @@
                         <i class="fa fa-upload"></i>
                         Upload File
                     </p>
-                    <input type="file" class="site-button form-control" id="customFile">
+                    <input type="file" class="site-button form-control" name="file" id="customFile">
                 </div>
             </div>
         </div>
     </div>
-    <button type="button" class="site-button m-b30">Upload</button>
+    <button type="submit" class="site-button m-b30">Submit</button>
 </form>
 @endsection
 @section('script')
+<script src="{{ asset('frontend/assets/js/custom-js/job.js') }}"></script>
 <script>
-     tinymce.init({
-        selector: 'textarea.basic-example',
-        height: 200,
-        menubar: false,
-        plugins: "advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount",
-        toolbar: 'formatselect | undo redo | numlist bullist | bold italic | alignleft aligncenter | alignright alignjustify'
-    });
     $(function() {
         $('#country_id').change(function() {
             var countryId = $(this).val();
@@ -293,6 +289,14 @@
                 });
             }
             });
+        });
+
+        tinymce.init({
+            selector: 'textarea.basic-example',
+            height: 200,
+            menubar: false,
+            plugins: "advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount",
+            toolbar: 'formatselect | undo redo | numlist bullist | bold italic | alignleft aligncenter | alignright alignjustify'
         });
     });
 </script>

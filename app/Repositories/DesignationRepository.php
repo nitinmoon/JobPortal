@@ -55,4 +55,16 @@ class DesignationRepository extends BaseRepository
             return $inputArray['designationId'];
         }
     }
+
+    /**
+     ********************************
+     * Method to get all designation
+     * ------------------------------
+     * @return data
+     ********************************
+     */
+    public function getAllDesignations()
+    {
+        return Designation::select('id', 'name')->where('status', '1')->orderBy('name', 'asc')->get();
+    }
 }

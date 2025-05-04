@@ -297,7 +297,7 @@ class AuthController extends Controller
      */
     private function validateLoginRequest(Request $request)
     {
-        return $request->only(['email', 'password']);
+        return $request->only(['email', 'password', 'role_id']);
     }
 
     /**

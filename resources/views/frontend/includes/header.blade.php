@@ -44,8 +44,8 @@
                         <li class="{{ Request::routeIs('home') ? 'active' : ''  }}">
                             <a href="{{ route('home') }}">Home</a>
                         </li>
-                        <li class="">
-                            <a href="#">Jobs</a>
+                        <li class="{{ Request::routeIs('jobs') ? 'active' : ''  }}">
+                            <a href="{{ route('jobs') }}">Jobs</a>
                         </li>
                         <li class="">
                             <a href="#">About Us</a>
