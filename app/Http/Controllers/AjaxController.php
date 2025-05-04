@@ -41,7 +41,6 @@ class AjaxController extends Controller
     public function getState(Request $request)
     {
         $countryId = $request->only(['countryId']);
-
         $state = $this->stateService->getState($countryId);
         return response()->json(
             [

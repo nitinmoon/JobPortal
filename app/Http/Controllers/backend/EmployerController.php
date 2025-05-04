@@ -4,7 +4,6 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddUpdateEmployerInputRequest;
-use App\Http\Requests\EmployerProfileInputRequest;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\EmployerService;
@@ -47,11 +46,11 @@ class EmployerController extends Controller
     }
 
     /**
-     * ***********************************
-     * function used to employer logout
-     * -----------------------------------
+     * *********************************
+     * Method is use to employer logout
+     * ---------------------------------
      * @return redirect
-     * ***********************************
+     * *********************************
      */
     public function employerLogout()
     {
@@ -75,17 +74,161 @@ class EmployerController extends Controller
         if ($request->ajax()) {
             return $this->employerService->employerAjaxDatatable($request);
         }
-        $jobType = getJobType();
-        return view('backend.employer.index', compact('jobType'));
+        return view('backend.employer.index');
     }
 
     /**
-     * *******************************
-     * Method use to delete employer
-     * -------------------------------
+     * ******************************************
+     * Method is used to view add employer form
+     * ------------------------------------------
+     * @return view
+     * ******************************************
+     */
+    public function addEmployer()
+    {
+        $title = getEnum('users', 'title');
+        $gender = getEnum('users', 'gender');
+        $skills =  getSkills();
+        $states = [];
+        $cities = [];
+        $countries = $this->countryService->getAllCountry();
+        $jobCategories = $this->jobCategoryService->getAllJobCategory();
+        return view('backend.employer.add-edit-employer', compact('title', 'gender', 'skills', 'countries', 'jobCategories'));
+    }
+
+    /**
+     * **************************************
+     * Method is used to view edit employer
+     * --------------------------------------
+     * @return view
+     * **************************************
+     */
+    public function editEmployer($employerId)
+    {
+        $employerDetails = $this->employerService->getEmployerDetails(base64_decode($employerId));
+        $countries = $this->countryService->getAllCountry();
+        $states = [];
+        $cities = [];
+        if (isset($employerDetails->country_id) && $employerDetails->country_id != '') {
+            $states = $this->stateService->getState($employerDetails->country_id);
+        }
+        if (isset($employerDetails->state_id) && $employerDetails->state_id != '') {
+            $cities = $this->cityService->getCity($employerDetails->state_id);
+        }
+        $gender = getEnum('users', 'gender');
+        $title = getEnum('users', 'title');
+        $jobCategories = $this->jobCategoryService->getAllJobCategory();
+        return view('backend.employer.add-edit-employer', compact(
+            'employerDetails',
+            'countries',
+            'states',
+            'cities',
+            'gender',
+            'title',
+            'jobCategories',
+        ));
+    }
+
+    /**
+     * **********************************
+     * method use to add update employer
+     * ----------------------------------
+     * @param object $request
+     * @return jsonResponse
+     * **********************************
+     */
+    public function addUpdateEmployer(AddUpdateEmployerInputRequest $request)
+    {
+        try {
+            $inputArray = $this->validateEmployerInput($request);
+            $this->employerService->addUpdateEmployer($inputArray);
+            $msg = $inputArray['employerId'] == 0 ? 'Employer added successfully!' : 'Employer updated successfully!';
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => $msg,
+                    'redirectRoute' => route('employers')
+                ]
+            );
+        } catch (Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: ".$exception->getMessage().' in '.$exception->getFile().' StackTrace:'.$exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    /**
+     ******************************************
+     * Function use to validate employer input
+     * ----------------------------------------
+     * @param object $request
+     * @return object request
+     ******************************************
+     */
+    private function validateEmployerInput(Request $request)
+    {
+        return $request->only(
+            [
+                'employerId',
+                'title',
+                'first_name',
+                'middle_name',
+                'last_name',
+                'email',
+                'phone',
+                'dob',
+                'gender',
+                'company_name',
+                'company_website',
+                'company_contact_person',
+                'company_contact_email',
+                'company_contact_no',
+                'job_category_id',
+                'foundation_date',
+                'no_of_employees',
+                'gst_no',
+                'company_description',
+                'company_address',
+                'zip',
+                'country_id',
+                'state_id',
+                'city_id',
+            ]
+        );
+    }
+
+    /**
+     * *****************************
+     * method use to view employer
+     * -----------------------------
      * @param int $employerId
      * @return jsonResponse
-     * *******************************
+     * ******************************
+     */
+    public function viewEmployer($employerId)
+    {
+        $userDetails = $this->employerService->getUserDetails(base64_decode($employerId));
+        $employerDetails = $this->employerService->getEmployerDetails(base64_decode($employerId));
+        return view(
+            'backend.employer.view-employer',
+            compact(
+                'employerDetails',
+                'userDetails'
+            )
+        );
+    }
+
+    /**
+     * **********************************
+     * Method is used to delete employer
+     * ----------------------------------
+     * @param int $employerId
+     * @return jsonResponse
+     * **********************************
      */
     public function deleteEmployer($employerId)
     {
@@ -167,131 +310,21 @@ class EmployerController extends Controller
     }
 
     /**
-     * *****************************
-     * method use to view employer
-     * -----------------------------
-     * @param int $employerId
+     * ****************************
+     * method use to view profile
+     * ----------------------------
+     * @param int $authId
      * @return jsonResponse
-     * ******************************
+     * ****************************
      */
-    public function viewEmployer($employerId)
+    public function myProfile()
     {
-        $userDetails = $this->employerService->getUserDetails(base64_decode($employerId));
-        $employerDetails = $this->employerService->getEmployerDetails(base64_decode($employerId));
-        return view(
-            'backend.employer.view-employer',
-            compact(
-                'employerDetails',
-                'userDetails'
-            )
-        );
-    }
-
-    /**
-     * ******************************************
-     * Method is used to view add employer form
-     * ------------------------------------------
-     * @return view
-     * ******************************************
-     */
-    public function addEmployer()
-    {
+        if (auth()->user()->role_id == UserRoleConstants::CANDIDATE) {
+            return back();
+        }
+        $employerDetails = $this->employerService->getEmployerDetails(auth()->user()->id);
         $title = getEnum('users', 'title');
         $gender = getEnum('users', 'gender');
-        $skills =  getSkills();
-        $states = [];
-        $cities = [];
-        // if (isset($candidateDetails->country_id) && $candidateDetails->country_id != '') {
-        //     $states = $this->stateService->getState($candidateDetails->country_id);
-        // }
-        // if (isset($candidateDetails->state_id) && $candidateDetails->state_id != '') {
-        //     $cities = $this->cityService->getCity($candidateDetails->state_id);
-        // }
-        $countries = $this->countryService->getAllCountry();
-        return view('backend.employer.add-edit-employer', compact('title', 'gender', 'skills', 'countries'));
-    }
-
-    /**
-     * **********************************
-     * method use to add update employer
-     * ----------------------------------
-     * @param object $request
-     * @return jsonResponse
-     * **********************************
-     */
-    public function addUpdateEmployer(AddUpdateEmployerInputRequest $request)
-    {
-        // try {
-        $inputArray = $this->validateEmployerInput($request);
-        $this->employerService->addUpdateEmployer($inputArray);
-        $msg = $inputArray['employerId'] == 0 ? 'Employer added successfully!' : 'Employer updated successfully!';
-        return response()->json(
-            [
-                'status' => true,
-                'msg' => $msg,
-                'redirectRoute' => route('employers')
-            ]
-        );
-        // } catch (Exception  $exception) {
-        //     Log::channel('exceptionLog')->error("Exception: ".$exception->getMessage().' in '.$exception->getFile().' StackTrace:'.$exception->getTraceAsString());
-        //     return response()->json(
-        //         [
-        //             'status' => false,
-        //             'msg' => $exception->getMessage()
-        //         ]
-        //     );
-        // }
-    }
-
-    /**
-     ******************************************
-     * Function use to validate employer input
-     * ----------------------------------------
-     * @param object $request
-     * @return object request
-     ******************************************
-     */
-    private function validateEmployerInput(Request $request)
-    {
-        return $request->only(
-            [
-                'employerId',
-                'title',
-                'first_name',
-                'middle_name',
-                'last_name',
-                'email',
-                'phone',
-                'dob',
-                'gender',
-                'company_address',
-                'zip',
-                'country_id',
-                'state_id',
-                'city_id',
-                'company_name',
-                'company_contact_person',
-                'company_contact_email',
-                'company_contact_no',
-                'company_description',
-                'company_logo',
-                'foundation_date',
-                'no_of_employees',
-                'gst_no'
-            ]
-        );
-    }
-
-    /**
-     * **************************************
-     * Method is used to view edit employer
-     * --------------------------------------
-     * @return view
-     * **************************************
-     */
-    public function editEmployer($employerId)
-    {
-        $employerDetails = $this->employerService->getEmployerDetails(base64_decode($employerId));
         $countries = $this->countryService->getAllCountry();
         $states = [];
         $cities = [];
@@ -301,16 +334,17 @@ class EmployerController extends Controller
         if (isset($employerDetails->state_id) && $employerDetails->state_id != '') {
             $cities = $this->cityService->getCity($employerDetails->state_id);
         }
-        $gender = getEnum('users', 'gender');
-        $title = getEnum('users', 'title');
-        return view('backend.employer.add-edit-employer', compact(
-            'employerDetails',
-            'countries',
-            'states',
-            'cities',
-            'gender',
-            'title',
-        ));
+        return view(
+            'backend.profile.my-profile',
+            compact(
+                'employerDetails',
+                'title',
+                'gender',
+                'countries',
+                'states',
+                'cities',
+            )
+        );
     }
 
     /**

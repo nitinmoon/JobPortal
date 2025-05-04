@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\AddUserMail;
 use App\Models\ActivityLog;
 use App\Models\ApplyJob;
 use App\Models\Constants\StatusConstants;
@@ -11,6 +12,7 @@ use App\Models\Skill;
 use App\Models\User;
 use App\Models\WorkType;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Jenssegers\Agent\Agent;
 use Illuminate\Support\Facades\Request;
 
@@ -401,5 +403,40 @@ if (!function_exists('getJobTitle')) {
     function getJobTitle()
     {
         return Job::select('id', 'job_title')->where('status', '1')->orderBy('job_title', 'asc')->get();
+    }
+}
+
+/**
+ * *******************************
+ * method use to get random string
+ * -------------------------------
+ *
+ * @param  string $length
+ * @return data
+ * ******************************
+ */
+if (!function_exists('randPasswordString')) {
+    function randPasswordString($length)
+    {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+        return substr(str_shuffle($chars), 0, $length);
+    }
+}
+
+/**
+ * ********************************************
+ * method used to send common mail to add user
+ * --------------------------------------------
+ *
+ * @param  array $inputArray
+ * @return data
+ * ********************************************
+ */
+if (!function_exists('addUserMail')) {
+    function addUserMail($userId, $password)
+    {
+        $userData = User::find($userId);
+        Mail::to($userData->email)->send(new AddUserMail($userData, $password));
+        return $userData;
     }
 }

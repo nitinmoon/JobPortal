@@ -31,7 +31,6 @@ use App\Http\Controllers\frontend\JobController as FrontendJobController;
 |--------------------------------------------------------------------------
 |
 */
-
 Route::middleware(['guest'])->group(function () {
     Route::get('/console', function () {
         return redirect(route('adminLogin'));
@@ -236,6 +235,9 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
             Route::get('/company-manage-jobs', 'companyManageJobs')->name('companyManageJobs');
             Route::get('/company-resume', 'companyResume')->name('companyResume');
             Route::get('/employer-change-password', 'employerChangePassword')->name('employerChangePassword');
+            Route::post('/update-profile', 'updateProfile')->name('updateProfile');
+            Route::post('/update-company-profile', 'updateCompanyProfile')->name('updateCompanyProfile');
+            Route::post('/update-company-profile', 'updateUserProfileImage')->name('updateUserProfileImage');
         });
     });
 });

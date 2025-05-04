@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Mail\AddUserMail;
 use App\Mail\VerifyOtpMail;
 use App\Models\Constants\UserRoleConstants;
 use App\Models\Constants\UserStatusConstants;
@@ -121,7 +122,7 @@ class UserRepository extends BaseRepository
         $user->email_verified_at = session('email_verified_at');
         $user->role_id = $inputArray['role_id'];
         $user->save();
-
+        addUserMail($user->id, $inputArray['password']);
         User::where('id', $user->id)->update([
             'created_by' => $user->id
         ]);

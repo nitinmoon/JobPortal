@@ -36,6 +36,13 @@
                 alert(page);
             });
         });
+
+        $("#close").click(function() {
+            $('#output').attr('src', "{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}");
+            $("#select_img").removeClass('d-none');
+            $("#upload_img").addClass('d-none');
+            $("#close").addClass('d-none');
+        });
     });
 </script>
 @endsection

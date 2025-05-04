@@ -11,6 +11,9 @@
     <input class="form-control" type="text" name="icon" id="icon" value="{{ isset($jobCategoryDetails->icon) ? $jobCategoryDetails->icon : '' }}" placeholder="e.g. fas fa-user or bi bi-house">
     <span class="error" id="error_icon"></span>
   </div>
+  <div class="form-group mt-1">
+    <label for=""><small>Select icon from sites <a href="https://icons.getbootstrap.com/" target="_blank">Find Icon</a> put the icon name in feild</small></label>
+  </div>
   <div class="modal-footer mt-3">
     <button type="button" class="btn  btn-secondary cancel-btn" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
     <button type="submit" class="btn btn-primary submit-btn" id="addEditSubmitJobCategory">Submit</button>

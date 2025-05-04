@@ -7,7 +7,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
       <li class="breadcrumb-item"><a href="{{ route('employers') }}">{{ trans('employer.employer') }}</a></li>
-      <li class="breadcrumb-item active"> {{ trans('employer.employers') }}</li>
+      <li class="breadcrumb-item active"> {{ trans('employer.view_employer') }}</li>
     </ol>
   </nav>
 </div>
@@ -71,27 +71,27 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Address</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->company_address) ? $employerDetails->company_address : '--' }}</div>
+                    <div class="col-lg-9 col-md-8">{{ isset($userDetails->address) ? $userDetails->address : '--' }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Zip Code</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->zip) ? $employerDetails->zip : '--' }}</div>
+                    <div class="col-lg-9 col-md-8">{{ isset($userDetails->zip) ? $userDetails->zip : '--' }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Country</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->country_id) ? $employerDetails->country->name : '--' }}</div>
+                    <div class="col-lg-9 col-md-8">{{ isset($userDetails->country_id) ? $userDetails->country_name : '--' }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">State</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->state_id) ? $employerDetails->state->name : '--' }}</div>
+                    <div class="col-lg-9 col-md-8">{{ isset($userDetails->state_id) ? $userDetails->state_name : '--' }}</div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">City</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->city_id) ? $employerDetails->city->name : '--' }}</div>
+                    <div class="col-lg-9 col-md-8">{{ isset($userDetails->city_id) ? $userDetails->city_name : '--' }}</div>
                   </div>
                 </div>
 
@@ -99,43 +99,53 @@
                   <h5 class="card-title">Company Details</h5>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Company name</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->company_name) ? $employerDetails->company_name : '--' }}</div>
+                    <div class="col-lg-4 col-md-4 label">Company name</div>
+                    <div class="col-lg-8 col-md-8">{{ isset($employerDetails->company_name) ? $employerDetails->company_name : '--' }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Company Description</div>
-                    <div class="col-lg-9 col-md-8">{!! isset($employerDetails->company_description) ? $employerDetails->company_description : '--' !!}</div>
+                    <div class="col-lg-4 col-md-4 label">Company Website</div>
+                    <div class="col-lg-8 col-md-8">{{ isset($employerDetails->company_website) ? $employerDetails->company_website : '--' }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Contact Person</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->company_contact_person) ? $employerDetails->company_contact_person : '--' }}</div>
+                    <div class="col-lg-4 col-md-4 label">Company Contact Person</div>
+                    <div class="col-lg-8 col-md-8">{{ isset($employerDetails->company_contact_person) ? $employerDetails->company_contact_person : '--' }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Contact Email</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->company_contact_email) ? $employerDetails->company_contact_email : '--' }}</div>
+                    <div class="col-lg-4 col-md-4 label">Company Contact Email</div>
+                    <div class="col-lg-8 col-md-8">{{ isset($employerDetails->company_contact_email) ? $employerDetails->company_contact_email : '--' }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Contact Number</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->company_contact_no) ? $employerDetails->company_contact_no : '--' }}</div>
+                    <div class="col-lg-4 col-md-4 label">Company Contact Number</div>
+                    <div class="col-lg-8 col-md-8">{{ isset($employerDetails->company_contact_no) ? $employerDetails->company_contact_no : '--' }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Foundation Date</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->foundation_date) ? $employerDetails->foundation_date : '--' }}</div>
+                    <div class="col-lg-4 col-md-4 label">Job Category</div>
+                    <div class="col-lg-8 col-md-8">{{ isset($employerDetails->job_category_id) ? $employerDetails->jobCategory->name : '--' }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">No. Of Employees</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->no_of_employees) ? $employerDetails->no_of_employees : '--' }}</div>
+                    <div class="col-lg-4 col-md-4 label">Foundation Date</div>
+                    <div class="col-lg-8 col-md-8">{{ isset($employerDetails->foundation_date) ? $employerDetails->foundation_date : '--' }}</div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">GST Number</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($employerDetails->gst_no) ? $employerDetails->gst_no : '--' }}</div>
+                    <div class="col-lg-4 col-md-4 label">No. Of Employees</div>
+                    <div class="col-lg-8 col-md-8">{{ isset($employerDetails->no_of_employees) ? $employerDetails->no_of_employees : '--' }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 label">GST Number</div>
+                    <div class="col-lg-8 col-md-8">{{ isset($employerDetails->gst_no) ? $employerDetails->gst_no : '--' }}</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 label">Company Description</div>
+                    <div class="col-lg-8 col-md-8">{!! isset($employerDetails->company_description) ? $employerDetails->company_description : '--' !!}</div>
                   </div>
                 </div>
               </div><!-- End Bordered Tabs -->

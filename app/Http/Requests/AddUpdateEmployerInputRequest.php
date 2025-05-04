@@ -32,13 +32,17 @@ class AddUpdateEmployerInputRequest extends FormRequest
             'phone' => 'required|digits:10|numeric',
             'gender' => 'required',
             'dob' => 'required',
+            'company_name' => 'required|max:200',
+            'company_website' => 'required|url',
+            'job_category_id' => 'required',
+            'foundation_date' => 'required',
+            'no_of_employees' => 'required|max:50',
+            'gst_no' => 'required|max:20',
             'company_address' => 'required',
             'zip' =>'required',
             'country_id' => 'required',
             'state_id' => 'required',
-            'city_id' => 'required',
-            'company_name' => 'required',
-            'company_description' => 'required'
+            'city_id' => 'required'
         ];
     }
 
@@ -59,13 +63,15 @@ class AddUpdateEmployerInputRequest extends FormRequest
             'phone.numeric' => 'Phone number must be digits',
             'gender.required' => 'Gender is required',
             'dob.required' => 'DOB is required',
+            'company_name.required' => 'Company name is required',
+            'company_name.max' => 'Company name not be greater than 50 characters',
+            'company_website.required' => 'Company name is required',
+            'company_website.url' => 'Enter valid company website url',
             'company_address.required' => 'Company address is required',
             'zip.required' =>'Zip is required',
             'country_id.required' => 'Country is required',
             'state_id.required' => 'State is required',
             'city_id.required' => 'City is required',
-            'company_name.required' => 'Company name is required',
-            'company_description.required' => 'Company description is required'
         ];
     }
 }
