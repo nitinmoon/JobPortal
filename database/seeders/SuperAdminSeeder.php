@@ -17,7 +17,7 @@ class SuperAdminSeeder extends Seeder
         User::create([
             'first_name' => 'Super',
             'last_name' => 'Admin',
-            'email' => 'admin@jobportal.com',
+            'email' => 'admin@liftale.com',
             'password' => bcrypt('123456'),
             'email_verified_at' => date('Y-m-d H:i:s'),
             'role_id' => UserRoleConstants::SUPER_ADMIN
