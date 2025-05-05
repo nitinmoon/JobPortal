@@ -358,7 +358,6 @@ class EmployerController extends Controller
                 [
                     'status' => true,
                     'msg' => "Company profile updated successfully!",
-                    'redirectRoute' => route('companyJobPost')
                 ]
             );
         } catch (Exception $exception) {

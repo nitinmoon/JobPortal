@@ -349,8 +349,8 @@ $(function () {
                 success: function (res) {
                     if (res.status == true) {
                         setTimeout(() => {
-                            window.location = res.redirectRoute;
-                        }, 3000);
+                            location.reload();
+                        }, 2000);
                         Toast.create({
                             title: "Success!",
                             message: res.msg,

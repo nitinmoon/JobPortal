@@ -408,17 +408,17 @@
                     <h2 class="section-title-3">New Job Offer</h2>
                     <p class="dz-text-2">More Than +500 Job Offer Everyday</p>
                 </div>
-                <a href="javascript:void(0);" class="site-button style-1">View More..</a>
+                <a href="{{ route('jobs') }}" class="site-button style-1">View More..</a>
             </div>
             <div class="row sp20 m-b20">
                 @foreach($jobs as $job)
                 <div class="col-xl-4 col-md-6">
                     <div class="job-wrapper m-b20">
                         <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/google.png') }}" alt=""></div>
+                            <div class="dz-icon"><img src="{{ !empty($job->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$job->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt=""></div>
                             <div class="Profile-inner">
                                 <h5 class="profile-name">{{ isset($job->company_name) ? $job->company_name : '' }} {{ isset($job->country_id) ? ', '.$job->country->name : '' }}</h5>
-                                <span class="profile-positions">{{ $job->job_title }}</span>
+                                <span class="profile-positions">{{ isset($job->job_title) ? $job->job_title : '' }}</span>
                             </div>
                         </div>
                         <div class="Profile-inner-2">
@@ -433,7 +433,7 @@
                     </div>
                 </div>
                 @endforeach
-                <div class="col-xl-4 col-md-6">
+                <!-- <div class="col-xl-4 col-md-6">
                     <div class="job-wrapper m-b20">
                         <div class="jobs-profile d-flex align-items-center">
                             <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/microsoft.png') }}" alt=""></div>
@@ -532,7 +532,7 @@
                         </div>
                         <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
         </div>

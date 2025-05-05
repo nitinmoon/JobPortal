@@ -270,38 +270,40 @@
                             </div>
                         </div>
                         <ul class="post-job-bx">
+                            @foreach($jobs as $job)
                             <li>
                                 <div class="post-bx">
                                     <div class="d-flex m-b30">
                                         <div class="job-post-company">
                                             <a href="javascript:void(0);"><span>
-                                                    <img alt="" src="images/logo/svg/logo1.svg" />
+                                                    <img alt="" src="{{ !empty($job->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$job->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" />
                                                 </span></a>
                                         </div>
                                         <div class="job-post-info">
-                                            <h4><a href="job-detail.html">Digital Marketing Executive</a></h4>
+                                            <h4><a href="job-detail.html">{{ isset($job->job_title) ? $job->job_title : '' }}</a></h4>
                                             <ul>
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
+                                                <li><i class="fas fa-map-marker-alt"></i> {{ isset($job->city_id) ? $job->city->name : '' }}, {{ isset($job->state_id) ? $job->state->name : '' }}, {{ isset($job->country_id) ? $job->country->name : '' }}</li>
+                                                <li><i class="far fa-bookmark"></i> {{ isset($job->jobType->name) ? $job->jobType->name : '' }}</li>
                                                 <li><i class="far fa-clock"></i> Published 11 months ago</li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="d-flex">
                                         <div class="job-time me-auto">
-                                            <a href="javascript:void(0);"><span>Full Time</span></a>
+                                            <a href="javascript:void(0);"><span>{{ isset($job->workType->name) ? $job->workType->name : '' }}</span></a>
                                         </div>
                                         <div class="salary-bx">
-                                            <span>$1200 - $ 2500</span>
+                                            <span>{{ isset($job->min_salary) ? '₹ '.$job->min_salary.' - ₹ '.$job->max_salary.' / Month' : '' }}</span>
                                         </div>
                                     </div>
-                                    <label class="like-btn">
+                                    <!-- <label class="like-btn">
                                         <input type="checkbox">
                                         <span class="checkmark"></span>
-                                    </label>
+                                    </label> -->
                                 </div>
                             </li>
-                            <li>
+                            @endforeach
+                            <!-- <li>
                                 <div class="post-bx">
                                     <div class="d-flex m-b30">
                                         <div class="job-post-company">
@@ -455,7 +457,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                            </li>
+                            </li> -->
                         </ul>
                         <div class="pagination-bx float-end m-t30">
                             <ul class="pagination">
