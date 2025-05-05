@@ -65,3 +65,19 @@
     width: 45px !important;
 }
 /* end header profile image */
+.select2-selection--multiple {
+    min-height: 50px !important;
+    /* border: 1px solid #ced4da !important; */
+}
+/* .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #e4e4e4;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 0;
+    padding-left: 20px;
+    position: absolute !important;
+} */

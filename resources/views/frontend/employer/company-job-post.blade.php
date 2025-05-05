@@ -7,6 +7,7 @@
 </div>
 <form id="jobForm" action="{{ route('addUpdateJob') }}" method="POST">
     @csrf
+    <input type="hidden" name="jobId" value="0">
     <div class="row">
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
@@ -17,7 +18,7 @@
         <div class="col-lg-6 col-md-6">
             <div class="form-group">
                 <label>Designation</label>
-                <select class="form-control select2" name="designation_id" id="designation_id" data-error="#error_job_category_id">
+                <select class="form-control select2" name="designation_id" id="designation_id" data-error="#error_designation_id">
                     <option value="">Select</option>
                     @foreach($designations as $designation)
                     <option value="{{ $designation->id }}">{{ $designation->name }}</option>
@@ -73,11 +74,11 @@
             <div class="form-group">
                 <label>Experience</label>
                 <select name="experience" id="experience" data-error="#error_experience">
-                    <option>0 - 1 Years</option>
-                    <option>1 - 3 Years</option>
-                    <option>3 - 5 Years</option>
-                    <option>5 - 7 Years</option>
-                    <option>Above 7+</option>
+                    <option value="0 - 1 Years">0 - 1 Years</option>
+                    <option value="1 - 3 Years">1 - 3 Years</option>
+                    <option value="3 - 5 Years">3 - 5 Years</option>
+                    <option value="5 - 7 Years">5 - 7 Years</option>
+                    <option value="Above 7+">Above 7+</option>
                 </select>
                 <span class="error" id="error_experience"></span>
             </div>
@@ -106,7 +107,14 @@
         <div class="col-lg-4 col-md-4">
             <div class="form-group">
                 <label>Skills</label>
-                <input type="text" name="skills" class="form-control" placeholder="Enter skills">
+                <select class="form-control skills-select" multiple="multiple" name="skills[]" id="skills" data-error="#error_skills" style="width:100% !important;">
+                    @if (isset($skills))
+                        <option value="">Select skills</option>
+                        @foreach($skills as $skill)
+                        <option value="{{ $skill->id }}" {{ isset($skill->id) && $skill->id == $location->id ? 'selected' : '' }}>{{ $skill->location }}</option>
+                        @endforeach
+                    @endif
+                </select>
                 <span class="error" id="error_skills"></span>
             </div>
         </div>
@@ -135,7 +143,7 @@
                 <select class="form-control" name="english_level" data-error="#error_english_level">
                     <option value="">Select</option>
                     @foreach($englishLevels as $level)
-                    <option value="{{ $level }}" >{{ $level }}</option>
+                    <option value="{{ $level }}" >{{ englishLevel($level) }}</option>
                     @endforeach
                   </select>
                   <span class="error" id="error_english_level"></span>
@@ -171,8 +179,8 @@
         </div>
         <div class="col-lg-4 col-md-4">
             <div class="form-group">
-                <label>Contry</label>
-                <select class="form-control select2" name="country_id" id="country_id" data-error="#error_country_id">
+                <label>Country</label>
+                <select class="form-control selectpicker" name="country_id" id="country_id" data-error="#error_country_id">
                     <option value="">Select</option>
                     @foreach($countries as $row)
                     <option value="{{ $row->id }}" {{ (isset($employerDetails->country_id) && $employerDetails->country_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
@@ -184,7 +192,7 @@
         <div class="col-lg-4 col-md-4">
             <div class="form-group">
                 <label>State</label>
-                <select class="form-control select2" name="state_id" id="state_id" data-error="#error_state_id">
+                <select class="form-control selectpicker" name="state_id" id="state_id" data-error="#error_state_id">
                     @if(isset($states))
                         @if(count($states) > 0)
                             @foreach ($states as $state)
@@ -203,7 +211,7 @@
         <div class="col-lg-4 col-md-4">
             <div class="form-group">
                 <label>City</label>
-                <select class="form-control select2" name="city_id" id="city_id" data-error="#error_city_id">
+                <select class="form-control selectpicker" name="city_id" id="city_id" data-error="#error_city_id">
                     @if(isset($cities))
                         @if(count($states) > 0)
                             @foreach ($cities as $city)
@@ -227,7 +235,7 @@
                         <i class="fa fa-upload"></i>
                         Upload File
                     </p>
-                    <input type="file" class="site-button form-control" name="file" id="customFile">
+                    <input type="file" class="site-button form-control" name="upload_file" id="customFile">
                 </div>
             </div>
         </div>
@@ -239,56 +247,61 @@
 <script src="{{ asset('frontend/assets/js/custom-js/job.js') }}"></script>
 <script>
     $(function() {
-        $('#country_id').change(function() {
+        $('#country_id').on('changed.bs.select', function () {
             var countryId = $(this).val();
-            $("#state_id").empty();
-            $("#city_id").empty();
+
+            $('#state_id').empty().append('<option value="">Select State</option>');
+            $('#city_id').empty().append('<option value="">Select City</option>');
+
             $.ajax({
                 url: "{{ route('getState') }}",
-                dataType: 'json',
+                type: "GET",
+                dataType: "json",
                 data: {
                     countryId: countryId
                 },
-                delay: 250,
-                success: function(data) {
-                    $("#state_id").empty();
-                    $.each(data, function(key, value) {
-                    var id, text, $option;
-                    $option += "<option value=''>Select State</option>";
-                    for (var i = 0; i < value.length; i++) {
-                        $option += "<option value ='" + value[i]['id'] + "'>" + value[i]['name'] + "</option>";
-                    }
-                    $("#state_id").append($option);
+                success: function (data) {
+                    $.each(data.state, function (index, value) {
+                        $('#state_id').append(`<option value="${value['id']}">${value['name']}</option>`);
                     });
-                    var $option;
-                    $option += "<option value=''>Select City</option>";
-                    $("#city_id").append($option);
+
+                    $('#state_id').selectpicker('refresh');
+                    $('#city_id').selectpicker('refresh');
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading states:", error);
                 }
-            })
+            });
         });
 
-        $("#state_id").change(function() {
+        $("#state_id").change(function () {
             var stateId = $(this).val();
+
             $("#city_id").empty();
+
             $.ajax({
-            url: "{{ route('getCity') }}",
-            dataType: 'json',
-            data: {
-                stateId: stateId
-            },
-            delay: 250,
-            success: function(data) {
-                $("#city_id").empty();
-                $.each(data, function(key, value) {
-                var id, text, $option;
-                $option += "<option value=''>Select City</option>";
-                for (var i = 0; i < value.length; i++) {
-                    $option += "<option value ='" + value[i]['id'] + "'>" + value[i]['name'] + "</option>";
+                url: "{{ route('getCity') }}",
+                dataType: "json",
+                data: {
+                    stateId: stateId
+                },
+                success: function (data) {
+                    console.log(data);
+                    var $option = "<option value=''>Select City</option>";
+
+                    $.each(data.city, function (index, value) {
+                        $option += "<option value='" + value['id'] + "'>" + value['name'] + "</option>";
+                    });
+
+                    $("#city_id").append($option);
+
+                    $('#city_id').selectpicker('refresh');
                 }
-                $("#city_id").append($option);
-                });
-            }
             });
+        });
+
+        $(".skills-select").select2({
+            tags: true,
         });
 
         tinymce.init({

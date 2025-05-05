@@ -8,8 +8,8 @@ use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\DesignationService;
 use App\Services\JobCategoryService;
-use App\Services\JobService;
 use App\Services\EmployerService;
+use App\Services\JobService;
 use App\Services\JobTypeService;
 use App\Services\StateService;
 use Exception;
@@ -37,6 +37,7 @@ class EmployerController extends Controller
         DesignationService $designationService,
         JobTypeService $jobTypeService
     ) {
+        $this->jobService = $jobService;
         $this->employerService = $employerService;
         $this->countryService = $countryService;
         $this->stateService = $stateService;
@@ -158,12 +159,11 @@ class EmployerController extends Controller
             $inputArray = $this->validateJobInput($request);
             $this->jobService->addUpdateJob($inputArray);
             $msg = $inputArray['jobId'] == 0 ? 'Job added successfully!' : 'Job updated successfully!';
-            saveActivityLog('Job', $msg);
             return response()->json(
                 [
                     'status' => true,
                     'msg' => $msg,
-                    'redirectRoute' => route('jobs')
+                    'redirectRoute' => route('companyManageJobs')
                 ]
             );
         } catch (Exception $exception) {
@@ -200,9 +200,8 @@ class EmployerController extends Controller
                 'state_id',
                 'city_id',
                 'experience',
-                'year_experience',
-                'month_experience',
-                'salary_range',
+                'min_salary',
+                'max_salary',
                 'vacancy',
                 'deadline',
                 'gender',
@@ -211,7 +210,8 @@ class EmployerController extends Controller
                 'job_description',
                 'job_responsibility',
                 'educational_requirements',
-                'other_benefits'
+                'other_benefits',
+                'upload_file'
             ]
         );
     }

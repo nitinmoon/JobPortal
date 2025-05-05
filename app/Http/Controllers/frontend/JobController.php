@@ -26,6 +26,7 @@ class JobController extends Controller
     public function index()
     {
         // $jobCategories = $this->jobCategoryService->getAllJobCategory();
-        return view('frontend.job.index');
+        $jobs = $this->jobService->getAllJobs();
+        return view('frontend.job.index', compact('jobs'));
     }
 }

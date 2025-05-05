@@ -43,13 +43,10 @@ class DesignationService
                         if ($row->status == 1) {
                             $activeChecked = 'checked';
                         }
-                        return '<input type="hidden" name="_token" value="' . csrf_token() . '">
-                        <label class="switch">
-                        <input type="hidden" name="active" value="0">
-                        <input type="checkbox" class="change-designation-status" name="status" data-url="' . route('changeDesignationStatus') . '" id="' . $row->id . '" ' . $activeChecked . '>
-                        <span class="slider round"></span>
-                        <input type="hidden" name="action" value="submit" />
-                        </label>';
+                        return '<div class="form-check form-switch">
+                        <input class="form-check-input change-designation-status" type="checkbox" data-url="' . route('changeDesignationStatus') . '"
+                            id="' . $row->id . '" ' . $activeChecked . '>
+                        </div>';
                     } else {
                         return getActiveInactiveStatusBadge($row->status);
                     }

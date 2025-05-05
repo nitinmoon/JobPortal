@@ -5,8 +5,8 @@
         <h1>View Job Details</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('employerDashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('jobs') }}">Jobs</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('jobsList') }}">Jobs</a></li>
                 <li class="breadcrumb-item active">View Job Details</li>
             </ol>
         </nav>
@@ -22,12 +22,12 @@
                                     <h6>{{ isset($jobDetails->job_title) ? $jobDetails->job_title : '--' }}</h6>
                                     <ul class="mt-4">
                                         <li>
-                                            <h5><i class="fa fa-map-marker"></i><strong>Work Type :</strong>
+                                            <h5><i class="fa fa-map-marker"></i> <strong>Work Type :</strong>
                                                {{ !empty($jobDetails->work_type_id) ? $jobDetails->workType->name : '' }}
                                             </h5>
                                         </li>
                                         <li >
-                                            <h5><i class="fa fa-pie-chart"></i><strong>Job Category :</strong>
+                                            <h5><i class="fa fa-pie-chart"></i> <strong>Job Category :</strong>
                                                 {{ !empty($jobDetails->job_category_id) ? $jobDetails->jobCategory->name : '--' }}
                                             </h5>
                                         </li>

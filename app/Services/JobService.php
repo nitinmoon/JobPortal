@@ -32,20 +32,20 @@ class JobService
                 function ($row) {
                     $button = '';
                     if ($row->deleted_at == null) {
-                        $button .= '<a class="btn btn-sm btn-info " href="' . route('viewdetailJob', base64_encode($row->id)) . '" title="View Job">
+                        $button .= '<a class="btn btn-sm btn-info text-white" href="' . route('viewdetailJob', base64_encode($row->id)) . '" title="View Job">
                         <i class="bi bi-eye"></i></a>&nbsp;&nbsp;';
 
-                        $button .= '<a class="btn btn-sm btn-primary btn-blue" href="' . route('editJob', base64_encode($row->id)) . '" title="Edit Job">
-                            <i class="bi bi-pencil-square"></i></a>&nbsp;&nbsp;';
+                        // $button .= '<a class="btn btn-sm btn-primary btn-blue" href="' . route('editJob', base64_encode($row->id)) . '" title="Edit Job">
+                        //     <i class="bi bi-pencil-square"></i></a>&nbsp;&nbsp;';
 
                     }
-                    if ($row->deleted_at == null) {
-                        $button .= '<a class="deleteJob btn btn-sm btn-danger" data-url="' . route('deleteJob', $row->id) . '" title="Delete Job" href="#" data-bs-toggle="modal" data-bs-target="#deleteJobModal">
-                        <i class="bi bi-trash"></i></a>&nbsp;&nbsp;';
-                    } else {
-                        $button .= '<a class="restoreJob btn btn-sm btn-success" data-url="' . route('restoreJob', $row->id) . '" href="#" title="Restore Job Type" data-bs-toggle="modal" data-bs-target="#restoreJobModal">
-                        <i class="bi bi-upload"></i></a>';
-                    }
+                    // if ($row->deleted_at == null) {
+                    //     $button .= '<a class="deleteJob btn btn-sm btn-danger" data-url="' . route('deleteJob', $row->id) . '" title="Delete Job" href="#" data-bs-toggle="modal" data-bs-target="#deleteJobModal">
+                    //     <i class="bi bi-trash"></i></a>&nbsp;&nbsp;';
+                    // } else {
+                    //     $button .= '<a class="restoreJob btn btn-sm btn-success" data-url="' . route('restoreJob', $row->id) . '" href="#" title="Restore Job Type" data-bs-toggle="modal" data-bs-target="#restoreJobModal">
+                    //     <i class="bi bi-upload"></i></a>';
+                    // }
                     return $button;
                 }
             )

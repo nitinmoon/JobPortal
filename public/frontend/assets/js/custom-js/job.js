@@ -55,10 +55,16 @@ $(function () {
                 required: true,
                 alphanumsymbol: true,
             },
+            designation_id: {
+                required: true
+            },
             job_category_id: {
                 required: true
             },
             job_type_id: {
+                required: true
+            },
+            work_type_id: {
                 required: true
             },
             country_id: {
@@ -95,11 +101,17 @@ $(function () {
                 required: "Please enter job title.",
                 alphanumsymbol: "Please enter a valid job title.",
             },
+            designation_id: {
+                required: "Please select designation.",
+            },
             job_category_id: {
                 required: "Please select job category.",
             },
             job_type_id: {
                 required: "Please select job type.",
+            },
+            work_type_id: {
+                required: "Please select work type.",
             },
             country_id: {
                 required: "Please select country.",

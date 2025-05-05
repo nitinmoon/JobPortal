@@ -411,13 +411,14 @@
                 <a href="javascript:void(0);" class="site-button style-1">View More..</a>
             </div>
             <div class="row sp20 m-b20">
+                @foreach($jobs as $job)
                 <div class="col-xl-4 col-md-6">
                     <div class="job-wrapper m-b20">
                         <div class="jobs-profile d-flex align-items-center">
                             <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/google.png') }}" alt=""></div>
                             <div class="Profile-inner">
-                                <h5 class="profile-name">Google , New York</h5>
-                                <span class="profile-positions">Sr. Product Designer</span>
+                                <h5 class="profile-name">{{ isset($job->company_name) ? $job->company_name : '' }} {{ isset($job->country_id) ? ', '.$job->country->name : '' }}</h5>
+                                <span class="profile-positions">{{ $job->job_title }}</span>
                             </div>
                         </div>
                         <div class="Profile-inner-2">
@@ -425,12 +426,13 @@
                                 of a page when looking at its layout.</p>
                             <div class="dz-buttons d-flex align-items-center">
                                 <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
+                                <div class="dz-salary"><span>{{ isset($job->min_salary) ? $job->min_salary.' - '.$job->max_salary : '' }}</span>/ Month</div>
                             </div>
                         </div>
-                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
+                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">{{ isset($job->jobType->name) ? $job->jobType->name : '' }}</a></div>
                     </div>
                 </div>
+                @endforeach
                 <div class="col-xl-4 col-md-6">
                     <div class="job-wrapper m-b20">
                         <div class="jobs-profile d-flex align-items-center">

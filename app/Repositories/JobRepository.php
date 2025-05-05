@@ -27,7 +27,6 @@ class JobRepository extends BaseRepository
     {
         $filterData = $request->all();
         $queryBuilder = $this->getModel();
-        $queryBuilder = $queryBuilder->where('employer_id', auth()->user()->id);
         if ($filterData['job_category_id'] != '') {
             $queryBuilder = $queryBuilder->where('job_category_id', $filterData['job_category_id']);
         }
@@ -61,13 +60,13 @@ class JobRepository extends BaseRepository
      */
     public function addUpdateJob($inputArray)
     {
-        if (isset($inputArray['experience']) && $inputArray['experience'] == 'Experienced') {
-            $yearExp = isset($inputArray['year_experience']) ? $inputArray['year_experience'] : '0';
-            $monthExp = isset($inputArray['month_experience']) ? $inputArray['month_experience'] : '0';
-            $experience = $yearExp.'-'.$monthExp;
-        } else {
-            $experience = $inputArray['experience'];
-        }
+        // if (isset($inputArray['experience']) && $inputArray['experience'] == 'Experienced') {
+        //     $yearExp = isset($inputArray['year_experience']) ? $inputArray['year_experience'] : '0';
+        //     $monthExp = isset($inputArray['month_experience']) ? $inputArray['month_experience'] : '0';
+        //     $experience = $yearExp.'-'.$monthExp;
+        // } else {
+        //     $experience = $inputArray['experience'];
+        // }
         $condition = ['id' => $inputArray['jobId']];
         $data = [
             'job_title' => strip_tags($inputArray['job_title']),
@@ -79,8 +78,9 @@ class JobRepository extends BaseRepository
             'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
             'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
             'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
-            'experience' => $experience,
-            'salary_range' => $inputArray['salary_range'],
+            'experience' => $inputArray['experience'],
+            'min_salary' => $inputArray['min_salary'],
+            'max_salary' => $inputArray['max_salary'],
             'vacancy' => $inputArray['vacancy'],
             'deadline' => $inputArray['deadline'],
             'gender' => $inputArray['gender'],

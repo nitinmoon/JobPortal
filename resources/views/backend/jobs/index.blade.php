@@ -8,7 +8,7 @@
     <h1>Jobs</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('employerDashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
             <li class="breadcrumb-item active">Jobs</li>
         </ol>
     </nav>
@@ -66,7 +66,7 @@
                                             </button>
                                         </div>
                                         <div class="col-md-1 table-filter-btn">
-                                            <a href=" {{ route('addJob') }}" class="btn btn-sm btn-primary float-right"><i class="bi bi-plus-square"></i> Add</a>
+                                            <!-- <a href=" {{ route('addJob') }}" class="btn btn-sm btn-primary float-right"><i class="bi bi-plus-square"></i> Add</a> -->
                                         </div>
                                     </form>
                                 </div>
@@ -77,7 +77,7 @@
                 <div class="card-body mt-2">
                     <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered datatable job-type-table" style="width: 100%;">
+                            <table class="table table-striped table-bordered datatable job-list-table" style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th style="min-width:50px;">Sr No</th>
@@ -106,14 +106,14 @@
 <script>
     $('.js-example-basic-single').select2();
     $(function() {
-        var table = $('.job-type-table').DataTable({
+        var table = $('.job-list-table').DataTable({
             "aaSorting": [],
             processing: true,
             serverSide: true,
             pageLength: 100,
             "bDestroy": true,
             ajax: {
-                url: "{{ route('jobs') }}",
+                url: "{{ route('jobsList') }}",
                 beforeSend: function() {
                     $('#preloader').show();
                 },

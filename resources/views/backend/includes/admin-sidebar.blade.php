@@ -42,6 +42,12 @@
                 <span>Employers</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {{ (Request::routeIs('jobsList') || Request::routeIs('addJob') || Request::routeIs('editJob') || Request::routeIs('viewdetailJob')) ? '' : 'collapsed' }}" href="{{ route('jobsList') }}">
+                <i class="bi bi-person"></i>
+                <span>Jobs</span>
+            </a>
+        </li>
     </ul>
 
 </aside>

@@ -6,6 +6,7 @@ use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\DesignationController;
 use App\Http\Controllers\backend\EmployerController;
 use App\Http\Controllers\backend\JobCategoryController;
+use App\Http\Controllers\backend\JobController;
 use App\Http\Controllers\backend\JobTypeController;
 use App\Http\Controllers\backend\LoginController;
 use App\Http\Controllers\frontend\AuthController;
@@ -142,6 +143,21 @@ Route::middleware(['isAdminLoggedIn'])->group(function () {
             Route::post('/change-designation-status', 'changeDesignationStatus')->name('changeDesignationStatus');
             Route::get('/delete-designation/{id}', 'deleteDesignation')->name('deleteDesignation');
             Route::get('/restore-designation/{id}', 'restoreDesignation')->name('restoreDesignation');
+        });
+
+        /*
+        | Job Routes
+        */
+        Route::controller(JobController::class)->group(function () {
+            Route::get('/jobs-list', 'index')->name('jobsList');
+            Route::get('/add-job', 'addJob')->name('addJob');
+            Route::post('/add-update-job', 'addUpdateJob')->name('addUpdateJob');
+            Route::get('/edit-job/{id}', 'editJob')->name('editJob');
+            Route::post('/change-job-status', 'changeJobStatus')->name('changeJobStatus');
+            Route::get('/delete-job/{id}', 'deleteJob')->name('deleteJob');
+            Route::get('/restore-job/{id}', 'restoreJob')->name('restoreJob');
+            Route::get('/view-detail-job/{id}', 'jobDetails')->name('viewdetailJob');
+            Route::get('/download-resume/{id?}', 'downloadResume')->name('downloadResume');
         });
     });
 });

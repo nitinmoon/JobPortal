@@ -1,7 +1,7 @@
 <div class="candidate-info company-info">
         <div class="candidate-detail text-center">
                 <form action="{{ route('updateUserProfileImage', Auth::user()->id) }}" method="POST" enctype="multipart/form-data" id="updateUserProfileImg">
-                @csrf
+                        @csrf
                         <div class="canditate-des">
                                 <a href="javascript:void(0);">
                                         <img alt="" src="{{ asset('frontend/assets/images/logo/icon3.jpg') }}" id="output">
@@ -31,9 +31,9 @@
                 <li><a href="{{ route('companyJobPost') }}" class="{{ (Request::routeIs('companyJobPost')) ? 'active' : '' }}">
                                 <i class="far fa-file-alt" aria-hidden="true"></i>
                                 <span>Post A Job</span></a></li>
-                <li><a href="{{ route('companyTransactions') }}" class="{{ (Request::routeIs('companyTransactions')) ? 'active' : '' }}">
+                <!-- <li><a href="{{ route('companyTransactions') }}" class="{{ (Request::routeIs('companyTransactions')) ? 'active' : '' }}">
                                 <i class="fa fa-random" aria-hidden="true"></i>
-                                <span>Transactions</span></a></li>
+                                <span>Transactions</span></a></li> -->
                 <li><a href="{{ route('companyManageJobs') }}" class="{{ (Request::routeIs('companyManageJobs')) ? 'active' : '' }}">
                                 <i class="fa fa-briefcase" aria-hidden="true"></i>
                                 <span>Manage jobs</span></a></li>

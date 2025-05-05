@@ -46,15 +46,11 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
-        if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
-            return back();
-        }
-        $jobCategory = getJobCategory();
-        $jobType = getJobType();
         if ($request->ajax()) {
             return $this->jobService->jobAjaxDatatable($request);
         }
-        saveActivityLog('Job', 'Visit Job List');
+        $jobCategory = getJobCategory();
+        $jobType = getJobType();
         return view('backend.jobs.index', compact('jobCategory', 'jobType'));
     }
 
@@ -102,7 +98,6 @@ class JobController extends Controller
             $inputArray = $this->validateJobInput($request);
             $this->jobService->addUpdateJob($inputArray);
             $msg = $inputArray['jobId'] == 0 ? 'Job added successfully!' : 'Job updated successfully!';
-            saveActivityLog('Job', $msg);
             return response()->json(
                 [
                     'status' => true,
@@ -197,7 +192,6 @@ class JobController extends Controller
         try {
             $this->jobService->changeJobStatus($request);
             $msg = $request->status == 1 ?  'Status active successfully!' : 'Status inactive successfully!';
-            saveActivityLog('Job', $msg);
             return response()->json(
                 [
                     'status' => true,
@@ -226,7 +220,6 @@ class JobController extends Controller
     {
         try {
             $this->jobService->deleteJob($jobId);
-            saveActivityLog('Job', 'Job deleted successfully');
             return response()->json(
                 [
                     'status' => true,
@@ -254,7 +247,6 @@ class JobController extends Controller
     {
         try {
             $this->jobService->restoreJob($jobId);
-            saveActivityLog('Job', 'Job restored successfully');
             return response()->json(
                 [
                     'status' => true,
