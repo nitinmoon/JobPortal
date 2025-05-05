@@ -26,7 +26,7 @@ return new class extends Migration
             $table->enum('gender', [1, 2, 3, 4])->nullable()->comment('1 - Male, 2 - Female, 3 - Transgender, 4 - Others');
             $table->date('date_of_joining')->nullable();
             $table->date('date_of_exit')->nullable();
-            $table->string('profile_photo', 10)->nullable();
+            $table->string('profile_photo', 150)->nullable();
             $table->enum('portal_access', [1, 2])->default(1)->comment('1 - Login Granted, 2 - No Login');
             $table->enum('status', [1, 2])->default(1)->comment('1 - Approved, 2 - Disapproved');
             $table->integer('role_id')->unsigned()->nullable()->comment('foreign key (roles)');
