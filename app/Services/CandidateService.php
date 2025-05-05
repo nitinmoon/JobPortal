@@ -68,14 +68,14 @@ class CandidateService
                 function ($row) {
                     $button = '';
                     $button .= '<a class=" btn btn-sm btn-warning btn-warning  text-white" title="View"
-                    href="' . route('viewCandidate', base64_encode($row->id)) . '" title="View Candidate">
+                    href="#" title="View Candidate">
                     <i class="bi bi-eye"></i></a>&nbsp;&nbsp;';
-                    if ($row->resume_file != null) {
-                        $button .= '<a class="btn btn-sm btn-primary btn-blue" href="'.route('downloadResume', $row->resume_file).'" title="Download Resume" download>
-                            <i class="bi bi-download"></i></a>&nbsp;&nbsp;';
-                        $button .='<a class="btn btn-sm btn-info btn-blue view-resume" data-url=" '.route('viewResumeModal', $row->candidate_id).' " title="View Resume" View>
-                        <i class="bi bi-file-pdf"></i></a>&nbsp;&nbsp;';
-                    }
+                    // if ($row->resume_file != null) {
+                    //     $button .= '<a class="btn btn-sm btn-primary btn-blue" href="'.route('downloadResume', $row->resume_file).'" title="Download Resume" download>
+                    //         <i class="bi bi-download"></i></a>&nbsp;&nbsp;';
+                    //     $button .='<a class="btn btn-sm btn-info btn-blue view-resume" data-url=" '.route('viewResumeModal', $row->candidate_id).' " title="View Resume" View>
+                    //     <i class="bi bi-file-pdf"></i></a>&nbsp;&nbsp;';
+                    // }
                     return $button;
                 }
             )
