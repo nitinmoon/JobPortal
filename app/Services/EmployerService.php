@@ -4,17 +4,21 @@ namespace App\Services;
 
 use App\Mail\OtpVerificationEmail;
 use App\Repositories\EmployerRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class EmployerService
 {
     private $employerRepository;
+    private $userRepository;
 
     public function __construct(
-        EmployerRepository $employerRepository
+        EmployerRepository $employerRepository,
+        UserRepository $userRepository
     ) {
         $this->employerRepository = $employerRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -272,19 +276,6 @@ class EmployerService
     }
 
     /**
-     *************************************
-     * Function use to update my profile
-     * -----------------------------------
-     * @param object $request
-     * @return data
-     *************************************
-     */
-    public function updateMyProfile($inputArray)
-    {
-        return $this->employerRepository->updateMyProfile($inputArray);
-    }
-
-    /**
      ******************************************
      * Function use to update company profile
      * ----------------------------------------
@@ -295,5 +286,20 @@ class EmployerService
     public function updateCompanyProfile($inputArray)
     {
         return $this->employerRepository->updateCompanyProfile($inputArray);
+    }
+
+     /**
+     * *****************************************
+     * method used to update profile basic info
+     * -----------------------------------------
+     * @param userId
+     * @param inputdata
+     * @return data
+     * @description input (user details)
+     * ******************************************
+     */
+    public function updateCompanyLogo($userId, $inputdata)
+    {
+        return $this->employerRepository->updateCompanyLogo($userId, $inputdata);
     }
 }

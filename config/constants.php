@@ -10,5 +10,5 @@ return [
     'ADMIN_PREFIX' => 'ADMIN',
     'APP_NAME' => 'Job Portal',
     'COMPANY_LOGO_PATH' => public_path().'/../uploads/company_logo/',
-    'DEFAULT_COMPANY_LOGO' => 'frontend/assets/images/job1.png',
+    'DEFAULT_COMPANY_LOGO' => 'frontend/assets/images/logo/icon2.png',
 ];

@@ -1,24 +1,22 @@
 <div class="candidate-info company-info">
         <div class="candidate-detail text-center">
-                <form action="{{ route('updateUserProfileImage', Auth::user()->id) }}" method="POST" enctype="multipart/form-data" id="updateUserProfileImg">
-                @csrf
-                        <div class="canditate-des">
+                <form action="{{ route('updateCompanyLogo') }}" id="updateCompanyLogo" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @php
+                        $logo = getCompanyLogo(Auth::user()->id);
+                        @endphp
+                        <div class="profile-wrapper" style="position: relative; display: inline-block;">
                                 <a href="javascript:void(0);">
-                                        <img alt="" src="{{ asset('frontend/assets/images/logo/icon3.jpg') }}" id="output">
+                                        <img id="logoPreview" src="{{ !empty($logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt="Profile Image" style="width: 150px; height: 145px; border-radius: 50%; object-fit: cover;">
                                 </a>
-                                <div class="upload-link" title="update" data-bs-toggle="tooltip" data-placement="right">
-                                        <input type="file" name="profile_photo" accept="image/jpg, image/jpeg, image/png" id="profile_photo">
-                                        <i class="fas fa-pencil-alt"></i>
-                                </div>
-                                <div class="col-md-12 text-center mt-2">
-                                        <button type="submit" id="upload_img" class="btn btn-info btn-sm d-none p-2"><i class="bi bi-upload" aria-hidden="true"></i></button>
-                                        <button type="button" id="close" class="btn btn-danger btn-sm d-none p-2"><i class="bi bi-x" aria-hidden="true"></i></button>
-                                        <span id="imageUplaoderro" class="badge bg-danger mt-3"></span>
-                                </div>
-                        </div>
-                        <div class="candidate-title">
-                                <h4 class="m-b5"><a href="javascript:void(0);">@COMPANY</a></h4>
-                        </div>
+
+                                <label class="upload-link" title="Update" data-bs-toggle="tooltip" data-placement="right" style="position: relative; bottom: 40px; right: 10px; background: rgba(0,0,0,0.6); border-radius: 50%; color: #fff; cursor: pointer;">
+                                        <i class="fa fa-camera"></i>
+                                        <input type="file" id="logoImageInput" name="company_logo" class="update-file" accept="image/*" style="display: none;">
+                                </label>
+                        </div><br>
+
+                        <button type="submit" id="updateLogoBtn" class="btn btn-primary mt-3 d-none">Update</button>
                 </form>
         </div>
         <ul>
@@ -48,7 +46,3 @@
                                 <span>Log Out</span></a></li>
         </ul>
 </div>
-@section('script')
-<script>
-</script>
-@endsection

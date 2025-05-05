@@ -7,6 +7,7 @@ use App\Mail\VerifyOtpMail;
 use App\Models\Constants\UserRoleConstants;
 use App\Models\Constants\UserStatusConstants;
 use App\Models\User;
+use App\Models\UserAddress;
 use App\Repositories\BaseRepository;
 use App\Models\VerifyOtp;
 use Carbon\Carbon;
@@ -147,5 +148,39 @@ class UserRepository extends BaseRepository
             ->where('role_id', $credentials['role_id'])
             ->where('status', UserStatusConstants::APPROVED)
             ->first();
+    }
+
+    /**
+     *************************************
+     * Function use to update my profile
+     * -----------------------------------
+     * @param object $request
+     * @return data
+     *************************************
+     */
+    public function updateMyProfile($inputArray)
+    {
+        $condition = ['user_id' => auth()->user()->id];
+        $userDetails = [
+            'title' => strip_tags($inputArray['title']),
+            'first_name' => strip_tags($inputArray['first_name']),
+            'middle_name' => strip_tags($inputArray['middle_name']),
+            'last_name' => strip_tags($inputArray['last_name']),
+            'dob' => $inputArray['dob'],
+            'gender' => $inputArray['gender'],
+            'email' => strip_tags($inputArray['email']),
+            'phone' => strip_tags($inputArray['phone']),
+            'updated_by' => auth()->user()->id
+        ];
+        User::where('id', auth()->user()->id)->update($userDetails);
+        $userAddresssDetails = [
+            'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
+            'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
+            'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
+            'zip' => strip_tags($inputArray['zip']),
+            'address' => strip_tags($inputArray['address'])
+        ];
+        UserAddress::updateOrCreate($condition, $userAddresssDetails);
+        return auth()->user()->id;
     }
 }

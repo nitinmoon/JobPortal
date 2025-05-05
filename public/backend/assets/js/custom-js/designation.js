@@ -69,10 +69,11 @@ $(function() {
                     },
                     success: function (res) {
                         if (res.status == true) {
-                            $.notify({
-                                message: res.msg
-                            }, {
-                                type: 'success'
+                            Toast.create({
+                                title: "Success!",
+                                message: res.msg,
+                                status: TOAST_STATUS.SUCCESS,
+                                timeout: 5000,
                             });
                             $(".designation-table").DataTable().ajax.reload();
                         }
@@ -103,7 +104,6 @@ $(function() {
             url: url,
             method: 'get',
             success: function(response) {
-                console.log(response);
                 Swal.fire(
                 'Deleted!',
                 'Designation deleted successfully.',
@@ -134,7 +134,6 @@ $(function() {
                     url: url,
                     method: 'get',
                     success: function(response) {
-                        console.log(response);
                         Swal.fire(
                             'Restored!',
                             'Designation restored successfully.',

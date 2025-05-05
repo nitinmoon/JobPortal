@@ -1,157 +1,178 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Home')
+@section('title', 'Candidate Profile')
 
 @section('content')
-<div class="page-content bg-white">
-    <!-- contact area -->
+<div class="page-content">
     <div class="content-block">
         <!-- Browse Jobs -->
-        <div class="section-full bg-white browse-job p-t50 p-b20">
+        <div class="section-full bg-white p-t50 p-b20">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 m-b30">
                         <div class="sticky-top">
-                            <div class="candidate-info">
-                                <div class="candidate-detail text-center">
-                                    <div class="canditate-des">
-                                        <a href="javascript:void(0);">
-                                            <img alt="" src="images/team/pic1.jpg">
-                                        </a>
-                                        <div class="upload-link" title="update" data-bs-toggle="tooltip" data-placement="right">
-                                            <input type="file" class="update-flie">
-                                            <i class="fa fa-camera"></i>
-                                        </div>
-                                    </div>
-                                    <div class="candidate-title">
-                                        <div class="">
-                                            <h4 class="m-b5"><a href="javascript:void(0);">David Matin</a></h4>
-                                            <p class="m-b0"><a href="javascript:void(0);">Web developer</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul>
-                                    <li><a href="jobs-profile.html" class="active">
-                                            <i class="far fa-user" aria-hidden="true"></i>
-                                            <span>Profile</span></a></li>
-                                    <li><a href="jobs-my-resume.html">
-                                            <i class="far fa-file-alt" aria-hidden="true"></i>
-                                            <span>My Resume</span></a></li>
-                                    <li><a href="jobs-saved-jobs.html">
-                                            <i class="far fa-heart" aria-hidden="true"></i>
-                                            <span>Saved Jobs</span></a></li>
-                                    <li><a href="jobs-applied-job.html">
-                                            <i class="fa fa-briefcase" aria-hidden="true"></i>
-                                            <span>Applied Jobs</span></a></li>
-                                    <li><a href="jobs-alerts.html">
-                                            <i class="far fa-bell" aria-hidden="true"></i>
-                                            <span>Job Alerts</span></a></li>
-                                    <li><a href="jobs-cv-manager.html">
-                                            <i class="far fa-id-card" aria-hidden="true"></i>
-                                            <span>CV Manager</span></a></li>
-                                    <li><a href="jobs-change-password.html">
-                                            <i class="fa fa-key" aria-hidden="true"></i>
-                                            <span>Change Password</span></a></li>
-                                    <li><a href="index.html">
-                                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-                                            <span>Log Out</span></a></li>
-                                </ul>
-                            </div>
+                            @include('frontend.candidate.sidebar')
                         </div>
                     </div>
                     <div class="col-xl-9 col-lg-8 m-b30">
-                        <div class="job-bx job-profile">
+                        <div class="job-bx submit-resume">
                             <div class="job-bx-title clearfix">
                                 <h5 class="font-weight-700 float-start text-uppercase">Basic Information</h5>
-                                <a href="index.html" class="site-button right-arrow button-sm float-end">Back</a>
+                                <a href="{{ route('candidateProfile') }}" class="site-button right-arrow button-sm float-end">Back</a>
                             </div>
-                            <form>
+                            <form id="myProfileForm" class="row g-3 mt-2" action="{{ route('updateCandidateProfile') }}" method="post">
+                                @csrf
                                 <div class="row m-b30">
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-3 col-md-3">
                                         <div class="form-group">
-                                            <label>Your Name:</label>
-                                            <input type="text" class="form-control" placeholder="Alexander Weir">
+                                            <label>Title</label>
+                                            <select class="form-control" name="title" data-error="#error_title">
+                                                <option value="">Select</option>
+                                                @foreach($title as $row)
+                                                <option value="{{ $row }}" {{ isset($userDetails->title) && $userDetails->title == $row ? 'selected' : '' }}>{{ getTitle($row) }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="error" id="error_title"></span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-3 col-md-3">
                                         <div class="form-group">
-                                            <label>Professional title:</label>
-                                            <input type="text" class="form-control" placeholder="Web Designer">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" name="first_name" id="first_name" value="{{ isset($userDetails->first_name) ? $userDetails->first_name : '' }}" placeholder="Enter First Name">
                                         </div>
+                                        <span class="error" id="error_first_name"></span>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-3 col-md-3">
                                         <div class="form-group">
-                                            <label>Languages:</label>
-                                            <input type="text" class="form-control" placeholder="English">
+                                            <label>Middle Name</label>
+                                            <input type="text" class="form-control" name="middle_name" id="middle_name" value="{{ isset($userDetails->middle_name) ? $userDetails->middle_name : '' }}" placeholder="Enter Middle Name">
                                         </div>
+                                        <span class="error" id="error_middle_name"></span>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-3 col-md-3">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" name="last_name" id="last_name" value="{{ isset($userDetails->last_name) ? $userDetails->last_name : '' }}" placeholder="Enter Last Name">
+                                        </div>
+                                        <span class="error" id="error_last_name"></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Date Of Birth</label>
+                                            <input type="date" class="form-control" name="dob" id="dob" placeholder="Enter Dob" value="{{ isset($userDetails->dob) ? $userDetails->dob : '' }}" min="1940-01-01" max="{{ date('Y-m-d', strtotime('-18 year', time())) }}">
+                                        </div>
+                                        <span class="error" id="error_dob"></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>Age:</label>
-                                            <input type="text" class="form-control" placeholder="32 Year">
+                                            <input type="text" class="form-control" id="age" placeholder="32 Year" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
-                                            <label>Current Salary($):</label>
-                                            <input type="text" class="form-control" placeholder="2000$">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>Expected Salary:</label>
-                                            <input type="text" class="form-control" placeholder="2500$">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-                                            <label>Description:</label>
-                                            <textarea class="form-control">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s.</textarea>
+                                            <label>Gender </label>
+                                            <select class="form-control" name="gender" data-error="#error_gender">
+                                                <option value="">Select</option>
+                                                @foreach($genders as $gender)
+                                                <option value="{{ $gender }}" {{ isset($userDetails->gender) && $userDetails->gender == $gender ? 'selected' : '' }}>{{ getGender($gender) }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="error" id="error_gender"></span>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Contact Information -->
                                 <div class="job-bx-title clearfix">
                                     <h5 class="font-weight-700 float-start text-uppercase">Contact Information</h5>
                                 </div>
-                                <div class="row">
+                                <div class="row m-b30">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Phone:</label>
-                                            <input type="text" class="form-control" placeholder="+1 123 456 7890">
+                                            <label>Email</label>
+                                            <input type="email" class="form-control" name="email" id="email" value="{{ isset($userDetails->email) ? $userDetails->email : '' }}" placeholder="Enter Email">
+                                        </div>
+                                        <span class="error" id="error_email"></span>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Phone</label>
+                                            <input type="text" class="form-control" name="phone" id="phone" maxlength="10" value="{{ isset($userDetails->phone) ? $userDetails->phone : '' }}" placeholder="Enter Phone">
+                                        </div>
+                                        <span class="error" id="error_phone"></span>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Contry</label>
+                                            <select class="form-control selectpicker" name="country_id" id="country_id" data-error="#error_country_id" data-live-search="true">
+                                                <option value="">Select</option>
+                                                @foreach($countries as $row)
+                                                <option value="{{ $row->id }}" {{ (isset($userDetails->country_id) && $userDetails->country_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="error" id="error_country_id"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Email Address:</label>
-                                            <input type="text" class="form-control" placeholder="info@example.com">
+                                            <label>State</label>
+                                            <select class="form-control selectpicker" name="state_id" id="state_id" data-error="#error_state_id" data-live-search="true">
+                                                @if(isset($userDetails->id))
+                                                @if(count($states) > 0)
+                                                @foreach ($states as $state)
+                                                <option value="{{ $state->id }}" {{ isset($userDetails->state_id) && ($state->id == $userDetails->state_id) ? 'selected' : '' }}>{{$state->name}}</option>
+                                                @endforeach
+                                                @else
+                                                <option value="">Select</option>
+                                                @endif
+                                                @else
+                                                <option value="">Select</option>
+                                                @endif
+                                            </select>
+                                            <span class="error" id="error_state_id"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Country:</label>
-                                            <input type="text" class="form-control" placeholder="Country Name">
+                                            <label>City</label>
+                                            <select class="form-control selectpicker" name="city_id" id="city_id" data-error="#error_city_id" data-live-search="true">
+                                                @if(isset($userDetails->id))
+                                                @if(count($states) > 0)
+                                                @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}" {{ isset($userDetails->city_id) && ($city->id == $userDetails->city_id) ? 'selected' : '' }}>{{$city->name}}</option>
+                                                @endforeach
+                                                @else
+                                                <option value="">Select</option>
+                                                @endif
+                                                @else
+                                                <option value="">Select</option>
+                                                @endif
+                                            </select>
+                                            <span class="error" id="error_city_id"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Postcode:</label>
-                                            <input type="text" class="form-control" placeholder="112233">
+                                            <label>Zip</label>
+                                            <input type="text" name="zip" id="zip" value="{{ isset($userDetails->zip) ? $userDetails->zip : '' }}" class="form-control" placeholder="Enter Zip" maxlength="6">
                                         </div>
+                                        <span class="error" id="error_zip"></span>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label>City:</label>
-                                            <input type="text" class="form-control" placeholder="London">
+                                            <label>Address</label>
+                                            <textarea class="form-control" placeholder="New york city" name="address" id="address">{{ isset($userDetails->address) ? $userDetails->address : '' }}</textarea>
                                         </div>
+                                        <span class="error" id="error_address"></span>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>Full Address:</label>
-                                            <input type="text" class="form-control" placeholder="New york City">
-                                        </div>
+                                    <div class="col-lg-12">
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d57784.32772205062!2d75.85546240000001!3d25.151897599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1545138498580" style="border:0; width: 100%; height:300px;" allowfullscreen></iframe>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="hidden" name="userId" value="{{ isset($userDetails->id) ? $userDetails->id : 0 }}" />
+                                        <button type="submit" class="site-button m-b30">Update</button>
                                     </div>
                                 </div>
-                                <button class="site-button m-b30">Save Setting</button>
                             </form>
                         </div>
                     </div>
@@ -161,4 +182,81 @@
         <!-- Browse Jobs END -->
     </div>
 </div>
+@endsection
+@section('script')
+<script src="{{ asset('frontend/assets/js/custom-js/profile.js') }}"></script>
+<script>
+    $(function() {
+        document.getElementById('dob').addEventListener('change', function() {
+            const dob = new Date(this.value);
+            const today = new Date();
+
+            if (!isNaN(dob.getTime())) {
+                let age = today.getFullYear() - dob.getFullYear();
+                const m = today.getMonth() - dob.getMonth();
+
+                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                    age--;
+                }
+
+                document.getElementById('age').value = age + ' Year';
+            } else {
+                document.getElementById('age').value = '';
+            }
+        });
+
+        $('#country_id').on('changed.bs.select', function() {
+            var countryId = $(this).val();
+
+            $('#state_id').empty().append('<option value="">Select State</option>');
+            $('#city_id').empty().append('<option value="">Select City</option>');
+
+            $.ajax({
+                url: "{{ route('getState') }}",
+                type: "GET",
+                dataType: "json",
+                data: {
+                    countryId: countryId
+                },
+                success: function(data) {
+                    $.each(data.state, function(index, value) {
+                        $('#state_id').append(`<option value="${value['id']}">${value['name']}</option>`);
+                    });
+
+                    $('#state_id').selectpicker('refresh');
+                    $('#city_id').selectpicker('refresh');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading states:", error);
+                }
+            });
+        });
+
+        $("#state_id").change(function() {
+            var stateId = $(this).val();
+
+            $("#city_id").empty();
+
+            $.ajax({
+                url: "{{ route('getCity') }}",
+                dataType: "json",
+                data: {
+                    stateId: stateId
+                },
+                success: function(data) {
+                    console.log(data);
+                    var $option = "<option value=''>Select City</option>";
+
+                    $.each(data.city, function(index, value) {
+                        $option += "<option value='" + value['id'] + "'>" + value['name'] + "</option>";
+                    });
+
+                    $("#city_id").append($option);
+
+                    $('#city_id').selectpicker('refresh');
+                }
+            });
+        });
+    });
+</script>
 @endsection

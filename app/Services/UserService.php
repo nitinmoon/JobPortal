@@ -93,4 +93,34 @@ class UserService
     {
         return $this->userRepository->checkLoginStatus($credentials);
     }
+
+    /**
+     *************************************
+     * Function use to update my profile
+     * -----------------------------------
+     * @param object $request
+     * @return data
+     *************************************
+     */
+    public function updateMyProfile($inputArray)
+    {
+        return $this->userRepository->updateMyProfile($inputArray);
+    }
+
+    /**
+     * *****************************************
+     * method used to update profile basic info
+     * -----------------------------------------
+     * @param userId
+     * @param inputdata
+     * @return data
+     * @description input (user details)
+     * ******************************************
+     */
+    public function updateProfilePhoto($userId, $inputdata)
+    {
+        $userDetail = $this->userRepository->getById($userId);
+        $user = $this->userRepository->update($userDetail, $inputdata);
+        return $user;
+    }
 }

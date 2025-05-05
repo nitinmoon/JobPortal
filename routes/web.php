@@ -9,6 +9,7 @@ use App\Http\Controllers\backend\JobCategoryController;
 use App\Http\Controllers\backend\JobTypeController;
 use App\Http\Controllers\backend\LoginController;
 use App\Http\Controllers\frontend\AuthController;
+use App\Http\Controllers\frontend\CandidateController as FrontendCandidateController;
 use App\Http\Controllers\frontend\EmployerController as FrontendEmployerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\HomeController;
@@ -227,7 +228,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware(['isEmployerLoggedIn'])->group(function () {
     Route::prefix('employer')->group(function () {
         Route::controller(FrontendEmployerController::class)->group(function () {
-            Route::get('/employer-profile', 'myProfile')->name('myProfile');
+            Route::get('/my-profile', 'myProfile')->name('myProfile');
             Route::get('/company-profile', 'companyProfile')->name('companyProfile');
             Route::get('/company-job-post', 'companyJobPost')->name('companyJobPost');
             Route::post('/add-update-job', 'addUpdateJob')->name('addUpdateJob');
@@ -237,7 +238,8 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
             Route::get('/employer-change-password', 'employerChangePassword')->name('employerChangePassword');
             Route::post('/update-profile', 'updateProfile')->name('updateProfile');
             Route::post('/update-company-profile', 'updateCompanyProfile')->name('updateCompanyProfile');
-            Route::post('/update-company-profile', 'updateUserProfileImage')->name('updateUserProfileImage');
+            Route::post('/update-company-logo', 'updateCompanyLogo')->name('updateCompanyLogo');
+            Route::post('/change-employer-password', 'changeEmployerPassword')->name('changeEmployerPassword');
         });
     });
 });
@@ -250,8 +252,13 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
 */
 Route::middleware(['isCandidateLoggedIn'])->group(function () {
     Route::prefix('candidate')->group(function () {
-        Route::controller(CandidateController::class)->group(function () {
+        Route::controller(FrontendCandidateController::class)->group(function () {
             Route::get('/candidate-profile', 'myProfile')->name('candidateProfile');
+            Route::post('/update-cadidate-profile', 'updateCandidateProfile')->name('updateCandidateProfile');
+            Route::get('/my-resume', 'myResume')->name('myResume');
+            Route::get('/cadidate-change-password', 'cadidateChangePassword')->name('cadidateChangePassword');
+            Route::post('/change-candidate-password', 'changeCandidatePassword')->name('changeCandidatePassword');
+            Route::post('/update-candidate-profile', 'updateCandidateProfilePhoto')->name('updateCandidateProfilePhoto');
         });
     });
 });
