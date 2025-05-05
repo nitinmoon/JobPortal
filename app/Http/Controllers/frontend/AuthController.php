@@ -235,17 +235,17 @@ class AuthController extends Controller
     public function checkLogin(LoginRequest $request)
     {
         // Google reCAPTCHA API key configuration
-        // $siteKey = env('RECAPTCHA_SITE_KEY');
-        // $secretKey = env('RECAPTCHA_SITE_SECRET');
+        $siteKey = env('RECAPTCHA_SITE_KEY');
+        $secretKey = env('RECAPTCHA_SITE_SECRET');
 
-        // $data = $request->all();
-        // if (isset($data['g-recaptcha-response']) && !empty($data['g-recaptcha-response'])) {
-        //     // Verify the reCAPTCHA response
-        //     $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secretKey . '&response=' . $_POST['g-recaptcha-response']);
-        //     // Decode json data
-        //     $responseData = json_decode($verifyResponse);
-        //     // If reCAPTCHA response is valid
-        //     if ($responseData->success) {
+        $data = $request->all();
+        if (isset($data['g-recaptcha-response']) && !empty($data['g-recaptcha-response'])) {
+            // Verify the reCAPTCHA response
+            $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secretKey . '&response=' . $_POST['g-recaptcha-response']);
+            // Decode json data
+            $responseData = json_decode($verifyResponse);
+            // If reCAPTCHA response is valid
+            if ($responseData->success) {
                 $credentials = $this->validateLoginRequest($request);
                 $user = $this->userService->checkLoginStatus($credentials);
                 if (!empty($user)) {
@@ -275,15 +275,15 @@ class AuthController extends Controller
                         'msg' => 'Credentials are not matched!',
                     ]
                 );
-        //     }
-        // } else {
-        //     return response()->json(
-        //         [
-        //             'status' => '4',
-        //             'msg' => 'Please check on the reCAPTCHA box',
-        //         ]
-        //     );
-        // }
+            }
+        } else {
+            return response()->json(
+                [
+                    'status' => '4',
+                    'msg' => 'Please check on the reCAPTCHA box',
+                ]
+            );
+        }
     }
 
     /**

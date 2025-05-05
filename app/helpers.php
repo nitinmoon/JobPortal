@@ -13,6 +13,7 @@ use App\Models\Skill;
 use App\Models\User;
 use App\Models\WorkType;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Jenssegers\Agent\Agent;
 use Illuminate\Support\Facades\Request;
@@ -437,7 +438,17 @@ if (!function_exists('addUserMail')) {
     function addUserMail($userId, $password)
     {
         $userData = User::find($userId);
-        Mail::to($userData->email)->send(new AddUserMail($userData, $password));
+        try {
+            Mail::to($userData->email)->send(new AddUserMail($userData, $password));
+        } catch (\Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage(),
+                ]
+            );
+        }
         return $userData;
     }
 }

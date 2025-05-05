@@ -44,11 +44,11 @@
                                 <input type="password" class="form-control login-input" name="password" placeholder="Enter Password" autocomplete="current-password" required>
                                 <span class="error" id="error_password"></span>
                             </div>
-                            <!-- <div class="form-group"> -->
+                            <div class="form-group">
                                 <!-- Google Recaptcha -->
-                                <!-- <div class="g-recaptcha mt-4" data-callback="recaptchaCallback" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-                                <span id="captchaError" class="error"></span> -->
-                            <!-- </div> -->
+                                <div class="g-recaptcha mt-4" data-callback="recaptchaCallback" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                                <span id="captchaError" class="error"></span>
+                            </div>
                             <div class="text-left">
                                 <input type="hidden" name="role_id" value="{{ $roleId }}">
                                 <button type="submit" class="site-button m-r5 button-lg" id="loginSubmitBtn">login</button>
