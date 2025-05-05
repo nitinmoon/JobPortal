@@ -70,10 +70,11 @@ $(function() {
                     },
                     success: function (res) {
                         if (res.status == true) {
-                            $.notify({
-                                message: res.msg
-                            }, {
-                                type: 'success'
+                            Toast.create({
+                                title: "Success!",
+                                message: res.msg,
+                                status: TOAST_STATUS.SUCCESS,
+                                timeout: 5000,
                             });
                             $(".job-type-table").DataTable().ajax.reload();
                         }
@@ -104,7 +105,6 @@ $(function() {
             url: url,
             method: 'get',
             success: function(response) {
-                console.log(response);
                 Swal.fire(
                 'Deleted!',
                 'Job type deleted successfully.',
@@ -135,7 +135,6 @@ $(function() {
                     url: url,
                     method: 'get',
                     success: function(response) {
-                        console.log(response);
                         Swal.fire(
                             'Restored!',
                             'Job type restored successfully.',

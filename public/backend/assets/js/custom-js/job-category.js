@@ -70,10 +70,11 @@ $(function() {
                     },
                     success: function (res) {
                         if (res.status == true) {
-                            $.notify({
-                                message: res.msg
-                            }, {
-                                type: 'success'
+                            Toast.create({
+                                title: "Success!",
+                                message: res.msg,
+                                status: TOAST_STATUS.SUCCESS,
+                                timeout: 5000,
                             });
                             $(".job-category-table").DataTable().ajax.reload();
                         }

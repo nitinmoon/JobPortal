@@ -464,10 +464,11 @@ $(function () {
                     $(".error").html('')
                     if (res.status == 1) {
                         $('#changePasswordModal').modal('hide');
-                        $.notify({
-                            message: res.msg
-                        }, {
-                            type: 'success'
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
                         setTimeout(function () {
                             window.location = res.redirect_url;
@@ -475,10 +476,11 @@ $(function () {
                     } else if (res.status == 2) {
                         $("#error_current_password").html(res.msg);
                     } else {
-                        $.notify({
-                            message: res.msg
-                        }, {
-                            type: 'error'
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
                     }
                 },

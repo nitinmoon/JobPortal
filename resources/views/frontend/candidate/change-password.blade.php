@@ -1,7 +1,37 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Home')
+@section('title', 'Candidate Profile')
+@section('style')
+<style>
+    .profile-wrapper {
+        position: relative;
+        display: inline-block;
+    }
 
+    .profile-wrapper img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .upload-link {
+        position: absolute;
+        top: 10px;
+        /* bottom: 10px; */
+        /* right: 10px; */
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        padding: 8px;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    .upload-link input[type="file"] {
+        display: none;
+    }
+</style>
+@endsection
 @section('content')
 <div class="page-content">
     <div class="content-block">
@@ -11,7 +41,7 @@
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 m-b30">
                         <div class="sticky-top">
-                            @include('frontend.employer.sidebar')
+                            @include('frontend.candidate.sidebar')
                         </div>
                     </div>
                     <div class="col-xl-9 col-lg-8 m-b30">
@@ -20,7 +50,7 @@
                                 <h5 class="font-weight-700 float-start text-uppercase">Change Password</h5>
                                 <a href="{{ route('companyResume') }}" class="site-button right-arrow button-sm float-end">Back</a>
                             </div>
-                            <form id="change-password-action" action="{{ route('changeEmployerPassword') }}" method="post">
+                            <form id="change-password-action" action="{{ route('changeCandidatePassword') }}" method="post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -60,9 +90,4 @@
 @endsection
 @section('script')
 <script src="{{ asset('backend/assets/js/custom-js/my-profile.js') }}"></script>
-<script>
-    $(function() {
-
-    });
-</script>
 @endsection

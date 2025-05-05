@@ -235,7 +235,7 @@ $(function () {
                 number: true,
                 max: 50,
             },
-            gst_number: {
+            gst_no: {
                 required: true,
                 alphanum:true
             },
@@ -296,7 +296,7 @@ $(function () {
                 number: "Please enter only digits",
                 max: "Employees must be less than 50",
             },
-            gst_number: {
+            gst_no: {
                 required: "Please enter GST number",
                 alphanum:"Please enter valid GST number"
             },
@@ -378,6 +378,169 @@ $(function () {
                             $("#error_" + key).html(value)
                         })
 
+                    }
+                }
+            });
+        }
+    });
+
+    $('#profileImageInput').change(function() {
+        const [file] = this.files;
+        if (file) {
+            document.getElementById("profilePreview").src = URL.createObjectURL(file);
+            $('#updateProfileBtn').removeClass('d-none');
+        }
+    });
+
+    $("#updateCandidateProfile").validate({
+        rules: {
+            profile_photo: {
+                accept: "jpg,png,jpeg,gif"
+            }
+        },
+        messages: {
+            profile_photo: {
+                accept: "Only image types jpg, png, jpeg, gif are allowed",
+            }
+        },
+        errorClass: "text-danger is-invalid",
+        errorElement: "label",
+        errorPlacement: function (error, element) {
+            var placement = $(element).data('error');
+            if (placement) {
+                $(placement).append(error);
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function (form, event) {
+            event.preventDefault();
+
+            var formData = new FormData(form);
+            var actionUrl = $(form).attr('action');
+            var userId = "{{ auth()->user()->id }}";
+
+            $.ajax({
+                url: actionUrl,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#updateProfileBtn').prop('disabled', true).text('Updating...');
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.status === true) {
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
+                        });
+                        location.reload();
+                        $('#updateProfileBtn').addClass('d-none')
+                    } else {
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
+                        });
+                    }
+                },
+                complete: function () {
+                    $('#updateProfileBtn').prop('disabled', false).text('Update Profile');
+                },
+                error: function (err) {
+                    if (err.status == 422) {
+                        let errors = err.responseJSON.errors;
+                        $.each(errors, function (key, value) {
+                            let errorField = $(`[name="${key}"]`);
+                            errorField.addClass('is-invalid');
+                            errorField.after(`<label class="text-danger">${value}</label>`);
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    $('#logoImageInput').change(function() {
+        const [file] = this.files;
+        if (file) {
+            document.getElementById("logoPreview").src = URL.createObjectURL(file);
+            $('#updateLogoBtn').removeClass('d-none');
+        }
+    });
+
+    $("#updateCompanyLogo").validate({
+        rules: {
+            company_logo: {
+                accept: "jpg,png,jpeg,gif"
+            }
+        },
+        messages: {
+            company_logo: {
+                accept: "Only image types jpg, png, jpeg, gif are allowed",
+            }
+        },
+        errorClass: "text-danger is-invalid",
+        errorElement: "label",
+        errorPlacement: function (error, element) {
+            var placement = $(element).data('error');
+            if (placement) {
+                $(placement).append(error);
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function (form, event) {
+            event.preventDefault();
+
+            var formData = new FormData(form);
+            var actionUrl = $(form).attr('action');
+
+            $.ajax({
+                url: actionUrl,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#updateLogoBtn').prop('disabled', true).text('Updating...');
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.status === true) {
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
+                        });
+                        location.reload();
+                        $('#updateLogoBtn').addClass('d-none')
+                    } else {
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
+                        });
+                    }
+                },
+                complete: function () {
+                    $('#updateLogoBtn').prop('disabled', false).text('Update');
+                },
+                error: function (err) {
+                    if (err.status == 422) {
+                        let errors = err.responseJSON.errors;
+                        $.each(errors, function (key, value) {
+                            let errorField = $(`[name="${key}"]`);
+                            errorField.addClass('is-invalid');
+                            errorField.after(`<label class="text-danger">${value}</label>`);
+                        });
                     }
                 }
             });

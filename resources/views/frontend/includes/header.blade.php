@@ -34,7 +34,7 @@
                                             <hr class="dropdown-divider">
                                         </li>
                                         <li>
-                                            <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' ? route('adminMyProfile') : route('myProfile') }}">
+                                            <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == 1 ? route('adminMyProfile') : (auth()->user()->role_id == 2 ? route('myProfile') : route('candidateProfile')) }}">
                                                 <i class="bi bi-person"></i>
                                                 <span>My Profile</span>
                                             </a>

@@ -283,20 +283,20 @@ class CandidateController extends Controller
      * @return jsonResponse
      * ****************************
      */
-    public function myProfile()
-    {
-        $title = getEnum('users', 'title');
-        $genders = getEnum('users', 'gender');
-        $states = [];
-        $cities = [];
-        $countries = $this->countryService->getAllCountry();
-        return view(
-            'frontend.candidate.my-profile',
-            compact(
-                'title',
-                'genders',
-                'countries'
-            )
-        );
-    }
+    // public function myProfile()
+    // {
+    //     $title = getEnum('users', 'title');
+    //     $genders = getEnum('users', 'gender');
+    //     $states = [];
+    //     $cities = [];
+    //     $countries = $this->countryService->getAllCountry();
+    //     return view(
+    //         'frontend.candidate.my-profile',
+    //         compact(
+    //             'title',
+    //             'genders',
+    //             'countries'
+    //         )
+    //     );
+    // }
 }

@@ -5,6 +5,7 @@ use App\Models\ActivityLog;
 use App\Models\ApplyJob;
 use App\Models\Constants\StatusConstants;
 use App\Models\Designation;
+use App\Models\EmployerDetail;
 use App\Models\Job;
 use App\Models\JobCategory;
 use App\Models\JobType;
@@ -438,5 +439,50 @@ if (!function_exists('addUserMail')) {
         $userData = User::find($userId);
         Mail::to($userData->email)->send(new AddUserMail($userData, $password));
         return $userData;
+    }
+}
+
+/**
+ * *************************************
+ * method used to return language array
+ * -------------------------------------
+ *
+ * @param  array $inputArray
+ * @return data
+ * *************************************
+ */
+if (!function_exists('getLanguages')) {
+    function getLanguages()
+    {
+        return [
+            'English',
+            'Spanish',
+            'French',
+            'German',
+            'Arabic',
+            'Hindi',
+            'Marathi',
+            'Chinese',
+            'Russian',
+            'Japanese',
+            'Portuguese',
+        ];
+    }
+}
+
+/**
+ * ********************************************
+ * method used to send common mail to add user
+ * --------------------------------------------
+ *
+ * @param  array $inputArray
+ * @return data
+ * ********************************************
+ */
+if (!function_exists('getCompanyLogo')) {
+    function getCompanyLogo($employerId)
+    {
+        $employerDetails = EmployerDetail::where('employer_id', $employerId)->first();
+        return isset($employerDetails) ? $employerDetails['company_logo'] : '';
     }
 }

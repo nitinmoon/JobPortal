@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminChangePasswordRequest;
+use App\Http\Requests\CompanyLogoRequest;
 use App\Http\Requests\JobFormRequest;
+use App\Http\Requests\ProfileImageRequest;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\DesignationService;
@@ -11,9 +14,12 @@ use App\Services\JobCategoryService;
 use App\Services\EmployerService;
 use App\Services\JobService;
 use App\Services\JobTypeService;
+use App\Services\LoginService;
 use App\Services\StateService;
+use App\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class EmployerController extends Controller
@@ -26,6 +32,8 @@ class EmployerController extends Controller
     private $jobCategoryService;
     private $designationService;
     private $jobTypeService;
+    private $loginService;
+    private $userService;
 
     public function __construct(
         JobService $jobService,
@@ -35,7 +43,9 @@ class EmployerController extends Controller
         CityService $cityService,
         JobCategoryService $jobCategoryService,
         DesignationService $designationService,
-        JobTypeService $jobTypeService
+        JobTypeService $jobTypeService,
+        LoginService $loginService,
+        UserService $userService
     ) {
         $this->jobService = $jobService;
         $this->employerService = $employerService;
@@ -45,6 +55,8 @@ class EmployerController extends Controller
         $this->jobCategoryService = $jobCategoryService;
         $this->designationService = $designationService;
         $this->jobTypeService = $jobTypeService;
+        $this->loginService = $loginService;
+        $this->userService = $userService;
     }
 
     /**
@@ -92,6 +104,7 @@ class EmployerController extends Controller
      */
     public function companyProfile()
     {
+        $employerDetails = $this->employerService->getEmployerDetails(auth()->user()->id);
         $countries = $this->countryService->getAllCountry();
         $states = [];
         $cities = [];
@@ -101,7 +114,6 @@ class EmployerController extends Controller
         if (isset($employerDetails->state_id) && $employerDetails->state_id != '') {
             $cities = $this->cityService->getCity($employerDetails->state_id);
         }
-        $employerDetails = $this->employerService->getEmployerDetails(auth()->user()->id);
         $jobCategories = $this->jobCategoryService->getAllJobCategory();
         return view(
             'frontend.employer.company-profile',
@@ -280,7 +292,7 @@ class EmployerController extends Controller
     {
         try {
             $inputArray = $this->validateMyProfileInput($request);
-            $this->employerService->updateMyProfile($inputArray);
+            $this->userService->updateMyProfile($inputArray);
             return response()->json(
                 [
                     'status' => true,
@@ -381,7 +393,7 @@ class EmployerController extends Controller
                 'job_category_id',
                 'foundation_date',
                 'no_of_employees',
-                'gst_number',
+                'gst_no',
                 'company_description',
                 'company_address',
                 'zip',
@@ -390,5 +402,83 @@ class EmployerController extends Controller
                 'city_id',
             ]
         );
+    }
+
+    /**
+     * *******************************
+     * method used to change password
+     * -------------------------------
+     * @param object $request
+     * *******************************
+    */
+    public function changeEmployerPassword(AdminChangePasswordRequest $request)
+    {
+        $credentials = $this->validatechangePasswordRequest($request);
+        if (!Hash::check($credentials['current_password'], auth()->user()->password)) {
+            return response()->json(['status' => 2, 'msg' => "Old password does not matched!"]);
+        }
+        $this->loginService->changePassword($credentials);
+        return response()->json(['status' => 1, 'msg' => "Password updated successfully!", 'redirect_url' => route('logout')]);
+    }
+
+    /**
+     * ***********************************************
+     * method used to validate change password input
+     *------------------------------------------------
+     * @param object $request
+     * @return request
+     *************************************************
+     */
+    private function validatechangePasswordRequest(Request $request)
+    {
+        return $request->only(['current_password', 'password', 'confirm_password']);
+    }
+
+    /**
+     * **************************************
+     * method to update profile image detail
+     * --------------------------------------
+     * @param request
+     * @param userId
+     * @return redirect
+     * @description input ('profile_photo')
+     * @description (with success message)
+     * *****************************************
+     */
+    public function updateCompanyLogo(CompanyLogoRequest $request)
+    {
+        // try {
+            $inputArray = $this->validateLogoImage($request);
+            $imageName  = time().'.'.$inputArray['company_logo']->extension();
+            $imagepath = config('constants.COMPANY_LOGO_PATH');
+            if (!file_exists($imagepath)) {
+                mkdir($imagepath, 0777, true);
+            }
+            $inputArray['company_logo']->move(config('constants.COMPANY_LOGO_PATH'), $imageName);
+            $inputArray['company_logo'] = $imageName;
+            $this->employerService->updateCompanyLogo(auth()->user()->id, $inputArray);
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => "Logo updated successfully!"
+                ]
+            );
+        // } catch (\Exception  $exception) {
+        //     return back()->withError($exception->getMessage())->withInput();
+        // }
+    }
+
+    /**
+     * ********************************************
+     * method used to validate profile photo input
+     * --------------------------------------------
+     * @param request
+     * @return request
+     * @description input ('profile_photo')
+     * *********************************************
+     */
+    private function validateLogoImage(Request $request)
+    {
+        return $request->only(['company_logo']);
     }
 }

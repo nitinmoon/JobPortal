@@ -74,16 +74,18 @@
           $('.job-type-table').DataTable().ajax.reload();
           if (res.status == true) {
             $('#add_job_type').modal('hide');
-            $.notify({
-              message: res.msg
-            }, {
-              type: 'success'
+            Toast.create({
+                title: "Success!",
+                message: res.msg,
+                status: TOAST_STATUS.SUCCESS,
+                timeout: 5000,
             });
           } else {
-            $.notify({
-              message: res.msg
-            }, {
-              type: 'danger'
+            Toast.create({
+                title: "Error!",
+                message: res.msg,
+                status: TOAST_STATUS.DANGER,
+                timeout: 5000,
             });
           }
           $('.job-type-table').DataTable().ajax.reload();
