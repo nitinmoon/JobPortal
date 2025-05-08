@@ -8,7 +8,6 @@
                     <a href="javascript:void(0);">
                         <img id="profilePreview" src="{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}" alt="Profile Image" style="width: 150px; height: 145px; border-radius: 50%; object-fit: cover;">
                     </a>
-
                     <label class="upload-link" title="Update" data-bs-toggle="tooltip" data-placement="right" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); border-radius: 50%; color: #fff; cursor: pointer;">
                         <i class="fa fa-camera"></i>
                         <input type="file" id="profileImageInput" name="profile_photo" class="update-file" accept="image/*" style="display: none;">

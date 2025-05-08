@@ -18,11 +18,11 @@
                 <div class="extra-nav text-end">
                     <div class="extra-cell">
                         @if(isset(auth()->user()->id))
-                        <nav class="header-nav ms-auto">
+                        <nav class="header-nav ms-auto mt-2">
                             <ul class="d-flex">
-                                <li class="nav-item dropdown pe-3">
-                                    <a class="nav-link nav-profile d-flex align-items-center" href="#" data-bs-toggle="dropdown">
-                                        <img src="{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}" alt="Profile" class="rounded-circle">
+                                <li class="nav-item dropdown pe-3" style="list-style: none !important;">
+                                    <a class="nav-link nav-profile d-flex align-items-center" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                        <img src="{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo)) : asset(config('constants.DEFAULT_PROFILE')) }}" alt="Profile" class="rounded-circle">
                                         <span class="d-none d-md-block dropdown-toggle ps-2">{{ isset(auth()->user()->first_name) && auth()->user()->first_name != null ? auth()->user()->first_name.' '.auth()->user()->last_name : ucFirst(explode('@', auth()->user()->email)[0]) }}</span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -35,7 +35,7 @@
                                         </li>
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == 1 ? route('adminMyProfile') : (auth()->user()->role_id == 2 ? route('myProfile') : route('candidateProfile')) }}">
-                                                <i class="bi bi-person"></i>
+                                                <i class="bi bi-person"></i>&emsp;
                                                 <span>My Profile</span>
                                             </a>
                                         </li>
@@ -44,7 +44,7 @@
                                         </li>
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' ? route('adminLogout') : route('logout') }}">
-                                                <i class="bi bi-box-arrow-right"></i>
+                                                <i class="bi bi-box-arrow-right"></i>&emsp;
                                                 <span>Sign Out</span>
                                             </a>
                                         </li>
@@ -52,10 +52,11 @@
                                 </li>
                             </ul>
                         </nav>
-                        <!-- <a href="{{ route('logout') }}" class="site-button"><i class="fa fa-lock"></i> Sign Out</a> -->
                         @else
+                        <nav class="header-nav ms-auto mt-3">
                         <a href="{{ route('authType', ['flag' => base64_encode('signup')]) }}" class="site-button"><i class="fa fa-user"></i> Sign Up</a>
                         <a href="{{ route('authType', ['flag' => base64_encode('login')]) }}" class="site-button"><i class="fa fa-lock"></i> Login</a>
+                        </nav>
                         @endif
                     </div>
                 </div>

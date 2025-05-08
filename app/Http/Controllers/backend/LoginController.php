@@ -52,13 +52,16 @@ class LoginController extends Controller
 
         $data = $request->all();
         if (isset($data['g-recaptcha-response']) && !empty($data['g-recaptcha-response'])) {
-
             // Verify the reCAPTCHA response
-            $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secretKey . '&response=' . $_POST['g-recaptcha-response']);
-            // Decode json data
-            $responseData = json_decode($verifyResponse);
+            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => $secretKey,
+                'response' => $_POST['g-recaptcha-response'],
+                'remoteip' => $request->ip(),
+            ]);
+            // Json data
+            $responseBody = $response->json();
             // If reCAPTCHA response is valid
-            if ($responseData->success) {
+            if ($responseBody['success']) {
                 $credentials = $this->validateLoginRequest($request);
                 $user = $this->loginService->checkLoginStatus($credentials);
                 if (!empty($user)) {
