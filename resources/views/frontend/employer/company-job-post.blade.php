@@ -81,7 +81,14 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Job Tags</label>
-                                            <input type="text" name="job_tags" value="" class="form-control tags_input" />
+                                            <select class="form-control job_tags-select" multiple="multiple" name="job_tags[]" id="job_tags" data-error="#error_job_tags" style="width:100% !important;">
+                                                @if (isset($tags))
+                                                <option value="">Select Tags</option>
+                                                @foreach($tags as $tag)
+                                                <option value="{{ $skill->id }}" {{ isset($skill->id) && $skill->id == $location->id ? 'selected' : '' }}>{{ $skill->location }}</option>
+                                                @endforeach
+                                                @endif
+                                            </select>
                                             <span class="error" id="error_job_tags"></span>
                                         </div>
                                     </div>
@@ -126,7 +133,7 @@
                                                 @if (isset($skills))
                                                 <option value="">Select skills</option>
                                                 @foreach($skills as $skill)
-                                                <option value="{{ $skill->id }}" {{ isset($skill->id) && $skill->id == $location->id ? 'selected' : '' }}>{{ $skill->location }}</option>
+                                                <option value="{{ $skill->name }}" {{ isset($skill->id) && $skill->id == $location->id ? 'selected' : '' }}>{{ $skill->name }}</option>
                                                 @endforeach
                                                 @endif
                                             </select>
@@ -323,7 +330,7 @@
             });
         });
 
-        $(".skills-select").select2({
+        $(".skills-select, .job_tags-select").select2({
             tags: true,
         });
 

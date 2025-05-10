@@ -7,6 +7,7 @@ use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\CompanyLogoRequest;
 use App\Http\Requests\JobFormRequest;
 use App\Http\Requests\ProfileImageRequest;
+use App\Models\Constants\UserRoleConstants;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\DesignationService;
@@ -69,6 +70,9 @@ class EmployerController extends Controller
      */
     public function myProfile()
     {
+        if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
+            return back();
+        }
         $userDetails = $this->employerService->getUserDetails(auth()->user()->id);
         $title = getEnum('users', 'title');
         $genders = getEnum('users', 'gender');
@@ -167,7 +171,7 @@ class EmployerController extends Controller
      */
     public function addUpdateJob(JobFormRequest $request)
     {
-        try {
+        // try {
             $inputArray = $this->validateJobInput($request);
             $this->jobService->addUpdateJob($inputArray);
             $msg = $inputArray['jobId'] == 0 ? 'Job added successfully!' : 'Job updated successfully!';
@@ -178,15 +182,15 @@ class EmployerController extends Controller
                     'redirectRoute' => route('companyManageJobs')
                 ]
             );
-        } catch (Exception $exception) {
-            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
-            return response()->json(
-                [
-                    'status' => false,
-                    'msg' => $exception->getMessage()
-                ]
-            );
-        }
+        // } catch (Exception $exception) {
+        //     Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+        //     return response()->json(
+        //         [
+        //             'status' => false,
+        //             'msg' => $exception->getMessage()
+        //         ]
+        //     );
+        // }
     }
 
     /**
@@ -208,6 +212,7 @@ class EmployerController extends Controller
                 'job_category_id',
                 'job_type_id',
                 'work_type_id',
+                'job_tags',
                 'country_id',
                 'state_id',
                 'city_id',

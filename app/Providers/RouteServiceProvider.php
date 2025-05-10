@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const ADMIN_DASHBOARD = 'console/dashboard';
-    public const EMPLOYER_PROFILE = 'employer/employer-profile';
+    public const EMPLOYER_PROFILE = 'employer/my-profile';
     public const CANDIDATE_PROFILE = 'candidate/candidate-profile';
 
     /**

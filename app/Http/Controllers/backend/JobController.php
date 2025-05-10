@@ -178,6 +178,32 @@ class JobController extends Controller
         );
     }
 
+    /**
+     * ***********************************
+     * Function used to change job status
+     * -----------------------------------
+     * @param object $request
+     * @return jsonResponse
+     * ***********************************
+     */
+    public function changeJobApprovalStatus(Request $request)
+    {
+        try {
+            $this->jobService->changeJobApprovalStatus($request);
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => 'Status updated successfully!'
+                ]
+            );
+        } catch (Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json([
+                'status' => false,
+                'msg' => $exception->getMessage()
+            ]);
+        }
+    }
 
     /**
      * ***********************************

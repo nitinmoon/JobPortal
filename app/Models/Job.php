@@ -36,6 +36,7 @@ class Job extends Model
         'state_id',
         'city_id',
         'upload_file',
+        'job_status',
         'status',
         'created_by',
         'updated_by',

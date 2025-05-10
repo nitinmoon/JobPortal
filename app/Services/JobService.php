@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Constants\JobStatusConstants;
 use App\Repositories\JobRepository;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -67,6 +68,22 @@ class JobService
                     return '<span class="badge rounded-pill bg-secondary">' . $row->vacancy . '</span>';
                 }
             )
+            ->editColumn('job_status', function ($row) {
+                if ($row->deleted_at == null) {
+                    $pendingSelected =  $row->job_status == JobStatusConstants::PENDING ? 'selected' : '';
+                    $approvedSelected =  $row->job_status == JobStatusConstants::APPROVED ? 'selected' : '';
+                    $holdSelected =  $row->job_status == JobStatusConstants::HOLD ? 'selected' : '';
+                    $rejectedSelected =  $row->job_status == JobStatusConstants::REJECTED ? 'selected' : '';
+                    return '<select class="form-control change-approval-status" data-url="' . route('changeJobApprovalStatus') . '" job-id="' . $row->id . '">
+                        <option value="1" ' . $pendingSelected . '>Pending</option>
+                        <option value="2" ' . $approvedSelected . '>Approved</option>
+                        <option value="3" ' . $holdSelected . '>Hold</option>
+                        <option value="4" ' . $rejectedSelected . '>Rejected</option>
+                    </select>';
+                } else {
+                    return ('<label class="badge badge-secondary text-white">Deleted</label>');
+                }
+            })
             ->addColumn(
                 'status',
                 function ($row) {
@@ -84,7 +101,7 @@ class JobService
                     }
                 }
             )
-            ->rawColumns(['action', 'vacancy', 'status'])
+            ->rawColumns(['action', 'vacancy', 'job_status','status'])
             ->removeColumn('created_at', 'updated_at', 'id')
             ->make(true);
     }
@@ -100,6 +117,22 @@ class JobService
     public function addUpdateJob($inputArray)
     {
         $this->jobRepository->addUpdateJob($inputArray);
+    }
+
+    /**
+     * *****************************************
+     * Function used to change job status
+     * -----------------------------------------
+     * @param object $request
+     * @return data
+     * *****************************************
+     */
+    public function changeJobApprovalStatus($request)
+    {
+        $inputArray = $request->all();
+        $getData = $this->jobRepository->getById($inputArray['jobId']);
+        $inputArray['updated_by'] = auth()->user()->id;
+        return $this->jobRepository->update($getData, $inputArray);
     }
 
     /**

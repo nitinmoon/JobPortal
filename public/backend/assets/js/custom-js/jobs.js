@@ -179,6 +179,60 @@ $(function () {
     });
 
     //Change Job Status
+    $(document).on('change', '.change-approval-status', function (e) {
+        e.preventDefault();
+        var jobStatus = $(this).val();
+        var jobId = $(this).attr("job-id");
+        var url = $(this).data("url");
+        Swal.fire({
+            title: 'Change Job Status!',
+            text: "Are you sure you want to change it?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        "job_status": jobStatus,
+                        "jobId": jobId,
+                    },
+                    beforeSend: function () {
+                        $("#preloader").show();
+                    },
+                    success: function (res) {
+                        if (res.status == true) {
+                            Toast.create({
+                                title: "Success!",
+                                message: res.msg,
+                                status: TOAST_STATUS.SUCCESS,
+                                timeout: 5000
+                            });
+                            $(".job-list-table").DataTable().ajax.reload();
+                        } else {
+                            Toast.create({
+                                title: "Error!",
+                                message: res.msg,
+                                status: TOAST_STATUS.DANGER,
+                                timeout: 5000
+                            });
+                        }
+                    },
+                    complete: function () {
+                        $("#preloader").hide();
+                    }
+                });
+            } else {
+                $(".job-list-table").DataTable().ajax.reload();
+            }
+        })
+    });
+
+    //Change Job Status
     $(document).on('click', '.change-job-status', function (e) {
         e.preventDefault();
         var status = $(this).is(":checked") ? '1' : '0';

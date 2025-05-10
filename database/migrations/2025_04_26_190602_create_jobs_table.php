@@ -44,6 +44,7 @@ return new class extends Migration
             $table->integer('city_id')->unsigned()->nullable()->comment('foreign key (cities)');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->text('upload_file')->nullable();
+            $table->enum('job_status', [1, 2, 3, 4])->default(1)->comment('1 - Pending, 2 - Approved, 3 - Hold, 4 - Rejected');
             $table->enum('status', [1, 2])->default(1)->comment('1 - Active, 2 - Inactive');
             $table->integer('created_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');
@@ -57,6 +58,7 @@ return new class extends Migration
             $table->index(['country_id']);
             $table->index(['state_id']);
             $table->index(['city_id']);
+            $table->index(['job_status']);
             $table->index(['status']);
         });
     }

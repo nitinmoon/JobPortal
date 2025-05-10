@@ -3,11 +3,14 @@
 namespace App\Repositories;
 
 use App\Models\City;
+use App\Models\Constants\JobStatusConstants;
 use App\Models\Constants\StatusConstants;
 use App\Models\Country;
 use App\Models\Job;
+use App\Models\Skill;
 use App\Models\State;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\File;
 
 class JobRepository extends BaseRepository
 {
@@ -60,13 +63,29 @@ class JobRepository extends BaseRepository
      */
     public function addUpdateJob($inputArray)
     {
-        // if (isset($inputArray['experience']) && $inputArray['experience'] == 'Experienced') {
-        //     $yearExp = isset($inputArray['year_experience']) ? $inputArray['year_experience'] : '0';
-        //     $monthExp = isset($inputArray['month_experience']) ? $inputArray['month_experience'] : '0';
-        //     $experience = $yearExp.'-'.$monthExp;
-        // } else {
-        //     $experience = $inputArray['experience'];
-        // }
+        if (!empty($inputArray['skills'])) {
+            $skillArray = [];
+            foreach ($inputArray['skills'] as $skillName) {
+                $checkSkill = Skill::where('name', $skillName)->first();
+                if ($checkSkill == null) {
+                    $skill = new Skill();
+                    $skill->name = $skillName;
+                    $skill->created_by = auth()->user()->id;
+                    $skill->save();
+                    array_push($skillArray, $skill->id);
+                }
+            }
+        }
+        if (!empty($inputArray['upload_file'])) {
+            $filePath = config('constants.JOB_FILE');
+            $oldFileName = Job::where('id', $inputArray['jobId'])->pluck('upload_file');
+            File::delete($filePath . '/' . $oldFileName[0]);
+            $fileName  = config('constants.JOB_PREFIX') . $inputArray['jobId'] . '_Job.' . $inputArray['upload_file']->extension();
+            if (!file_exists($filePath)) {
+                mkdir($filePath, 0777, true);
+            }
+            $inputArray['upload_file']->move($filePath, $fileName);
+        }
         $condition = ['id' => $inputArray['jobId']];
         $data = [
             'job_title' => strip_tags($inputArray['job_title']),
@@ -75,6 +94,7 @@ class JobRepository extends BaseRepository
             'job_category_id' => $inputArray['job_category_id'],
             'job_type_id' => $inputArray['job_type_id'],
             'work_type_id' => $inputArray['work_type_id'],
+            'job_tags' => isset($inputArray['job_tags']) ? implode(',', $inputArray['job_tags']) : '',
             'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
             'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
             'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
@@ -85,11 +105,12 @@ class JobRepository extends BaseRepository
             'deadline' => $inputArray['deadline'],
             'gender' => $inputArray['gender'],
             'english_level' => $inputArray['english_level'],
-            'skills' => isset($inputArray['skills']) ? implode(',', $inputArray['skills']) : '',
+            'skills' => isset($skillArray) ? implode(',', $skillArray) : '',
             'job_description' => $inputArray['job_description'],
             'job_responsibility' => $inputArray['job_responsibility'],
             'educational_requirements' => $inputArray['educational_requirements'],
             'other_benefits' => $inputArray['other_benefits'],
+            'upload_file' => isset($fileName) ? $fileName : null,
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id
         ];
@@ -108,7 +129,7 @@ class JobRepository extends BaseRepository
     {
         return $this->getModel()
         ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
-        ->where('jobs.status', StatusConstants::ACTIVE)->orderByDesc('jobs.id')->get();
+        ->where('jobs.job_status', JobStatusConstants::APPROVED)->where('jobs.status', StatusConstants::ACTIVE)->orderByDesc('jobs.id')->get();
     }
 
     /**

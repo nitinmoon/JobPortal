@@ -67,6 +67,9 @@ class CandidateController extends Controller
      */
     public function myProfile()
     {
+        if (auth()->user()->role_id != UserRoleConstants::CANDIDATE) {
+            return back();
+        }
         $userDetails = $this->employerService->getUserDetails(auth()->user()->id);
         $title = getEnum('users', 'title');
         $genders = getEnum('users', 'gender');

@@ -85,6 +85,7 @@
                                         <th>Type</th>
                                         <th>Category</th>
                                         <th>Vacancy</th>
+                                        <th>Job Status</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -148,6 +149,12 @@
                 {
                     data: 'vacancy',
                     name: 'vacancy'
+                },
+                {
+                    data: 'job_status',
+                    name: 'job_status',
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     data: 'status',
