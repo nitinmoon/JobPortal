@@ -280,7 +280,7 @@
                                                 </span></a>
                                         </div>
                                         <div class="job-post-info">
-                                            <h4><a href="job-detail.html">{{ isset($job->job_title) ? $job->job_title : '' }}</a></h4>
+                                            <h4><a href="javascript:void(0);">{{ isset($job->job_title) ? $job->job_title : '' }}</a></h4>
                                             <ul>
                                                 <li><i class="fas fa-map-marker-alt"></i> {{ isset($job->city_id) ? $job->city->name : '' }}, {{ isset($job->state_id) ? $job->state->name : '' }}, {{ isset($job->country_id) ? $job->country->name : '' }}</li>
                                                 <li><i class="far fa-bookmark"></i> {{ isset($job->jobType->name) ? $job->jobType->name : '' }}</li>
@@ -293,7 +293,7 @@
                                             <a href="javascript:void(0);"><span>{{ isset($job->workType->name) ? $job->workType->name : '' }}</span></a>
                                         </div>
                                         <div class="salary-bx">
-                                            <span>{{ isset($job->min_salary) ? '₹ '.$job->min_salary.' - ₹ '.$job->max_salary.' / Month' : '' }}</span>
+                                            <span>{{ isset($job->salary_range) ? '₹ '.$job->salary_range.' / P.A.' : '' }}</span>
                                         </div>
                                     </div>
                                     <!-- <label class="like-btn">

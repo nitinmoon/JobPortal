@@ -10,6 +10,7 @@ use App\Models\Job;
 use App\Models\Skill;
 use App\Models\State;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class JobRepository extends BaseRepository
@@ -94,13 +95,11 @@ class JobRepository extends BaseRepository
             'job_category_id' => $inputArray['job_category_id'],
             'job_type_id' => $inputArray['job_type_id'],
             'work_type_id' => $inputArray['work_type_id'],
-            'job_tags' => isset($inputArray['job_tags']) ? implode(',', $inputArray['job_tags']) : '',
             'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
             'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
             'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
             'experience' => $inputArray['experience'],
-            'min_salary' => $inputArray['min_salary'],
-            'max_salary' => $inputArray['max_salary'],
+            'salary_range' => $inputArray['salary_range'],
             'vacancy' => $inputArray['vacancy'],
             'deadline' => $inputArray['deadline'],
             'gender' => $inputArray['gender'],
@@ -130,6 +129,20 @@ class JobRepository extends BaseRepository
         return $this->getModel()
         ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
         ->where('jobs.job_status', JobStatusConstants::APPROVED)->where('jobs.status', StatusConstants::ACTIVE)->orderByDesc('jobs.id')->get();
+    }
+
+    /**
+     *********************************
+     * Method use to get all jobs
+     * -------------------------------
+     * @return data
+     *********************************
+     */
+    public function getEmployerJobsList()
+    {
+        return $this->getModel()
+        ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
+        ->where('jobs.employer_id', Auth::user()->id)->orderByDesc('jobs.id')->get();
     }
 
     /**

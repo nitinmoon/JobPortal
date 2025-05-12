@@ -31,6 +31,26 @@ $(function () {
         }
     });
 
+    $('#title').change(function () {
+        $('#error_title').html('');
+    });
+
+    $('#gender').change(function () {
+        $('#error_gender').html('');
+    });
+
+    $('#country_id').change(function () {
+        $('#error_country_id').html('');
+    });
+
+    $('#state_id').change(function () {
+        $('#error_state_id').html('');
+    });
+
+    $('#city_id').change(function () {
+        $('#error_city_id').html('');
+    });
+
     $("#myProfileForm").validate({
         rules: {
             title: {
@@ -165,8 +185,8 @@ $(function () {
                 success: function (res) {
                     if (res.status == true) {
                         setTimeout(() => {
-                            window.location = res.redirectRoute;
-                        }, 3000);
+                            location.reload();
+                        }, 2000);
                         Toast.create({
                             title: "Success!",
                             message: res.msg,
@@ -233,10 +253,9 @@ $(function () {
             no_of_employees: {
                 required: true,
                 number: true,
-                max: 50,
+                min: 1,
             },
             gst_no: {
-                required: true,
                 alphanum:true
             },
             company_description: {
@@ -294,10 +313,9 @@ $(function () {
             no_of_employees: {
                 required: "Please enter no of employees",
                 number: "Please enter only digits",
-                max: "Employees must be less than 50",
+                min: "Employees must be greater than 1",
             },
             gst_no: {
-                required: "Please enter GST number",
                 alphanum:"Please enter valid GST number"
             },
             company_description: {
@@ -334,6 +352,7 @@ $(function () {
             }
         },
         submitHandler: function (form) {
+            tinymce.triggerSave();
             var href = $('#companyProfileForm').attr('action');
             var formData = new FormData(form);
             $(".error").html('');

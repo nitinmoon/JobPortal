@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Home')
+@section('title', 'Company Job Post')
 
 @section('content')
 <div class="page-content">
@@ -33,8 +33,8 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Designation</label>
-                                            <select class="form-control select2" name="designation_id" id="designation_id" data-error="#error_designation_id">
-                                                <option value="">Select</option>
+                                            <select class="form-control select2" name="designation_id" id="designation_id" data-error="#error_designation_id" data-live-search="true">
+                                                <option value="">Select Designation</option>
                                                 @foreach($designations as $designation)
                                                 <option value="{{ $designation->id }}">{{ $designation->name }}</option>
                                                 @endforeach
@@ -45,8 +45,8 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Job Category</label>
-                                            <select class="form-control select2" name="job_category_id" id="job_category_id" data-error="#error_job_category_id">
-                                                <option value="">Select</option>
+                                            <select class="form-control select2" name="job_category_id" id="job_category_id" data-error="#error_job_category_id" data-live-search="true">
+                                                <option value="">Select Job Category</option>
                                                 @foreach($jobCategories as $jobCategory)
                                                 <option value="{{ $jobCategory->id }}">{{ $jobCategory->name }}</option>
                                                 @endforeach
@@ -57,8 +57,8 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Job Type</label>
-                                            <select class="form-control select2" name="job_type_id" id="job_type_id" data-error="#error_job_type_id">
-                                                <option value="">Select</option>
+                                            <select class="form-control select2" name="job_type_id" id="job_type_id" data-error="#error_job_type_id" data-live-search="true">
+                                                <option value="">Select Job Type</option>
                                                 @foreach($jobTypes as $jobType)
                                                 <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
                                                 @endforeach
@@ -69,8 +69,8 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Work Type</label>
-                                            <select class="form-control select2" name="work_type_id" id="work_type_id" data-error="#error_work_type_id">
-                                                <option value="">Select</option>
+                                            <select class="form-control select2" name="work_type_id" id="work_type_id" data-error="#error_work_type_id" data-live-search="true">
+                                                <option value="">Select Work Type</option>
                                                 @foreach(getJobWorkType() as $workType)
                                                 <option value="{{ $workType->id }}">{{ $workType->name }}</option>
                                                 @endforeach
@@ -78,7 +78,7 @@
                                             <span class="error" id="error_work_type_id"></span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <!-- <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Job Tags</label>
                                             <select class="form-control job_tags-select" multiple="multiple" name="job_tags[]" id="job_tags" data-error="#error_job_tags" style="width:100% !important;">
@@ -91,11 +91,26 @@
                                             </select>
                                             <span class="error" id="error_job_tags"></span>
                                         </div>
+                                    </div> -->
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="form-group">
+                                            <label>Skills <i class="text-warning">(Enter / Select your skills)</i></label>
+                                            <select class="form-control skills-select" multiple="multiple" name="skills[]" id="skills" data-error="#error_skills" data-placeholder="Enter your skills" style="width:100% !important;">
+                                                @if (isset($skills))
+                                                <option value="">Select skills</option>
+                                                @foreach($skills as $skill)
+                                                <option value="{{ $skill->name }}">{{ $skill->name }}</option>
+                                                @endforeach
+                                                @endif
+                                            </select>
+                                            <span class="error" id="error_skills"></span>
+                                        </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>Experience</label>
-                                            <select name="experience" id="experience" data-error="#error_experience">
+                                            <select name="experience" id="experience" data-error="#error_experience" data-live-search="true">
+                                                <option value="">Select Experience</option>
                                                 <option value="0 - 1 Years">0 - 1 Years</option>
                                                 <option value="1 - 3 Years">1 - 3 Years</option>
                                                 <option value="3 - 5 Years">3 - 5 Years</option>
@@ -106,6 +121,26 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Salary Range <i class="text-warning">(₹ / P.A.)</i></label>
+                                            <select name="salary_range" id="salary_range" data-error="#error_salary_range" data-live-search="true">
+                                                <option value="">Select Salary Range</option>
+                                                <option value="1 - 2 Lacs">1 - 2 Lacs</option>
+                                                <option value="2 - 3 Lacs">2 - 3 Lacs</option>
+                                                <option value="3 - 4 Lacs">3 - 4 Lacs</option>
+                                                <option value="4 - 5 Lacs">4 - 5 Lacs</option>
+                                                <option value="5 - 6 Lacs">5 - 6 Lacs</option>
+                                                <option value="6 - 7 Lacs">6 - 7 Lacs</option>
+                                                <option value="7 - 8 Lacs">7 - 8 Lacs</option>
+                                                <option value="8 - 9 Lacs">8 - 9 Lacs</option>
+                                                <option value="9 - 10 Lacs">9 - 10 Lacs</option>
+                                                <option value="10 - 15 Lacs">10 - 15 Lacs</option>
+                                                <option value="Above 15+">Above 15+</option>
+                                            </select>
+                                            <span class="error" id="error_salary_range"></span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>Minimum Salary ($):</label>
                                             <input type="text" class="form-control" name="min_salary" placeholder="e.g. 10000">
@@ -118,52 +153,38 @@
                                             <input type="text" class="form-control" name="max_salary" placeholder="e.g. 20000">
                                             <span class="error" id="error_max_salary"></span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>Vacancy</label>
-                                            <input type="text" name="vacancy" class="form-control" placeholder="Enter No of vacancy">
+                                            <input type="text" name="vacancy" class="form-control" placeholder="Enter No. of Vacancy">
                                             <span class="error" id="error_vacancy"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
-                                            <label>Skills</label>
-                                            <select class="form-control skills-select" multiple="multiple" name="skills[]" id="skills" data-error="#error_skills" style="width:100% !important;">
-                                                @if (isset($skills))
-                                                <option value="">Select skills</option>
-                                                @foreach($skills as $skill)
-                                                <option value="{{ $skill->name }}" {{ isset($skill->id) && $skill->id == $location->id ? 'selected' : '' }}>{{ $skill->name }}</option>
-                                                @endforeach
-                                                @endif
-                                            </select>
-                                            <span class="error" id="error_skills"></span>
+                                            <label>Deadline</label>
+                                            <input type="date" name="deadline" class="form-control" placeholder="Enter Deadline" min="{{ date('Y-m-d') }}">
+                                            <span class="error" id="error_deadline"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
-                                            <label>Deadline</label>
-                                            <input type="date" name="deadline" class="form-control" placeholder="Enter Deadline">
-                                            <span class="error" id="error_deadline"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
                                             <label>Gender </label>
                                             <select class="form-control" name="gender" data-error="#error_gender">
-                                                <option value="">Select</option>
+                                                <option value="">Select Gender</option>
                                                 @foreach($genders as $gender)
-                                                <option value="{{ $gender }}">{{ getGender($gender) }}</option>
+                                                <option value="{{ $gender }}">{{ getJobGender($gender) }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="error" id="error_gender"></span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>English Level</label>
                                             <select class="form-control" name="english_level" data-error="#error_english_level">
-                                                <option value="">Select</option>
+                                                <option value="">Select English Level</option>
                                                 @foreach($englishLevels as $level)
                                                 <option value="{{ $level }}">{{ englishLevel($level) }}</option>
                                                 @endforeach
@@ -194,7 +215,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Other Benefits</label>
+                                            <label>Other Benefits <i class="text-warning">(Facilities)</i></label>
                                             <textarea class="form-control basic-example" name="other_benefits" tabindex="18"></textarea>
                                             <span class="error" id="error_other_benefits"></span>
                                         </div>
@@ -202,8 +223,8 @@
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>Country</label>
-                                            <select class="form-control selectpicker" name="country_id" id="country_id" data-error="#error_country_id">
-                                                <option value="">Select</option>
+                                            <select class="form-control selectpicker" name="country_id" id="country_id" data-error="#error_country_id" data-live-search="true">
+                                                <option value="">Select Country</option>
                                                 @foreach($countries as $row)
                                                 <option value="{{ $row->id }}" {{ (isset($employerDetails->country_id) && $employerDetails->country_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
                                                 @endforeach
@@ -214,17 +235,17 @@
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>State</label>
-                                            <select class="form-control selectpicker" name="state_id" id="state_id" data-error="#error_state_id">
+                                            <select class="form-control selectpicker" name="state_id" id="state_id" data-error="#error_state_id" data-live-search="true">
                                                 @if(isset($states))
                                                 @if(count($states) > 0)
                                                 @foreach ($states as $state)
                                                 <option value="{{ $state->id }}" {{ isset($employerDetails->state_id) && ($state->id == $employerDetails->state_id) ? 'selected' : '' }}>{{$state->name}}</option>
                                                 @endforeach
                                                 @else
-                                                <option value="">Select</option>
+                                                <option value="">Select State</option>
                                                 @endif
                                                 @else
-                                                <option value="">Select</option>
+                                                <option value="">Select State</option>
                                                 @endif
                                             </select>
                                             <span class="error" id="error_state_id"></span>
@@ -233,17 +254,17 @@
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>City</label>
-                                            <select class="form-control selectpicker" name="city_id" id="city_id" data-error="#error_city_id">
+                                            <select class="form-control selectpicker" name="city_id" id="city_id" data-error="#error_city_id" data-live-search="true">
                                                 @if(isset($cities))
                                                 @if(count($states) > 0)
                                                 @foreach ($cities as $city)
                                                 <option value="{{ $city->id }}" {{ isset($employerDetails->city_id) && ($city->id == $employerDetails->city_id) ? 'selected' : '' }}>{{$city->name}}</option>
                                                 @endforeach
                                                 @else
-                                                <option value="">Select</option>
+                                                <option value="">Select City</option>
                                                 @endif
                                                 @else
-                                                <option value="">Select</option>
+                                                <option value="">Select City</option>
                                                 @endif
                                             </select>
                                             <span class="error" id="error_city_id"></span>
@@ -332,6 +353,7 @@
 
         $(".skills-select, .job_tags-select").select2({
             tags: true,
+            placeholder: " Enter / Select your skills",
         });
 
         tinymce.init({

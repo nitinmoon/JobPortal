@@ -19,7 +19,9 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             StateSeeder::class,
             CitySeeder::class,
-            WorkTypeSeeder::class
+            WorkTypeSeeder::class,
+            JobTypeSeeder::class,
+            UserSeeder::class
         ]);
     }
 }

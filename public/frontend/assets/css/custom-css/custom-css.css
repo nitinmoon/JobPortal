@@ -67,7 +67,12 @@
 /* end header profile image */
 .select2-selection--multiple {
     min-height: 50px !important;
+    border: 0 !important;
     /* border: 1px solid #ced4da !important; */
+}
+.select2-container  {
+    border: 0 !important;
+    box-shadow: 0 0 10px 0 rgba(0, 24, 128, 0.1) !important;
 }
 /* .select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: #e4e4e4;

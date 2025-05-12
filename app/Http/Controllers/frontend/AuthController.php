@@ -264,6 +264,7 @@ class AuthController extends Controller
                     }
                     $remember = isset($credentials['remember']) ? true : false;
                     if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], $remember)) {
+                        $this->userService->updateLastLogin($user->id);
                         $route = $user->role_id == UserRoleConstants::EMPLOYER ? route('myProfile') : route('candidateProfile');
                         return response()->json(
                             [

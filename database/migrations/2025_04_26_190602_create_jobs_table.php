@@ -24,10 +24,8 @@ return new class extends Migration
             $table->foreign('job_type_id')->references('id')->on('job_types');
             $table->integer('work_type_id')->unsigned()->nullable()->comment('foreign key (work_types)');
             $table->foreign('work_type_id')->references('id')->on('work_types');
-            $table->text('job_tags')->nullable();
             $table->string('experience', 100)->nullable()->comment('In Years');
-            $table->string('min_salary', 100)->nullable()->comment('In Lacs P.A');
-            $table->string('max_salary', 100)->nullable()->comment('In Lacs P.A');
+            $table->string('salary_range', 50)->nullable()->comment('In Lacs P.A');
             $table->text('job_description')->nullable();
             $table->text('job_responsibility')->nullable();
             $table->text('educational_requirements')->nullable();

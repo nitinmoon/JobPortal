@@ -190,6 +190,18 @@ class JobService
     }
 
     /**
+     *********************************
+     * Method use to get all jobs
+     * -------------------------------
+     * @return data
+     *********************************
+     */
+    public function getEmployerJobsList()
+    {
+        return $this->jobRepository->getEmployerJobsList();
+    }
+
+    /**
      ***********************************************
      * Function use to get job details by id
      * ----------------------------------------------

@@ -3,21 +3,20 @@
                 <div class="canditate-des">
                         <form action="{{ route('updateCompanyLogo') }}" id="updateCompanyLogo" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                @php
-                                $logo = getCompanyLogo(Auth::user()->id);
-                                @endphp
                                 <div class="profile-wrapper" style="position: relative; display: inline-block;">
                                         <a href="javascript:void(0);">
-                                                <img id="logoPreview" src="{{ !empty($logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt="Profile Image" style="width: 150px; height: 145px; border-radius: 50%; object-fit: cover;">
+                                                <img id="logoPreview" src="{{ !empty(getCompanyDetails(auth()->user()->id)['company_logo']) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.getCompanyDetails(Auth::user()->id)['company_logo']))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt="Profile Image" style="width: 150px; height: 145px; border-radius: 50%; object-fit: cover;">
                                         </a>
                                         <label class="upload-link" title="Update" data-bs-toggle="tooltip" data-placement="right" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); border-radius: 50%; color: #fff; cursor: pointer;">
                                                 <i class="fa fa-camera"></i>
                                                 <input type="file" id="logoImageInput" name="company_logo" class="update-file" accept="image/*" style="display: none;">
                                         </label>
                                 </div>
-
                                 <button type="submit" id="updateLogoBtn" class="btn btn-primary mt-3 d-none">Update</button>
                         </form>
+                </div>
+                <div class="candidate-title">
+                        <h4 class="m-b5"><a href="javascript:void(0);">{{ isset(auth()->user()->id) && getCompanyDetails(auth()->user()->id) != null ? '@'.getCompanyDetails(auth()->user()->id)['company_name'] : '' }}</a></h4>
                 </div>
         </div>
         <ul>
