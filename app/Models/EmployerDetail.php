@@ -21,7 +21,6 @@ class EmployerDetail extends Model
         'company_contact_person',
         'company_contact_email',
         'company_contact_no',
-        'job_category_id',
         'foundation_date',
         'no_of_employees',
         'gst_no',

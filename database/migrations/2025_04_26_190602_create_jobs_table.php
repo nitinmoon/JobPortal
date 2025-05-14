@@ -24,10 +24,8 @@ return new class extends Migration
             $table->foreign('job_type_id')->references('id')->on('job_types');
             $table->integer('work_type_id')->unsigned()->nullable()->comment('foreign key (work_types)');
             $table->foreign('work_type_id')->references('id')->on('work_types');
-            $table->text('job_tags')->nullable();
             $table->string('experience', 100)->nullable()->comment('In Years');
-            $table->string('min_salary', 100)->nullable()->comment('In Lacs P.A');
-            $table->string('max_salary', 100)->nullable()->comment('In Lacs P.A');
+            $table->string('salary_range', 50)->nullable()->comment('In Lacs P.A');
             $table->text('job_description')->nullable();
             $table->text('job_responsibility')->nullable();
             $table->text('educational_requirements')->nullable();
@@ -44,6 +42,7 @@ return new class extends Migration
             $table->integer('city_id')->unsigned()->nullable()->comment('foreign key (cities)');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->text('upload_file')->nullable();
+            $table->enum('job_status', [1, 2, 3, 4])->default(1)->comment('1 - Pending, 2 - Approved, 3 - Hold, 4 - Rejected');
             $table->enum('status', [1, 2])->default(1)->comment('1 - Active, 2 - Inactive');
             $table->integer('created_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');
@@ -57,6 +56,7 @@ return new class extends Migration
             $table->index(['country_id']);
             $table->index(['state_id']);
             $table->index(['city_id']);
+            $table->index(['job_status']);
             $table->index(['status']);
         });
     }

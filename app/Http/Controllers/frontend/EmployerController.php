@@ -7,6 +7,7 @@ use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\CompanyLogoRequest;
 use App\Http\Requests\JobFormRequest;
 use App\Http\Requests\ProfileImageRequest;
+use App\Models\Constants\UserRoleConstants;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\DesignationService;
@@ -15,6 +16,7 @@ use App\Services\EmployerService;
 use App\Services\JobService;
 use App\Services\JobTypeService;
 use App\Services\LoginService;
+use App\Services\SkillService;
 use App\Services\StateService;
 use App\Services\UserService;
 use Exception;
@@ -34,6 +36,7 @@ class EmployerController extends Controller
     private $jobTypeService;
     private $loginService;
     private $userService;
+    private $skillService;
 
     public function __construct(
         JobService $jobService,
@@ -45,7 +48,8 @@ class EmployerController extends Controller
         DesignationService $designationService,
         JobTypeService $jobTypeService,
         LoginService $loginService,
-        UserService $userService
+        UserService $userService,
+        SkillService $skillService
     ) {
         $this->jobService = $jobService;
         $this->employerService = $employerService;
@@ -57,6 +61,7 @@ class EmployerController extends Controller
         $this->jobTypeService = $jobTypeService;
         $this->loginService = $loginService;
         $this->userService = $userService;
+        $this->skillService = $skillService;
     }
 
     /**
@@ -69,6 +74,9 @@ class EmployerController extends Controller
      */
     public function myProfile()
     {
+        if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
+            return back();
+        }
         $userDetails = $this->employerService->getUserDetails(auth()->user()->id);
         $title = getEnum('users', 'title');
         $genders = getEnum('users', 'gender');
@@ -137,14 +145,13 @@ class EmployerController extends Controller
      */
     public function companyJobPost()
     {
-        $states = [];
-        $cities = [];
         $countries = $this->countryService->getAllCountry();
         $designations = $this->designationService->getAllDesignations();
         $jobCategories = $this->jobCategoryService->getAllJobCategory();
         $jobTypes = $this->jobTypeService->getAllJobTypes();
-        $genders = getEnum('users', 'gender');
+        $genders = getEnum('jobs', 'gender');
         $englishLevels = getEnum('jobs', 'english_level');
+        $skills = $this->skillService->getAllSkills();
         return view(
             'frontend.employer.company-job-post',
             compact(
@@ -153,7 +160,8 @@ class EmployerController extends Controller
                 'jobCategories',
                 'jobTypes',
                 'genders',
-                'englishLevels'
+                'englishLevels',
+                'skills'
             )
         );
     }
@@ -167,7 +175,7 @@ class EmployerController extends Controller
      */
     public function addUpdateJob(JobFormRequest $request)
     {
-        try {
+        // try {
             $inputArray = $this->validateJobInput($request);
             $this->jobService->addUpdateJob($inputArray);
             $msg = $inputArray['jobId'] == 0 ? 'Job added successfully!' : 'Job updated successfully!';
@@ -178,15 +186,15 @@ class EmployerController extends Controller
                     'redirectRoute' => route('companyManageJobs')
                 ]
             );
-        } catch (Exception $exception) {
-            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
-            return response()->json(
-                [
-                    'status' => false,
-                    'msg' => $exception->getMessage()
-                ]
-            );
-        }
+        // } catch (Exception $exception) {
+        //     Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+        //     return response()->json(
+        //         [
+        //             'status' => false,
+        //             'msg' => $exception->getMessage()
+        //         ]
+        //     );
+        // }
     }
 
     /**
@@ -212,8 +220,7 @@ class EmployerController extends Controller
                 'state_id',
                 'city_id',
                 'experience',
-                'min_salary',
-                'max_salary',
+                'salary_range',
                 'vacancy',
                 'deadline',
                 'gender',
@@ -251,7 +258,8 @@ class EmployerController extends Controller
      */
     public function companyManageJobs()
     {
-        return view('frontend.employer.company-manage-job');
+        $jobs = $this->jobService->getEmployerJobsList();
+        return view('frontend.employer.company-manage-job', compact('jobs'));
     }
 
     /**
@@ -296,8 +304,7 @@ class EmployerController extends Controller
             return response()->json(
                 [
                     'status' => true,
-                    'msg' => "Profile updated successfully!",
-                    'redirectRoute' => route('companyProfile')
+                    'msg' => "Profile updated successfully!"
                 ]
             );
         } catch (Exception $exception) {
@@ -389,7 +396,6 @@ class EmployerController extends Controller
                 'company_contact_person',
                 'company_contact_email',
                 'company_contact_no',
-                'job_category_id',
                 'foundation_date',
                 'no_of_employees',
                 'gst_no',

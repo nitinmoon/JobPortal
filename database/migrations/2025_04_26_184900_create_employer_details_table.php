@@ -22,8 +22,6 @@ return new class extends Migration
             $table->string('company_contact_person', 100)->nullable();
             $table->string('company_contact_email', 100)->nullable();
             $table->string('company_contact_no', 15)->nullable();
-            $table->integer('job_category_id')->unsigned()->nullable()->comment('foreign key (job_categories)');
-            $table->foreign('job_category_id')->references('id')->on('job_categories');
             $table->date('foundation_date')->nullable();
             $table->string('no_of_employees', 50)->nullable();
             $table->string('gst_no', 20)->nullable();
@@ -39,7 +37,6 @@ return new class extends Migration
             $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->timestamps();
             $table->index(['employer_id']);
-            $table->index(['job_category_id']);
             $table->index(['country_id']);
             $table->index(['state_id']);
             $table->index(['city_id']);

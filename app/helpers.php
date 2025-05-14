@@ -67,6 +67,28 @@ if (!function_exists('getGender')) {
 }
 
 /**
+ * ***************************
+ * method use to get gender
+ * ---------------------------
+ * @param string $gender
+ * @return data
+ * ***************************
+ */
+if (!function_exists('getJobGender')) {
+    function getJobGender($gender)
+    {
+        if ($gender == '1') {
+            $genderName = "Male";
+        } elseif ($gender == '2') {
+            $genderName = "Female";
+        } else {
+            $genderName = "Both";
+        }
+        return $genderName;
+    }
+}
+
+/**
  * *********************************
  * method use to get english level
  * --------------------------------
@@ -490,10 +512,59 @@ if (!function_exists('getLanguages')) {
  * @return data
  * ********************************************
  */
-if (!function_exists('getCompanyLogo')) {
-    function getCompanyLogo($employerId)
+if (!function_exists('getCompanyDetails')) {
+    function getCompanyDetails($employerId)
     {
         $employerDetails = EmployerDetail::where('employer_id', $employerId)->first();
-        return isset($employerDetails) ? $employerDetails['company_logo'] : '';
+        // dd($employerDetails);
+        return isset($employerDetails) && $employerDetails != null ? $employerDetails : '';
+    }
+}
+
+/**
+ * ***************************
+ * method use to get gender
+ * ---------------------------
+ * @param string $gender
+ * @return data
+ * ***************************
+ */
+if (!function_exists('getJobStatus')) {
+    function getJobStatus($status)
+    {
+        if ($status == '1') {
+            $statusName = "Pending";
+        } elseif ($status == '2') {
+            $statusName = "Approved";
+        } elseif ($status == '3') {
+            $statusName = "Hold";
+        } else {
+            $statusName = "Rejected";
+        }
+        return $statusName;
+    }
+}
+
+/**
+ * ***************************
+ * method use to get gender
+ * ---------------------------
+ * @param string $status
+ * @return data
+ * ***************************
+ */
+if (!function_exists('getJobStatusColor')) {
+    function getJobStatusColor($status)
+    {
+        if ($status == '1') {
+            $statusColor = "pending";
+        } elseif ($status == '2') {
+            $statusColor = "success";
+        } elseif ($status == '3') {
+            $statusColor = "warning";
+        } else {
+            $statusColor = "danger";
+        }
+        return $statusColor;
     }
 }

@@ -59,7 +59,6 @@ var JobBoard = function(){
 				var seactionPosition = $(hash).offset().top;
 				var headerHeight =   parseInt($('.onepage').css('height'), 10);
 				
-				
 				$('body').scrollspy({target: ".navbar", offset: headerHeight+2}); 
 				
 				var scrollTopPosition = seactionPosition - (headerHeight);
@@ -80,10 +79,9 @@ var JobBoard = function(){
 					var seactionPosition = $(hash).offset().top;
 					var headerHeight =   parseInt($('.onepage').css('height'), 10);
 					
-					
 					$('body').scrollspy({target: ".navbar", offset: headerHeight+2}); 
 					
-					var scrollTopPosition = seactionPosition - (headerHeight) + 500;
+					var scrollTopPosition = seactionPosition - (headerHeight) + 300;
 					
 					$('html, body').animate({
 						scrollTop: scrollTopPosition
@@ -524,7 +522,6 @@ var JobBoard = function(){
 			var version = getCookie('version');
 		}
 		
-		
 		if(version == 'dark'){
 			jQuery('.layout-btn').addClass('active');
 			jQuery('.layout-btn input').attr('checked', 'checked');
@@ -612,7 +609,6 @@ var JobBoard = function(){
 			handleCurrentActive();
 			handleScreenLock();
 		},
-		
 		
 		load:function(){
 			handleBootstrapSelect();

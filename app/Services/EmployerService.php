@@ -276,7 +276,7 @@ class EmployerService
      ******************************************
      * Function use to update company profile
      * ----------------------------------------
-     * @param object $request
+     * @param array $inputArray
      * @return data
      ******************************************
      */

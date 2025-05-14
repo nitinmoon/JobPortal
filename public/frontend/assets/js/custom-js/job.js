@@ -6,8 +6,6 @@ $(function () {
         }
     });
 
-    $('.js-example-basic-single').select2();
-
     $.validator.addMethod("alphanum", function (value, element) {
         return this.optional(element) || value == value.match(/^[a-zA-Z0-9\s]+$/);
     });
@@ -22,31 +20,48 @@ $(function () {
         return this.optional(element) || value == value.match(/^[a-zA-Z\s]+$/);
     });
 
-    if($('#jobId').val() != 0) {
-        var experience = $(".experience:checked").val();
-        selectExperience(experience);
-        $('#salary_range').change(function() {
-            var salary = $(this).val();
-            var yearlySalary = Number(salary) * Number(12);
-            $('#yearlySalary').html('( ₹ '+ yearlySalary + ' / Year )');
-        }).change();
-    }
-
-    $('#salary_range').change(function() {
+    $('#salary_range').change(function () {
         var salary = $(this).val();
         var yearlySalary = Number(salary) * Number(12);
-        $('#yearlySalary').html('( ₹ '+ yearlySalary + ' / Year )');
+        $('#yearlySalary').html('( ₹ ' + yearlySalary + ' / Year )');
     });
 
-    $('.experience').click(function() {
-        var experience = $(this).val();
-        selectExperience(experience);
-    });
-
-    $("#yearExperience, #monthExperience, #salary_range").keypress(function (event) {
+    $("#yearExperience, #monthExperience, #salary_range, #vacancy").keypress(function (event) {
         if (event.which != 8 && isNaN(String.fromCharCode(event.which))) {
             event.preventDefault();
         }
+    });
+
+    $('#designation_id').change(function () {
+        $('#error_designation_id').html('');
+    });
+
+    $('#job_category_id').change(function () {
+        $('#error_job_category_id').html('');
+    });
+
+    $('#job_type_id').change(function () {
+        $('#error_job_type_id').html('');
+    });
+
+    $('#work_type_id').change(function () {
+        $('#error_work_type_id').html('');
+    });
+
+    $('#experience').change(function () {
+        $('#error_experience').html('');
+    });
+
+    $('#country_id').change(function () {
+        $('#error_country_id').html('');
+    });
+
+    $('#state_id').change(function () {
+        $('#error_state_id').html('');
+    });
+
+    $('#city_id').change(function () {
+        $('#error_city_id').html('');
     });
 
     $("#jobForm").validate({
@@ -85,11 +100,6 @@ $(function () {
             experience: {
                 required: true
             },
-            year_experience: {
-                required: function () {
-                    return ($("#yearExperience").val() == '' && $("#monthExperience").val() == '') ? true : false;
-                },
-            },
             vacancy: {
                 required: true,
                 min: 1,
@@ -125,9 +135,6 @@ $(function () {
             experience: {
                 required: "Please select experience.",
             },
-            year_experience: {
-                required: "Please enter experience",
-            },
             vacancy: {
                 required: "Please enter vacancy.",
             },
@@ -143,6 +150,7 @@ $(function () {
             }
         },
         submitHandler: function () {
+            tinymce.triggerSave();
             var href = $('#jobForm').attr('action');
             var serializeData = $('#jobForm').serialize();
             $(".error").html('');
@@ -243,48 +251,48 @@ $(function () {
         })
     });
 
-      /* Job delete modal */
-      $(document).on('click', '.deleteJob', function(e) {
+    /* Job delete modal */
+    $(document).on('click', '.deleteJob', function (e) {
         e.preventDefault();
         var url = $(this).data("url");
         Swal.fire({
-        title: 'Delete Job!',
-        text: "Are you sure you want to delete it?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+            title: 'Delete Job!',
+            text: "Are you sure you want to delete it?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-            url: url,
-            method: 'get',
-            success: function(res) {
-                if (res.status == true) {
-                    Toast.create({
-                        title: "Success!",
-                        message: res.msg,
-                        status: TOAST_STATUS.SUCCESS,
-                        timeout: 5000
-                    });
-                } else {
-                    Toast.create({
-                        title: "Error!",
-                        message: res.msg,
-                        status: TOAST_STATUS.DANGER,
-                        timeout: 5000
-                    });
-                }
-                $(".job-type-table").DataTable().ajax.reload();
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    method: 'get',
+                    success: function (res) {
+                        if (res.status == true) {
+                            Toast.create({
+                                title: "Success!",
+                                message: res.msg,
+                                status: TOAST_STATUS.SUCCESS,
+                                timeout: 5000
+                            });
+                        } else {
+                            Toast.create({
+                                title: "Error!",
+                                message: res.msg,
+                                status: TOAST_STATUS.DANGER,
+                                timeout: 5000
+                            });
+                        }
+                        $(".job-type-table").DataTable().ajax.reload();
+                    }
+                });
             }
-            });
-        }
         })
     });
 
     /* Job restore modal */
-    $(document).on('click', '.restoreJob', function(e) {
+    $(document).on('click', '.restoreJob', function (e) {
         e.preventDefault();
         var url = $(this).data("url");
         Swal.fire({
@@ -300,7 +308,7 @@ $(function () {
                 $.ajax({
                     url: url,
                     method: 'get',
-                    success: function(res) {
+                    success: function (res) {
                         if (res.status == true) {
                             Toast.create({
                                 title: "Success!",
@@ -324,22 +332,3 @@ $(function () {
     });
 
 });
-
-function selectExperience(experience) {
-    $('#error_experience').html('');
-    if (experience == 'Experienced') {
-        $('#experienceDiv').removeClass('d-none');
-    } else {
-        $('#experienceDiv').addClass('d-none');
-    }
-    if (experience == 'Fresher & Experienced') {
-        $('#FresherExpSpan').removeClass('d-none');
-    } else {
-        $('#FresherExpSpan').addClass('d-none');
-    }
-    if (experience == 'Fresher') {
-        $('#FresherSpan').removeClass('d-none');
-    } else {
-        $('#FresherSpan').addClass('d-none');
-    }
-}

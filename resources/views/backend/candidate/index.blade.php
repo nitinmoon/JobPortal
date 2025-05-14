@@ -78,7 +78,7 @@
                                         <th style="min-width:150px;">Name</th>
                                         <th style="min-width:150px;">Education</th>
                                         <th>Experience</th>
-                                        <th style="min-width:150px;">Contacts</th>
+                                        <th>Contacts</th>
                                         <th>Status</th>
                                         <th style="min-width:110px;">Action</th>
                                     </tr>

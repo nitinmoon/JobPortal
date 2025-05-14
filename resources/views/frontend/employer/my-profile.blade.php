@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Contry</label>
+                                            <label>Country</label>
                                             <select class="form-control selectpicker" name="country_id" id="country_id" data-error="#error_country_id" data-live-search="true">
                                                 <option value="">Select</option>
                                                 @foreach($countries as $row)
@@ -159,9 +159,9 @@
                                         </div>
                                         <span class="error" id="error_address"></span>
                                     </div>
-                                    <div class="col-lg-12">
+                                    <!-- <div class="col-lg-12">
                                         <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d57784.32772205062!2d75.85546240000001!3d25.151897599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1545138498580" style="border:0; width: 100%; height:300px;" allowfullscreen></iframe>
-                                    </div>
+                                    </div> -->
                                     <div class="col-lg-6">
                                         <input type="hidden" name="userId" value="{{ isset($userDetails->id) ? $userDetails->id : 0 }}" />
                                         <button type="submit" class="site-button m-b30">Update</button>

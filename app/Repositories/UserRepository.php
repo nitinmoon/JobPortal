@@ -183,4 +183,22 @@ class UserRepository extends BaseRepository
         UserAddress::updateOrCreate($condition, $userAddresssDetails);
         return auth()->user()->id;
     }
+
+    /**
+     * **********************************
+     * method used to update last login
+     * ----------------------------------
+     *
+     * @param int $userId
+     * @return data
+     * **********************************
+     */
+    public function updateLastLogin($userId)
+    {
+        return $this->getModel()->where('id', $userId)->update(
+            [
+                'last_login' => date('Y-m-d H:i:s')
+            ]
+        );
+    }
 }

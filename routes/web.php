@@ -154,6 +154,7 @@ Route::middleware(['isAdminLoggedIn'])->group(function () {
             Route::get('/add-job', 'addJob')->name('addJob');
             Route::post('/add-update-job', 'addUpdateJob')->name('addUpdateJob');
             Route::get('/edit-job/{id}', 'editJob')->name('editJob');
+            Route::post('/change-job-approval-status', 'changeJobApprovalStatus')->name('changeJobApprovalStatus');
             Route::post('/change-job-status', 'changeJobStatus')->name('changeJobStatus');
             Route::get('/delete-job/{id}', 'deleteJob')->name('deleteJob');
             Route::get('/restore-job/{id}', 'restoreJob')->name('restoreJob');

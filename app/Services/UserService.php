@@ -123,4 +123,18 @@ class UserService
         $user = $this->userRepository->update($userDetail, $inputdata);
         return $user;
     }
+
+    /**
+     * **********************************
+     * method used to update last login
+     * ----------------------------------
+     *
+     * @param int $userId
+     * @return data
+     * **********************************
+     */
+    public function updateLastLogin($userId)
+    {
+        return $this->userRepository->updateLastLogin($userId);
+    }
 }

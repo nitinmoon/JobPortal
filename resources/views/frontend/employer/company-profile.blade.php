@@ -57,7 +57,7 @@
                                             <span class="error" id="error_company_contact_no"></span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <!-- <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Job Category</label>
                                             <select class="form-control select2" name="job_category_id" id="job_category_id" data-error="#error_job_category_id">
@@ -68,22 +68,22 @@
                                             </select>
                                             <span class="error" id="error_job_category_id"></span>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4">
+                                    </div> -->
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Foundation Date</label>
                                             <input type="date" class="form-control" name="foundation_date" placeholder="Enter Foundation Date" value="{{ isset($employerDetails->foundation_date) ? $employerDetails->foundation_date : '' }}" min="1940-01-01" max="">
                                             <span class="error" id="error_foundation_date"></span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>No Of Employee</label>
                                             <input type="text" id="no_of_employees" class="form-control" name="no_of_employees" value="{{ isset($employerDetails->no_of_employees) ? $employerDetails->no_of_employees : '' }}" placeholder="Enter No Of Employee">
                                             <span class="error" id="error_no_of_employees"></span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4">
+                                    <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>GST Number</label>
                                             <input type="text" class="form-control" name="gst_no" value="{{ isset($employerDetails->gst_no) ? $employerDetails->gst_no : '' }}" placeholder="Enter GST Number" value="">
@@ -105,7 +105,7 @@
                                 <div class="row m-b30">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Contry</label>
+                                            <label>Country</label>
                                             <select class="form-control selectpicker" name="country_id" id="country_id" data-error="#error_country_id" data-live-search="true">
                                                 <option value="">Select</option>
                                                 @foreach($countries as $row)
@@ -165,9 +165,9 @@
                                             <textarea class="form-control" placeholder="New york city" name="company_address">{{ isset($employerDetails->company_address) ? $employerDetails->company_address : '' }}</textarea>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
+                                    <!-- <div class="col-lg-12">
                                         <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d57784.32772205062!2d75.85546240000001!3d25.151897599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1545138498580" style="border:0; width: 100%; height:300px;" allowfullscreen></iframe>
-                                    </div>
+                                    </div> -->
                                     <div class="col-lg-6">
                                         <input type="hidden" name="employerId" id="employerId" value="{{ isset($employerDetails->id) ? $employerDetails->id : '0' }}">
                                         <button type="submit" class="site-button m-b30">Update</button>

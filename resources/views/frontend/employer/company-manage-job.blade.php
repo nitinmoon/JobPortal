@@ -33,43 +33,37 @@
                             <table class="table-job-bx cv-manager company-manage-job">
                                 <thead>
                                     <tr>
-                                        <th class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" id="check12" class="form-check-input selectAllCheckBox" name="example1">
-                                                <label class="form-check-label" for="check12"></label>
-                                            </div>
-                                        </th>
+                                        <th class="feature">Sr No.</th>
                                         <th>Job Title</th>
                                         <th>Applications</th>
-                                        <th>Date</th>
                                         <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($jobs as $key => $job)
                                     <tr>
                                         <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check1" name="example1">
-                                                <label class="form-check-label" for="check1"></label>
-                                            </div>
+                                            {{ ++$key }}
                                         </td>
                                         <td class="job-name">
-                                            <a href="javascript:void(0);">Social Media Expert</a>
+                                            <a href="javascript:void(0);">{{ isset($job->job_title) ? $job->job_title : '' }}</a>
                                             <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
+                                                <li><i class="fas fa-map-marker-alt"></i> {{ isset($job->city_id) ? $job->city->name : '' }}, {{ isset($job->state_id) ? $job->state->name : '' }}, {{ isset($job->country_id) ? $job->country->name : '' }}</li>
+                                                <li><i class="far fa-bookmark"></i> {{ isset($job->jobType->name) ? $job->jobType->name : '' }}</li>
+                                                <li><i class="fa fa-filter"></i> {{ isset($job->jobCategory->name) ? $job->jobCategory->name : '' }}</li>
                                             </ul>
                                         </td>
-                                        <td class="application text-primary">(5) Applications</td>
-                                        <td class="expired pending">Pending </td>
+                                        <td class="application text-primary">(0) Applications</td>
+                                        <td class="expired {{ getJobStatusColor($job->job_status) }}">{{ isset($job->job_status) ? getJobStatus($job->job_status) : '' }}</td>
                                         <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+                                            <a href="javascript:void(0);">
                                                 <i class="fa fa-eye"></i></a>
                                             <a href="javascript:void(0);"><i class="ti-trash"></i></a>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    @endforeach
+                                    <!-- <tr>
                                         <td class="feature">
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input" id="check2" name="example1">
@@ -275,7 +269,7 @@
                                                 <i class="fa fa-eye"></i></a>
                                             <a href="javascript:void(0);"><i class="ti-trash"></i></a>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                             <div class="pagination-bx m-t30 float-end">

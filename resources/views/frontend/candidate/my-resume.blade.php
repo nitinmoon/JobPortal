@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Candidate Profile')
+@section('title', 'Candidate Resume')
 @section('style')
 <style>
     .profile-wrapper {
@@ -207,14 +207,8 @@
                                             <span>Employment</span></a></li>
                                     <li><a class="scroll-bar nav-link" href="#education_bx">
                                             <span>Education</span></a></li>
-                                    <li><a class="scroll-bar nav-link" href="#it_skills_bx">
-                                            <span>IT Skills</span></a></li>
-                                    <li><a class="scroll-bar nav-link" href="#projects_bx">
-                                            <span>Projects</span></a></li>
                                     <li><a class="scroll-bar nav-link" href="#profile_summary_bx">
                                             <span>Profile Summary</span></a></li>
-                                    <li><a class="scroll-bar nav-link" href="#accomplishments_bx">
-                                            <span>Accomplishments</span></a></li>
                                     <li><a class="scroll-bar nav-link" href="#desired_career_profile_bx">
                                             <span>Desired Career Profile</span></a></li>
                                     <li><a class="scroll-bar nav-link" href="#personal_details_bx">
@@ -307,16 +301,55 @@
                             </div>
                             <!-- Modal End -->
                         </div>
-                        <div id="employment_bx" class="job-bx m-b30">
+                        <div id="employment_bx" class="job-bx table-job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b15">Employment</h5>
-                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#employment" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
+                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#employment" class="site-button add-btn button-sm"><i class="fas fa-plus m-r5"></i> Add</a>
                             </div>
-                            <h6 class="font-14 m-b0">Junior Software DeveloperEdit</h6>
+                            <p>Mention your employment details including your current and previous company work experience</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Experience</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Location</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Software Developer</td>
+                                        <td>3 years 4 months</td>
+                                        <td>2020</td>
+                                        <td>Present</td>
+                                        <td>Pune</td>
+                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PHP Developer</td>
+                                        <td>2 years 4 months</td>
+                                        <td>2015</td>
+                                        <td>2017</td>
+                                        <td>Pune</td>
+                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jr PHP Developer</td>
+                                        <td>1 years 4 months</td>
+                                        <td>2014</td>
+                                        <td>2015</td>
+                                        <td>Pune</td>
+                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <h6 class="font-14 m-b0">Junior Software DeveloperEdit</h6>
                             <p class="m-b0">W3itexperts</p>
                             <p class="m-b0">Oct 2021 to Present (3 years 4 months)</p>
                             <p class="m-b0">Available to join in 1 Months</p>
-                            <p class="m-b0">Junior Software Developer</p>
+                            <p class="m-b0">Junior Software Developer</p> -->
                             <!-- Modal -->
                             <div class="modal fade modal-bx-info editor" id="employment" tabindex="-1" role="dialog" aria-labelledby="EmploymentModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -455,14 +488,14 @@
                             </div>
                             <!-- Modal End -->
                         </div>
-                        <div id="education_bx" class="job-bx m-b30">
+                        <div id="education_bx" class="job-bx table-job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b15">Education</h5>
-                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#education" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
+                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#education" class="site-button add-btn button-sm"><i class="fas fa-plus m-r5"></i> Add</a>
                             </div>
-                            <p>Mention your employment details including your current and previous company work experience</p>
+                            <p>Mention your education details including your current and previous company work experience</p>
                             <!-- Modal -->
-                            <div class="modal fade modal-bx-info editor" id="education" tabindex="-1" role="dialog" aria-labelledby="EducationModalLongTitle" aria-hidden="true">
+                            <!-- <div class="modal fade modal-bx-info editor" id="education" tabindex="-1" role="dialog" aria-labelledby="EducationModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -505,9 +538,43 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- Modal End -->
-                            <div class="row">
+                             <table>
+                                <thead>
+                                    <tr>
+                                        <th>Education</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Location</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Graduate</td>
+                                        <td>2020</td>
+                                        <td>2023</td>
+                                        <td>Pune</td>
+                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>12th</td>
+                                        <td>2015</td>
+                                        <td>2017</td>
+                                        <td>Pune</td>
+                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10th</td>
+                                        <td>2014</td>
+                                        <td>2015</td>
+                                        <td>Pune</td>
+                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">London - 12th</label>
@@ -521,9 +588,9 @@
                             </div>
                             <a href="javascript:void(0);" class="clearfix">Add Doctorate/PhD</a>
                             <a href="javascript:void(0);" class="clearfix">Add Masters/Post-Graduation</a>
-                            <a href="javascript:void(0);" class="clearfix">Add Graduation/Diploma</a>
+                            <a href="javascript:void(0);" class="clearfix">Add Graduation/Diploma</a> -->
                         </div>
-                        <div id="it_skills_bx" class="job-bx table-job-bx m-b30">
+                        <!-- <div id="it_skills_bx" class="job-bx table-job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b15">IT Skills</h5>
                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#itskills" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
@@ -577,7 +644,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- Modal -->
                             <div class="modal fade modal-bx-info editor" id="itskills" tabindex="-1" role="dialog" aria-labelledby="ItskillsModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -668,9 +734,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Modal End -->
-                        </div>
-                        <div id="projects_bx" class="job-bx m-b30">
+                        </div> -->
+                        <!-- <div id="projects_bx" class="job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b15">Projects</h5>
                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#projects" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
@@ -679,7 +744,6 @@
                             <p class="m-b0">w3itexpert (Offsite)</p>
                             <p class="m-b0">Dec 2021 to Present (Full Time)</p>
                             <p class="m-b0">Job Board Template</p>
-                            <!-- Modal -->
                             <div class="modal fade modal-bx-info editor" id="projects" tabindex="-1" role="dialog" aria-labelledby="ProjectsModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -824,8 +888,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Modal End -->
-                        </div>
+                        </div> -->
                         <div id="profile_summary_bx" class="job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b15">Profile Summary</h5>
@@ -864,7 +927,7 @@
                             </div>
                             <!-- Modal End -->
                         </div>
-                        <div id="accomplishments_bx" class="job-bx m-b30">
+                        <!-- <div id="accomplishments_bx" class="job-bx m-b30">
                             <h5 class="m-b10">Accomplishments</h5>
                             <div class="list-row">
                                 <div class="list-line">
@@ -873,7 +936,6 @@
                                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#accomplishments" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
                                     </div>
                                     <p class="m-b0">Add link to Online profiles (e.g. Linkedin, Facebook etc.).</p>
-                                    <!-- Modal -->
                                     <div class="modal fade modal-bx-info editor" id="accomplishments" tabindex="-1" role="dialog" aria-labelledby="AccomplishmentsModalLongTitle" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -914,7 +976,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal End -->
                                 </div>
                                 <div class="list-line">
                                     <div class="d-flex">
@@ -922,7 +983,6 @@
                                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#worksample" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
                                     </div>
                                     <p class="m-b0">Add link to your Projects (e.g. Github links etc.).</p>
-                                    <!-- Modal -->
                                     <div class="modal fade modal-bx-info editor" id="worksample" tabindex="-1" role="dialog" aria-labelledby="WorksampleModalLongTitle" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -1047,7 +1107,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal End -->
                                 </div>
                                 <div class="list-line">
                                     <div class="d-flex">
@@ -1055,7 +1114,6 @@
                                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#journalentry" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
                                     </div>
                                     <p class="m-b0">Add links to your Online publications.</p>
-                                    <!-- Modal -->
                                     <div class="modal fade modal-bx-info editor" id="journalentry" tabindex="-1" role="dialog" aria-labelledby="JournalentryModalLongTitle" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -1134,7 +1192,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal End -->
                                 </div>
                                 <div class="list-line">
                                     <div class="d-flex">
@@ -1142,7 +1199,6 @@
                                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#presentation" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
                                     </div>
                                     <p class="m-b0">Add links to your Online presentations (e.g. Slideshare presentation links etc.).</p>
-                                    <!-- Modal -->
                                     <div class="modal fade modal-bx-info editor" id="presentation" tabindex="-1" role="dialog" aria-labelledby="PresentationModalLongTitle" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -1183,7 +1239,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal End -->
                                 </div>
                                 <div class="list-line">
                                     <div class="d-flex">
@@ -1191,7 +1246,6 @@
                                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#patent" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
                                     </div>
                                     <p class="m-b0">Add details of Patents you have filed.</p>
-                                    <!-- Modal -->
                                     <div class="modal fade modal-bx-info editor" id="patent" tabindex="-1" role="dialog" aria-labelledby="PatentModalLongTitle" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -1301,7 +1355,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal End -->
                                 </div>
                                 <div class="list-line">
                                     <div class="d-flex">
@@ -1309,7 +1362,6 @@
                                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#certification" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
                                     </div>
                                     <p class="m-b0">Add details of Certification you have filed.</p>
-                                    <!-- Modal -->
                                     <div class="modal fade modal-bx-info editor" id="certification" tabindex="-1" role="dialog" aria-labelledby="CertificationModalLongTitle" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -1362,10 +1414,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Modal End -->
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div id="desired_career_profile_bx" class="job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b30">Desired Career Profile</h5>
@@ -1905,6 +1956,10 @@
                             <p class="text-center">
                                 If you do not have a resume document, you may write your brief professional profile <a class="site-button-link" href="javascript:void(0);">here</a>.
                             </p>
+                        </div>
+                        <div class="col-lg-12">
+                            <input type="hidden" name="userId" value="{{ isset($userDetails->id) ? $userDetails->id : 0 }}" />
+                            <button type="submit" class="site-button m-b30">Submit</button>
                         </div>
                     </div>
                 </div>

@@ -426,7 +426,7 @@
                                 of a page when looking at its layout.</p>
                             <div class="dz-buttons d-flex align-items-center">
                                 <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>{{ isset($job->min_salary) ? $job->min_salary.' - '.$job->max_salary : '' }}</span>/ Month</div>
+                                <div class="dz-salary"><span>{{ isset($job->salary_range) ? $job->salary_range : '' }}</span>/ P.A.</div>
                             </div>
                         </div>
                         <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">{{ isset($job->jobType->name) ? $job->jobType->name : '' }}</a></div>

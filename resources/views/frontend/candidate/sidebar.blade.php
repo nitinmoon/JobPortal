@@ -19,13 +19,13 @@
         </div>
         <div class="candidate-title">
             <div class="">
-                <h4 class="m-b5"><a href="javascript:void(0);">David Matin</a></h4>
-                <p class="m-b0"><a href="javascript:void(0);">Web developer</a></p>
+                <h4 class="m-b5"><a href="javascript:void(0);">{{ isset($userDetails->first_name) ? $userDetails->first_name.' '.$userDetails->last_name : '' }}</a></h4>
+                <p class="m-b0"><a href="javascript:void(0);">{{ isset($userDetails->role_id) ? $userDetails->role->name : '' }}</a></p>
             </div>
         </div>
     </div>
     <ul>
-        <li><a href="{{ route('candidateProfile') }}l" class="active">
+        <li><a href="{{ route('candidateProfile') }}" class="active">
                 <i class="far fa-user" aria-hidden="true"></i>
                 <span>Profile</span></a></li>
         <li><a href="{{ route('myResume') }}">
