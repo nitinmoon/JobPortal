@@ -66,7 +66,7 @@
                                             </button>
                                         </div>
                                         <div class="col-md-1 table-filter-btn">
-                                            <!-- <a href=" {{ route('addJob') }}" class="btn btn-sm btn-primary float-right"><i class="bi bi-plus-square"></i> Add</a> -->
+                                            <a href=" {{ route('addJob') }}" class="btn btn-sm btn-primary float-right"><i class="bi bi-plus-square"></i> Add</a>
                                         </div>
                                     </form>
                                 </div>

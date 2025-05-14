@@ -17,209 +17,275 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-body mt-2">
-          <form id="job-form" class="row g-3 mt-2" action="{{ route('addUpdateJob') }}" method="post">
+          <form id="jobForm" class="row g-3 mt-2" action="{{ route('addUpdateJob') }}" method="POST">
             @csrf
-            <div class="col-md-6">
-              <label for="job_title" class="form-label">Job Title<span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="job_title" placeholder="Enter Job Title" tabindex="1" value="{{ isset($jobDetails->job_title) ? $jobDetails->job_title : '' }}">
-              <span class="error" id="error_job_title"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="designation_id" class="form-label">Designation</label>
-              <select class="form-select js-example-basic-single" name="designation_id" tabindex="2" data-error="#error_designation_id">
-                <option value="">Select</option>
-                @foreach($designation as $row)
-                <option value="{{ $row->id }}" {{ (isset($jobDetails->designation_id) && $jobDetails->designation_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
-                @endforeach
-              </select>
-              <span class="error" id="error_designation_id"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="job_category_id" class="form-label">Job Category<span class="text-danger">*</span></label>
-              <select class="form-select js-example-basic-single" name="job_category_id" tabindex="3" data-error="#error_job_category_id">
-                <option value="">Select</option>
-                @foreach($jobCategory as $row)
-                <option value="{{ $row->id }}" {{ (isset($jobDetails->job_category_id) && $jobDetails->job_category_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
-                @endforeach
-              </select>
-              <span class="error" id="error_job_category_id"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="job_type_id" class="form-label">Job Type<span class="text-danger">*</span></label>
-              <select class="form-select js-example-basic-single" name="job_type_id" tabindex="4" data-error="#error_job_type_id">
-                <option value="">Select</option>
-                @foreach($jobType as $row)
-                <option value="{{ $row->id }}" {{ (isset($jobDetails->job_type_id) && $jobDetails->job_type_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
-                @endforeach
-              </select>
-              <span class="error" id="error_job_type_id"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="work_type_id" class="form-label">Job Work Type</label>
-              <select class="form-select js-example-basic-single" name="work_type_id" id="work_type_id" tabindex="5" data-error="#error_work_type_id">
-                <option value="">Select</option>
-                @foreach($jobWorkType as $row)
-                <option value="{{ $row->id }}" {{ (isset($jobDetails->work_type_id) && $jobDetails->work_type_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
-                @endforeach
-              </select>
-              <span class="error" id="error_work_type_id"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="country_id" class="form-label">Country<span class="text-danger location">*</span></label>
-              <select class="form-select js-example-basic-single" name="country_id" id="country_id" tabindex="6" data-error="#error_country_id">
-                <option value="">Select</option>
-                @foreach($countries as $row)
-                <option value="{{ $row->id }}" {{ (isset($jobDetails->country_id) && $jobDetails->country_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
-                @endforeach
-              </select>
-              <span class="error" id="error_country_id"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="inputPassword5" class="form-label">State<span class="text-danger location">*</span></label>
-              <select class="form-select js-example-basic-single" name="state_id" id="state_id" tabindex="7" data-error="#error_state_id">
-                @if(isset($jobDetails->id))
-                @if(count($states) > 0)
-                @foreach ($states as $state)
-                <option value="{{ $state->id }}" {{ isset($jobDetails->state_id) && ($state->id == $jobDetails->state_id) ? 'selected' : '' }}>{{$state->name}}</option>
-                @endforeach
-                @else
-                <option value="">Select</option>
-                @endif
-                @else
-                <option value="">Select</option>
-                @endif
-              </select>
-              <span class="error" id="error_state_id"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="city_id" class="form-label">City<span class="text-danger location">*</span></label>
-              <select class="form-select js-example-basic-single" name="city_id" id="city_id" tabindex="8" data-error="#error_city_id">
-                @if(isset($jobDetails->id))
-                @if(count($states) > 0)
-                @foreach ($cities as $city)
-                <option value="{{ $city->id }}" {{ isset($jobDetails->city_id) && ($city->id == $jobDetails->city_id) ? 'selected' : '' }}>{{$city->name}}</option>
-                @endforeach
-                @else
-                <option value="">Select</option>
-                @endif
-                @else
-                <option value="">Select</option>
-                @endif
-              </select>
-              <span class="error" id="error_city_id"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="experience" class="form-label">Experience<span class="text-danger">*</span></label><br>
-              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check experience" name="experience" id="btnradio1" autocomplete="off" value="Fresher & Experienced" tabindex="9" data-error="#error_experience" {{ isset($jobDetails->experience) && $jobDetails->experience == 'Fresher & Experienced' ? 'checked' : '' }}>
-                <label class="btn btn-outline-primary" for="btnradio1">Any</label>
-
-                <input type="radio" class="btn-check experience" name="experience" id="btnradio2" autocomplete="off" value="Experienced" tabindex="10" data-error="#error_experience" {{ isset($jobDetails->experience) && ($jobDetails->experience != 'Fresher & Experienced' && $jobDetails->experience != 'Fresher') ? 'checked' : '' }}>
-                <label class="btn btn-outline-primary" for="btnradio2">Experienced Only</label>
-
-                <input type="radio" class="btn-check experience" name="experience" id="btnradio3" autocomplete="off" value="Fresher" tabindex="11" data-error="#error_experience" {{ isset($jobDetails->experience) && $jobDetails->experience == 'Fresher' ? 'checked' : '' }}>
-                <label class="btn btn-outline-primary" for="btnradio3">Fresher Only</label>
-              </div><br>
-              <span class="badge bg-success mt-3 p-2 d-none" id="FresherExpSpan"><i class="bi bi-exclamation-octagon me-1"></i> Both fresher & experienced candidates will be able to apply</span>
-              <div class="row mt-3 d-none" id="experienceDiv">
-                <div class="col-md-4">
-                  <input type="text" class="form-control" name="year_experience" id="yearExperience" maxlength="2" max="50" data-error="#error_experience" value="{{ isset($jobDetails->experience) && ($jobDetails->experience != 'Fresher & Experienced' && $jobDetails->experience != 'Fresher') ? explode('-', $jobDetails->experience)[0] : '' }}">
-                </div>
-                <div class="col-md-2 mt-2">
-                  Years
-                </div>
-                <div class="col-md-4">
-                  <input type="text" class="form-control" name="month_experience" id="monthExperience" maxlength="2" max="11" data-error="#error_experience" value="{{ isset($jobDetails->experience) && ($jobDetails->experience != 'Fresher & Experienced' && $jobDetails->experience != 'Fresher') ? explode('-', $jobDetails->experience)[1] : '' }}">
-                </div>
-                <div class="col-md-2 mt-2">
-                  Months
+            <input type="hidden" name="jobId" value="0">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Employer</label>
+                  <select class="form-select select2" name="employer_id" id="employer_id" data-error="#error_employer_id">
+                    <option value="">Select</option>
+                    @foreach($employers as $employer)
+                    <option value="{{ $employer->id }}">{{ $employer->first_name.' '.$employer->last_name }}</option>
+                    @endforeach
+                  </select>
+                  <span class="error" id="error_employer_id"></span>
                 </div>
               </div>
-              <span class="badge bg-success mt-3 p-2 d-none" id="FresherSpan"><i class="bi bi-exclamation-octagon me-1"></i> Only fresher candidates will be able to apply</span>
-              <span class="error" id="error_experience"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="salary_range" class="form-label">Fixed Salary <span id="yearlySalary"></span> </label>
-              <!-- <select class="form-select js-example-basic-single" name="salary_range" data-error="#error_salary_range">
-                <option value="">Select</option>
-                @for($i = 1; $i < 30; $i++)
-                @php $val=$i." - ".$i+1;
-                @endphp
-                <option value=" {{ $i }} - {{ $i+1 }}" {{ (isset($jobDetails->salary_range) && $jobDetails->salary_range == $val) ? 'selected' : '' }}>{{ $i }} - {{ $i+1 }}</option>
-                @endfor
-                <option value="30 +" {{ (isset($jobDetails->salary_range) && $jobDetails->salary_range == '30 +') ? 'selected' : '' }}>30 +</option>
-              </select> -->
-              <div class="input-group mb-3">
-                <span class="input-group-text">₹</span>
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="salary_range" id="salary_range" tabindex="12" data-error="#error_salary_range" max="100000"  value="{{ isset($jobDetails->salary_range) ? $jobDetails->salary_range : '' }}">
-                <span class="input-group-text">/ Month</span>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Company</label>
+                  <select class="form-control selectpicker" name="company" id="company" data-error="#error_company">
+                    @if(isset($comapny))
+                    @if(count($states) > 0)
+                    @foreach ($states as $state)
+                    <option value="{{ $state->id }}" {{ isset($employerDetails->state_id) && ($state->id == $employerDetails->state_id) ? 'selected' : '' }}>{{$state->name}}</option>
+                    @endforeach
+                    @else
+                    <option value="">Select</option>
+                    @endif
+                    @else
+                    <option value="">Select</option>
+                    @endif
+                  </select>
+                  <span class="error" id="error_company"></span>
+                </div>
               </div>
-              <span class="error" id="error_salary_range"></span>
             </div>
-            <div class="col-md-6">
-              <label for="vacancy" class="form-label">Vacancy<span class="text-danger">*</span></label>
-              <input type="number" min="1" max="500" maxlength="3"  class="form-control" name="vacancy" placeholder="Enter Vacancy" tabindex="13" value="{{ isset($jobDetails->vacancy) ? $jobDetails->vacancy : '' }}">
-              <span class="error" id="error_vacancy"></span>
+            <div class="row">
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Job Title</label>
+                  <input type="text" class="form-control" name="job_title" placeholder="Enter Job Title">
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Designation</label>
+                  <select class="form-select select2" name="designation_id" id="designation_id" data-error="#error_designation_id">
+                    <option value="">Select</option>
+                    @foreach($designations as $designation)
+                    <option value="{{ $designation->id }}">{{ $designation->name }}</option>
+                    @endforeach
+                  </select>
+                  <span class="error" id="error_designation_id"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Job Category</label>
+                  <select class="form-control select2" name="job_category_id" id="job_category_id" data-error="#error_job_category_id">
+                    <option value="">Select</option>
+                    @foreach($jobCategories as $jobCategory)
+                    <option value="{{ $jobCategory->id }}">{{ $jobCategory->name }}</option>
+                    @endforeach
+                  </select>
+                  <span class="error" id="error_job_category_id"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Job Type</label>
+                  <select class="form-control select2" name="job_type_id" id="job_type_id" data-error="#error_job_type_id">
+                    <option value="">Select</option>
+                    @foreach($jobTypes as $jobType)
+                    <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
+                    @endforeach
+                  </select>
+                  <span class="error" id="error_job_type_id"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Work Type</label>
+                  <select class="form-control select2" name="work_type_id" id="work_type_id" data-error="#error_work_type_id">
+                    <option value="">Select</option>
+                    @foreach(getJobWorkType() as $workType)
+                    <option value="{{ $workType->id }}">{{ $workType->name }}</option>
+                    @endforeach
+                  </select>
+                  <span class="error" id="error_work_type_id"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Job Tags</label>
+                  <input type="text" name="job_tags" value="" class="form-control tags_input" />
+                  <span class="error" id="error_job_tags"></span>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label class="form-label">Experience</label>
+                  <select name="experience" id="experience" data-error="#error_experience">
+                    <option value="0 - 1 Years">0 - 1 Years</option>
+                    <option value="1 - 3 Years">1 - 3 Years</option>
+                    <option value="3 - 5 Years">3 - 5 Years</option>
+                    <option value="5 - 7 Years">5 - 7 Years</option>
+                    <option value="Above 7+">Above 7+</option>
+                  </select>
+                  <span class="error" id="error_experience"></span>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label class="form-label">Minimum Salary ($):</label>
+                  <input type="text" class="form-control" name="min_salary" placeholder="e.g. 10000">
+                  <span class="error" id="error_min_salary"></span>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label class="form-label">Maximum Salary ($):</label>
+                  <input type="text" class="form-control" name="max_salary" placeholder="e.g. 20000">
+                  <span class="error" id="error_max_salary"></span>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label class="form-label">Vacancy</label>
+                  <input type="text" name="vacancy" class="form-control" placeholder="Enter No of vacancy">
+                  <span class="error" id="error_vacancy"></span>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label class="form-label">Skills</label>
+                  <select class="form-control skills-select" multiple="multiple" name="skills[]" id="skills" data-error="#error_skills" style="width:100% !important;">
+                    @if (isset($skills))
+                    <option value="">Select skills</option>
+                    @foreach($skills as $skill)
+                    <option value="{{ $skill->id }}" {{ isset($skill->id) && $skill->id == $location->id ? 'selected' : '' }}>{{ $skill->location }}</option>
+                    @endforeach
+                    @endif
+                  </select>
+                  <span class="error" id="error_skills"></span>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label class="form-label">Deadline</label>
+                  <input type="date" name="deadline" class="form-control" placeholder="Enter Deadline">
+                  <span class="error" id="error_deadline"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Gender </label>
+                  <select class="form-control" name="gender" data-error="#error_gender">
+                    <option value="">Select</option>
+                    @foreach($genders as $gender)
+                    <option value="{{ $gender }}">{{ getGender($gender) }}</option>
+                    @endforeach
+                  </select>
+                  <span class="error" id="error_gender"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">English Level</label>
+                  <select class="form-control" name="english_level" data-error="#error_english_level">
+                    <option value="">Select</option>
+                    @foreach($englishLevels as $level)
+                    <option value="{{ $level }}">{{ englishLevel($level) }}</option>
+                    @endforeach
+                  </select>
+                  <span class="error" id="error_english_level"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Job Description</label>
+                  <textarea class="form-control basic-example" name="job_description" tabindex="18"></textarea>
+                  <span class="error" id="error_job_description"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Job Responsibility</label>
+                  <textarea class="form-control basic-example" name="job_responsibility" tabindex="18"></textarea>
+                  <span class="error" id="error_job_responsibility"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Educational Requirements</label>
+                  <textarea class="form-control basic-example" name="educational_requirements" tabindex="18"></textarea>
+                  <span class="error" id="error_educational_requirements"></span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Other Benefits</label>
+                  <textarea class="form-control basic-example" name="other_benefits" tabindex="18"></textarea>
+                  <span class="error" id="error_other_benefits"></span>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label class="form-label">Country</label>
+                  <select class="form-control selectpicker" name="country_id" id="country_id" data-error="#error_country_id">
+                    <option value="">Select</option>
+                    @foreach($countries as $row)
+                    <option value="{{ $row->id }}" {{ (isset($employerDetails->country_id) && $employerDetails->country_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
+                    @endforeach
+                  </select>
+                  <span class="error" id="error_country_id"></span>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label class="form-label">State</label>
+                  <select class="form-control selectpicker" name="state_id" id="state_id" data-error="#error_state_id">
+                    @if(isset($states))
+                    @if(count($states) > 0)
+                    @foreach ($states as $state)
+                    <option value="{{ $state->id }}" {{ isset($employerDetails->state_id) && ($state->id == $employerDetails->state_id) ? 'selected' : '' }}>{{$state->name}}</option>
+                    @endforeach
+                    @else
+                    <option value="">Select</option>
+                    @endif
+                    @else
+                    <option value="">Select</option>
+                    @endif
+                  </select>
+                  <span class="error" id="error_state_id"></span>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label class="form-label">City</label>
+                  <select class="form-control selectpicker" name="city_id" id="city_id" data-error="#error_city_id">
+                    @if(isset($cities))
+                    @if(count($states) > 0)
+                    @foreach ($cities as $city)
+                    <option value="{{ $city->id }}" {{ isset($employerDetails->city_id) && ($city->id == $employerDetails->city_id) ? 'selected' : '' }}>{{$city->name}}</option>
+                    @endforeach
+                    @else
+                    <option value="">Select</option>
+                    @endif
+                    @else
+                    <option value="">Select</option>
+                    @endif
+                  </select>
+                  <span class="error" id="error_city_id"></span>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label>Upload File</label>
+                  <div class="custom-file">
+                      <p class="m-a0">
+                          <i class="fa fa-upload"></i>
+                          Upload File
+                      </p>
+                      <input type="file" class="site-button form-control" name="upload_file" id="customFile">
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-md-6">
-              <label for="deadline" class="form-label">Deadline </label>
-              <input type="date" class="form-control" name="deadline" min="{{ date('Y-m-d') }}" placeholder="Select Deadline" tabindex="14" value="{{ isset($jobDetails->deadline) ? $jobDetails->deadline : '' }}">
-              <span class="error" id="error_deadline"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="gender" class="form-label">Gender </label>
-              <select class="form-select js-example-basic-single" name="gender" data-error="#error_gender" tabindex="15">
-                <option value="">Select</option>
-                @foreach($gender as $row)
-                <option value="{{ $row }}" {{ (isset($jobDetails->gender) && $jobDetails->gender == $row) ? 'selected' : '' }}>{{ getGender($row) }}</option>
-                @endforeach
-              </select>
-              <span class="error" id="error_gender"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="english_level" class="form-label">English Level </label>
-              <select class="form-select js-example-basic-single" name="english_level" data-error="#error_english_level" tabindex="16">
-                <option value="">Select</option>
-                @foreach($englishLevel as $row)
-                <option value="{{ $row }}" {{ (isset($jobDetails->english_level) && $jobDetails->english_level == $row) ? 'selected' : '' }}>{{ englishLevel($row) }}</option>
-                @endforeach
-              </select>
-              <span class="error" id="error_english_level"></span>
-            </div>
-            <div class="col-md-12">
-              <label for="inputEmail5" class="form-label">Skills</label>
-              <select class="form-select js-example-basic-single" data-error="#error_skills" multiple="multiple" name="skills[]" data-placeholder="Select" tabindex="17">
-                <option value="">Select</option>
-                @foreach($skills as $row)
-                <option value="{{ $row->id }}" {{ (isset($jobDetails->skills) && $jobDetails->skills != '' && in_array($row->id, explode(',', $jobDetails->skills))) ? 'selected' : '' }}>{{ $row->name }}</option>
-                @endforeach
-              </select>
-              <span class="error" id="error_skills"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="job_description" class="form-label">Job Description<span class="text-danger">*</span></label>
-              <textarea class="basic-example" name="job_description" tabindex="18">{{ isset($jobDetails->job_description) ?  $jobDetails->job_description  : '' }}</textarea>
-              <span class="error" id="error_job_description"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="job_responsibility" class="form-label">Job Responsibility </label>
-              <textarea class="basic-example" name="job_responsibility" tabindex="19">{{ isset($jobDetails->job_responsibility) ?  $jobDetails->job_responsibility  : '' }}</textarea>
-              <span class="error" id="error_job_responsibility"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="educational_requirements" class="form-label">Educational Requirements </label>
-              <textarea class="basic-example" name="educational_requirements" tabindex="20">{{ isset($jobDetails->educational_requirements) ?  $jobDetails->educational_requirements  : '' }}</textarea>
-              <span class="error" id="error_educational_requirements"></span>
-            </div>
-            <div class="col-md-6">
-              <label for="other_benefits" class="form-label">Other Benefits</label>
-              <textarea class="basic-example" name="other_benefits" tabindex="21">{{ isset($jobDetails->other_benefits) ?  $jobDetails->other_benefits  : '' }}</textarea>
-              <span class="error" id="error_other_benefits"></span>
-            </div>
-            <div class="col-md-12 mt">
-              <input type="hidden" name="jobId" id="jobId" value="{{ isset($jobDetails->id) ? $jobDetails->id : 0 }}" />
-              <button type="submit" class="btn btn-primary" tabindex="22">{{ isset($jobDetails->id) ? 'Update' : 'Save' }}</button>
-            </div>
+            <button type="submit" class="site-button m-b30">Submit</button>
           </form>
         </div>
       </div>

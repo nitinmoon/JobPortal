@@ -299,4 +299,19 @@ class EmployerService
     {
         return $this->employerRepository->updateCompanyLogo($userId, $inputdata);
     }
+
+    /**
+     * **********************************
+     * method used to get all employers
+     * ----------------------------------
+     * @param userId
+     * @param inputdata
+     * @return data
+     * @description input (user details)
+     * **********************************
+     */
+    public function getEmployers()
+    {
+       return $this->employerRepository->getEmployers();
+    }
 }

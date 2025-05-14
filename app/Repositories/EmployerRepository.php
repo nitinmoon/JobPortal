@@ -378,7 +378,7 @@ class EmployerRepository extends BaseRepository
         return auth()->user()->id;
     }
 
-     /**
+    /**
      * *****************************************
      * method used to update profile basic info
      * -----------------------------------------
@@ -397,5 +397,22 @@ class EmployerRepository extends BaseRepository
         ];
         EmployerDetail::updateOrCreate($condition, $companyDetails);
         return auth()->user()->id;
+    }
+
+    /**
+     * **********************************
+     * method used to get all employers
+     * ----------------------------------
+     * @param userId
+     * @param inputdata
+     * @return data
+     * @description input (user details)
+     * **********************************
+     */
+    public function getEmployers()
+    {
+       return User::select('id', 'first_name', 'last_name')
+       ->where('role_id', UserRoleConstants::EMPLOYER)
+       ->get();
     }
 }

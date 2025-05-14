@@ -13,6 +13,7 @@ use App\Services\SkillService;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\Constants\UserRoleConstants;
+use App\Services\EmployerService;
 
 class JobController extends Controller
 {
@@ -21,6 +22,7 @@ class JobController extends Controller
     private $stateService;
     private $cityService;
     private $skillService;
+    private $employerService;
 
     public function __construct(
         JobService $jobService,
@@ -28,12 +30,14 @@ class JobController extends Controller
         StateService $stateService,
         CityService $cityService,
         SkillService $skillService,
+        EmployerService $employerService
     ) {
         $this->jobService = $jobService;
         $this->countryService = $countryService;
         $this->stateService = $stateService;
         $this->cityService = $cityService;
         $this->skillService = $skillService;
+        $this->employerService = $employerService;
     }
 
     /**
@@ -64,23 +68,25 @@ class JobController extends Controller
      */
     public function addJob()
     {
-        $designation = getDesignation();
-        $jobCategory = getJobCategory();
-        $jobType = getJobType();
+        $designations = getDesignation();
+        $jobCategories = getJobCategory();
+        $jobTypes = getJobType();
         $jobWorkType = getJobWorkType();
         $countries = $this->countryService->getAllCountry();
         $skills =  getSkills();
-        $gender = getEnum('jobs', 'gender');
-        $englishLevel = getEnum('jobs', 'english_level');
+        $genders = getEnum('jobs', 'gender');
+        $englishLevels = getEnum('jobs', 'english_level');
+        $employers = $this->employerService->getEmployers();
         return view('backend.jobs.add-edit-job', compact(
-            'designation',
-            'jobCategory',
-            'jobType',
+            'designations',
+            'jobCategories',
+            'jobTypes',
             'jobWorkType',
             'countries',
             'skills',
-            'gender',
-            'englishLevel'
+            'genders',
+            'englishLevels',
+            'employers'
         ));
     }
 
