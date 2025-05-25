@@ -136,9 +136,21 @@ class JobRepository extends BaseRepository
      */
     public function getAllJobs()
     {
-        return $this->getModel()
-        ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
-        ->where('jobs.job_status', JobStatusConstants::APPROVED)->where('jobs.status', StatusConstants::ACTIVE)->orderByDesc('jobs.id')->get();
+        $queryBuilder = Job::leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
+        ->where('jobs.job_status', JobStatusConstants::APPROVED)
+        ->where('jobs.status', StatusConstants::ACTIVE)
+        ->orderByDesc('jobs.id')->get();
+
+        foreach ($queryBuilder as $key => $jobData) {
+            $queryBuilder[$key]['jobDetailsRoute'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
+            $queryBuilder[$key]['company_logo_image'] = !empty($jobData->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$jobData->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO'));
+            $queryBuilder[$key]['job_title'] = !empty($jobData->job_title) ? $jobData->job_title : '--';
+            $queryBuilder[$key]['company_address'] = isset($jobData->city_id) ? $jobData->city->name.', '.$jobData->state->name.', '.$jobData->country->name : '';
+            $queryBuilder[$key]['jobType'] = isset($jobData->job_type_id) ? $jobData->jobType->name : '';
+            $queryBuilder[$key]['workType'] = isset($jobData->work_type_id) ? $jobData->workType->name : '';
+            $queryBuilder[$key]['salary_range'] = isset($jobData->salary_range) ? '₹ '.$jobData->salary_range.' / P.A.' : '';
+        }
+        return $queryBuilder;
     }
 
     /**

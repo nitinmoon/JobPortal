@@ -26,7 +26,30 @@ class JobController extends Controller
     public function index()
     {
         // $jobCategories = $this->jobCategoryService->getAllJobCategory();
+        return view('frontend.job.index');
+    }
+
+    public function getJobsData()
+    {
         $jobs = $this->jobService->getAllJobs();
-        return view('frontend.job.index', compact('jobs'));
+        $jobsCount = count($jobs);
+        return response()->json([
+            'jobs' => $jobs,
+            'jobsCount' => $jobsCount
+        ]);
+    }
+
+    /**
+     * **********************************
+     * Method is used to view job details
+     * ----------------------------------
+     * @return view
+     * **********************************
+     */
+    public function jobDetails($jobId)
+    {
+        $jobDetails = $this->jobService->getJobDetails(base64_decode($jobId));
+        // $jobCategories = $this->jobCategoryService->getAllJobCategory();
+        return view('frontend.job.job-details', compact('jobDetails'));
     }
 }
