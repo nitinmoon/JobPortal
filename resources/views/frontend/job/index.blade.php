@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Job')
+@section('title', 'Jobs')
 
 @section('content')
 <div class="page-content bg-white">
@@ -8,12 +8,12 @@
     <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(images/banner/bnr1.jpg);">
         <div class="container">
             <div class="dez-bnr-inr-entry">
-                <h1 class="text-white">Browse Job Filter List</h1>
+                <h1 class="text-white">Browse Jobs</h1>
                 <!-- Breadcrumb row -->
                 <div class="breadcrumb-row">
                     <ul class="list-inline">
                         <li><a href="index.html">Home</a></li>
-                        <li>Browse Job Filter List</li>
+                        <li>Browse Jobs</li>
                     </ul>
                 </div>
                 <!-- Breadcrumb row END -->
@@ -254,7 +254,7 @@
                     </div>
                     <div class="col-xl-9 col-lg-8 col-md-7">
                         <div class="job-bx-title clearfix">
-                            <h5 class="font-weight-700 float-start text-uppercase">2269 Jobs Found</h5>
+                            <h5 class="font-weight-700 float-start text-uppercase"><span id="jobCount"></span> Jobs Found</h5>
                             <div class="float-end">
                                 <span class="select-title">Sort by freshness</span>
                                 <select>
@@ -269,203 +269,10 @@
                                 </div>
                             </div>
                         </div>
-                        <ul class="post-job-bx">
-                            @foreach($jobs as $job)
-                            <li>
-                                <div class="post-bx">
-                                    <div class="d-flex m-b30">
-                                        <div class="job-post-company">
-                                            <a href="javascript:void(0);"><span>
-                                                    <img alt="" src="{{ !empty($job->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$job->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" />
-                                                </span></a>
-                                        </div>
-                                        <div class="job-post-info">
-                                            <h4><a href="javascript:void(0);">{{ isset($job->job_title) ? $job->job_title : '' }}</a></h4>
-                                            <ul>
-                                                <li><i class="fas fa-map-marker-alt"></i> {{ isset($job->city_id) ? $job->city->name : '' }}, {{ isset($job->state_id) ? $job->state->name : '' }}, {{ isset($job->country_id) ? $job->country->name : '' }}</li>
-                                                <li><i class="far fa-bookmark"></i> {{ isset($job->jobType->name) ? $job->jobType->name : '' }}</li>
-                                                <li><i class="far fa-clock"></i> Published 11 months ago</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="job-time me-auto">
-                                            <a href="javascript:void(0);"><span>{{ isset($job->workType->name) ? $job->workType->name : '' }}</span></a>
-                                        </div>
-                                        <div class="salary-bx">
-                                            <span>{{ isset($job->salary_range) ? '₹ '.$job->salary_range.' / P.A.' : '' }}</span>
-                                        </div>
-                                    </div>
-                                    <!-- <label class="like-btn">
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label> -->
-                                </div>
-                            </li>
-                            @endforeach
-                            <!-- <li>
-                                <div class="post-bx">
-                                    <div class="d-flex m-b30">
-                                        <div class="job-post-company">
-                                            <a href="javascript:void(0);"><span>
-                                                    <img alt="" src="images/logo/svg/logo2.svg" />
-                                                </span></a>
-                                        </div>
-                                        <div class="job-post-info">
-                                            <h4><a href="job-detail.html">Principal UX Designer</a></h4>
-                                            <ul>
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="far fa-clock"></i> Published 11 months ago</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="job-time me-auto">
-                                            <a href="javascript:void(0);"><span>Full Time</span></a>
-                                        </div>
-                                        <div class="salary-bx">
-                                            <span>$1200 - $ 2500</span>
-                                        </div>
-                                    </div>
-                                    <label class="like-btn">
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="post-bx">
-                                    <div class="d-flex m-b30">
-                                        <div class="job-post-company">
-                                            <a href="javascript:void(0);"><span>
-                                                    <img alt="" src="images/logo/svg/logo3.svg" />
-                                                </span></a>
-                                        </div>
-                                        <div class="job-post-info">
-                                            <h4><a href="job-detail.html">Junior UX Designer</a></h4>
-                                            <ul>
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="far fa-clock"></i> Published 11 months ago</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="job-time me-auto">
-                                            <a href="javascript:void(0);"><span>Full Time</span></a>
-                                        </div>
-                                        <div class="salary-bx">
-                                            <span>$1200 - $ 2500</span>
-                                        </div>
-                                    </div>
-                                    <label class="like-btn">
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="post-bx">
-                                    <div class="d-flex m-b30">
-                                        <div class="job-post-company">
-                                            <a href="javascript:void(0);"><span>
-                                                    <img alt="" src="images/logo/svg/logo4.svg" />
-                                                </span></a>
-                                        </div>
-                                        <div class="job-post-info">
-                                            <h4><a href="job-detail.html">Senior UX Designer</a></h4>
-                                            <ul>
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="far fa-clock"></i> Published 11 months ago</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="job-time me-auto">
-                                            <a href="javascript:void(0);"><span>Full Time</span></a>
-                                        </div>
-                                        <div class="salary-bx">
-                                            <span>$1200 - $ 2500</span>
-                                        </div>
-                                    </div>
-                                    <label class="like-btn">
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="post-bx">
-                                    <div class="d-flex m-b30">
-                                        <div class="job-post-company">
-                                            <a href="javascript:void(0);"><span>
-                                                    <img alt="" src="images/logo/svg/logo5.svg" />
-                                                </span></a>
-                                        </div>
-                                        <div class="job-post-info">
-                                            <h4><a href="job-detail.html">Digital Marketing Executive</a></h4>
-                                            <ul>
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="far fa-clock"></i> Published 11 months ago</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="job-time me-auto">
-                                            <a href="javascript:void(0);"><span>Full Time</span></a>
-                                        </div>
-                                        <div class="salary-bx">
-                                            <span>$1200 - $ 2500</span>
-                                        </div>
-                                    </div>
-                                    <label class="like-btn">
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="post-bx">
-                                    <div class="d-flex m-b30">
-                                        <div class="job-post-company">
-                                            <a href="javascript:void(0);"><span>
-                                                    <img alt="" src="images/logo/icon1.png" />
-                                                </span></a>
-                                        </div>
-                                        <div class="job-post-info">
-                                            <h4><a href="job-detail.html">Freelance UI Designer</a></h4>
-                                            <ul>
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="far fa-clock"></i> Published 11 months ago</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="job-time me-auto">
-                                            <a href="javascript:void(0);"><span>Full Time</span></a>
-                                        </div>
-                                        <div class="salary-bx">
-                                            <span>$1200 - $ 2500</span>
-                                        </div>
-                                    </div>
-                                    <label class="like-btn">
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </li> -->
+                        <ul id="job-list" class="post-job-bx">
                         </ul>
                         <div class="pagination-bx float-end m-t30">
-                            <ul class="pagination">
-                                <li class="previous"><a href="javascript:void(0);"><i class="ti-arrow-left"></i> Prev</a></li>
-                                <li class="active"><a href="javascript:void(0);">1</a></li>
-                                <li><a href="javascript:void(0);">2</a></li>
-                                <li><a href="javascript:void(0);">3</a></li>
-                                <li class="next"><a href="javascript:void(0);">Next <i class="ti-arrow-right"></i></a></li>
+                            <ul id="pagination" class="pagination">
                             </ul>
                         </div>
                     </div>
@@ -475,4 +282,122 @@
         <!-- Browse Jobs END -->
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    $(function() {
+        const jobsPerPage = 10;
+        let currentPage = 1;
+        let allJobs = [];
+
+        // Fetch jobs data from Laravel API
+        $.ajax({
+            url: "{{ route('getJobsData') }}",
+            method: 'GET',
+            success: function(data) {
+                allJobs = data.jobs;
+                jobsCount = data.jobsCount;
+                $('#jobCount').html(jobsCount);
+                renderJobs(currentPage);
+            },
+            error: function() {
+                $('#job-list').html('<p>Error loading data</p>');
+            }
+        });
+
+        function renderJobs(page) {
+            $('#job-list').empty();
+
+            const start = (page - 1) * jobsPerPage;
+            const end = start + jobsPerPage;
+            const paginatedJobs = allJobs.slice(start, end);
+
+            // Append job items
+            paginatedJobs.forEach(job => {
+                $('#job-list').append(`
+                    <li>
+                        <div class="post-bx">
+                            <div class="d-flex m-b30">
+                                <div class="job-post-company">
+                                    <a href="${job.jobDetailsRoute}"><span>
+                                            <img alt="" src="${job.company_logo_image}" />
+                                        </span></a>
+                                </div>
+                                <div class="job-post-info">
+                                    <h4><a href="${job.jobDetailsRoute}">${job.job_title}</a></h4>
+                                    <ul>
+                                        <li><i class="fas fa-map-marker-alt"></i> ${job.company_address}</li>
+                                        <li><i class="far fa-bookmark"></i> ${job.jobType}</li>
+                                        <li><i class="far fa-clock"></i> Published 11 months ago</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="job-time me-auto">
+                                    <a href="javascript:void(0);"><span>${job.workType}</span></a>
+                                </div>
+                                <div class="salary-bx">
+                                    <span>${job.salary_range}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+            `);
+            });
+
+            renderPagination();
+        }
+
+        function renderPagination() {
+            $('#pagination').empty();
+            const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+
+            // Prev button
+            $('#pagination').append(`
+                <li class="previous ${currentPage === 1 ? 'disabled' : ''}">
+                    <a href="javascript:void(0);"><i class="ti-arrow-left"></i> Prev</a>
+                </li>
+            `);
+
+            // Page number buttons
+            for (let i = 1; i <= totalPages; i++) {
+                $('#pagination').append(`
+                <li class="${i === currentPage ? 'active' : ''}">
+                    <a href="javascript:void(0);">${i}</a>
+                </li>
+            `);
+            }
+
+            // Next button
+            $('#pagination').append(`
+                <li class="next ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a href="javascript:void(0);">Next <i class="ti-arrow-right"></i></a>
+                </li>
+            `);
+        }
+
+        // Pagination click handler
+        $('#pagination').on('click', 'li', function() {
+            if ($(this).hasClass('disabled') || $(this).hasClass('active')) return;
+
+            if ($(this).hasClass('previous')) {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderJobs(currentPage);
+                }
+            } else if ($(this).hasClass('next')) {
+                const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderJobs(currentPage);
+                }
+            } else {
+                // Page number
+                const page = parseInt($(this).text());
+                currentPage = page;
+                renderJobs(currentPage);
+            }
+        });
+    });
+</script>
 @endsection

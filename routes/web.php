@@ -224,6 +224,8 @@ Route::controller(HomeController::class)->group(function () {
 */
 Route::controller(FrontendJobController::class)->group(function () {
     Route::get('/jobs', 'index')->name('jobs');
+    Route::get('/get-jobs-data', 'getJobsData')->name('getJobsData');
+    Route::get('/job-details/{jobId}', 'jobDetails')->name('jobDetails');
 });
 
 /*
