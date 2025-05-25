@@ -61,45 +61,45 @@ $("document").ready(function() {
                             window.location = res.redirectRoute;
                         }, 3000);
                         console.log(res.msg);
-                        // Toast.create({
-                        //     title: "Success!",
-                        //     message: res.msg,
-                        //     status: TOAST_STATUS.SUCCESS,
-                        //     timeout: 5000,
-                        // });
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'success'
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
+                        // $.notify({
+                        //     message: res.msg
+                        // },{
+                        //     type: 'success'
+                        // });
                     } else if(res.status == '2') {
-                        // Toast.create({
-                        //     title: "Error!",
-                        //     message: res.msg,
-                        //     status: TOAST_STATUS.DANGER,
-                        //     timeout: 5000,
-                        // });
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'danger'
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
+                        // $.notify({
+                        //     message: res.msg
+                        // },{
+                        //     type: 'danger'
+                        // });
                     } else if(res.status == '3') {
                         $('#error_password').html(res.msg)
                     } else if (res.status == '4'){
                         $("#captchaError").html(res.msg);
                     } else {
-                        // Toast.create({
-                        //     title: "Error!",
-                        //     message: res.msg,
-                        //     status: TOAST_STATUS.DANGER,
-                        //     timeout: 5000,
-                        // });
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'danger'
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
+                        // $.notify({
+                        //     message: res.msg
+                        // },{
+                        //     type: 'danger'
+                        // });
                     }
                 },
                 complete: function() {
@@ -158,17 +158,24 @@ $("document").ready(function() {
                 success: function(res) {
                     if (res.status == true) {
                         $('#submit').html('Email Password Reset Link');
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'success'
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
+                        // $.notify({
+                        //     message: res.msg
+                        // },{
+                        //     type: 'success'
+                        // });
                     } else if(res.status == '2') {
                         $('#submit').html('Email Password Reset Link');
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'danger'
+                         Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
                     } else if(res.status == '3') {
                         $('#submit').html('Email Password Reset Link');
@@ -179,10 +186,11 @@ $("document").ready(function() {
                         });
                     } else {
                         $('#submit').html('Email Password Reset Link');
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'danger'
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
                     }
                 },
@@ -260,20 +268,18 @@ $("document").ready(function() {
                         setTimeout(() => {
                             window.location = res.redirectRoute;
                         }, 1000);
-                        $.notify({
-                            // options
-                            message: res.msg
-                        },{
-                            // settings
-                            type: 'success'
+                       Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
                     } else {
-                        $.notify({
-                            // options
-                            message: res.msg
-                        },{
-                            // settings
-                            type: 'danger'
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
                     }
                 },

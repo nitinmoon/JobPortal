@@ -64,51 +64,61 @@ class JobRepository extends BaseRepository
      */
     public function addUpdateJob($inputArray)
     {
-        if (!empty($inputArray['skills'])) {
-            $skillArray = [];
-            foreach ($inputArray['skills'] as $skillName) {
-                $checkSkill = Skill::where('name', $skillName)->first();
-                if ($checkSkill == null) {
-                    $skill = new Skill();
-                    $skill->name = $skillName;
-                    $skill->created_by = auth()->user()->id;
-                    $skill->save();
-                    array_push($skillArray, $skill->id);
-                }
+        $skillArray = [];
+        foreach ($inputArray['skills'] as $skillName) {
+            $checkSkill = Skill::where('name', $skillName)->first();
+            if ($checkSkill == null) {
+                $skill = new Skill();
+                $skill->name = $skillName;
+                $skill->created_by = auth()->user()->id;
+                $skill->save();
+                $skillArray[] = $skill->id;
+            } else {
+                $skillArray[] = $checkSkill->id; // ← Include existing skill ID
             }
         }
+
         if (!empty($inputArray['upload_file'])) {
             $filePath = config('constants.JOB_FILE');
-            $oldFileName = Job::where('id', $inputArray['jobId'])->pluck('upload_file');
-            File::delete($filePath . '/' . $oldFileName[0]);
-            $fileName  = config('constants.JOB_PREFIX') . $inputArray['jobId'] . '_Job.' . $inputArray['upload_file']->extension();
-            if (!file_exists($filePath)) {
-                mkdir($filePath, 0777, true);
+            $jobId = $inputArray['jobId'];
+            // Delete old file
+            $oldFileName = Job::where('id', $jobId)->value('upload_file');
+            if (!empty($oldFileName)) {
+                File::delete($filePath . '/' . $oldFileName);
             }
+            // Generate new file name
+            $fileName = config('constants.JOB_PREFIX') . $jobId . '_Job.' . $inputArray['upload_file']->getClientOriginalExtension();
+            // Create directory if it doesn't exist
+            if (!File::exists($filePath)) {
+                File::makeDirectory($filePath, 0777, true);
+            }
+            // Move uploaded file
             $inputArray['upload_file']->move($filePath, $fileName);
         }
+
         $condition = ['id' => $inputArray['jobId']];
+        $employer_id = isset($inputArray['employer_id']) ? $inputArray['employer_id'] : auth()->user()->id;
         $data = [
+            'employer_id' => $employer_id,
             'job_title' => strip_tags($inputArray['job_title']),
-            'employer_id' => auth()->user()->id,
             'designation_id' => $inputArray['designation_id'],
             'job_category_id' => $inputArray['job_category_id'],
             'job_type_id' => $inputArray['job_type_id'],
             'work_type_id' => $inputArray['work_type_id'],
-            'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
-            'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
-            'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
+            'skills' => !empty($skillArray) ? implode(',', $skillArray) : '',
             'experience' => $inputArray['experience'],
             'salary_range' => $inputArray['salary_range'],
             'vacancy' => $inputArray['vacancy'],
             'deadline' => $inputArray['deadline'],
             'gender' => $inputArray['gender'],
             'english_level' => $inputArray['english_level'],
-            'skills' => isset($skillArray) ? implode(',', $skillArray) : '',
             'job_description' => $inputArray['job_description'],
             'job_responsibility' => $inputArray['job_responsibility'],
             'educational_requirements' => $inputArray['educational_requirements'],
             'other_benefits' => $inputArray['other_benefits'],
+            'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
+            'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
+            'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
             'upload_file' => isset($fileName) ? $fileName : null,
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id

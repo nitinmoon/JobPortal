@@ -152,7 +152,7 @@ Route::middleware(['isAdminLoggedIn'])->group(function () {
         Route::controller(JobController::class)->group(function () {
             Route::get('/jobs-list', 'index')->name('jobsList');
             Route::get('/add-job', 'addJob')->name('addJob');
-            Route::post('/add-update-job', 'addUpdateJob')->name('addUpdateJob');
+            Route::post('/add-update-job', 'adminAddUpdateJob')->name('adminAddUpdateJob');
             Route::get('/edit-job/{id}', 'editJob')->name('editJob');
             Route::post('/change-job-approval-status', 'changeJobApprovalStatus')->name('changeJobApprovalStatus');
             Route::post('/change-job-status', 'changeJobStatus')->name('changeJobStatus');
