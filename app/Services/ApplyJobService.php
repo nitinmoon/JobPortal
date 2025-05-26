@@ -255,4 +255,17 @@ class ApplyJobService
     {
         return $this->applyJobRepository->getApplyJobCount($request);
     }
+
+    /**
+     ************************************
+     * Function use to get applied jobs
+     * ----------------------------------
+     * @param string $total
+     * @return data
+     ************************************
+     */
+    public function getAppliedJobs($candidateId)
+    {
+        return $this->applyJobRepository->getAppliedJobs($candidateId);
+    }
 }

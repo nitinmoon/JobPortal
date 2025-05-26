@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\ProfileImageRequest;
 use App\Models\Constants\UserRoleConstants;
+use App\Services\ApplyJobService;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\DesignationService;
@@ -33,6 +34,7 @@ class CandidateController extends Controller
     private $jobTypeService;
     private $loginService;
     private $userService;
+    private $applyJobService;
 
     public function __construct(
         JobService $jobService,
@@ -44,7 +46,8 @@ class CandidateController extends Controller
         DesignationService $designationService,
         JobTypeService $jobTypeService,
         LoginService $loginService,
-        UserService $userService
+        UserService $userService,
+        ApplyJobService $applyJobService
     ) {
         $this->employerService = $employerService;
         $this->countryService = $countryService;
@@ -55,6 +58,7 @@ class CandidateController extends Controller
         $this->jobTypeService = $jobTypeService;
         $this->loginService = $loginService;
         $this->userService = $userService;
+        $this->applyJobService = $applyJobService;
     }
 
     /**
@@ -286,5 +290,23 @@ class CandidateController extends Controller
     private function validateImage(Request $request)
     {
         return $request->only(['profile_photo']);
+    }
+
+    /**
+     * *********************************
+     * method use to view applied jobs
+     * ---------------------------------
+     * @return jsonResponse
+     * *********************************
+     */
+    public function appliedJobs()
+    {
+        $appliedJobs = $this->applyJobService->getAppliedJobs(auth()->user()->id);
+        return view(
+            'frontend.candidate.applied-job',
+            compact(
+                'appliedJobs'
+            )
+        );
     }
 }

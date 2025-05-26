@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\ApplyJob;
+use App\Models\Constants\ApplyJobStatusConstants;
 use App\Models\Constants\StatusConstants;
 use App\Models\Constants\UserRoleConstants;
 use App\Repositories\BaseRepository;
@@ -22,56 +23,23 @@ class ApplyJobRepository extends BaseRepository
      * @return data
      * **************************************
      */
-    public function getApplyJobs($request)
+    public function getAppliedJobs($candidateId)
     {
-        // $filterData = $request->all();
-        // $queryBuilder = ApplyJob::select([
-        //     'apply_jobs.id',
-        //     'apply_jobs.job_id',
-        //     'apply_jobs.candidate_id',
-        //     'apply_jobs.employer_id',
-        //     'apply_jobs.status',
-        //     'apply_jobs.created_at',
-        //     'candidate_details.resume_file',
-        //     'countries.name as countryName',
-        //     'states.name as stateName',
-        //     'cities.name as cityName'
-        // ])
-        //     ->leftJoin('jobs', 'jobs.id', '=', 'apply_jobs.job_id')
-        //     ->leftJoin('countries', 'countries.id', '=', 'jobs.country_id')
-        //     ->leftJoin('states', 'states.id', '=', 'jobs.state_id')
-        //     ->leftJoin('cities', 'cities.id', '=', 'jobs.city_id')
-        //     ->leftJoin('candidate_details', 'candidate_details.candidate_id', '=', 'apply_jobs.candidate_id')
-        //     ->where('apply_jobs.employer_id', auth()->user()->id);
+         $queryBuilder = ApplyJob::leftJoin('jobs', 'jobs.id', '=', 'apply_jobs.job_id')
+        ->where('apply_jobs.id', $candidateId)
+        ->where('jobs.status', StatusConstants::ACTIVE)
+        ->orderByDesc('apply_jobs.id')->get();
 
-        // if ($filterData['status'] != '') {
-        //     $queryBuilder = $queryBuilder->where('apply_jobs.status', $filterData['status']);
-        // }
-        // if ($filterData['applied_on'] != '') {
-        //     $queryBuilder = $queryBuilder->whereDate('apply_jobs.created_at', $filterData['applied_on']);
-        // }
-        // if ($filterData['candidate_id'] != 0) {
-        //     $queryBuilder = $queryBuilder->where('apply_jobs.candidate_id', $filterData['candidate_id']);
-        // }
-        // if ($filterData['job_category_id'] != '') {
-        //     $queryBuilder = $queryBuilder->where('jobs.job_category_id', $filterData['job_category_id']);
-        // }
-        // if ($filterData['job_type_id'] != '') {
-        //     $queryBuilder = $queryBuilder->where('jobs.job_type_id', $filterData['job_type_id']);
-        // }
-        // if ($filterData['job_title'] != '') {
-        //     $queryBuilder = $queryBuilder->where('jobs.job_title', 'LIKE', "%{$filterData['job_title']}%");
-        // }
-        // if ($filterData['country_id'] != '') {
-        //     $queryBuilder = $queryBuilder->where('jobs.country_id', $filterData['country_id']);
-        // }
-        // if ($filterData['state_id'] != '') {
-        //     $queryBuilder = $queryBuilder->where('jobs.state_id', $filterData['state_id']);
-        // }
-        // if ($filterData['city_id'] != '') {
-        //     $queryBuilder = $queryBuilder->where('jobs.city_id', $filterData['city_id']);
-        // }
-        // return $queryBuilder->orderBy('apply_jobs.id', 'desc')->get();
+        foreach ($queryBuilder as $key => $jobData) {
+            $queryBuilder[$key]['jobTitle'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
+            $queryBuilder[$key]['company_logo_image'] = !empty($jobData->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$jobData->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO'));
+            $queryBuilder[$key]['job_title'] = !empty($jobData->job_title) ? $jobData->job_title : '--';
+            $queryBuilder[$key]['company_address'] = isset($jobData->city_id) ? $jobData->city->name.', '.$jobData->state->name.', '.$jobData->country->name : '';
+            $queryBuilder[$key]['jobType'] = isset($jobData->job_type_id) ? $jobData->jobType->name : '';
+            $queryBuilder[$key]['workType'] = isset($jobData->work_type_id) ? $jobData->workType->name : '';
+            $queryBuilder[$key]['salary_range'] = isset($jobData->salary_range) ? '₹ '.$jobData->salary_range.' / P.A.' : '';
+        }
+        return $queryBuilder;
     }
 
     /**

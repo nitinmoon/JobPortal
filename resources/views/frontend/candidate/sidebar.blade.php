@@ -25,25 +25,25 @@
         </div>
     </div>
     <ul>
-        <li><a href="{{ route('candidateProfile') }}" class="active">
+        <li><a href="{{ route('candidateProfile') }}" class="{{ Request::routeIs('candidateProfile') ? 'active' : '' }}">
                 <i class="far fa-user" aria-hidden="true"></i>
                 <span>Profile</span></a></li>
-        <li><a href="{{ route('myResume') }}">
+        <li><a href="{{ route('myResume') }}" class="{{ Request::routeIs('myResume') ? 'active' : '' }}">
                 <i class="far fa-file-alt" aria-hidden="true"></i>
                 <span>My Resume</span></a></li>
         <!-- <li><a href="jobs-saved-jobs.html">
                 <i class="far fa-heart" aria-hidden="true"></i>
-                <span>Saved Jobs</span></a></li>
-        <li><a href="jobs-applied-job.html">
+                <span>Saved Jobs</span></a></li> -->
+        <li><a href="{{ route('appliedJobs') }}" class="{{ Request::routeIs('appliedJobs') ? 'active' : '' }}">
                 <i class="fa fa-briefcase" aria-hidden="true"></i>
                 <span>Applied Jobs</span></a></li>
-        <li><a href="jobs-alerts.html">
+        <!-- <li><a href="jobs-alerts.html">
                 <i class="far fa-bell" aria-hidden="true"></i>
-                <span>Job Alerts</span></a></li>
-        <li><a href="jobs-cv-manager.html">
+                <span>Job Alerts</span></a></li> -->
+        <!-- <li><a href="jobs-cv-manager.html">
                 <i class="far fa-id-card" aria-hidden="true"></i>
-                <span>CV Manager</span></a></li> -->
-        <li><a href="{{ route('cadidateChangePassword') }}">
+                <span>CV Manager</span></a></li> --> 
+        <li><a href="{{ route('cadidateChangePassword') }}" class="{{ Request::routeIs('cadidateChangePassword') ? 'active' : '' }}">
                 <i class="fa fa-key" aria-hidden="true"></i>
                 <span>Change Password</span></a></li>
         <li><a href="{{ route('logout') }}">
