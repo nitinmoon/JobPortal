@@ -272,7 +272,7 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
 Route::middleware(['isCandidateLoggedIn'])->group(function () {
     Route::prefix('candidate')->group(function () {
         Route::controller(FrontendCandidateController::class)->group(function () {
-            Route::get('/candidate-profile', 'myProfile')->name('candidateProfile');
+            Route::get('/candidate-profile/{flag?}/{id?}', 'myProfile')->name('candidateProfile');
             Route::post('/update-cadidate-profile', 'updateCandidateProfile')->name('updateCandidateProfile');
             Route::get('/my-resume', 'myResume')->name('myResume');
             Route::get('/cadidate-change-password', 'cadidateChangePassword')->name('cadidateChangePassword');

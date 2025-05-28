@@ -39,9 +39,9 @@
                                     <div class="widget bg-white p-lr20 p-t20  widget_getintuch radius-sm">
                                         <h4 class="text-black font-weight-700 p-t10 m-b15">Job Details</h4>
                                         <ul>
-                                            <li><i class="ti-location-pin"></i><strong class="font-weight-700 text-black">Address</strong><span class="text-black-light"> {{ isset($jobDetails->city_id) ? $jobDetails->city->name.', '.$jobDetails->state->name.', '.$jobDetails->country->name : '--' }} </span></li>
-                                            <li><i class="ti-money"></i><strong class="font-weight-700 text-black">Salary</strong> $800 Monthy</li>
-                                            <li><i class="ti-shield"></i><strong class="font-weight-700 text-black">Experience</strong>6 Year Experience</li>
+                                            <li><i class="ti-location-pin"></i><strong class="font-weight-700 text-black">Address</strong><span class="text-black-light"> {{ isset($jobDetails->city_id) ? $jobDetails->employer->company_address.', '.$jobDetails->employer->city->name.', '.$jobDetails->employer->state->name.', '.$jobDetails->employer->country->name.' - '.$jobDetails->employer->zip : '--' }} </span></li>
+                                            <li><i class="ti-money"></i><strong class="font-weight-700 text-black">Salary</strong> {{ !empty($jobDetails->salary_range) ? $jobDetails->salary_range.' P.A.' : '--' }}</li>
+                                            <li><i class="ti-shield"></i><strong class="font-weight-700 text-black">Experience</strong>{{ !empty($jobDetails->experience) ? $jobDetails->experience.' Experience' : '--' }}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -52,7 +52,7 @@
                         <div class="job-info-box">
                             <h3 class="m-t0 m-b10 font-weight-700 title-head">{{ !empty($jobDetails->job_title) ? $jobDetails->job_title : '--' }}</h3>
                             <ul class="job-info">
-                                <li><strong>Education</strong> Web Designer</li>
+                                <li><strong>Category:</strong> {{ !empty($jobDetails->jobCategory->name) ? $jobDetails->jobCategory->name : '--' }}</li>
                                 <li><strong>Deadline:</strong> {{ isset($jobDetails->deadline) ? date('d M Y', strtotime($jobDetails->deadline)) : '--' }}</li>
                                 <li><i class="ti-location-pin text-black m-r5"></i> {{ isset($jobDetails->country_id) ? $jobDetails->country->name : '--' }} </li>
                             </ul>
@@ -68,7 +68,17 @@
                             <h5 class="font-weight-600">Other Benefits (Facilities)</h5>
                             <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
                             {!! !empty($jobDetails->other_benefits) ? $jobDetails->other_benefits : '--' !!}
-                            <a href="jobs-applied-job.html" class="site-button">Apply This Job</a>
+                            @if(!empty(Auth::user()))
+                                @if(isCandidateApplyJob(auth()->user()->id, $jobDetails->id) == '')
+                                    @if(auth()->user()->role_id == '3')
+                                    <a href="{{ empty(Auth::user()) ? route('candidateLogin') : route('candidateProfile', ['flag'=> 'apply-job', 'jobId'=> base64_encode($jobDetails->id)]) }}" class="site-button">Apply This Job</a>
+                                    @endif
+                                @else
+                                    <span class="badge badge-success p-2 alreadyApplyMsg">You have already applied</span>
+                                @endif
+                            @else
+                            <a href="{{ empty(Auth::user()) ? route('candidateLogin') : route('candidateProfile', ['flag'=> 'apply-job', 'jobId'=> base64_encode($jobDetails->id)]) }}" class="site-button">Apply This Job</a>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -4,8 +4,12 @@ namespace App\Repositories;
 
 use App\Mail\AddUserMail;
 use App\Mail\VerifyOtpMail;
+use App\Models\ApplyJob;
+use App\Models\Constants\ApplyJobStatusConstants;
+use App\Models\Constants\StatusConstants;
 use App\Models\Constants\UserRoleConstants;
 use App\Models\Constants\UserStatusConstants;
+use App\Models\Job;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Repositories\BaseRepository;
@@ -181,6 +185,16 @@ class UserRepository extends BaseRepository
             'address' => strip_tags($inputArray['address'])
         ];
         UserAddress::updateOrCreate($condition, $userAddresssDetails);
+
+        if (!empty($inputArray['flag']) && $inputArray['flag'] == 'apply-job') {
+            $job = Job::where('id', $inputArray['job_id'])->where('status', StatusConstants::ACTIVE)->first();
+            $applyJob = new ApplyJob();
+            $applyJob->job_id = $inputArray['job_id'];
+            $applyJob->candidate_id = $inputArray['userId'];
+            $applyJob->employer_id = $job['employer_id'];
+            $applyJob->status = ApplyJobStatusConstants::APPLICATION_SENT;
+            $applyJob->save();
+        }
         return auth()->user()->id;
     }
 

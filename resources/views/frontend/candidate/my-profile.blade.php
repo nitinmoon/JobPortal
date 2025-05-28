@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
 
+@php $jobId = isset($_GET['jobId']) ? base64_decode($_GET['jobId']) : ''; @endphp
+
 @section('title', 'Candidate Profile')
 
 @section('content')
@@ -170,7 +172,13 @@
                                     </div> -->
                                     <div class="col-lg-6">
                                         <input type="hidden" name="userId" value="{{ isset($userDetails->id) ? $userDetails->id : 0 }}" />
+                                        @if(isset($flag) && $flag == 'apply-job' && isCandidateApplyJob(auth()->user()->id, $jobId) == '')
+                                        <input type="hidden" name="flag" id="flag" value="{{ isset($flag) ? $flag : '' }}">
+                                        <input type="hidden" name="job_id" id="job_id" value="{{ $jobId }}">
+                                        <button type="submit" class="site-button m-b30">Send Application</button>
+                                        @else
                                         <button type="submit" class="site-button m-b30">Update</button>
+                                        @endif
                                     </div>
                                 </div>
                             </form>

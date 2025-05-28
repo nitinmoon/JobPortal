@@ -10,8 +10,6 @@ class Job extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table= 'jobs';
-
     protected $fillable = [
         'job_title',
         'employer_id',
@@ -39,6 +37,11 @@ class Job extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function employer()
+    {
+        return $this->belongsTo(EmployerDetail::class, 'employer_id', 'employer_id');
+    }
 
     public function designation()
     {

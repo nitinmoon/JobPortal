@@ -136,7 +136,19 @@ class JobRepository extends BaseRepository
      */
     public function getAllJobs()
     {
-        $queryBuilder = Job::leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
+        $queryBuilder = Job::select([
+            'jobs.id',
+            'jobs.job_title',
+            'employer_details.company_logo',
+            'jobs.country_id',
+            'jobs.state_id',
+            'jobs.city_id',
+            'jobs.job_type_id',
+            'jobs.work_type_id',
+            'jobs.salary_range',
+            'jobs.job_status',
+        ])
+        ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
         ->where('jobs.job_status', JobStatusConstants::APPROVED)
         ->where('jobs.status', StatusConstants::ACTIVE)
         ->orderByDesc('jobs.id')->get();
@@ -178,7 +190,6 @@ class JobRepository extends BaseRepository
     public function jobCategoryFilter($request)
     {
         $filterData = $request->all();
-        // dd($filterData);
         $queryBuilder = Job::select([
             'jobs.id',
             'jobs.job_title',

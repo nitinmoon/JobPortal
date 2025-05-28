@@ -65,7 +65,7 @@ class CandidateController extends Controller
      * @return jsonResponse
      * ****************************
      */
-    public function myProfile()
+    public function myProfile($flag = '')
     {
         if (auth()->user()->role_id != UserRoleConstants::CANDIDATE) {
             return back();
@@ -93,7 +93,8 @@ class CandidateController extends Controller
                 'userDetails',
                 'states',
                 'cities',
-                'designations'
+                'designations',
+                'flag'
             )
         );
     }
@@ -155,6 +156,8 @@ class CandidateController extends Controller
                 'country_id',
                 'state_id',
                 'city_id',
+                'flag',
+                'job_id'
             ]
         );
     }
