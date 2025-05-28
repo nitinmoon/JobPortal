@@ -328,7 +328,7 @@
                                     <ul>
                                         <li><i class="fas fa-map-marker-alt"></i> ${job.company_address}</li>
                                         <li><i class="far fa-bookmark"></i> ${job.jobType}</li>
-                                        <li><i class="far fa-clock"></i> Published 11 months ago</li>
+                                        <li><i class="far fa-clock"></i> Published ${job.time} ago</li>
                                     </ul>
                                 </div>
                             </div>

@@ -276,7 +276,7 @@
     </div>
 
     <!-- Our Latest Blog -->
-    <div class="section-full content-inner-2 bg-white">
+    <!-- <div class="section-full content-inner-2 bg-white">
         <div class="container">
             <div class="section-head text-black text-center">
                 <h2 class="text-uppercase m-b0">Our Latest Blog</h2>
@@ -395,7 +395,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Our Latest Blog -->
 
 
@@ -413,126 +413,31 @@
             <div class="row sp20 m-b20">
                 @foreach($jobs as $job)
                 <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ !empty($job->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$job->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">{{ isset($job->company_name) ? $job->company_name : '' }} {{ isset($job->country_id) ? ', '.$job->country->name : '' }}</h5>
-                                <span class="profile-positions">{{ isset($job->job_title) ? $job->job_title : '' }}</span>
+                    <a href="{{ route('jobDetails', base64_encode($job->id)) }}">
+                        <div class="job-wrapper m-b20">
+                            <div class="jobs-profile d-flex align-items-center">
+                                <div class="dz-icon"><img src="{{ !empty($job->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$job->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt=""></div>
+                                <div class="Profile-inner">
+                                    <h5 class="profile-name">{{ isset($job->company_name) ? $job->company_name : '' }} {{ isset($job->country_id) ? ', '.$job->country->name : '' }}</h5>
+                                    <span class="profile-positions">{{ isset($job->job_title) ? $job->job_title : '' }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>{{ isset($job->salary_range) ? $job->salary_range : '' }}</span>/ P.A.</div>
+                            <div class="Profile-inner-2">
+                                <p>It is a long established fact that a reader
+                                    of a page when looking at its layout.</p>
+                                <div class="dz-buttons d-flex align-items-center">
+                                    <div class="job-time me-auto">
+                                        <a href="javascript:void(0);"><span>{{ isset($job->workType) ? $job->workType : '' }}</span></a>
+                                    </div>
+                                    <!-- <a href="{{ route('jobDetails', base64_encode($job->id)) }}" class="site-button style-1">View Job</a> -->
+                                    <div class="dz-salary"><span>{{ isset($job->salary_range) ? $job->salary_range : '' }}</span></div>
+                                </div>
                             </div>
+                            <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">{{ isset($job->jobType) ? $job->jobType : '' }}</a></div>
                         </div>
-                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">{{ isset($job->jobType->name) ? $job->jobType->name : '' }}</a></div>
-                    </div>
+                    </a>
                 </div>
                 @endforeach
-                <!-- <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/microsoft.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Microsoft , California</h5>
-                                <span class="profile-positions">Web Designer</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>1 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/amazon.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Amazon , Southfield</h5>
-                                <span class="profile-positions">IT Management</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/github.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Github , Southfield</h5>
-                                <span class="profile-positions">Sr. Product Designer</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/dropbox.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Dropbox , New York</h5>
-                                <span class="profile-positions">Web Designer</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>1 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/adobe.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Adobe , California</h5>
-                                <span class="profile-positions">IT Management</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div> -->
             </div>
 
         </div>

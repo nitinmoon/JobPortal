@@ -11,6 +11,7 @@ use App\Models\Skill;
 use App\Models\State;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class JobRepository extends BaseRepository
@@ -134,12 +135,13 @@ class JobRepository extends BaseRepository
      * @return data
      *********************************
      */
-    public function getAllJobs()
+    public function getAllJobs($count = '')
     {
         $queryBuilder = Job::select([
             'jobs.id',
             'jobs.job_title',
             'employer_details.company_logo',
+            'employer_details.company_name',
             'jobs.country_id',
             'jobs.state_id',
             'jobs.city_id',
@@ -147,11 +149,12 @@ class JobRepository extends BaseRepository
             'jobs.work_type_id',
             'jobs.salary_range',
             'jobs.job_status',
+            DB::raw('DATE(jobs.created_at) as date')
         ])
         ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
         ->where('jobs.job_status', JobStatusConstants::APPROVED)
         ->where('jobs.status', StatusConstants::ACTIVE)
-        ->orderByDesc('jobs.id')->get();
+        ->orderByDesc('jobs.id')->take($count)->get();
 
         foreach ($queryBuilder as $key => $jobData) {
             $queryBuilder[$key]['jobDetailsRoute'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
@@ -161,6 +164,7 @@ class JobRepository extends BaseRepository
             $queryBuilder[$key]['jobType'] = isset($jobData->job_type_id) ? $jobData->jobType->name : '';
             $queryBuilder[$key]['workType'] = isset($jobData->work_type_id) ? $jobData->workType->name : '';
             $queryBuilder[$key]['salary_range'] = isset($jobData->salary_range) ? '₹ '.$jobData->salary_range.' / P.A.' : '';
+            $queryBuilder[$key]['time'] = isset($jobData->date) ? getTimeAgo($jobData->date) : '';
         }
         return $queryBuilder;
     }

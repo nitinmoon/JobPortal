@@ -25,20 +25,43 @@ class ApplyJobRepository extends BaseRepository
      */
     public function getAppliedJobs($candidateId)
     {
-         $queryBuilder = ApplyJob::leftJoin('jobs', 'jobs.id', '=', 'apply_jobs.job_id')
-        ->where('apply_jobs.id', $candidateId)
+         $queryBuilder = ApplyJob::select([
+            'jobs.id',
+            'jobs.job_title',
+            'jobs.salary_range',
+            'jobs.skills',
+            'countries.name as country',
+            'jobs.country_id',
+            'states.name as state',
+            'jobs.state_id',
+            'cities.name as city',
+            'jobs.city_id',
+            'employer_details.company_name',
+            DB::raw('DATE(jobs.created_at) as date')
+         ])
+         ->leftJoin('jobs', 'jobs.id', '=', 'apply_jobs.job_id')
+         ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'apply_jobs.employer_id')
+        ->leftJoin('countries', 'countries.id', '=', 'jobs.country_id')
+        ->leftJoin('states', 'states.id', '=', 'jobs.state_id')
+        ->leftJoin('cities', 'cities.id', '=', 'jobs.city_id')
+        ->where('apply_jobs.candidate_id', $candidateId)
         ->where('jobs.status', StatusConstants::ACTIVE)
         ->orderByDesc('apply_jobs.id')->get();
 
         foreach ($queryBuilder as $key => $jobData) {
+            $queryBuilder[$key]['jobDetailsRoute'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
             $queryBuilder[$key]['jobTitle'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
-            $queryBuilder[$key]['company_logo_image'] = !empty($jobData->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$jobData->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO'));
+            $queryBuilder[$key]['company'] = !empty($jobData->company_name) ? $jobData->company_name : '';
+            // $queryBuilder[$key]['company_logo_image'] = !empty($jobData->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$jobData->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO'));
             $queryBuilder[$key]['job_title'] = !empty($jobData->job_title) ? $jobData->job_title : '--';
-            $queryBuilder[$key]['company_address'] = isset($jobData->city_id) ? $jobData->city->name.', '.$jobData->state->name.', '.$jobData->country->name : '';
+            $queryBuilder[$key]['company_address'] = isset($jobData->city_id) ? $jobData->city.', '.$jobData->state.', '.$jobData->country : '';
             $queryBuilder[$key]['jobType'] = isset($jobData->job_type_id) ? $jobData->jobType->name : '';
             $queryBuilder[$key]['workType'] = isset($jobData->work_type_id) ? $jobData->workType->name : '';
             $queryBuilder[$key]['salary_range'] = isset($jobData->salary_range) ? '₹ '.$jobData->salary_range.' / P.A.' : '';
+            $queryBuilder[$key]['skills'] = isset($jobData->skills) ? getJobSkills($jobData->skills) : '';
+            $queryBuilder[$key]['date'] = isset($jobData->date) ? date('d M Y', strtotime($jobData->date)) : '';
         }
+        // dd($queryBuilder);
         return $queryBuilder;
     }
 

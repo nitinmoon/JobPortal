@@ -54,7 +54,7 @@
 
             // Fetch jobs data from Laravel API
             $.ajax({
-                url: "{{ route('appliedJobs') }}",
+                url: "{{ route('getAppliedJobsData') }}",
                 method: 'GET',
                 success: function(data) {
                     console.log(data);
@@ -80,27 +80,18 @@
                     $('#applied-job-list').append(`
                     <li>
                         <div class="post-bx">
-                            <div class="d-flex m-b30">
-                                <div class="job-post-company">
-                                    <a href="${job.jobDetailsRoute}"><span>
-                                            <img alt="" src="${job.company_logo_image}" />
-                                        </span></a>
+                            <div class="job-post-info m-a0">
+                                <h4><a href="${job.jobDetailsRoute}">${job.job_title}</a></h4>
+                                <ul>
+                                    <li><a href="company-profile.html">@${job.company}</a></li>
+                                    <li><i class="fas fa-map-marker-alt"></i>${job.company_address}</li>
+                                    <li><i class="far fa-money-bill-alt"></i> ${job.salary_range}</li>
+                                </ul>
+                                <div class="job-time m-t15 m-b10">
+                                    ${job.skills}
                                 </div>
-                                <div class="job-post-info">
-                                    <h4><a href="${job.jobDetailsRoute}">${job.job_title}</a></h4>
-                                    <ul>
-                                        <li><i class="fas fa-map-marker-alt"></i> ${job.company_address}</li>
-                                        <li><i class="far fa-bookmark"></i> ${job.jobType}</li>
-                                        <li><i class="far fa-clock"></i> Published 11 months ago</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="job-time me-auto">
-                                    <a href="javascript:void(0);"><span>${job.workType}</span></a>
-                                </div>
-                                <div class="salary-bx">
-                                    <span>${job.salary_range}</span>
+                                <div class="posted-info clearfix">
+                                    <p class="m-tb0 text-primary float-start"><span class="text-black m-r10">Applied On:</span> ${job.date}</p>
                                 </div>
                             </div>
                         </div>

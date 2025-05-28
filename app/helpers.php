@@ -568,3 +568,38 @@ if (!function_exists('getJobStatusColor')) {
         return $statusColor;
     }
 }
+
+/**
+ ****************************************
+ * method use to get job work type
+ * ---------------------------------------
+ * @return data
+ ****************************************
+ */
+if (!function_exists('getJobSkills')) {
+    function getJobSkills($skillIds)
+    {
+        $skills = Skill::select('id', 'name')->whereIn('id', explode(',', $skillIds))->where('status', '1')->orderBy('name', 'asc')->get();
+        $skillSpan = '';
+        foreach ($skills as $skill) {
+            $skillSpan .= '<span>'.$skill->name.'</span>&emsp;';
+        }
+        return $skillSpan;
+    }
+}
+
+/**
+ ****************************************
+ * method use to get time ago
+ * ---------------------------------------
+ * @return data
+ ****************************************
+ */
+if (!function_exists('getTimeAgo')) {
+    function getTimeAgo($createdDate)
+    {
+        $date = new DateTime($createdDate);
+        $date->sub(new DateInterval('P11M'));
+        return $date->format('Y-m-d');
+    }
+}

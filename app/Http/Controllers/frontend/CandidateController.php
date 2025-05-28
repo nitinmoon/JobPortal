@@ -304,12 +304,19 @@ class CandidateController extends Controller
      */
     public function appliedJobs()
     {
-        $appliedJobs = $this->applyJobService->getAppliedJobs(auth()->user()->id);
         return view(
-            'frontend.candidate.applied-job',
-            compact(
-                'appliedJobs'
-            )
+            'frontend.candidate.applied-job'
         );
+    }
+
+    public function getAppliedJobsData()
+    {
+        $appliedJobs = $this->applyJobService->getAppliedJobs(auth()->user()->id);
+        // dd($appliedJobs);
+        $jobsCount = count($appliedJobs);
+        return response()->json([
+            'jobs' => $appliedJobs,
+            'jobsCount' => $jobsCount
+        ]);
     }
 }
