@@ -278,6 +278,7 @@ Route::middleware(['isCandidateLoggedIn'])->group(function () {
             Route::get('/cadidate-change-password', 'cadidateChangePassword')->name('cadidateChangePassword');
             Route::post('/change-candidate-password', 'changeCandidatePassword')->name('changeCandidatePassword');
             Route::post('/update-candidate-profile', 'updateCandidateProfilePhoto')->name('updateCandidateProfilePhoto');
+            Route::get('/applied-jobs', 'appliedJobs')->name('appliedJobs');
         });
     });
 });
