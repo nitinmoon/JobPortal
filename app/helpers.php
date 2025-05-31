@@ -3,6 +3,7 @@
 use App\Mail\AddUserMail;
 use App\Models\ActivityLog;
 use App\Models\ApplyJob;
+use App\Models\Constants\JobStatusConstants;
 use App\Models\Constants\StatusConstants;
 use App\Models\Designation;
 use App\Models\EmployerDetail;
@@ -601,5 +602,21 @@ if (!function_exists('getTimeAgo')) {
         $date = new DateTime($createdDate);
         $date->sub(new DateInterval('P11M'));
         return $date->format('Y-m-d');
+    }
+}
+
+/**
+ ****************************************
+ * method use to get job applicant count
+ * ---------------------------------------
+ * @return data
+ ****************************************
+ */
+if (!function_exists('getJobApplicantCount')) {
+    function getJobApplicantCount($jobId, $employerId)
+    {
+        return ApplyJob::where('job_id', $jobId)
+        ->where('employer_id', $employerId)
+        ->count();
     }
 }

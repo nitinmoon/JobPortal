@@ -194,4 +194,73 @@ class ApplyJobRepository extends BaseRepository
         // }
         // return $queryBuilder->count();
     }
+
+    /**
+     ************************************
+     * Function use to get applied jobs
+     * ----------------------------------
+     * @param string $total
+     * @return data
+     ************************************
+    */
+    public function getCandidateResumes($employerId)
+    {
+        $employerId = auth()->id(); // or wherever it's from
+
+        $queryBuilder = ApplyJob::select([
+            'apply_jobs.id',
+            'apply_jobs.job_id',
+            'apply_jobs.candidate_id',
+            'apply_jobs.employer_id',
+            'apply_jobs.status',
+            'users.first_name',
+            'users.middle_name',
+            'users.last_name',
+            'candidate_details.resume_file',
+            'candidate_details.skills',
+            'employer_details.company_name',
+            'user_addresses.country_id',
+            'user_addresses.state_id',
+            'user_addresses.city_id',
+            'countries.name as countryName',
+            'states.name as stateName',
+            'cities.name as cityName',
+        ])
+        ->leftJoin('users', 'users.id', '=', 'apply_jobs.candidate_id')
+        ->leftJoin('candidate_details', 'candidate_details.candidate_id', '=', 'apply_jobs.candidate_id')
+        ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'apply_jobs.employer_id')
+        ->leftJoin('user_addresses', 'user_addresses.user_id', '=', 'apply_jobs.candidate_id')
+        ->leftJoin('countries', 'countries.id', '=', 'user_addresses.country_id')
+        ->leftJoin('states', 'states.id', '=', 'user_addresses.state_id')
+        ->leftJoin('cities', 'cities.id', '=', 'user_addresses.city_id')
+        ->where('apply_jobs.employer_id', $employerId)
+        ->orderByDesc('apply_jobs.id')
+        ->get();
+
+        foreach ($queryBuilder as $key => $applyJobData) {
+            $queryBuilder[$key]['candidate_name'] =
+                $applyJobData->first_name . ' ' .
+                $applyJobData->middle_name . ' ' .
+                $applyJobData->last_name;
+
+            $queryBuilder[$key]['job_title'] =
+                isset($applyJobData->job_id) ? $applyJobData->job->job_title : '';
+
+            $queryBuilder[$key]['company_name'] =
+                isset($applyJobData->employer_id) ? $applyJobData->company_name : '';
+
+            $queryBuilder[$key]['skills'] =
+                isset($applyJobData->skills)
+                    ? getJobSkills($applyJobData->skills)
+                    : [];
+
+            $queryBuilder[$key]['location'] =
+                isset($applyJobData->country_id) ? $applyJobData->cityName .', '. $applyJobData->stateName .', '. $applyJobData->cityName: ' ';
+
+            $resumeFile = $applyJobData->resume_file != null ? route('downloadCandidateResume', $applyJobData->resume_file) : 'javascript:void(0)' ;
+            $queryBuilder[$key]['resume_url'] = $resumeFile;
+
+        }
+        return $queryBuilder;
+    }
 }

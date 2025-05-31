@@ -21,6 +21,7 @@ use App\Services\StateService;
 use App\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -400,5 +401,34 @@ class CandidateController extends Controller
             'jobs' => $appliedJobs,
             'jobsCount' => $jobsCount
         ]);
+    }
+
+    /**
+     * ********************************
+     * Method to download resume
+     *---------------------------------
+     * @param fileName
+     * @return Data
+     **********************************
+     */
+    public function downloadCandidateResume($fileName = null)
+    {
+        try {
+             $filePath = config('constants.CANDIDATE_RESUME_PATH') . "/" .$fileName;
+
+            if (!File::exists($filePath)) {
+                abort(404, 'Resume file not found.');
+            }
+
+            return response()->download($filePath);
+        } catch (Exception $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage()
+                ]
+            );
+        }
     }
 }

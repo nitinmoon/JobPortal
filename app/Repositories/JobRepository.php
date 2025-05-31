@@ -178,9 +178,40 @@ class JobRepository extends BaseRepository
      */
     public function getEmployerJobsList()
     {
-        return $this->getModel()
+        $queryBuilder = Job::withTrashed()->select([
+            'jobs.id',
+            'jobs.job_title',
+            'jobs.employer_id',
+            'jobs.job_category_id',
+            'employer_details.company_logo',
+            'employer_details.company_name',
+            'jobs.country_id',
+            'jobs.state_id',
+            'jobs.city_id',
+            'jobs.job_type_id',
+            'jobs.work_type_id',
+            'jobs.salary_range',
+            'jobs.job_status',
+            'jobs.deleted_at',
+            DB::raw('DATE(jobs.created_at) as date')
+        ])
         ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
-        ->where('jobs.employer_id', Auth::user()->id)->orderByDesc('jobs.id')->get();
+        ->where('jobs.employer_id', Auth::user()->id)
+        ->where('jobs.status', StatusConstants::ACTIVE)
+        ->orderByDesc('jobs.id')->withTrashed()->get();
+
+        foreach ($queryBuilder as $key => $jobData) {
+            $queryBuilder[$key]['jobDetailsRoute'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
+            $queryBuilder[$key]['company_logo_image'] = !empty($jobData->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$jobData->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO'));
+            $queryBuilder[$key]['job_title'] = !empty($jobData->job_title) ? $jobData->job_title : '--';
+            $queryBuilder[$key]['company_address'] = isset($jobData->city_id) ? $jobData->city->name.', '.$jobData->state->name.', '.$jobData->country->name : '';
+            $queryBuilder[$key]['jobType'] = isset($jobData->job_type_id) ? $jobData->jobType->name : '';
+            $queryBuilder[$key]['job_category'] = isset($job->jobCategory->name) ? $job->jobCategory->name : '';
+            $queryBuilder[$key]['jobApplicantCount'] = getJobApplicantCount($jobData->id, Auth::user()->id);
+            $queryBuilder[$key]['jobStatus'] = isset($jobData->job_status) ? getJobStatus($jobData->job_status) : '';
+            $queryBuilder[$key]['jobStatusColor'] = getJobStatusColor($jobData->job_status);
+        }
+        return $queryBuilder;
     }
 
     /**

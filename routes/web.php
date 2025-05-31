@@ -259,6 +259,9 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
             Route::post('/update-company-profile', 'updateCompanyProfile')->name('updateCompanyProfile');
             Route::post('/update-company-logo', 'updateCompanyLogo')->name('updateCompanyLogo');
             Route::post('/change-employer-password', 'changeEmployerPassword')->name('changeEmployerPassword');
+            Route::get('/candidate-resumes-data', 'getCandidateResumes')->name('getCandidateResumes');
+            Route::get('/download-candidate-resume/{fileName?}', 'downloadCandidateResume')->name('downloadCandidateResume');
+            Route::get('/get-employer-jobs', 'getEmployerJobs')->name('getEmployerJobs');
         });
     });
 });

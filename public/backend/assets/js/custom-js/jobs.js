@@ -337,6 +337,7 @@ $(function () {
                         status: TOAST_STATUS.SUCCESS,
                         timeout: 5000
                     });
+                    location.reload();
                 } else {
                     Toast.create({
                         title: "Error!",
@@ -345,7 +346,7 @@ $(function () {
                         timeout: 5000
                     });
                 }
-                $(".job-list-table").DataTable().ajax.reload();
+                // $(".job-list-table").DataTable().ajax.reload();
             }
             });
         }
@@ -377,6 +378,7 @@ $(function () {
                                 status: TOAST_STATUS.SUCCESS,
                                 timeout: 5000
                             });
+                            location.reload();
                         } else {
                             Toast.create({
                                 title: "Error!",
@@ -385,7 +387,7 @@ $(function () {
                                 timeout: 5000
                             });
                         }
-                        $(".job-list-table").DataTable().ajax.reload();
+                        // $(".job-list-table").DataTable().ajax.reload();
                     }
                 });
             }

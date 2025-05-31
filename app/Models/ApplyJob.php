@@ -17,9 +17,19 @@ class ApplyJob extends Model
         'status'
     ];
 
-     public function candidate()
+    public function job()
+    {
+        return $this->belongsTo(Job::class, 'job_id');
+    }
+
+    public function candidate()
     {
         return $this->belongsTo(User::class, 'candidate_id');
+    }
+
+    public function candidateDetail()
+    {
+        return $this->belongsTo(CandidateDetail::class, 'candidate_id');
     }
 
     public function employer()
