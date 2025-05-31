@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             WorkTypeSeeder::class,
             JobTypeSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            JobCategorySeeder::class
         ]);
     }
 }
