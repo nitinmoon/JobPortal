@@ -177,7 +177,7 @@
                                         <input type="hidden" name="job_id" id="job_id" value="{{ $jobId }}">
                                         <button type="submit" class="site-button m-b30">Send Application</button>
                                         @else
-                                        <button type="submit" class="site-button m-b30">Update</button>
+                                        <button type="submit" class="site-button m-b30">Save & Next</button>
                                         @endif
                                     </div>
                                 </div>

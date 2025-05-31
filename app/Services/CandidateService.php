@@ -162,6 +162,19 @@ class CandidateService
     }
 
     /**
+     * **********************************************
+     * method used to update candidate details
+     * ----------------------------------------------
+     * @param array $inputArray
+     * @return data
+     * *************************************************
+     */
+    public function updateCandidateDetails($inputArray)
+    {
+        return $this->candidateRepository->updateCandidateDetails($inputArray);
+    }
+
+    /**
      * ******************************************
      * method used to get candidate details
      * ------------------------------------------

@@ -17,6 +17,12 @@ return new class extends Migration
             $table->foreign('candidate_id')->references('id')->on('users');
             $table->integer('designation_id')->unsigned()->nullable()->comment('foreign key (designations)');
             $table->foreign('designation_id')->references('id')->on('designations');
+            $table->integer('job_category_id')->unsigned()->nullable()->comment('foreign key (job_categories)');
+            $table->foreign('job_category_id')->references('id')->on('job_categories');
+            $table->integer('job_type_id')->unsigned()->nullable()->comment('foreign key (job_types)');
+            $table->foreign('job_type_id')->references('id')->on('job_types');
+            $table->integer('work_type_id')->unsigned()->nullable()->comment('foreign key (work_types)');
+            $table->foreign('work_type_id')->references('id')->on('work_types');
             $table->string('current_salary', 100)->nullable()->comment('In Lacs P.A');
             $table->string('expected_salary', 100)->nullable()->comment('In Lacs P.A');
             $table->string('experience', 100)->nullable()->comment('In Years');
@@ -28,6 +34,7 @@ return new class extends Migration
             $table->text('profile_summary')->nullable();
             $table->text('languages')->nullable();
             $table->text('resume_file')->nullable();
+            $table->enum('shift', [1, 2])->nullable()->comment('1 - Morning, 2 - Evening');
             $table->enum('availability_to_join', [1, 2, 3, 4])->nullable()->comment('1 - 15 Days, 2 - 1 Months, 3 - 2 Months, 4 - 3 Months');
             $table->integer('created_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');

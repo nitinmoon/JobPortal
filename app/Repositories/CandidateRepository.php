@@ -225,6 +225,32 @@ class CandidateRepository extends BaseRepository
     }
 
     /**
+     * **********************************************
+     * method used to update candidate profile
+     * ----------------------------------------------
+     * @param array $inputArray
+     * @return data
+     * *************************************************
+     */
+    public function updateCandidateDetails($inputArray)
+    {
+        $inputArray['candidate_id'] = Auth::user()->id;
+        $condition = ['candidate_id' => $inputArray['candidate_id']];
+        $candidateDetails = [];
+        if (isset($inputArray['resume_headline'])) {
+            $candidateDetails['resume_headline'] = $inputArray['resume_headline'];
+        }
+        if (isset($inputArray['skills'])) {
+            $candidateDetails['skills'] = $inputArray['skills'];
+        }
+        if (isset($inputArray['profile_summary'])) {
+            $candidateDetails['profile_summary'] = $inputArray['profile_summary'];
+        }
+        CandidateDetail::updateOrCreate($condition, $candidateDetails);
+        return $inputArray['candidate_id'];
+    }
+
+    /**
      * ******************************************
      * method used to get candidate details
      * ------------------------------------------
@@ -237,11 +263,8 @@ class CandidateRepository extends BaseRepository
         return CandidateDetail::select(
             'candidate_details.id',
             'candidate_details.candidate_id',
-            'candidate_details.address',
-            'candidate_details.country_id',
-            'candidate_details.state_id',
-            'candidate_details.city_id',
-            'candidate_details.zip',
+            'candidate_details.resume_headline',
+            'candidate_details.profile_summary',
             'candidate_details.resume_file',
             'candidate_details.experience',
             'candidate_details.education',
