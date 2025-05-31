@@ -40,245 +40,11 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach($jobs as $key => $job)
-                                    <tr>
-                                        <td class="feature">
-                                            {{ ++$key }}
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">{{ isset($job->job_title) ? $job->job_title : '' }}</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> {{ isset($job->city_id) ? $job->city->name : '' }}, {{ isset($job->state_id) ? $job->state->name : '' }}, {{ isset($job->country_id) ? $job->country->name : '' }}</li>
-                                                <li><i class="far fa-bookmark"></i> {{ isset($job->jobType->name) ? $job->jobType->name : '' }}</li>
-                                                <li><i class="fa fa-filter"></i> {{ isset($job->jobCategory->name) ? $job->jobCategory->name : '' }}</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(0) Applications</td>
-                                        <td class="expired {{ getJobStatusColor($job->job_status) }}">{{ isset($job->job_status) ? getJobStatus($job->job_status) : '' }}</td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    <!-- <tr>
-                                        <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check2" name="example1">
-                                                <label class="form-check-label" for="check2"></label>
-                                            </div>
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">Web Designer</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(8) Applications</td>
-                                        <td class="expired text-red">Expired</td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check3" name="example1">
-                                                <label class="form-check-label" for="check3"></label>
-                                            </div>
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">Finance Accountant</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(9) Applications</td>
-                                        <td class="expired pending">Pending </td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check4" name="example1">
-                                                <label class="form-check-label" for="check4"></label>
-                                            </div>
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">Social Media Expert</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(7) Applications</td>
-                                        <td class="expired success">Active </td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check5" name="example1">
-                                                <label class="form-check-label" for="check5"></label>
-                                            </div>
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">Web Designer</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(6) Applications</td>
-                                        <td class="expired pending">Pending </td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check6" name="example1">
-                                                <label class="form-check-label" for="check6"></label>
-                                            </div>
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">Finance Accountant</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(3) Applications</td>
-                                        <td class="expired text-red">Expired</td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check7" name="example1">
-                                                <label class="form-check-label" for="check7"></label>
-                                            </div>
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">Social Media Expert</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(2) Applications</td>
-                                        <td class="expired success">Active </td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check8" name="example1">
-                                                <label class="form-check-label" for="check8"></label>
-                                            </div>
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">Web Designer</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(4) Applications</td>
-                                        <td class="expired success">Active </td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check9" name="example1">
-                                                <label class="form-check-label" for="check9"></label>
-                                            </div>
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">Finance Accountant</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(1) Applications</td>
-                                        <td class="expired text-red">Expired</td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="feature">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="check10" name="example1">
-                                                <label class="form-check-label" for="check10"></label>
-                                            </div>
-                                        </td>
-                                        <td class="job-name">
-                                            <a href="javascript:void(0);">Web Designer</a>
-                                            <ul class="job-post-info">
-                                                <li><i class="fas fa-map-marker-alt"></i> Sacramento, California</li>
-                                                <li><i class="far fa-bookmark"></i> Full Time</li>
-                                                <li><i class="fa fa-filter"></i> Web Designer</li>
-                                            </ul>
-                                        </td>
-                                        <td class="application text-primary">(1) Applications</td>
-                                        <td class="expired success">Active </td>
-                                        <td class="job-links">
-                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
-                                                <i class="fa fa-eye"></i></a>
-                                            <a href="javascript:void(0);"><i class="ti-trash"></i></a>
-                                        </td>
-                                    </tr> -->
+                                <tbody id="job-list">
                                 </tbody>
                             </table>
                             <div class="pagination-bx m-t30 float-end">
-                                <ul class="pagination">
-                                    <li class="previous"><a href="javascript:void(0);"><i class="ti-arrow-left"></i> Prev</a></li>
-                                    <li class="active"><a href="javascript:void(0);">1</a></li>
-                                    <li><a href="javascript:void(0);">2</a></li>
-                                    <li><a href="javascript:void(0);">3</a></li>
-                                    <li class="next"><a href="javascript:void(0);">Next <i class="ti-arrow-right"></i></a></li>
+                                <ul id="pagination" class="pagination">
                                 </ul>
                             </div>
                             <!-- Modal -->
@@ -324,7 +90,131 @@
 </div>
 @endsection
 @section('script')
+<script src="{{ asset('backend/assets/js/custom-js/jobs.js') }}"></script>
 <script>
-    $(function() {});
+    $(function() {
+        const jobsPerPage = 10;
+        let currentPage = 1;
+        let allJobs = [];
+
+        // Fetch jobs data from Laravel API
+        $.ajax({
+            url: "{{ route('getEmployerJobs') }}",
+            method: 'GET',
+            success: function(data) {
+                allJobs = data.jobs;
+                jobsCount = data.jobsCount;
+                $('#jobCount').html(jobsCount);
+                renderJobs(currentPage);
+            },
+            error: function() {
+                $('#job-list').html('<p>Error loading data</p>');
+            }
+        });
+
+        function renderJobs(page) {
+            $('#job-list').empty();
+
+            const start = (page - 1) * jobsPerPage;
+            const end = start + jobsPerPage;
+            const paginatedJobs = allJobs.slice(start, end);
+            console.log(paginatedJobs);
+            paginatedJobs.forEach(job => {
+                const viewJobRoute = "{{ route('jobDetails', ':id') }}";
+                const deleteJobRoute = "{{ route('deleteJob', ':id') }}";
+                const restoreJobRoute = "{{ route('restoreJob', ':id') }}";
+                let actionButtons = '';
+                if (job.deleted_at === null) {
+                    actionButtons = `
+                        <a href="${viewJobRoute.replace(':id', btoa(job.id))}">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a class="deleteJob" href="javascript:void(0);" data-url="${deleteJobRoute.replace(':id', job.id)}">
+                            <i class="ti-trash"></i>
+                        </a>
+                    `;
+                } else {
+                    actionButtons = `
+                        <a class="restoreJob" href="javascript:void(0);" data-url="${restoreJobRoute.replace(':id', job.id)}">
+                            <i class="fa fa-arrow-circle-o-up"></i>
+                        </a>
+                    `;
+                }
+                $('#job-list').append(`
+                    <tr>
+                        <td class="feature">
+                            ${job.id}
+                        </td>
+                        <td class="job-name">
+                            <a href="javascript:void(0);">${job.job_title}</a>
+                            <ul class="job-post-info">
+                                <li><i class="fas fa-map-marker-alt"></i> ${job.company_address}</li>
+                                <li><i class="far fa-bookmark"></i> ${job.jobType}</li>
+                                <li><i class="fa fa-filter"></i> ${job.job_category}</li>
+                            </ul>
+                        </td>
+                        <td class="application text-primary">(${job.jobApplicantCount}) Applications</td>
+                        <td class="expired ${job.jobStatusColor}">${job.jobStatus}</td>
+                        <td class="job-links">
+                            ${actionButtons}
+                        </td>
+                    </tr>
+                `);
+            });
+
+            renderPagination();
+        }
+
+        function renderPagination() {
+            $('#pagination').empty();
+            const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+
+            // Prev button
+            $('#pagination').append(`
+                <li class="previous ${currentPage === 1 ? 'disabled' : ''}">
+                    <a href="javascript:void(0);"><i class="ti-arrow-left"></i> Prev</a>
+                </li>
+            `);
+
+            // Page number buttons
+            for (let i = 1; i <= totalPages; i++) {
+                $('#pagination').append(`
+                <li class="${i === currentPage ? 'active' : ''}">
+                    <a href="javascript:void(0);">${i}</a>
+                </li>
+            `);
+            }
+
+            // Next button
+            $('#pagination').append(`
+                <li class="next ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a href="javascript:void(0);">Next <i class="ti-arrow-right"></i></a>
+                </li>
+            `);
+        }
+
+        // Pagination click handler
+        $('#pagination').on('click', 'li', function() {
+            if ($(this).hasClass('disabled') || $(this).hasClass('active')) return;
+
+            if ($(this).hasClass('previous')) {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderJobs(currentPage);
+                }
+            } else if ($(this).hasClass('next')) {
+                const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderJobs(currentPage);
+                }
+            } else {
+                // Page number
+                const page = parseInt($(this).text());
+                currentPage = page;
+                renderJobs(currentPage);
+            }
+        });
+    });
 </script>
 @endsection

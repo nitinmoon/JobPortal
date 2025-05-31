@@ -12,7 +12,8 @@
                 <!-- Breadcrumb row -->
                 <div class="breadcrumb-row">
                     <ul class="list-inline">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="{{ route('home') }}">Home</a></li>
+                        <li><a href="{{ route('jobs') }}">Jobs</a></li>
                         <li>{{ !empty($jobDetails->job_title) ? $jobDetails->job_title : '--' }}</li>
                     </ul>
                 </div>

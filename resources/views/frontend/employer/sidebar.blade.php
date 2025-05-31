@@ -37,7 +37,7 @@
                                 <span>Manage jobs</span></a></li>
                 <li><a href="{{ route('companyResume') }}" class="{{ (Request::routeIs('companyResume')) ? 'active' : '' }}">
                                 <i class="far fa-id-card" aria-hidden="true"></i>
-                                <span>Resume</span></a></li>
+                                <span>Candidate Resume</span></a></li>
                 <li><a href="{{ route('employerChangePassword') }}" class="{{ (Request::routeIs('employerChangePassword')) ? 'active' : '' }}">
                                 <i class="fa fa-key" aria-hidden="true"></i>
                                 <span>Change Password</span></a></li>

@@ -89,8 +89,7 @@ class EmployerController extends Controller
             $cities = $this->cityService->getCity($userDetails->state_id);
         }
         $countries = $this->countryService->getAllCountry();
-        return view(
-            'frontend.employer.my-profile',
+        return view('frontend.employer.my-profile',
             compact(
                 'title',
                 'genders',
@@ -258,8 +257,7 @@ class EmployerController extends Controller
      */
     public function companyManageJobs()
     {
-        $jobs = $this->jobService->getEmployerJobsList();
-        return view('frontend.employer.company-manage-job', compact('jobs'));
+        return view('frontend.employer.company-manage-job');
     }
 
     /**
@@ -304,7 +302,8 @@ class EmployerController extends Controller
             return response()->json(
                 [
                     'status' => true,
-                    'msg' => "Profile updated successfully!"
+                    'msg' => "Profile updated successfully!",
+                    'redirectRoute' => route('companyProfile')
                 ]
             );
         } catch (Exception $exception) {
@@ -485,5 +484,44 @@ class EmployerController extends Controller
     private function validateLogoImage(Request $request)
     {
         return $request->only(['company_logo']);
+    }
+
+    /**
+     * ********************************************
+     * method used to validate profile photo input
+     * --------------------------------------------
+     * @param request
+     * @return request
+     * @description input ('profile_photo')
+     * *********************************************
+    */
+    public function getCandidateResumes()
+    {
+        $appliedJobs = $this->employerService->getCandidateResumes(auth()->user()->id);
+        // dd($appliedJobs);
+        $jobsCount = count($appliedJobs);
+        return response()->json([
+            'jobs' => $appliedJobs,
+            'jobsCount' => $jobsCount
+        ]);
+    }
+
+    /**
+     * ********************************************
+     * method used to get employer jobs
+     * --------------------------------------------
+     * @param request
+     * @return request
+     * @description input ('profile_photo')
+     * *********************************************
+    */
+    public function getEmployerJobs()
+    {
+        $jobs = $this->jobService->getEmployerJobsList();
+        $jobsCount = count($jobs);
+        return response()->json([
+            'jobs' => $jobs,
+            'jobsCount' => $jobsCount
+        ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\OtpVerificationEmail;
+use App\Repositories\ApplyJobRepository;
 use App\Repositories\EmployerRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Mail;
@@ -12,13 +13,16 @@ class EmployerService
 {
     private $employerRepository;
     private $userRepository;
+    private $applyJobRepository;
 
     public function __construct(
         EmployerRepository $employerRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        ApplyJobRepository $applyJobRepository
     ) {
         $this->employerRepository = $employerRepository;
         $this->userRepository = $userRepository;
+        $this->applyJobRepository = $applyJobRepository;
     }
 
     /**
@@ -313,5 +317,18 @@ class EmployerService
     public function getEmployers()
     {
        return $this->employerRepository->getEmployers();
+    }
+
+    /**
+     ************************************
+     * Function use to get applied jobs
+     * ----------------------------------
+     * @param string $total
+     * @return data
+     ************************************
+    */
+    public function getCandidateResumes($employerId)
+    {
+        return $this->applyJobRepository->getCandidateResumes($employerId);
     }
 }

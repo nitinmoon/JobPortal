@@ -164,7 +164,7 @@
                                     </div> -->
                                     <div class="col-lg-6">
                                         <input type="hidden" name="userId" value="{{ isset($userDetails->id) ? $userDetails->id : 0 }}" />
-                                        <button type="submit" class="site-button m-b30">Update</button>
+                                        <button type="submit" class="site-button m-b30">Save and Next</button>
                                     </div>
                                 </div>
                             </form>
