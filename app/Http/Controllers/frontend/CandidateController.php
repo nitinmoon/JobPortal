@@ -7,6 +7,7 @@ use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\ProfileImageRequest;
 use App\Models\Constants\UserRoleConstants;
 use App\Services\ApplyJobService;
+use App\Services\CandidateService;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\DesignationService;
@@ -15,6 +16,7 @@ use App\Services\JobCategoryService;
 use App\Services\JobService;
 use App\Services\JobTypeService;
 use App\Services\LoginService;
+use App\Services\SkillService;
 use App\Services\StateService;
 use App\Services\UserService;
 use Exception;
@@ -36,6 +38,8 @@ class CandidateController extends Controller
     private $loginService;
     private $userService;
     private $applyJobService;
+    private $candidateService;
+    private $skillService;
 
     public function __construct(
         JobService $jobService,
@@ -48,7 +52,9 @@ class CandidateController extends Controller
         JobTypeService $jobTypeService,
         LoginService $loginService,
         UserService $userService,
-        ApplyJobService $applyJobService
+        ApplyJobService $applyJobService,
+        CandidateService $candidateService,
+        SkillService $skillService
     ) {
         $this->employerService = $employerService;
         $this->countryService = $countryService;
@@ -60,6 +66,8 @@ class CandidateController extends Controller
         $this->loginService = $loginService;
         $this->userService = $userService;
         $this->applyJobService = $applyJobService;
+        $this->candidateService = $candidateService;
+        $this->skillService = $skillService;
     }
 
     /**
@@ -108,7 +116,7 @@ class CandidateController extends Controller
      * ********************************
      * method use to update my profile
      * --------------------------------
-     * @param int $authId
+     * @param object $request
      * @return jsonResponse
      * ********************************
      */
@@ -117,12 +125,13 @@ class CandidateController extends Controller
         try {
             $inputArray = $this->validateMyProfileInput($request);
             $this->userService->updateMyProfile($inputArray);
+            $redirectRoute = isset($inputArray['flag']) && $inputArray['flag'] == 'apply-job' ? route('candidateProfile') : route('myResume');
             $msg = $request->flag ? 'Apply job succesfully!' : 'Profile updated successfully!';
             return response()->json(
                 [
                     'status' => true,
+                    'redirectRoute' => $redirectRoute,
                     'msg' => $msg,
-                    'redirectRoute' => route('myResume')
                 ]
             );
         } catch (Exception $exception) {
@@ -179,6 +188,12 @@ class CandidateController extends Controller
     public function myResume()
     {
         $userDetails = $this->employerService->getUserDetails(auth()->user()->id);
+        $candidateDetails = $this->candidateService->getCandidateDetails(auth()->user()->id);
+        $skills = $this->skillService->getAllSkills();
+        $jobCategories = $this->jobCategoryService->getAllJobCategory();
+        $designations = $this->designationService->getAllDesignations();
+        $jobTypes = $this->jobTypeService->getAllJobTypes();
+        $jobWorkTypes = getJobWorkType();
         $title = getEnum('users', 'title');
         $genders = getEnum('users', 'gender');
         $states = [];
@@ -190,8 +205,6 @@ class CandidateController extends Controller
             $cities = $this->cityService->getCity($userDetails->state_id);
         }
         $countries = $this->countryService->getAllCountry();
-        $designations = $this->designationService->getAllDesignations();
-        // $languages = getLanguages();
         return view(
             'frontend.candidate.my-resume',
             compact(
@@ -201,8 +214,77 @@ class CandidateController extends Controller
                 'userDetails',
                 'states',
                 'cities',
-                'designations'
+                'designations',
+                'candidateDetails',
+                'skills',
+                'jobCategories',
+                'jobTypes',
+                'jobWorkTypes'
             )
+        );
+    }
+
+    /**
+     * ********************************
+     * method use to update candidate
+     * --------------------------------
+     * @param object $request
+     * @return jsonResponse
+     * ********************************
+     */
+    public function updateCandidateDetails(Request $request)
+    {
+        try {
+            $inputArray = $this->validateCandidateDetailsInput($request);
+            $this->candidateService->updateCandidateDetails($inputArray);
+            $redirectRoute = isset($inputArray['flag']) && $inputArray['flag'] == 'apply-job' ? route('candidateProfile') : route('myResume');
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => "Profile updated successfully!",
+                    'redirectRoute' => $redirectRoute
+                ]
+            );
+        } catch (Exception $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    /**
+     ******************************************
+     * Function use to validate my profile input
+     * ----------------------------------------
+     * @param object $request
+     * @return object request
+     ******************************************
+     */
+    private function validateCandidateDetailsInput(Request $request)
+    {
+        return $request->only(
+            [
+                'userId',
+                'resume_headline',
+                'skills',
+                'profile_summary',
+                'last_name',
+                'email',
+                'phone',
+                'dob',
+                'gender',
+                'address',
+                'zip',
+                'country_id',
+                'state_id',
+                'city_id',
+                'flag',
+                'job_id'
+            ]
         );
     }
 

@@ -580,7 +580,7 @@ if (!function_exists('getJobStatusColor')) {
 if (!function_exists('getJobSkills')) {
     function getJobSkills($skillIds)
     {
-        $skills = Skill::select('id', 'name')->whereIn('id', explode(',', $skillIds))->where('status', '1')->orderBy('name', 'asc')->get();
+        $skills = Skill::select('id', 'name')->whereIn('id', json_decode($skillIds))->where('status', '1')->orderBy('name', 'asc')->get();
         $skillSpan = '';
         foreach ($skills as $skill) {
             $skillSpan .= '<span>'.$skill->name.'</span>&emsp;';

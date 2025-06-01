@@ -51,15 +51,15 @@
                             </div>
                         </div>
                         <div class="text-white browse-job text-left">
-                            <h4 class="m-b0">John Doe
-                                <a class="m-l15 font-16 text-white" data-bs-toggle="modal" data-bs-target="#profilename" href="#"><i class="fas fa-pencil-alt"></i></a>
+                            <h4 class="m-b0">{{ isset($userDetails->id) ? $userDetails->first_name.' '.$userDetails->middle_name.' '.$userDetails->last_name : '' }}
+                                <a class="m-l15 font-16 text-white" href="{{ route('candidateProfile') }}"><i class="fas fa-pencil-alt"></i></a>
                             </h4>
                             <p class="m-b15">Freelance Senior PHP Developer at various agencies</p>
                             <ul class="clearfix">
-                                <li><i class="ti-location-pin"></i> Sacramento, California</li>
-                                <li><i class="ti-mobile"></i> +1 123 456 7890</li>
+                                <li><i class="ti-location-pin"></i> {{ isset($userDetails->address) ? $userDetails->address.', '.$userDetails->city_name.', '.$userDetails->state_name.', '.$userDetails->country_name.' - '.$userDetails->zip : '' }}</li>
+                                <li><i class="ti-mobile"></i> {{ isset($userDetails->phone) ? $userDetails->phone : '' }}</li>
                                 <li><i class="ti-briefcase"></i> Fresher</li>
-                                <li><i class="ti-email"></i> info@example.com</li>
+                                <li><i class="ti-email"></i> {{ isset($userDetails->email) ? $userDetails->email : '' }}</li>
                             </ul>
                             <div class="progress-box m-t10">
                                 <div class="progress-info">Profile Strength (Average)<span>70%</span></div>
@@ -225,7 +225,7 @@
                                 <h5 class="m-b15">Resume Headline</h5>
                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#resumeheadline" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
                             </div>
-                            <p class="m-b0">Job board currently living in USA</p>
+                            <p class="m-b0">{{ isset($candidateDetails->resume_headline) ? $candidateDetails->resume_headline : '' }}</p>
                             <!-- Modal -->
                             <div class="modal fade modal-bx-info editor" id="resumeheadline" tabindex="-1" role="dialog" aria-labelledby="ResumeheadlineModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -236,22 +236,23 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body">
-                                            <p>It is the first thing recruiters notice in your profile. Write concisely what makes you unique and right person for the job you are looking for.</p>
-                                            <form>
+                                        <form id="editResumeHeadlineForm" action="{{ route('updateCandidateDetails') }}" method="POST">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <p>It is the first thing recruiters notice in your profile. Write concisely what makes you unique and right person for the job you are looking for.</p>
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <textarea class="form-control" placeholder="Type Description"></textarea>
+                                                            <textarea class="form-control" placeholder="Enter Resume Headline" name="resume_headline">{{ isset($candidateDetails->resume_headline) ? $candidateDetails->resume_headline : '' }}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="site-button" data-bs-dismiss="modal">Cancel</button>
-                                            <button type="button" class="site-button">Save</button>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="site-button" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="site-button">Save</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -263,12 +264,9 @@
                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#keyskills" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
                             </div>
                             <div class="job-time me-auto">
-                                <a href="javascript:void(0);"><span>Javascript</span></a>
-                                <a href="javascript:void(0);"><span>CSS</span></a>
-                                <a href="javascript:void(0);"><span>HTML</span></a>
-                                <a href="javascript:void(0);"><span>Bootstrap</span></a>
-                                <a href="javascript:void(0);"><span>Web Designing</span></a>
-                                <a href="javascript:void(0);"><span>Photoshop</span></a>
+                                @if(isset($candidateDetails->skills) && $candidateDetails->skills != null)
+                                <a href="javascript:void(0);">{!! getJobSkills($candidateDetails->skills) !!}</a>
+                                @endif
                             </div>
                             <!-- Modal -->
                             <div class="modal fade modal-bx-info editor" id="keyskills" tabindex="-1" role="dialog" aria-labelledby="KeyskillsModalLongTitle" aria-hidden="true">
@@ -280,22 +278,30 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body">
-                                            <p>It is the first thing recruiters notice in your profile. Write concisely what makes you unique and right person for the job you are looking for.</p>
-                                            <form>
+                                        <form id="editSkillsForm" action="{{ route('updateCandidateDetails') }}" method="POST">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <p>It is the first thing recruiters notice in your profile. Write concisely what makes you unique and right person for the job you are looking for.</p>
                                                 <div class="row">
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control tags_input" value="html,css,bootstrap,photoshop" />
-                                                        </div>
+                                                    <div class="col-lg-2 col-md-2">
+                                                        <label for="inputEmail5" class="form-label">Skills <span class="text-danger">*</span></label>
+                                                    </div>
+                                                    <div class="col-lg-10 col-md-10">
+                                                        <select class="js-example-basic-single" data-error="#error_skills" multiple="multiple" name="skills[]" data-placeholder="Select Skills">
+                                                            <option value="">Select</option>
+                                                            @foreach($skills as $row)
+                                                            <option value="{{ $row->id }}" {{ (isset($candidateDetails->skills) && $candidateDetails->skills != '' && in_array($row->id, json_decode($candidateDetails->skills))) ? 'selected' : '' }}>{{ $row->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <span class="error" id="error_skills"></span>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="site-button" data-bs-dismiss="modal">Cancel</button>
-                                            <button type="button" class="site-button">Save</button>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="site-button" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="site-button">Save</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -540,7 +546,7 @@
                                 </div>
                             </div> -->
                             <!-- Modal End -->
-                             <table>
+                            <table>
                                 <thead>
                                     <tr>
                                         <th>Education</th>
@@ -894,7 +900,7 @@
                                 <h5 class="m-b15">Profile Summary</h5>
                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#profilesummary" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
                             </div>
-                            <p class="m-b0">Your Profile Summary should mention the highlights of your career and education, what your professional interests are, and what kind of a career you are looking for. Write a meaningful summary of more than 50 characters.</p>
+                            <p class="m-b0">{{ isset($candidateDetails->profile_summary) ? $candidateDetails->profile_summary : '' }}</p>
                             <!-- Modal -->
                             <div class="modal fade modal-bx-info editor" id="profilesummary" tabindex="-1" role="dialog" aria-labelledby="ProfilesummaryModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -905,23 +911,23 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body">
-                                            <p>Your Profile Summary should mention the highlights of your career and education, what your professional interests are, and what kind of a career you are looking for. Write a meaningful summary of more than 50 characters.</p>
-                                            <form>
+                                        <form id="editProfileSummaryForm" action="{{ route('updateCandidateDetails') }}" method="POST">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <p>Your Profile Summary should mention the highlights of your career and education, what your professional interests are, and what kind of a career you are looking for. Write a meaningful summary of more than 50 characters.</p>
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
-                                                            <label>Details of Project</label>
-                                                            <textarea class="form-control" placeholder="Type Description"></textarea>
+                                                            <textarea class="form-control" placeholder="Enter Profile Summary" name="profile_summary">{{ isset($candidateDetails->profile_summary) ? $candidateDetails->profile_summary : '' }}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="site-button" data-bs-dismiss="modal">Cancel</button>
-                                            <button type="button" class="site-button">Save</button>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="site-button" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="site-button">Save</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -1435,82 +1441,62 @@
                                         <div class="modal-body">
                                             <form>
                                                 <div class="row">
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Industry</label>
-                                                            <select>
-                                                                <option>Accounting / Finance</option>
-                                                                <option>Banking / Financial Services / Broking</option>
-                                                                <option>Education / Teaching / Training</option>
-                                                                <option>IT-Hardware &amp; Networking</option>
-                                                                <option>Other</option>
-                                                            </select>
-                                                        </div>
+                                                    <div class="col-lg-3 col-md-3">
+                                                        <label for="inputEmail5" class="form-label">Job Category <span class="text-danger">*</span></label>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Functional Area / Department</label>
-                                                            <select>
-                                                                <option>Agent</option>
-                                                                <option>Architecture / Interior Design</option>
-                                                                <option>Beauty / Fitness / Spa Services</option>
-                                                                <option>IT Hardware / Technical Support</option>
-                                                                <option>IT Software - System Programming</option>
-                                                                <option>Other</option>
-                                                            </select>
-                                                        </div>
+                                                    <div class="col-lg-9 col-md-9">
+                                                        <select class="js-example-basic-single" data-error="#error_job_category_id" name="job_category_id" data-placeholder="Select Category">
+                                                            <option value="">Select</option>
+                                                            @foreach($jobCategories as $category)
+                                                            <option value="{{ $category->id }}" {{ isset($candidateDetails->category) && $candidateDetails->category != '' && $category->id == $candidateDetails->job_category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <span class="error" id="error_job_category_id"></span>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Role</label>
-                                                            <select>
-                                                                <option>Creative</option>
-                                                                <option>Web Designer</option>
-                                                                <option>Graphic Designer</option>
-                                                                <option>National Creative Director</option>
-                                                                <option>Fresher</option>
-                                                                <option>Other</option>
-                                                            </select>
-                                                        </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-lg-3 col-md-3">
+                                                        <label for="inputEmail5" class="form-label">Designation <span class="text-danger">*</span></label>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Job Type</label>
-                                                            <div class="row">
-                                                                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="permanent" name="example1">
-                                                                        <label class="form-check-label" for="permanent">Permanent</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="contractual" name="example1">
-                                                                        <label class="form-check-label" for="contractual">Contractual</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                    <div class="col-lg-9 col-md-9">
+                                                        <select class="js-example-basic-single" data-error="#error_designation_id" name="designation_id" data-placeholder="Select Designation">
+                                                            <option value="">Select</option>
+                                                            @foreach($designations as $designation)
+                                                            <option value="{{ $designation->id }}" {{ isset($candidateDetails->designation_id) && $candidateDetails->designation_id == $designation->id ? 'selected' : '' }}>{{ $designation->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <span class="error" id="error_designation_id"></span>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Employment Type</label>
-                                                            <div class="row">
-                                                                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="fulltime" name="example1">
-                                                                        <label class="form-check-label" for="fulltime">Full Time</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="parttime" name="example1">
-                                                                        <label class="form-check-label" for="parttime">Part Time</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-lg-3 col-md-3">
+                                                        <label for="inputEmail5" class="form-label">Job Type <span class="text-danger">*</span></label>
                                                     </div>
+                                                    <div class="col-lg-9 col-md-9">
+                                                        <select class="js-example-basic-single" data-error="#error_job_type_id" name="job_type_id" data-placeholder="Select job type">
+                                                            <option value="">Select</option>
+                                                            @foreach($jobTypes as $jobType)
+                                                            <option value="{{ $jobType->id }}" {{ isset($candidateDetails->job_type_id) && $candidateDetails->job_type_id == $jobType->id ? 'selected' : '' }}>{{ $jobType->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <span class="error" id="error_job_type_id"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-lg-3 col-md-3">
+                                                        <label for="inputEmail5" class="form-label">Work Type <span class="text-danger">*</span></label>
+                                                    </div>
+                                                    <div class="col-lg-9 col-md-9">
+                                                        <select class="js-example-basic-single" data-error="#error_skills" multiple="multiple" name="skills[]" data-placeholder="Select Skills">
+                                                            <option value="">Select</option>
+                                                            @foreach($jobWorkTypes as $jobWorkType)
+                                                            <option value="{{ $jobWorkType->id }}" {{ isset($candidateDetails->skills) && $candidateDetails->skills == $jobWorkType->id ? 'selected' : '' }}>{{ $jobWorkType->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <span class="error" id="error_skills"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
                                                     <div class="col-lg-12 col-md-12">
                                                         <div class="form-group">
                                                             <label>Preferred Shift</label>
@@ -1518,25 +1504,19 @@
                                                                 <div class="col-lg-3 col-md-6 col-sm-6 col-6">
                                                                     <div class="form-check">
                                                                         <input type="radio" class="form-check-input" id="day" name="example1">
-                                                                        <label class="form-check-label" for="day">Day</label>
+                                                                        <label class="form-check-label" for="day">Morning</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-6 col-sm-6 col-6">
                                                                     <div class="form-check">
                                                                         <input type="radio" class="form-check-input" id="night" name="example1">
-                                                                        <label class="form-check-label" for="night">Night</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
-                                                                    <div class="form-check">
-                                                                        <input type="radio" class="form-check-input" id="flexible" name="example1">
-                                                                        <label class="form-check-label" for="flexible">Part Time</label>
+                                                                        <label class="form-check-label" for="night">Evening</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-6">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label>Availability to Join</label>
                                                             <div class="row">
@@ -1555,46 +1535,12 @@
                                                                         <option>2011</option>
                                                                     </select>
                                                                 </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <select>
-                                                                        <option>january</option>
-                                                                        <option>february</option>
-                                                                        <option>March</option>
-                                                                        <option>April</option>
-                                                                        <option>May</option>
-                                                                        <option>Jun</option>
-                                                                        <option>July</option>
-                                                                        <option>August</option>
-                                                                        <option>September</option>
-                                                                        <option>October</option>
-                                                                        <option>November</option>
-                                                                        <option>December</option>
-                                                                    </select>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-12 col-md-12">
+                                                    <div class="col-lg-6 col-md-6">
                                                         <div class="form-group">
                                                             <label>Expected Salary</label>
-                                                            <div class="row">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <div class="form-check">
-                                                                        <input type="radio" class="form-check-input" id="usdollars" name="example1">
-                                                                        <label class="form-check-label" for="usdollars">US Dollars</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <div class="form-check">
-                                                                        <input type="radio" class="form-check-input" id="rupees" name="example1">
-                                                                        <label class="form-check-label" for="rupees">Indian Rupees</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-6">
-                                                        <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                                                                     <select>
@@ -1606,48 +1552,7 @@
                                                                         <option>5 lakh</option>
                                                                     </select>
                                                                 </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <select>
-                                                                        <option> 05 Thousand </option>
-                                                                        <option> 10 Thousand </option>
-                                                                        <option> 15 Thousand </option>
-                                                                        <option> 20 Thousand </option>
-                                                                        <option> 25 Thousand </option>
-                                                                        <option> 30 Thousand </option>
-                                                                        <option> 35 Thousand </option>
-                                                                        <option> 40 Thousand </option>
-                                                                        <option> 45 Thousand </option>
-                                                                        <option> 50 Thousand </option>
-                                                                    </select>
-                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Desired Location</label>
-                                                            <select>
-                                                                <option>India</option>
-                                                                <option>Australia</option>
-                                                                <option>Bahrain</option>
-                                                                <option>China</option>
-                                                                <option>Dubai</option>
-                                                                <option>France</option>
-                                                                <option>Germany</option>
-                                                                <option>Hong Kong</option>
-                                                                <option>Kuwait</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Desired Industry</label>
-                                                            <select>
-                                                                <option>Software</option>
-                                                                <option>Factory</option>
-                                                                <option>Ngo</option>
-                                                                <option>Other</option>
-                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1665,31 +1570,23 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Industry</label>
-                                        <span class="clearfix font-13">IT-Software/Software Services</span>
+                                        <label class="m-b0">Job Category</label>
+                                        <span class="clearfix font-13">Accounts</span>
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Role</label>
                                         <span class="clearfix font-13">Web Designer</span>
                                     </div>
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Employment Type</label>
+                                        <label class="m-b0">Work Type</label>
                                         <span class="clearfix font-13">Full Time</span>
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Availability to Join</label>
                                         <span class="clearfix font-13">12 july</span>
                                     </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Desired Location</label>
-                                        <span class="clearfix font-13">Add Desired Location</span>
-                                    </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Functional Area</label>
-                                        <span class="clearfix font-13">Design / Creative / User Experience</span>
-                                    </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Job Type</label>
                                         <span class="clearfix font-13">permanent</span>
@@ -1701,10 +1598,6 @@
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Expected Salary</label>
                                         <span class="clearfix font-13">1 Lakhs</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Desired Industry</label>
-                                        <span class="clearfix font-13">Add Desired Industry</span>
                                     </div>
                                 </div>
                             </div>
@@ -1971,6 +1864,7 @@
 <!-- Content END-->
 @endsection
 @section('script')
+<script src="{{ asset('frontend/assets/js/custom-js/candidate.js') }}"></script>
 <script>
     $(function() {
         document.querySelectorAll('ul a[data-page]').forEach(link => {

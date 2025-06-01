@@ -185,7 +185,7 @@ $(function () {
                 success: function (res) {
                     if (res.status == true) {
                         setTimeout(() => {
-                            window.location = res.redirectRoute;
+                            location.href = res.redirectRoute;
                         }, 2000);
                         Toast.create({
                             title: "Success!",
