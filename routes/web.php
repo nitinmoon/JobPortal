@@ -216,6 +216,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'index')->name('home');
     Route::get('/contact-us', 'contactUs')->name('contactUs');
     Route::post('/save-contact', 'saveContact')->name('saveContact');
+    Route::get('/privacy', 'privacy')->name('privacy');
+    Route::get('/terms-and-condition', 'terms')->name('terms');
 });
 
 /*

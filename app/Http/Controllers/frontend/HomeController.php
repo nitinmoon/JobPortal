@@ -68,7 +68,7 @@ class HomeController extends Controller
         $secretKey = env('RECAPTCHA_SITE_SECRET');
 
         $data = $request->all();
-        // try {
+        try {
             if (isset($data['g-recaptcha-response']) && !empty($data['g-recaptcha-response'])) {
                 $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
                     'secret' => $secretKey,
@@ -94,15 +94,15 @@ class HomeController extends Controller
                     ]
                 );
             }
-        // } catch (Exception $exception) {
-        //     Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
-        //     return response()->json(
-        //         [
-        //             'status' => false,
-        //             'msg' => $exception->getMessage()
-        //         ]
-        //     );
-        // }
+        } catch (Exception $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage()
+                ]
+            );
+        }
     }
 
     /**
@@ -117,5 +117,29 @@ class HomeController extends Controller
     private function validateContactRequest(Request $request)
     {
         return $request->only(['name', 'email', 'message']);
+    }
+
+    /**
+     * **********************************
+     * Method is used to view privacy page
+     * ----------------------------------
+     * @return view
+     * **********************************
+     */
+    public function privacy()
+    {
+        return view('frontend.privacy');
+    }
+
+    /**
+     * **********************************************
+     * Method is used to view term & condition page
+     * ----------------------------------------------
+     * @return view
+     * **********************************************
+     */
+    public function terms()
+    {
+        return view('frontend.terms-and-condition');
     }
 }
