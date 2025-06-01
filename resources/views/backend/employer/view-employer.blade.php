@@ -17,10 +17,8 @@
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-              <img src="{{ !empty($employerDetails->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}" alt="Profile" class="rounded-circle">
-              <h2>{{ isset($userDetails->first_name) && $userDetails->first_name != null ? getTitle($userDetails->title) . ' ' . strip_tags(ucfirst($userDetails->first_name)) . ' ' .strip_tags(ucfirst($userDetails->last_name)) : explode('@', $userDetails->email)[0] }}</h2>
-              <h3>{{ isset($userDetails->role->name) ? $userDetails->role->name : '--' }}</h3>
+              <img src="{{ !empty(getCompanyDetails($employerDetails->employer_id)['company_logo']) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.getCompanyDetails($employerDetails->employer_id)['company_logo']))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt="Profile" class="rounded-circle">
+              <h2>{{ isset($employerDetails->company_name) && $employerDetails->company_name != null ? $employerDetails->company_name : '--' }}</h2>
             </div>
           </div>
 

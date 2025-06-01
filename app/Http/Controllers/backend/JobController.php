@@ -76,7 +76,7 @@ class JobController extends Controller
         $skills =  getSkills();
         $genders = getEnum('jobs', 'gender');
         $englishLevels = getEnum('jobs', 'english_level');
-        $employers = $this->employerService->getEmployers();
+        $companies = $this->employerService->getCompanies();
         return view('backend.jobs.add-edit-job', compact(
             'designations',
             'jobCategories',
@@ -86,7 +86,7 @@ class JobController extends Controller
             'skills',
             'genders',
             'englishLevels',
-            'employers'
+            'companies'
         ));
     }
 
@@ -133,14 +133,18 @@ class JobController extends Controller
      */
     private function validateJobInput(Request $request)
     {
-        return $request->only(
-            [
-                'jobId', 'employer_id', 'job_title', 'designation_id', 'job_category_id', 'job_type_id', 'work_type_id',
-                'skills', 'experience', 'salary_range', 'vacancy', 'deadline', 'gender', 'english_level',
-                'job_description', 'job_responsibility', 'educational_requirements', 'other_benefits',
-                'country_id', 'state_id', 'city_id', 'upload_file'
-            ]
-        );
+        $input = $request->only([
+            'jobId', 'employer_id', 'job_title', 'designation_id', 'job_category_id', 'job_type_id', 'work_type_id',
+            'skills', 'experience', 'salary_range', 'vacancy', 'deadline', 'gender', 'english_level',
+            'job_description', 'job_responsibility', 'educational_requirements', 'other_benefits',
+            'country_id', 'state_id', 'city_id'
+        ]);
+
+        if ($request->hasFile('upload_file')) {
+            $input['upload_file'] = $request->file('upload_file');
+        }
+
+        return $input;
     }
 
     /**
@@ -169,7 +173,7 @@ class JobController extends Controller
         $skills =  getSkills();
         $genders = getEnum('jobs', 'gender');
         $englishLevels = getEnum('jobs', 'english_level');
-        $employers = $this->employerService->getEmployers();
+        $companies = $this->employerService->getCompanies();
         return view('backend.jobs.add-edit-job', compact(
             'jobDetails',
             'designations',
@@ -182,7 +186,7 @@ class JobController extends Controller
             'skills',
             'genders',
             'englishLevels',
-            'employers'
+            'companies'
         ));
     }
 

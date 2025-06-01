@@ -214,6 +214,8 @@ Route::middleware(['guest'])->group(function () {
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/home', 'index')->name('home');
+    Route::get('/contact-us', 'contactUs')->name('contactUs');
+    Route::post('/save-contact', 'saveContact')->name('saveContact');
 });
 
 /*

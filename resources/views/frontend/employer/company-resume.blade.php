@@ -20,6 +20,7 @@
                                 <h5 class="font-weight-700 float-start text-uppercase">Resume</h5>
                                 <a href="{{ route('companyManageJobs') }}" class="site-button right-arrow button-sm float-end">Back</a>
                             </div>
+                            <div class="d-none bg-secondary text-white text-center" id="resumeError">Resume Not Found!</div>
                             <ul id="resume-job-list" class="post-job-bx browse-job-grid post-resume row">
                             </ul>
                             <div class="pagination-bx float-end m-t30">
@@ -47,10 +48,15 @@
             url: "{{ route('getCandidateResumes') }}",
             method: 'GET',
             success: function(data) {
-                allJobs = data.jobs;
-                jobsCount = data.jobsCount;
-                $('#jobCount').html(jobsCount);
-                renderJobs(currentPage);
+                if(data.jobsCount != 0) {
+                    allJobs = data.jobs;
+                    jobsCount = data.jobsCount;
+                    $('#jobCount').html(jobsCount);
+                    renderJobs(currentPage);
+                    $('#resumeError').addClass('d-none');
+                } else {
+                    $('#resumeError').removeClass('d-none');
+                }
             },
             error: function() {
                 $('#resume-job-list').html('<p>Error loading data</p>');
@@ -63,7 +69,6 @@
             const start = (page - 1) * jobsPerPage;
             const end = start + jobsPerPage;
             const paginatedJobs = allJobs.slice(start, end);
-            console.log(paginatedJobs);
             paginatedJobs.forEach(job => {
                 const skillHtml = Array.isArray(job.skills)
                 ? job.skills.map(skill => `<a href="javascript:void(0);"><span>${skill}</span></a>`).join('')

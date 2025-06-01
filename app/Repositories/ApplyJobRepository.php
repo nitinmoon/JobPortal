@@ -244,7 +244,7 @@ class ApplyJobRepository extends BaseRepository
                 $applyJobData->last_name;
 
             $queryBuilder[$key]['job_title'] =
-                isset($applyJobData->job_id) ? $applyJobData->job->job_title : '';
+                isset($applyJobData->job->job_title) ? $applyJobData->job->job_title : '';
 
             $queryBuilder[$key]['company_name'] =
                 isset($applyJobData->employer_id) ? $applyJobData->company_name : '';

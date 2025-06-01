@@ -3,18 +3,21 @@
 namespace App\Repositories;
 
 use App\Mail\AddUserMail;
+use App\Mail\SaveContactMail;
 use App\Mail\VerifyOtpMail;
 use App\Models\ApplyJob;
 use App\Models\Constants\ApplyJobStatusConstants;
 use App\Models\Constants\StatusConstants;
 use App\Models\Constants\UserRoleConstants;
 use App\Models\Constants\UserStatusConstants;
+use App\Models\ContactMessage;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\UserAddress;
 use App\Repositories\BaseRepository;
 use App\Models\VerifyOtp;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
 
@@ -214,5 +217,50 @@ class UserRepository extends BaseRepository
                 'last_login' => date('Y-m-d H:i:s')
             ]
         );
+    }
+
+    /**
+     * **********************************
+     * method used to save contact
+     * ----------------------------------
+     *
+     * @param object $request
+     * @return data
+     * **********************************
+     */
+    public function saveContact($inputArray)
+    {
+        $contact = new ContactMessage();
+        $contact->name = strip_tags($inputArray['name']);
+        $contact->email = strip_tags($inputArray['email']);
+        $contact->message = strip_tags($inputArray['message']);
+        $contact->save();
+        $this->saveContactMail($contact->name, $contact->email, $contact->message);
+        $LastInsertId = $contact->id;
+    }
+
+    /**
+     * ********************************************
+     * method used to send common mail to add user
+     * --------------------------------------------
+     *
+     * @param  array $inputArray
+     * @return data
+     * ********************************************
+    */
+    public function saveContactMail($name, $email, $message)
+    {
+        try {
+            Mail::to(env('MAIL_FROM_ADDRESS'))->send(new SaveContactMail($name, $email, $message));
+        } catch (\Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage(),
+                ]
+            );
+        }
+        return $email;
     }
 }

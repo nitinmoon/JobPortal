@@ -23,11 +23,11 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="form-label">Employer</label>
+                  <label class="form-label">Company</label>
                   <select class="form-select select2" name="employer_id" id="employer_id" data-error="#error_employer_id">
                     <option value="">Select</option>
-                    @foreach($employers as $employer)
-                    <option value="{{ $employer->id }}" {{ isset($jobDetails->employer_id) && $jobDetails->employer_id == $employer->id ? 'selected' : '' }}>{{ $employer->first_name.' '.$employer->last_name }}</option>
+                    @foreach($companies as $company)
+                    <option value="{{ $company->employer_id }}" {{ isset($jobDetails->employer_id) && $jobDetails->employer_id == $company->employer_id ? 'selected' : '' }}>{{ $company->company_name }}</option>
                     @endforeach
                   </select>
                   <span class="error" id="error_employer_id"></span>
@@ -286,14 +286,6 @@
               </div>
             </div>
             <div class="row">
-              <!-- <div class="col-lg-6 col-md-6">
-                <div class="form-group">
-                  <label>Upload File</label>
-                  <div class="custom-file">
-                      <input type="file" class="site-button form-control" name="upload_file" id="customFile">
-                  </div>
-                </div>
-              </div> -->
               <div class="col-lg-6 col-md-6">
                 <div class="form-group">
                   <label>Upload File</label>

@@ -137,4 +137,18 @@ class UserService
     {
         return $this->userRepository->updateLastLogin($userId);
     }
+
+    /**
+     * **********************************
+     * method used to save contact
+     * ----------------------------------
+     *
+     * @param object $request
+     * @return data
+     * **********************************
+     */
+    public function saveContact($inputArray)
+    {
+        return $this->userRepository->saveContact($inputArray);
+    }
 }

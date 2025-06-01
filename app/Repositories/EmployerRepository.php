@@ -409,10 +409,9 @@ class EmployerRepository extends BaseRepository
      * @description input (user details)
      * **********************************
      */
-    public function getEmployers()
+    public function getCompanies()
     {
-       return User::select('id', 'first_name', 'last_name')
-       ->where('role_id', UserRoleConstants::EMPLOYER)
+       return EmployerDetail::select('id', 'company_name', 'employer_id')
        ->get();
     }
 }

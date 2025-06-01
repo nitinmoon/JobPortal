@@ -117,10 +117,11 @@ class CandidateController extends Controller
         try {
             $inputArray = $this->validateMyProfileInput($request);
             $this->userService->updateMyProfile($inputArray);
+            $msg = $request->flag ? 'Apply job succesfully!' : 'Profile updated successfully!';
             return response()->json(
                 [
                     'status' => true,
-                    'msg' => "Profile updated successfully!",
+                    'msg' => $msg,
                     'redirectRoute' => route('myResume')
                 ]
             );

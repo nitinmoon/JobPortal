@@ -314,9 +314,9 @@ class EmployerService
      * @description input (user details)
      * **********************************
      */
-    public function getEmployers()
+    public function getCompanies()
     {
-       return $this->employerRepository->getEmployers();
+       return $this->employerRepository->getCompanies();
     }
 
     /**
