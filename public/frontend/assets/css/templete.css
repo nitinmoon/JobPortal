@@ -1179,9 +1179,9 @@
 }
 .canditate-des .upload-link {
 	position: absolute;
-	width: 45px;
-	height: 45px;
-	line-height: 45px;
+	width: 35px;
+	height: 35px;
+	line-height: 20px;
 	background: #fff;
 	top: 0;
 	right: 0;

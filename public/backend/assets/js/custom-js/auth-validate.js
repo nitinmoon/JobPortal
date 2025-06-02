@@ -67,11 +67,6 @@ $("document").ready(function() {
                             status: TOAST_STATUS.SUCCESS,
                             timeout: 5000,
                         });
-                        // $.notify({
-                        //     message: res.msg
-                        // },{
-                        //     type: 'success'
-                        // });
                     } else if(res.status == '2') {
                         Toast.create({
                             title: "Error!",
@@ -123,6 +118,16 @@ $("document").ready(function() {
     $(".login-input").keypress(function() {
         $('#error_email').html('');
         $('#error_password').html('');
+    });
+
+    $(".login-pass").change(function () {
+        grecaptcha.reset();
+        $("#error_password").html("");
+        $("#loginSubmitBtn").prop("disabled", false);
+    });
+
+    $("#email").change(function () {
+        grecaptcha.reset();
     });
 
     $(".f_input").keypress(function() {

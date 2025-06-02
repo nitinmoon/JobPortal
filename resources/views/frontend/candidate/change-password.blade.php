@@ -90,4 +90,5 @@
 @endsection
 @section('script')
 <script src="{{ asset('backend/assets/js/custom-js/my-profile.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/custom-js/profile.js') }}"></script>
 @endsection

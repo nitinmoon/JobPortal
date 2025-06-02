@@ -46,6 +46,7 @@
     </div>
     @endsection
     @section('script')
+    <script src="{{ asset('frontend/assets/js/custom-js/profile.js') }}"></script>
     <script>
         $(function() {
             const jobsPerPage = 10;

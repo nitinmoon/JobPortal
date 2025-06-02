@@ -22,7 +22,11 @@
                             <ul class="d-flex">
                                 <li class="nav-item dropdown pe-3" style="list-style: none !important;">
                                     <a class="nav-link nav-profile d-flex align-items-center" href="javascript:void(0);" data-bs-toggle="dropdown">
-                                        <img src="{{ !empty(getCompanyDetails(auth()->user()->id)['company_logo']) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.getCompanyDetails(Auth::user()->id)['company_logo']))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt="Profile" class="rounded-circle">
+                                        @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::EMPLOYER)
+                                            <img src="{{ !empty(getCompanyDetails(auth()->user()->id)['company_logo']) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.getCompanyDetails(Auth::user()->id)['company_logo']))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt="Profile" class="rounded-circle">
+                                        @else
+                                            <img src="{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}" alt="Profile" class="rounded-circle">
+                                        @endif
                                         <span class="d-none d-md-block dropdown-toggle ps-2">{{ isset(auth()->user()->first_name) && auth()->user()->first_name != null ? auth()->user()->first_name.' '.auth()->user()->last_name : ucFirst(explode('@', auth()->user()->email)[0]) }}</span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">

@@ -37,7 +37,7 @@ class AddUpdateEmployerInputRequest extends FormRequest
             'job_category_id' => 'required',
             'foundation_date' => 'required',
             'no_of_employees' => 'required|max:50',
-            'gst_no' => 'required|max:20',
+            'gst_no' => 'max:20',
             'company_address' => 'required',
             'zip' =>'required',
             'country_id' => 'required',

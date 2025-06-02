@@ -72,13 +72,12 @@ $(function () {
                     $("#preloader").show();
                 },
                 success: function (res) {
-                    console.log(res);
                     if (res.status == true) {
                         Toast.create({
                             title: "Success!",
                             message: res.msg,
                             status: TOAST_STATUS.SUCCESS,
-                            timeout: 5000,
+                            timeout: 8000,
                         });
                         location.reload();
                     } else if (res.status == "2") {

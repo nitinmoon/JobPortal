@@ -27,12 +27,12 @@
                                 <form class="row g-3" id="login-form" action="{{ route('checkAdminLogin') }}">
                                     <div class="col-12">
                                         <label for="email" class="form-label">Username</label>
-                                        <input type="email" name="email" class="form-control login-input" placeholder="abc@example.com">
+                                        <input type="email" name="email" class="form-control login-input" id="email" placeholder="abc@example.com">
                                         <span class="error" id="error_email"></span>
                                     </div>
                                     <div class="col-12">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="password" name="password" class="form-control login-input" placeholder="******">
+                                        <input type="password" name="password" class="form-control login-input login-pass" placeholder="******">
                                         <span class="error" id="error_password"></span>
                                     </div>
                                     <div class="col-md-12">

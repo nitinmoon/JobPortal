@@ -298,7 +298,8 @@ class CandidateController extends Controller
      */
     public function cadidateChangePassword()
     {
-        return view('frontend.candidate.change-password');
+        $userDetails = $this->employerService->getUserDetails(auth()->user()->id);
+        return view('frontend.candidate.change-password', compact('userDetails'));
     }
 
      /**
@@ -388,8 +389,10 @@ class CandidateController extends Controller
      */
     public function appliedJobs()
     {
+        $userDetails = $this->employerService->getUserDetails(auth()->user()->id);
         return view(
-            'frontend.candidate.applied-job'
+            'frontend.candidate.applied-job',
+            compact('userDetails')
         );
     }
 
