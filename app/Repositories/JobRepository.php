@@ -148,6 +148,7 @@ class JobRepository extends BaseRepository
             'jobs.job_type_id',
             'jobs.work_type_id',
             'jobs.salary_range',
+            'jobs.deadline',
             'jobs.job_status',
             DB::raw('DATE(jobs.created_at) as date')
         ])
@@ -165,6 +166,7 @@ class JobRepository extends BaseRepository
             $queryBuilder[$key]['workType'] = isset($jobData->work_type_id) ? $jobData->workType->name : '';
             $queryBuilder[$key]['salary_range'] = isset($jobData->salary_range) ? '₹ '.$jobData->salary_range.' / P.A.' : '';
             $queryBuilder[$key]['time'] = isset($jobData->date) ? getTimeAgo($jobData->date) : '';
+            $queryBuilder[$key]['deadline'] = isset($jobData->deadline) ? date('d M Y', strtotime($jobData->deadline)) : '';
         }
         return $queryBuilder;
     }

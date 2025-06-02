@@ -288,6 +288,7 @@ Route::middleware(['isCandidateLoggedIn'])->group(function () {
             Route::get('/applied-jobs', 'appliedJobs')->name('appliedJobs');
             Route::get('/applied-jobs-data', 'getAppliedJobsData')->name('getAppliedJobsData');
             Route::post('/update-cadidate-details', 'updateCandidateDetails')->name('updateCandidateDetails');
+            Route::post('/upload-resume', 'uploadResume')->name('uploadResume');
         });
     });
 });

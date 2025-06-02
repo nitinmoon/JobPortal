@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\CompanyLogoRequest;
 use App\Http\Requests\JobFormRequest;
-use App\Http\Requests\ProfileImageRequest;
 use App\Models\Constants\UserRoleConstants;
 use App\Services\CityService;
 use App\Services\CountryService;
@@ -23,6 +22,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 class EmployerController extends Controller
 {
@@ -523,5 +523,34 @@ class EmployerController extends Controller
             'jobs' => $jobs,
             'jobsCount' => $jobsCount
         ]);
+    }
+
+    /**
+     * ********************************
+     * Method to download resume
+     *---------------------------------
+     * @param fileName
+     * @return Data
+     **********************************
+     */
+    public function downloadCandidateResume($fileName = null)
+    {
+        try {
+             $filePath = config('constants.CANDIDATE_RESUME_PATH') . "/" .$fileName;
+
+            if (!File::exists($filePath)) {
+                abort(404, 'Resume file not found.');
+            }
+
+            return response()->download($filePath);
+        } catch (Exception $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage()
+                ]
+            );
+        }
     }
 }

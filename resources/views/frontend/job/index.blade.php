@@ -328,13 +328,15 @@
                                     <ul>
                                         <li><i class="fas fa-map-marker-alt"></i> ${job.company_address}</li>
                                         <li><i class="far fa-bookmark"></i> ${job.jobType}</li>
-                                        <li><i class="far fa-clock"></i> Published ${job.time} ago</li>
+                                        <li><i class="far fa-clock"></i> Published ${job.time}</li>
+                                        <li><i class="far fa-clock"></i> Deadline: ${job.deadline}</li>
                                     </ul>
                                 </div>
-                            </div>
-                            <div class="d-flex">
+                                </div>
+                                <div class="d-flex">
                                 <div class="job-time me-auto">
-                                    <a href="javascript:void(0);"><span>${job.workType}</span></a>
+                                <a href="javascript:void(0);"><span>${job.workType}</span></a>&emsp;
+                                <a href="${job.jobDetailsRoute}" class="site-button style-1">View Job</a>
                                 </div>
                                 <div class="salary-bx">
                                     <span>${job.salary_range}</span>

@@ -126,7 +126,7 @@ class CandidateController extends Controller
             $inputArray = $this->validateMyProfileInput($request);
             $this->userService->updateMyProfile($inputArray);
             $redirectRoute = isset($inputArray['flag']) && $inputArray['flag'] == 'apply-job' ? route('candidateProfile') : route('myResume');
-            $msg = $request->flag ? 'Apply job succesfully!' : 'Profile updated successfully!';
+            $msg = isset($inputArray['flag']) && $inputArray['flag'] == 'apply-job' ? 'Apply job succesfully!' : 'Profile updated successfully!';
             return response()->json(
                 [
                     'status' => true,
@@ -272,7 +272,7 @@ class CandidateController extends Controller
                 'resume_headline',
                 'skills',
                 'profile_summary',
-                'last_name',
+                'resume_file',
                 'email',
                 'phone',
                 'dob',
@@ -405,34 +405,5 @@ class CandidateController extends Controller
             'jobs' => $appliedJobs,
             'jobsCount' => $jobsCount
         ]);
-    }
-
-    /**
-     * ********************************
-     * Method to download resume
-     *---------------------------------
-     * @param fileName
-     * @return Data
-     **********************************
-     */
-    public function downloadCandidateResume($fileName = null)
-    {
-        try {
-             $filePath = config('constants.CANDIDATE_RESUME_PATH') . "/" .$fileName;
-
-            if (!File::exists($filePath)) {
-                abort(404, 'Resume file not found.');
-            }
-
-            return response()->download($filePath);
-        } catch (Exception $exception) {
-            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
-            return response()->json(
-                [
-                    'status' => false,
-                    'msg' => $exception->getMessage()
-                ]
-            );
-        }
     }
 }

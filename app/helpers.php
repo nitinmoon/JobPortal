@@ -304,12 +304,12 @@ if (!function_exists('getJobAppliedStatusName')) {
 }
 
 /**
-  **************************
+ **************************
  * method use to get title
  * ---------------------------
  * @param string $title
  * @return data
-  **************************
+ **************************
  */
 if (!function_exists('getTitle')) {
     function getTitle($title)
@@ -320,7 +320,7 @@ if (!function_exists('getTitle')) {
             $titleName = "Mrs";
         } elseif ($title == 3) {
             $titleName = "Miss";
-        } elseif ($title == 4){
+        } elseif ($title == 4) {
             $titleName = "Other";
         } else {
             $titleName = '';
@@ -330,11 +330,11 @@ if (!function_exists('getTitle')) {
 }
 
 /**
-  ************************************
+ ************************************
  * method use to get size array
  * -------------------------------------
  * @return data
-  *************************************
+ *************************************
  */
 if (!function_exists('educationArray')) {
     function educationArray()
@@ -352,11 +352,11 @@ if (!function_exists('educationArray')) {
 }
 
 /**
-  *****************************************
+ *****************************************
  * method use to check candidate ApplyJob
  * ----------------------------------------
  * @return data
-  *****************************************
+ *****************************************
  */
 if (!function_exists('isCandidateApplyJob')) {
     function isCandidateApplyJob($candidateId, $jobId)
@@ -390,11 +390,11 @@ if (!function_exists('getUserGender')) {
 }
 
 /**
-  ************************************
+ ************************************
  * method use to get size array
  * -------------------------------------
  * @return data
-  *************************************
+ *************************************
  */
 if (!function_exists('jobCount')) {
     function jobCount($field, $Id)
@@ -404,11 +404,11 @@ if (!function_exists('jobCount')) {
 }
 
 /**
-  *******************************
+ *******************************
  * method use to get users count
  * ------------------------------
  * @return data
-  *******************************
+ *******************************
  */
 if (!function_exists('getDashboardUsersCount')) {
     function getDashboardUsersCount($roleId)
@@ -583,7 +583,7 @@ if (!function_exists('getJobSkills')) {
         $skills = Skill::select('id', 'name')->whereIn('id', json_decode($skillIds))->where('status', '1')->orderBy('name', 'asc')->get();
         $skillSpan = '';
         foreach ($skills as $skill) {
-            $skillSpan .= '<span>'.$skill->name.'</span>&emsp;';
+            $skillSpan .= '<span>' . $skill->name . '</span>&emsp;';
         }
         return $skillSpan;
     }
@@ -599,9 +599,21 @@ if (!function_exists('getJobSkills')) {
 if (!function_exists('getTimeAgo')) {
     function getTimeAgo($createdDate)
     {
-        $date = new DateTime($createdDate);
-        $date->sub(new DateInterval('P11M'));
-        return $date->format('Y-m-d');
+        $timestamp = strtotime($createdDate);
+
+        $strTime = array("second", "minute", "hour", "day", "month", "year");
+        $length = array("60", "60", "24", "30", "12", "10");
+
+        $currentTime = time();
+        if ($currentTime >= $timestamp) {
+            $diff     = time() - $timestamp;
+            for ($i = 0; $diff >= $length[$i] && $i < count($length) - 1; $i++) {
+                $diff = $diff / $length[$i];
+            }
+
+            $diff = round($diff);
+            return $diff . " " . $strTime[$i] . " ago ";
+        }
     }
 }
 
@@ -616,7 +628,7 @@ if (!function_exists('getJobApplicantCount')) {
     function getJobApplicantCount($jobId, $employerId)
     {
         return ApplyJob::where('job_id', $jobId)
-        ->where('employer_id', $employerId)
-        ->count();
+            ->where('employer_id', $employerId)
+            ->count();
     }
 }

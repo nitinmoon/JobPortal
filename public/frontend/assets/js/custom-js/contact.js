@@ -57,7 +57,7 @@ $(function () {
                 error.insertAfter(element);
             }
         },
-        submitHandler: function () {
+        submitHandler: function (form) {
             var href = $("#contact-form").attr("action");
             var serializeData = $("#contact-form").serialize();
             if (grecaptcha.getResponse() == "") {
@@ -77,9 +77,10 @@ $(function () {
                             title: "Success!",
                             message: res.msg,
                             status: TOAST_STATUS.SUCCESS,
-                            timeout: 8000,
+                            timeout: 5000,
                         });
-                        location.reload();
+                        form.reset();
+                        grecaptcha.reset();
                     } else if (res.status == "2") {
                         $("#captchaError").html(res.msg);
                     } else {

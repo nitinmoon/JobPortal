@@ -47,21 +47,18 @@ class ApplyJobRepository extends BaseRepository
         ->where('apply_jobs.candidate_id', $candidateId)
         ->where('jobs.status', StatusConstants::ACTIVE)
         ->orderByDesc('apply_jobs.id')->get();
-
         foreach ($queryBuilder as $key => $jobData) {
             $queryBuilder[$key]['jobDetailsRoute'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
             $queryBuilder[$key]['jobTitle'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
             $queryBuilder[$key]['company'] = !empty($jobData->company_name) ? $jobData->company_name : '';
-            // $queryBuilder[$key]['company_logo_image'] = !empty($jobData->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$jobData->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO'));
             $queryBuilder[$key]['job_title'] = !empty($jobData->job_title) ? $jobData->job_title : '--';
             $queryBuilder[$key]['company_address'] = isset($jobData->city_id) ? $jobData->city.', '.$jobData->state.', '.$jobData->country : '';
             $queryBuilder[$key]['jobType'] = isset($jobData->job_type_id) ? $jobData->jobType->name : '';
             $queryBuilder[$key]['workType'] = isset($jobData->work_type_id) ? $jobData->workType->name : '';
             $queryBuilder[$key]['salary_range'] = isset($jobData->salary_range) ? '₹ '.$jobData->salary_range.' / P.A.' : '';
-            $queryBuilder[$key]['skills'] = isset($jobData->skills) ? getJobSkills($jobData->skills) : '';
+            // $queryBuilder[$key]['skills'] = isset($jobData->skills) ? getJobSkills($jobData->skills) : '';
             $queryBuilder[$key]['date'] = isset($jobData->date) ? date('d M Y', strtotime($jobData->date)) : '';
         }
-        // dd($queryBuilder);
         return $queryBuilder;
     }
 

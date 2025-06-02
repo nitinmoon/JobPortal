@@ -246,6 +246,17 @@ class CandidateRepository extends BaseRepository
         if (isset($inputArray['profile_summary'])) {
             $candidateDetails['profile_summary'] = $inputArray['profile_summary'];
         }
+        if (!empty($inputArray['resume_file'])) {
+            $filePath = config('constants.CANDIDATE_RESUME_PATH');
+            $oldFileName = CandidateDetail::where('candidate_id', $inputArray['candidate_id'])->pluck('resume_file');
+            File::delete($filePath . '/' . $oldFileName[0]);
+            $fileName  = config('constants.CANDIDATE_PREFIX') . $inputArray['candidate_id'] . '_Resume.' . $inputArray['resume_file']->extension();
+            if (!file_exists($filePath)) {
+                mkdir($filePath, 0777, true);
+            }
+            $inputArray['resume_file']->move($filePath, $fileName);
+            $candidateDetails['resume_file'] = $fileName;
+        }
         CandidateDetail::updateOrCreate($condition, $candidateDetails);
         return $inputArray['candidate_id'];
     }

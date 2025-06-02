@@ -269,7 +269,7 @@
                 <div class="col-lg-12">
                     <h2 class="m-b10">Make a Difference with Your Online Resume!</h2>
                     <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
-                    <a href="register.html" class="site-button m-t20 outline outline-2 radius-xl">Create an Account</a>
+                    <a href="{{ route('candidateRegister') }}" class="site-button m-t20 outline outline-2 radius-xl">Create an Account</a>
                 </div>
             </div>
         </div>
@@ -448,7 +448,7 @@
     <div class="section-full content-inner-2 testimonials bg-white">
         <div class="container">
             <div class="section-head style-1 text-center">
-                <h6>Clents Testimonials</h6>
+                <h6>Clients Testimonials</h6>
                 <h2 class="section-title-3">What A Job Holder Says About Us</h2>
                 <p class="dz-text-2">There are many variations of passages of available, but the majority have suffered
                     some form, by injected humour, or look even slightly believable.</p>

@@ -39,7 +39,7 @@
     <div class="overlay-black-dark profile-edit p-t50 p-b20" style="background-image:url(images/banner/bnr1.jpg);">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-md-7 candidate-info">
+                <div class="col-lg-12 col-md-12 candidate-info">
                     <div class="candidate-detail">
                         <div class="canditate-des text-center">
                             <a href="javascript:void(0);">
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-5">
+                <!-- <div class="col-lg-4 col-md-5">
                     <a href="javascript:void(0);">
                         <div class="pending-info text-white p-a25">
                             <h5>Pending Action</h5>
@@ -81,11 +81,11 @@
                             </ul>
                         </div>
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
         <!-- Modal -->
-        <div class="modal fade browse-job modal-bx-info editor" id="profilename" tabindex="-1" role="dialog" aria-labelledby="ProfilenameModalLongTitle" aria-hidden="true">
+        <!-- <div class="modal fade browse-job modal-bx-info editor" id="profilename" tabindex="-1" role="dialog" aria-labelledby="ProfilenameModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -185,7 +185,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Modal End -->
     </div>
     <!-- inner page banner END -->
@@ -1829,9 +1829,10 @@
                             <!-- Details End -->
                         </div>
                         <div id="attach_resume_bx" class="job-bx m-b30">
-                            <h5 class="m-b10">Attach Resume</h5>
-                            <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
-                            <form class="attach-resume">
+                            <form id="uploadResumeForm" class="attach-resume" action="{{ route('updateCandidateDetails') }}" method="POST">
+                                @csrf
+                                <h5 class="m-b10">Attach Resume</h5>
+                                <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
@@ -1840,19 +1841,21 @@
                                                     <i class="fa fa-upload"></i>
                                                     Upload Resume File size is 3 MB
                                                 </p>
-                                                <input type="file" class="site-button form-control" id="customFile">
+                                                <input type="file" class="site-button form-control" id="customFile" name="resume_file" data-error="#error_resume_file">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <p class="text-center">
+                                    If you do not have a resume document, you may write your brief professional profile <a class="site-button-link" href="javascript:void(0);">here</a>.
+                                </p>
+                                <span class="error" id="error_resume_file"></span>
+                                <div class="col-lg-12 text-right">
+                                    <input type="hidden" name="userId" value="{{ isset($userDetails->id) ? $userDetails->id : 0 }}" />
+                                    <button type="submit" class="site-button m-b30">Upload Resume</button>
+                                </div>
                             </form>
-                            <p class="text-center">
-                                If you do not have a resume document, you may write your brief professional profile <a class="site-button-link" href="javascript:void(0);">here</a>.
-                            </p>
-                            <div class="col-lg-12 text-right">
-                                <input type="hidden" name="userId" value="{{ isset($userDetails->id) ? $userDetails->id : 0 }}" />
-                                <button type="submit" class="site-button m-b30">Upload Resume</button>
-                            </div>
                         </div>
                     </div>
                 </div>

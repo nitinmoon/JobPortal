@@ -40,8 +40,8 @@
                                     <div class="widget bg-white p-lr20 p-t20  widget_getintuch radius-sm">
                                         <h4 class="text-black font-weight-700 p-t10 m-b15">Job Details</h4>
                                         <ul>
-                                            <li><i class="ti-shield"></i><strong class="font-weight-700 text-black">Company</strong><span class="text-black-light"> {{ isset($jobDetails->employer_id) ? $jobDetails->employer->company_name : '--' }} </span></li>
-                                            <li><i class="ti-location-pin"></i><strong class="font-weight-700 text-black">Address</strong><span class="text-black-light"> {{ isset($jobDetails->city_id) ? $jobDetails->employer->company_address.', '.$jobDetails->employer->city->name.', '.$jobDetails->employer->state->name.', '.$jobDetails->employer->country->name.' - '.$jobDetails->employer->zip : '--' }} </span></li>
+                                            <li><i class="ti-shield"></i><strong class="font-weight-700 text-black">Company</strong><span class="text-black-light"> {{ isset($jobDetails->employer->company_name) ? $jobDetails->employer->company_name : '--' }} </span></li>
+                                            <li><i class="ti-location-pin"></i><strong class="font-weight-700 text-black">Address</strong><span class="text-black-light"> {{ isset($jobDetails->employer->company_address) ? $jobDetails->employer->company_address.', '.$jobDetails->employer->city->name.', '.$jobDetails->employer->state->name.', '.$jobDetails->employer->country->name.' - '.$jobDetails->employer->zip : '--' }} </span></li>
                                             <li><i class="ti-money"></i><strong class="font-weight-700 text-black">Salary</strong> {{ !empty($jobDetails->salary_range) ? $jobDetails->salary_range.' P.A.' : '--' }}</li>
                                             <li><i class="ti-shield"></i><strong class="font-weight-700 text-black">Experience</strong>{{ !empty($jobDetails->experience) ? $jobDetails->experience.' Experience' : '--' }}</li>
                                         </ul>
