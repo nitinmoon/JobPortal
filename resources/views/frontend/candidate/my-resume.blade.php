@@ -43,12 +43,12 @@
                     <div class="candidate-detail">
                         <div class="canditate-des text-center">
                             <a href="javascript:void(0);">
-                                <img alt="" src="{{ asset('frontend/assets/images/logo/icon2.png') }}">
+                                <img alt="" src="{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}">
                             </a>
-                            <div class="upload-link" title="update" data-bs-toggle="tooltip" data-placement="right">
+                            <!-- <div class="upload-link" title="update" data-bs-toggle="tooltip" data-placement="right">
                                 <input type="file" class="update-flie">
                                 <i class="fa fa-camera"></i>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="text-white browse-job text-left">
                             <h4 class="m-b0">{{ isset($userDetails->id) ? $userDetails->first_name.' '.$userDetails->middle_name.' '.$userDetails->last_name : '' }}
@@ -1849,10 +1849,10 @@
                             <p class="text-center">
                                 If you do not have a resume document, you may write your brief professional profile <a class="site-button-link" href="javascript:void(0);">here</a>.
                             </p>
-                        </div>
-                        <div class="col-lg-12">
-                            <input type="hidden" name="userId" value="{{ isset($userDetails->id) ? $userDetails->id : 0 }}" />
-                            <button type="submit" class="site-button m-b30">Submit</button>
+                            <div class="col-lg-12 text-right">
+                                <input type="hidden" name="userId" value="{{ isset($userDetails->id) ? $userDetails->id : 0 }}" />
+                                <button type="submit" class="site-button m-b30">Upload Resume</button>
+                            </div>
                         </div>
                     </div>
                 </div>
