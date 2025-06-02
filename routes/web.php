@@ -9,6 +9,7 @@ use App\Http\Controllers\backend\JobCategoryController;
 use App\Http\Controllers\backend\JobController;
 use App\Http\Controllers\backend\JobTypeController;
 use App\Http\Controllers\backend\LoginController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\frontend\AuthController;
 use App\Http\Controllers\frontend\CandidateController as FrontendCandidateController;
 use App\Http\Controllers\frontend\EmployerController as FrontendEmployerController;
@@ -160,6 +161,14 @@ Route::middleware(['isAdminLoggedIn'])->group(function () {
             Route::get('/restore-job/{id}', 'restoreJob')->name('restoreJob');
             Route::get('/view-detail-job/{id}', 'jobDetails')->name('viewdetailJob');
             Route::get('/download-resume/{id?}', 'downloadResume')->name('downloadResume');
+        });
+
+        /*
+        | Job Routes
+        */
+        Route::controller(ContactController::class)->group(function () {
+            Route::get('/contacts', 'index')->name('contacts');
+            Route::post('/contacts', 'index')->name('contactsList');
         });
     });
 });
