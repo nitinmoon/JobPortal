@@ -75,8 +75,8 @@
                 const start = (page - 1) * jobsPerPage;
                 const end = start + jobsPerPage;
                 const paginatedJobs = allJobs.slice(start, end);
-
                 // Append job items
+                if(jobsCount != 0) {
                 paginatedJobs.forEach(job => {
                     $('#applied-job-list').append(`
                     <li>
@@ -99,6 +99,9 @@
                     </li>
             `);
                 });
+                } else {
+                        $('#applied-job-list').html('<span class="badge bg-warning">No applied jobs found!</span>');
+                    }
 
                 renderPagination();
             }
