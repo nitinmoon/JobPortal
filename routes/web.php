@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\backend\ApplyJobController;
 use App\Http\Controllers\backend\CandidateController;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\DesignationController;
@@ -169,6 +170,14 @@ Route::middleware(['isAdminLoggedIn'])->group(function () {
         Route::controller(ContactController::class)->group(function () {
             Route::get('/contacts', 'index')->name('contacts');
             Route::post('/contacts', 'index')->name('contactsList');
+        });
+
+        /*
+        | Job Routes
+        */
+        Route::controller(ApplyJobController::class)->group(function () {
+            Route::get('/candidate-applied-jobs', 'index')->name('candidateApplyJobs');
+            Route::post('/candidate-applied-jobs', 'index')->name('candidateApplyJobsList');
         });
     });
 });

@@ -13,7 +13,7 @@ class ApplyJobRepository extends BaseRepository
 {
     public function getModel()
     {
-        // return new ApplyJob();
+        return new ApplyJob();
     }
 
     /**
@@ -71,7 +71,7 @@ class ApplyJobRepository extends BaseRepository
      */
     public function getAllJobs()
     {
-        // return $this->getModel()->where('status', StatusConstants::ACTIVE)->orderByDesc('id')->get();
+        return $this->getModel()->where('status', StatusConstants::ACTIVE)->orderByDesc('id')->get();
     }
 
 
@@ -139,30 +139,39 @@ class ApplyJobRepository extends BaseRepository
      */
     public function getCandidateApplyJobsList($request)
     {
-        // $filterData = $request->all();
-        // $queryBuilder = ApplyJob::select([
-        //     'apply_jobs.id',
-        //     'apply_jobs.job_id',
-        //     'apply_jobs.candidate_id',
-        //     'apply_jobs.employer_id',
-        //     'apply_jobs.status',
-        //     'apply_jobs.created_at',
-        //     'jobs.id as jobId',
-        //     'candidate_details.resume_file',
-        //     'countries.name as countryName',
-        //     'states.name as stateName',
-        //     'cities.name as cityName',
-        //     'work_types.name as workTypeName',
-        //     'jobs.work_type_id'
-        // ])
-        // ->leftJoin('jobs', 'jobs.id', '=', 'apply_jobs.job_id')
-        // ->leftJoin('countries', 'countries.id', '=', 'jobs.country_id')
-        // ->leftJoin('states', 'states.id', '=', 'jobs.state_id')
-        // ->leftJoin('cities', 'cities.id', '=', 'jobs.city_id')
-        // ->leftJoin('candidate_details', 'candidate_details.candidate_id', '=', 'apply_jobs.candidate_id')
-        // ->leftJoin('work_types', 'work_types.id', '=', 'jobs.work_type_id')
-        // ->where('apply_jobs.candidate_id', $filterData['user_id']);
-        // return $queryBuilder->orderBy('apply_jobs.id', 'desc')->get();
+        $filterData = $request->all();
+        $queryBuilder = ApplyJob::select([
+            'apply_jobs.id',
+            'apply_jobs.job_id',
+            'apply_jobs.candidate_id',
+            'apply_jobs.employer_id',
+            'apply_jobs.status',
+            'apply_jobs.created_at as applyDate',
+            'jobs.id as jobId',
+            'jobs.id as job_title',
+            'users.first_name',
+            'users.middle_name',
+            'users.last_name',
+            'employer_details.company_name',
+            'candidate_details.resume_file',
+            'countries.name as countryName',
+            'states.name as stateName',
+            'cities.name as cityName',
+            'work_types.name as workTypeName',
+            'jobs.work_type_id'
+        ])
+        ->leftJoin('jobs', 'jobs.id', '=', 'apply_jobs.job_id')
+        ->leftJoin('countries', 'countries.id', '=', 'jobs.country_id')
+        ->leftJoin('states', 'states.id', '=', 'jobs.state_id')
+        ->leftJoin('cities', 'cities.id', '=', 'jobs.city_id')
+        ->leftJoin('candidate_details', 'candidate_details.candidate_id', '=', 'apply_jobs.candidate_id')
+        ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'apply_jobs.employer_id')
+        ->leftJoin('users', 'users.id', '=', 'apply_jobs.candidate_id')
+        ->leftJoin('work_types', 'work_types.id', '=', 'jobs.work_type_id');
+        if (isset($filterData['user_id']) && $filterData['user_id'] != '') {
+            $queryBuilder = $queryBuilder->where('apply_jobs.candidate_id', $filterData['user_id']);
+        }
+        return $queryBuilder->orderBy('apply_jobs.id', 'desc')->get();
     }
 
     /**

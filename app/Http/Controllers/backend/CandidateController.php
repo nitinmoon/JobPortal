@@ -225,18 +225,18 @@ class CandidateController extends Controller
      * @return view
      * **************************************
      */
-    public function database(Request $request)
-    {
-        if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
-            return back();
-        }
-        if ($request->ajax()) {
-            return $this->candidateService->databaseAjaxDatatable($request);
-        }
-        $jobType = getJobType();
-        $jobTitle = getJobTitle();
-        return view('backend.database.index', compact('jobType', 'jobTitle'));
-    }
+    // public function database(Request $request)
+    // {
+    //     if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
+    //         return back();
+    //     }
+    //     if ($request->ajax()) {
+    //         return $this->candidateService->databaseAjaxDatatable($request);
+    //     }
+    //     $jobType = getJobType();
+    //     $jobTitle = getJobTitle();
+    //     return view('backend.database.index', compact('jobType', 'jobTitle'));
+    // }
 
     /**
      * ***************************************

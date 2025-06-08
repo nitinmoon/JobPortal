@@ -49,6 +49,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link {{ (Request::routeIs('candidateApplyJobs')) ? '' : 'collapsed' }}" href="{{ route('candidateApplyJobsList') }}">
+                <i class="bi bi-person"></i>
+                <span>Applyed Jobs</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link {{ (Request::routeIs('contacts')) ? '' : 'collapsed' }}" href="{{ route('contacts') }}">
                 <i class="bi bi-person"></i>
                 <span>Contacts</span>

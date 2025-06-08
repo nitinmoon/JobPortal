@@ -60,9 +60,9 @@ class CandidateRepository extends BaseRepository
         if (!empty($filterData['candidate'])) {
             $queryBuilder = $queryBuilder->where('users.id', $filterData['candidate']);
         }
-        if ($filterData['education'] != '') {
-            $queryBuilder = $queryBuilder->where('candidate_details.education', $filterData['education']);
-        }
+        // if ($filterData['education'] != '') {
+        //     $queryBuilder = $queryBuilder->where('candidate_details.education', $filterData['education']);
+        // }
         if (!empty($filterData['deleted'])) {
             if ($filterData['deleted'] == '1') {
                 $queryBuilder = $queryBuilder->where('users.deleted_at', null);
@@ -311,7 +311,7 @@ class CandidateRepository extends BaseRepository
 
         $queryBuilder = User::select('users.id', 'users.title', 'users.first_name', 'users.last_name')
             ->where('users.portal_access', '1')
-            ->where('users.role_id', UserRoleConstants::USER_ROLE_CANDIDATE);
+            ->where('users.role_id', UserRoleConstants::CANDIDATE);
 
         if (!empty($searchString) && $searchString != '') {
             $queryBuilder = $queryBuilder->where('users.title', 'LIKE', "%{$searchString}%")

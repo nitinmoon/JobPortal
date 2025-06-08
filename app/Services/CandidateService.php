@@ -28,7 +28,6 @@ class CandidateService
     public function candidateAjaxDatatable($request)
     {
         $data = $this->candidateRepository->getCandidate($request);
-        // dd($data);
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn(
@@ -47,7 +46,7 @@ class CandidateService
             ->addColumn(
                 'experience',
                 function ($row) {
-                    return isset($row->experience) ? explode("-",$row->experience)[0].' Years '. explode("-",$row->experience)[1].' Months' : '--';
+                    return isset($row->experience) ? $row->experience : '--';
                 }
             )
             ->addColumn(
@@ -68,14 +67,8 @@ class CandidateService
                 function ($row) {
                     $button = '';
                     $button .= '<a class=" btn btn-sm btn-warning btn-warning  text-white" title="View"
-                    href="#" title="View Candidate">
+                    href="' . route('viewCandidate', base64_encode($row->id)) . '" title="View Candidate">
                     <i class="bi bi-eye"></i></a>&nbsp;&nbsp;';
-                    // if ($row->resume_file != null) {
-                    //     $button .= '<a class="btn btn-sm btn-primary btn-blue" href="'.route('downloadResume', $row->resume_file).'" title="Download Resume" download>
-                    //         <i class="bi bi-download"></i></a>&nbsp;&nbsp;';
-                    //     $button .='<a class="btn btn-sm btn-info btn-blue view-resume" data-url=" '.route('viewResumeModal', $row->candidate_id).' " title="View Resume" View>
-                    //     <i class="bi bi-file-pdf"></i></a>&nbsp;&nbsp;';
-                    // }
                     return $button;
                 }
             )
@@ -280,67 +273,67 @@ class CandidateService
      * @return data
      *****************************************
      */
-    public function databaseAjaxDatatable($request)
-    {
-        $data = $this->candidateRepository->getDatabaseCandidate($request);
-        foreach ($data as $key => $database) {
-            if ($database->applyStatus == ApplyJobStatusConstants::HIRED) {
-                unset($data[$key]);
-            }
-        }
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn(
-                'name',
-                function ($row) {
-                    $userName = isset($row->first_name) ? getTitle($row->title) . ' ' . strip_tags(ucfirst($row->first_name)) . ' ' .
-                    strip_tags(ucfirst($row->last_name)) : '--';
-                    return $userName;
-                }
-            )
-            ->addColumn(
-                'education',
-                function ($row) {
-                    return isset($row->education) ? $row->education : '--';
-                }
-            )
-            ->addColumn(
-                'experience',
-                function ($row) {
-                    return isset($row->experience) ? explode("-", $row->experience)[0].' Years '. explode("-", $row->experience)[1].' Months' : '--';
-                }
-            )
-            ->addColumn(
-                'contacts',
-                function ($data) {
-                return '<a href="mailto:'.strip_tags($data->email).'"><i class="fa fa-envelope"></i> ' . strip_tags($data->email) . '</a><br>
-                        <a href="tel:'.strip_tags($data->phone).'"><i class="fa fa-phone"></i> ' . strip_tags($data->phone).'</a>';
-                }
-            )
-            ->addColumn(
-                'status',
-                function ($row) {
-                    return getActiveInactiveStatusBadge($row->status);
-                }
-            )
-            ->addColumn(
-                'action',
-                function ($row) {
-                    $button = '';
-                    $button .= '<a class=" btn btn-sm btn-warning btn-warning  text-white" title="View"
-                    href="' . route('viewCandidate', base64_encode($row->id)) . '" title="View Candidate">
-                    <i class="bi bi-eye"></i></a>&nbsp;&nbsp;';
-                    if ($row->resume_file != null) {
-                        $button .= '<a class="btn btn-sm btn-primary btn-blue" href="'.route('downloadResume', $row->resume_file).'" title="Download Resume" download>
-                            <i class="bi bi-download"></i></a>&nbsp;&nbsp;';
-                    }
-                    return $button;
-                }
-            )
-            ->rawColumns(['action', 'name', 'education', 'experience', 'contacts', 'status'])
-            ->removeColumn('created_at', 'updated_at', 'id')
-            ->make(true);
-    }
+    // public function databaseAjaxDatatable($request)
+    // {
+    //     $data = $this->candidateRepository->getDatabaseCandidate($request);
+    //     foreach ($data as $key => $database) {
+    //         if ($database->applyStatus == ApplyJobStatusConstants::HIRED) {
+    //             unset($data[$key]);
+    //         }
+    //     }
+    //     return DataTables::of($data)
+    //         ->addIndexColumn()
+    //         ->addColumn(
+    //             'name',
+    //             function ($row) {
+    //                 $userName = isset($row->first_name) ? getTitle($row->title) . ' ' . strip_tags(ucfirst($row->first_name)) . ' ' .
+    //                 strip_tags(ucfirst($row->last_name)) : '--';
+    //                 return $userName;
+    //             }
+    //         )
+    //         ->addColumn(
+    //             'education',
+    //             function ($row) {
+    //                 return isset($row->education) ? $row->education : '--';
+    //             }
+    //         )
+    //         ->addColumn(
+    //             'experience',
+    //             function ($row) {
+    //                 return isset($row->experience) ? explode("-", $row->experience)[0].' Years '. explode("-", $row->experience)[1].' Months' : '--';
+    //             }
+    //         )
+    //         ->addColumn(
+    //             'contacts',
+    //             function ($data) {
+    //             return '<a href="mailto:'.strip_tags($data->email).'"><i class="fa fa-envelope"></i> ' . strip_tags($data->email) . '</a><br>
+    //                     <a href="tel:'.strip_tags($data->phone).'"><i class="fa fa-phone"></i> ' . strip_tags($data->phone).'</a>';
+    //             }
+    //         )
+    //         ->addColumn(
+    //             'status',
+    //             function ($row) {
+    //                 return getActiveInactiveStatusBadge($row->status);
+    //             }
+    //         )
+    //         ->addColumn(
+    //             'action',
+    //             function ($row) {
+    //                 $button = '';
+    //                 $button .= '<a class=" btn btn-sm btn-warning btn-warning  text-white" title="View"
+    //                 href="' . route('viewCandidate', base64_encode($row->id)) . '" title="View Candidate">
+    //                 <i class="bi bi-eye"></i></a>&nbsp;&nbsp;';
+    //                 if ($row->resume_file != null) {
+    //                     $button .= '<a class="btn btn-sm btn-primary btn-blue" href="'.route('downloadResume', $row->resume_file).'" title="Download Resume" download>
+    //                         <i class="bi bi-download"></i></a>&nbsp;&nbsp;';
+    //                 }
+    //                 return $button;
+    //             }
+    //         )
+    //         ->rawColumns(['action', 'name', 'education', 'experience', 'contacts', 'status'])
+    //         ->removeColumn('created_at', 'updated_at', 'id')
+    //         ->make(true);
+    // }
 
     /**
      *****************************************

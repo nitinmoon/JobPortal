@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\Constants\UserRoleConstants;
 use App\Services\EmployerService;
+use Illuminate\Support\Facades\File;
 
 class JobController extends Controller
 {
@@ -332,12 +333,14 @@ class JobController extends Controller
      */
     public function downloadResume($fileName = null)
     {
-        try {
-            $file = config('constants.CANDIDATE_RESUME_PATH') . "/" .$fileName;
-            $headers = array(
-                'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            );
-            return response()->download($file, $fileName, $headers);
+         try {
+             $filePath = config('constants.CANDIDATE_RESUME_PATH') . "/" .$fileName;
+
+            if (!File::exists($filePath)) {
+                abort(404, 'Resume file not found.');
+            }
+
+            return response()->download($filePath);
         } catch (Exception $exception) {
             Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
             return response()->json(
