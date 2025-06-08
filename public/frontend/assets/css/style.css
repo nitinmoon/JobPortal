@@ -13014,3 +13014,130 @@ ol.commentlist li .star-rating {
     background-color: var(--primary);
     border-color: var(--primary);
 }
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.know-us h1 {
+  text-align: center;
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 40px;
+}
+
+/* Section 1 - Intro */
+.section-one {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: flex-start;
+  margin-bottom: 50px;
+}
+
+.section-one .text {
+  flex: 2;
+}
+
+.section-one .text p {
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-size: 15px;
+  color: #222;
+}
+
+.section-one .image {
+  flex: 1;
+}
+
+.section-one .image img {
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+/* Section 2 - Vision & Mission */
+.section-two {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.section-two .vision,
+.section-two .mission {
+  flex: 1;
+  min-width: 280px;
+}
+
+.section-two h2 {
+  font-size: 18px;
+  color: #003366;
+  margin-bottom: 8px;
+}
+
+.section-two p {
+  font-size: 14px;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* Section 3 - Core Values */
+.section-three {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.section-three .core-image {
+  flex: 1;
+  min-width: 250px;
+}
+
+.section-three .core-image img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.section-three .core-text {
+  flex: 2;
+}
+
+.section-three .core-text h2 {
+  font-size: 20px;
+  color: #003366;
+  margin-bottom: 15px;
+}
+
+.section-three .core-text p {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.section-three .core-text strong {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-one,
+  .section-two,
+  .section-three {
+    flex-direction: column;
+  }
+}
+
+
+

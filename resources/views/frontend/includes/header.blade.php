@@ -40,18 +40,33 @@
                         <li class="{{ Request::routeIs('home') ? 'active' : ''  }}">
                             <a href="{{ route('home') }}">Home</a>
                         </li>
-                        <li class="">
-                            <a href="#">Jobs</a>
+                       
+                        <li class="{{ Request::routeIs('about') ? 'active' : ''  }}">
+                            <a href="{{ route('about') }}">About Us</a>
                         </li>
+                        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Industries</a>
+        <ul class="dropdown-menu">
+            <li class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="{{ route('it') }}">IT Industries</a>
+                <a class="dropdown-item dropdown-toggle" href="{{ route('noniit') }}">Non-IT Industries</a>
+               
+        </ul>
+    </li>
+     <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Staffing Solutionss</a>
+        <ul class="dropdown-menu">
+            <li class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="{{route('executive')}}">Executive Search</a>
+                <a class="dropdown-item dropdown-toggle" href="{{route('Permanent')}}">Permanent Staffing</a>
+                <a class="dropdown-item dropdown-toggle" href="{{route('Contract')}}">Contract-to-Hire</a>
+               
+        </ul>
+    </li>
                         <li class="">
-                            <a href="#">About Us</a>
+                            <a href="{{ route('client') }}">Clinet</a>
                         </li>
-                        <li class="">
-                            <a href="#">Contact Us</a>
-                        </li>
-                        <li class="">
-                            <a href="#">Blog</a>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>

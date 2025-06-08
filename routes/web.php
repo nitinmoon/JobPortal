@@ -220,3 +220,11 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/home', 'index')->name('home');
     Route::get('/auth-type/{flag}', 'authType')->name('authType');
 });
+
+Route::view('/about', 'frontend.about')->name('about');
+Route::view('/it', 'frontend.it')->name('it');
+Route::view('/noniit', 'frontend.noniit')->name('noniit');
+Route::view('/client', 'frontend.client')->name('client');
+Route::view('/executive','frontend.executive')->name('executive');
+Route::view('/Permanent', 'frontend.Permanent')->name('Permanent');
+Route::view('/Contract', 'frontend.Contract')->name('Contract');
