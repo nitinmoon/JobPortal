@@ -22,13 +22,13 @@
         <ul>
                 <li><a href="{{ route('myProfile') }}" class="{{ (Request::routeIs('myProfile')) ? 'active' : '' }}">
                                 <i class="far fa-user" aria-hidden="true"></i>
-                                <span>My Profile</span></a></li>
+                                <span id="myProfileText">My Profile</span></a></li>
                 <li><a href="{{ route('companyProfile') }}" class="{{ (Request::routeIs('companyProfile')) ? 'active' : '' }}">
                                 <i class="far fa-user" aria-hidden="true"></i>
-                                <span>Company Profile</span></a></li>
+                                <span id="companyProfileText">Company Profile</span></a></li>
                 <li><a href="{{ route('companyJobPost') }}" class="{{ (Request::routeIs('companyJobPost')) ? 'active' : '' }}">
                                 <i class="far fa-file-alt" aria-hidden="true"></i>
-                                <span>Post A Job</span></a></li>
+                                <span id="postJobText">Post A Job</span></a></li>
                 <!-- <li><a href="{{ route('companyTransactions') }}" class="{{ (Request::routeIs('companyTransactions')) ? 'active' : '' }}">
                                 <i class="fa fa-random" aria-hidden="true"></i>
                                 <span>Transactions</span></a></li> -->

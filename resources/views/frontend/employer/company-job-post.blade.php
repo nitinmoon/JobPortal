@@ -17,17 +17,17 @@
                     <div class="col-xl-9 col-lg-8 m-b30">
                         <div class="job-bx submit-resume">
                             <div class="job-bx-title clearfix">
-                                <h5 class="font-weight-700 float-start text-uppercase">Post A Job</h5>
+                                <h5 class="font-weight-700 float-start text-uppercase page-heading">{{ isset($jobDetails->id) ? 'Edit Post Job' : 'Post A Job' }}</h5>
                                 <a href="{{ route('companyProfile') }}" class="site-button right-arrow button-sm float-end">Back</a>
                             </div>
                             <form id="jobForm" action="{{ route('addUpdateJob') }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="jobId" value="0">
+                                <input type="hidden" name="jobId" value="{{ isset($jobDetails->id) ? $jobDetails->id : '0' }}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Job Title</label>
-                                            <input type="text" class="form-control" name="job_title" placeholder="Enter Job Title">
+                                            <input type="text" class="form-control" name="job_title" placeholder="Enter Job Title" value="{{ isset($jobDetails->job_title) ? $jobDetails->job_title : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
@@ -36,7 +36,7 @@
                                             <select class="form-control select2" name="designation_id" id="designation_id" data-error="#error_designation_id" data-live-search="true">
                                                 <option value="">Select Designation</option>
                                                 @foreach($designations as $designation)
-                                                <option value="{{ $designation->id }}">{{ $designation->name }}</option>
+                                                <option value="{{ $designation->id }}" {{ isset($jobDetails->designation_id) && $jobDetails->designation_id == $designation->id ? 'selected' : '' }}>{{ $designation->name }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="error" id="error_designation_id"></span>
@@ -48,7 +48,7 @@
                                             <select class="form-control select2" name="job_category_id" id="job_category_id" data-error="#error_job_category_id" data-live-search="true">
                                                 <option value="">Select Job Category</option>
                                                 @foreach($jobCategories as $jobCategory)
-                                                <option value="{{ $jobCategory->id }}">{{ $jobCategory->name }}</option>
+                                                <option value="{{ $jobCategory->id }}" {{ isset($jobDetails->job_category_id) && $jobDetails->job_category_id == $jobCategory->id ? 'selected' : '' }}>{{ $jobCategory->name }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="error" id="error_job_category_id"></span>
@@ -60,7 +60,7 @@
                                             <select class="form-control select2" name="job_type_id" id="job_type_id" data-error="#error_job_type_id" data-live-search="true">
                                                 <option value="">Select Job Type</option>
                                                 @foreach($jobTypes as $jobType)
-                                                <option value="{{ $jobType->id }}">{{ $jobType->name }}</option>
+                                                <option value="{{ $jobType->id }}" {{ isset($jobDetails->job_type_id) && $jobDetails->job_type_id == $jobType->id ? 'selected' : '' }}>{{ $jobType->name }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="error" id="error_job_type_id"></span>
@@ -72,7 +72,7 @@
                                             <select class="form-control select2" name="work_type_id" id="work_type_id" data-error="#error_work_type_id" data-live-search="true">
                                                 <option value="">Select Work Type</option>
                                                 @foreach(getJobWorkType() as $workType)
-                                                <option value="{{ $workType->id }}">{{ $workType->name }}</option>
+                                                <option value="{{ $workType->id }}" {{ isset($jobDetails->work_type_id) && $jobDetails->work_type_id == $workType->id ? 'selected' : '' }}>{{ $workType->name }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="error" id="error_work_type_id"></span>
@@ -99,7 +99,7 @@
                                                 @if (isset($skills))
                                                 <option value="">Select skills</option>
                                                 @foreach($skills as $skill)
-                                                <option value="{{ $skill->name }}">{{ $skill->name }}</option>
+                                                <option value="{{ $skill->name }}" {{ (isset($jobDetails->skills) && $jobDetails->skills != '' && in_array($skill->id, explode(',', $jobDetails->skills))) ? 'selected' : '' }}>{{ $skill->name }}</option>
                                                 @endforeach
                                                 @endif
                                             </select>
@@ -109,13 +109,11 @@
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>Experience</label>
-                                            <select name="experience" id="experience" data-error="#error_experience" data-live-search="true">
+                                            <select class="form-control select2" name="experience" id="experience" data-error="#error_experience" data-live-search="true">
                                                 <option value="">Select Experience</option>
-                                                <option value="0 - 1 Years">0 - 1 Years</option>
-                                                <option value="1 - 3 Years">1 - 3 Years</option>
-                                                <option value="3 - 5 Years">3 - 5 Years</option>
-                                                <option value="5 - 7 Years">5 - 7 Years</option>
-                                                <option value="Above 7+">Above 7+</option>
+                                                @foreach($experienceOptions as $experience)
+                                                <option value="{{ $experience }}" {{ isset($jobDetails->experience) && $jobDetails->experience == $experience ? 'selected' : '' }}>{{ $experience }}</option>
+                                                @endforeach
                                             </select>
                                             <span class="error" id="error_experience"></span>
                                         </div>
@@ -123,19 +121,11 @@
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>Salary Range <i class="text-warning">(₹ / P.A.)</i></label>
-                                            <select name="salary_range" id="salary_range" data-error="#error_salary_range" data-live-search="true">
-                                                <option value="">Select Salary Range</option>
-                                                <option value="1 - 2 Lacs">1 - 2 Lacs</option>
-                                                <option value="2 - 3 Lacs">2 - 3 Lacs</option>
-                                                <option value="3 - 4 Lacs">3 - 4 Lacs</option>
-                                                <option value="4 - 5 Lacs">4 - 5 Lacs</option>
-                                                <option value="5 - 6 Lacs">5 - 6 Lacs</option>
-                                                <option value="6 - 7 Lacs">6 - 7 Lacs</option>
-                                                <option value="7 - 8 Lacs">7 - 8 Lacs</option>
-                                                <option value="8 - 9 Lacs">8 - 9 Lacs</option>
-                                                <option value="9 - 10 Lacs">9 - 10 Lacs</option>
-                                                <option value="10 - 15 Lacs">10 - 15 Lacs</option>
-                                                <option value="Above 15+">Above 15+</option>
+                                            <select class="form-control select2" name="salary_range" id="salary_range" data-error="#error_salary_range" data-live-search="true">
+                                                <option value="">Select Experience</option>
+                                                @foreach($salaryRangeOptions as $range)
+                                                <option value="{{ $range }}" {{ isset($jobDetails->salary_range) && $jobDetails->salary_range == $range ? 'selected' : '' }}>{{ $range }}</option>
+                                                @endforeach
                                             </select>
                                             <span class="error" id="error_salary_range"></span>
                                         </div>
@@ -157,14 +147,14 @@
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>Vacancy</label>
-                                            <input type="text" name="vacancy" class="form-control" placeholder="Enter No. of Vacancy">
+                                            <input type="text" name="vacancy" class="form-control" placeholder="Enter No. of Vacancy" value="{{ isset($jobDetails->vacancy) ? $jobDetails->vacancy : '' }}">
                                             <span class="error" id="error_vacancy"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label>Deadline</label>
-                                            <input type="date" name="deadline" class="form-control" placeholder="Enter Deadline" min="{{ date('Y-m-d') }}">
+                                            <input type="date" name="deadline" class="form-control" placeholder="Enter Deadline" min="{{ date('Y-m-d') }}" value="{{ isset($jobDetails->deadline) ? $jobDetails->deadline : '' }}">
                                             <span class="error" id="error_deadline"></span>
                                         </div>
                                     </div>
@@ -174,7 +164,7 @@
                                             <select class="form-control" name="gender" data-error="#error_gender">
                                                 <option value="">Select Gender</option>
                                                 @foreach($genders as $gender)
-                                                <option value="{{ $gender }}">{{ getJobGender($gender) }}</option>
+                                                <option value="{{ $gender }}" {{ isset($jobDetails->gender) && $jobDetails->gender == $gender ? 'selected' : '' }}>{{ getJobGender($gender) }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="error" id="error_gender"></span>
@@ -186,7 +176,7 @@
                                             <select class="form-control" name="english_level" data-error="#error_english_level">
                                                 <option value="">Select English Level</option>
                                                 @foreach($englishLevels as $level)
-                                                <option value="{{ $level }}">{{ englishLevel($level) }}</option>
+                                                <option value="{{ $level }}" {{ isset($jobDetails->english_level) && $jobDetails->english_level == $level ? 'selected' : '' }}>{{ englishLevel($level) }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="error" id="error_english_level"></span>
@@ -195,28 +185,36 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Job Description</label>
-                                            <textarea class="form-control basic-example" name="job_description" tabindex="18"></textarea>
+                                            <textarea class="form-control basic-example" name="job_description" tabindex="18">
+                                                {!! isset($jobDetails->job_description) ? $jobDetails->job_description : '' !!}
+                                            </textarea>
                                             <span class="error" id="error_job_description"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Job Responsibility</label>
-                                            <textarea class="form-control basic-example" name="job_responsibility" tabindex="18"></textarea>
+                                            <textarea class="form-control basic-example" name="job_responsibility" tabindex="18">
+                                                {!! isset($jobDetails->job_responsibility) ? $jobDetails->job_responsibility : '' !!}
+                                            </textarea>
                                             <span class="error" id="error_job_responsibility"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Educational Requirements</label>
-                                            <textarea class="form-control basic-example" name="educational_requirements" tabindex="18"></textarea>
+                                            <textarea class="form-control basic-example" name="educational_requirements" tabindex="18">
+                                                {!! isset($jobDetails->educational_requirements) ? $jobDetails->educational_requirements : '' !!}
+                                            </textarea>
                                             <span class="error" id="error_educational_requirements"></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Other Benefits <i class="text-warning">(Facilities)</i></label>
-                                            <textarea class="form-control basic-example" name="other_benefits" tabindex="18"></textarea>
+                                            <textarea class="form-control basic-example" name="other_benefits" tabindex="18">
+                                                {!! isset($jobDetails->other_benefits) ? $jobDetails->other_benefits : '' !!}
+                                            </textarea>
                                             <span class="error" id="error_other_benefits"></span>
                                         </div>
                                     </div>
@@ -226,7 +224,7 @@
                                             <select class="form-control selectpicker" name="country_id" id="country_id" data-error="#error_country_id" data-live-search="true">
                                                 <option value="">Select Country</option>
                                                 @foreach($countries as $row)
-                                                <option value="{{ $row->id }}" {{ (isset($employerDetails->country_id) && $employerDetails->country_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
+                                                <option value="{{ $row->id }}" {{ (isset($jobDetails->country_id) && $jobDetails->country_id == $row->id) ? 'selected' : '' }}>{{ $row->name }}</option>
                                                 @endforeach
                                             </select>
                                             <span class="error" id="error_country_id"></span>
@@ -239,7 +237,7 @@
                                                 @if(isset($states))
                                                 @if(count($states) > 0)
                                                 @foreach ($states as $state)
-                                                <option value="{{ $state->id }}" {{ isset($employerDetails->state_id) && ($state->id == $employerDetails->state_id) ? 'selected' : '' }}>{{$state->name}}</option>
+                                                <option value="{{ $state->id }}" {{ isset($jobDetails->state_id) && ($state->id == $jobDetails->state_id) ? 'selected' : '' }}>{{$state->name}}</option>
                                                 @endforeach
                                                 @else
                                                 <option value="">Select State</option>
@@ -258,7 +256,7 @@
                                                 @if(isset($cities))
                                                 @if(count($states) > 0)
                                                 @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}" {{ isset($employerDetails->city_id) && ($city->id == $employerDetails->city_id) ? 'selected' : '' }}>{{$city->name}}</option>
+                                                <option value="{{ $city->id }}" {{ isset($jobDetails->city_id) && ($city->id == $jobDetails->city_id) ? 'selected' : '' }}>{{$city->name}}</option>
                                                 @endforeach
                                                 @else
                                                 <option value="">Select City</option>
@@ -270,20 +268,8 @@
                                             <span class="error" id="error_city_id"></span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12 col-md-12">
-                                        <div class="form-group">
-                                            <label>Upload File</label>
-                                            <div class="custom-file">
-                                                <p class="m-a0">
-                                                    <i class="fa fa-upload"></i>
-                                                    Upload File
-                                                </p>
-                                                <input type="file" class="site-button form-control" name="upload_file" id="customFile">
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-                                <button type="submit" class="site-button m-b30">Submit</button>
+                                <button type="submit" class="site-button m-b30"> {{ isset($jobDetails->id) ? 'Update' : 'Submit' }}</button>
                             </form>
                         </div>
                     </div>
@@ -298,6 +284,8 @@
 <script src="{{ asset('frontend/assets/js/custom-js/job.js') }}"></script>
 <script>
     $(function() {
+        let pageHeading = $('.page-heading').html();
+        $('#postJobText').html(pageHeading);
         $('#country_id').on('changed.bs.select', function () {
             var countryId = $(this).val();
 

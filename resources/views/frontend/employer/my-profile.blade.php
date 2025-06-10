@@ -17,10 +17,73 @@
                     <div class="col-xl-9 col-lg-8 m-b30">
                         <div class="job-bx submit-resume">
                             <div class="job-bx-title clearfix">
-                                <h5 class="font-weight-700 float-start text-uppercase">My Profile</h5>
-                                <a href="{{ route('myProfile') }}" class="site-button right-arrow button-sm float-end">Back</a>
+                                <div class="row viewRow">
+                                    <div class="col-md-9">
+                                        <h6 class="float-start text-uppercase">My Profile</h6>
+                                    </div>
+                                    <div class="col-md-1 text-end">
+                                        <a class="btn btn-sm btn-primary btn-blue" id="edit-profile" title="Edit Profile">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="{{ route('myProfile') }}" class="site-button right-arrow button-sm">Back</a>
+                                    </div>
+                                </div>
+                                <div class="row d-none editRow">
+                                    <div class="col-md-9">
+                                        <h6 class="float-start text-uppercase">Edit Profile</h6>
+                                    </div>
+                                    <div class="col-md-1 text-end">
+                                        <a class="btn btn-sm btn-warning btn-blue" id="view-profile" title="View Profile">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="{{ route('myProfile') }}" class="site-button right-arrow button-sm">Back</a>
+                                    </div>
+                                </div>
                             </div>
-                            <form id="myProfileForm" class="row g-3 mt-2" action="{{ route('updateProfile') }}" method="post">
+                            <div class="table-responsive viewProfileRow">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>Full Name: </th>
+                                            <td>{{ isset($userDetails->first_name) ? getTitle($userDetails->title) .' '. $userDetails->first_name .' '. $userDetails->middle_name .' '. $userDetails->last_name : '--'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Date Of Birth: </th>
+                                            <td>{{ isset($userDetails->dob) ? date('d-m-Y', strtotime($userDetails->dob)) : '--'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Gender: </th>
+                                            <td>{{ isset($userDetails->gender) ? getGender($userDetails->gender) : '--'}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="job-bx-title clearfix viewProfileRow">
+                                <h6 class="float-start text-uppercase">Contact Information</h5>
+                            </div>
+                            <div class="table-responsive viewProfileRow">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>Email: </th>
+                                            <td>{{ isset($userDetails->email) ? $userDetails->email : '--'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Phone: </th>
+                                            <td>{{ isset($userDetails->phone) ? $userDetails->phone : '--'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Address: </th>
+                                            <td>{{ isset($userDetails->address) ? $userDetails->address .', '. $userDetails->city_name .', '. $userDetails->state_name .', '. $userDetails->country_name .' - '. $userDetails->zip: '--'}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <form id="myProfileForm" class="row g-3 mt-2 d-none editProfileRow" action="{{ route('updateProfile') }}" method="post">
                                 @csrf
                                 <div class="row m-b30">
                                     <div class="col-lg-3 col-md-3">
@@ -181,6 +244,22 @@
 <script src="{{ asset('frontend/assets/js/custom-js/profile.js') }}"></script>
 <script>
     $(function() {
+        $('#edit-profile').click(function() {
+            $('.editRow').removeClass('d-none');
+            $('.editProfileRow').removeClass('d-none');
+            $('.viewProfileRow').addClass('d-none');
+            $('.viewRow').addClass('d-none');
+            $('#myProfileText').html('Edit Profile');
+        })
+
+        $('#view-profile').click(function() {
+            $('.viewRow').removeClass('d-none');
+            $('.viewProfileRow').removeClass('d-none');
+            $('.editRow').addClass('d-none');
+            $('.editProfileRow').addClass('d-none');
+            $('#myProfileText').html('My Profile');
+        })
+
         $('#country_id').on('changed.bs.select', function() {
             var countryId = $(this).val();
 

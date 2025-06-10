@@ -122,8 +122,7 @@ class EmployerController extends Controller
             $cities = $this->cityService->getCity($employerDetails->state_id);
         }
         $jobCategories = $this->jobCategoryService->getAllJobCategory();
-        return view(
-            'frontend.employer.company-profile',
+        return view('frontend.employer.company-profile',
             compact(
                 'countries',
                 'jobCategories',
@@ -142,25 +141,61 @@ class EmployerController extends Controller
      * @return jsonResponse
      * ************************************
      */
-    public function companyJobPost()
+    public function companyJobPost($jobId = '')
     {
+        $jobId = base64_decode($jobId);
+        $jobDetails = $this->jobService->getJobDetails($jobId);
         $countries = $this->countryService->getAllCountry();
+        $states = [];
+        $cities = [];
+        if (isset($jobDetails->country_id) && $jobDetails->country_id != '') {
+            $states = $this->stateService->getState($jobDetails->country_id);
+        }
+        if (isset($jobDetails->state_id) && $jobDetails->state_id != '') {
+            $cities = $this->cityService->getCity($jobDetails->state_id);
+        }
         $designations = $this->designationService->getAllDesignations();
         $jobCategories = $this->jobCategoryService->getAllJobCategory();
         $jobTypes = $this->jobTypeService->getAllJobTypes();
         $genders = getEnum('jobs', 'gender');
         $englishLevels = getEnum('jobs', 'english_level');
         $skills = $this->skillService->getAllSkills();
-        return view(
-            'frontend.employer.company-job-post',
+        $experienceOptions = [
+            '0 - 1 Years',
+            '1 - 3 Years',
+            '3 - 5 Years',
+            '5 - 7 Years',
+            'Above 7+',
+        ];
+
+        $salaryRangeOptions = [
+            '1 - 2 Lacs',
+            '2 - 3 Lacs',
+            '3 - 4 Lacs',
+            '4 - 5 Lacs',
+            '5 - 6 Lacs',
+            '6 - 7 Lacs',
+            '7 - 8 Lacs',
+            '8 - 9 Lacs',
+            '9 - 10 Lacs',
+            '10 - 15 Lacs',
+            'Above 15+',
+        ];
+
+        return view('frontend.employer.company-job-post',
             compact(
                 'countries',
+                'states',
+                'cities',
                 'designations',
                 'jobCategories',
                 'jobTypes',
                 'genders',
                 'englishLevels',
-                'skills'
+                'skills',
+                'jobDetails',
+                'experienceOptions',
+                'salaryRangeOptions'
             )
         );
     }
@@ -229,7 +264,6 @@ class EmployerController extends Controller
                 'job_responsibility',
                 'educational_requirements',
                 'other_benefits',
-                'upload_file'
             ]
         );
     }

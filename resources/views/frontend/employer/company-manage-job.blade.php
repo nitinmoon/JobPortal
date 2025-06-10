@@ -121,6 +121,7 @@
             console.log(paginatedJobs);
             paginatedJobs.forEach(job => {
                 const viewJobRoute = "{{ route('jobDetails', ':id') }}";
+                const editJobRoute = "{{ route('companyJobPost', ':id') }}";
                 const deleteJobRoute = "{{ route('deleteJob', ':id') }}";
                 const restoreJobRoute = "{{ route('restoreJob', ':id') }}";
                 let actionButtons = '';
@@ -129,6 +130,9 @@
                         <a href="${viewJobRoute.replace(':id', btoa(job.id))}">
                             <i class="fa fa-eye"></i>
                         </a>
+                        <a href="${editJobRoute.replace(':id', btoa(job.id))}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
                         <a class="deleteJob" href="javascript:void(0);" data-url="${deleteJobRoute.replace(':id', job.id)}">
                             <i class="ti-trash"></i>
                         </a>
@@ -136,7 +140,7 @@
                 } else {
                     actionButtons = `
                         <a class="restoreJob" href="javascript:void(0);" data-url="${restoreJobRoute.replace(':id', job.id)}">
-                            <i class="fa fa-arrow-circle-o-up"></i>
+                            <i class="bi bi-box-arrow-up"></i>
                         </a>
                     `;
                 }

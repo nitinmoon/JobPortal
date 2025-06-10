@@ -16,10 +16,89 @@
                     <div class="col-xl-9 col-lg-8 m-b30">
                         <div class="job-bx submit-resume">
                             <div class="job-bx-title clearfix">
-                                <h5 class="font-weight-700 float-start text-uppercase">Company Profile</h5>
-                                <a href="{{ route('myProfile') }}" class="site-button right-arrow button-sm float-end">Back</a>
+                                <div class="row viewCompanyRow">
+                                    <div class="col-md-9">
+                                        <h6 class="float-start text-uppercase">Company Profile</h6>
+                                    </div>
+                                    <div class="col-md-1 text-end">
+                                        <a class="btn btn-sm btn-primary btn-blue" id="edit-company-profile" title="Edit Profile">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="{{ route('myProfile') }}" class="site-button right-arrow button-sm">Back</a>
+                                    </div>
+                                </div>
+                                <div class="row d-none editCompanyRow">
+                                    <div class="col-md-9">
+                                        <h6 class="float-start text-uppercase">Edit Company Profile</h6>
+                                    </div>
+                                    <div class="col-md-1 text-end">
+                                        <a class="btn btn-sm btn-warning btn-blue" id="view-company-profile" title="View Profile">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="{{ route('myProfile') }}" class="site-button right-arrow button-sm">Back</a>
+                                    </div>
+                                </div>
                             </div>
-                            <form id="companyProfileForm" class="row g-3 mt-2" action="{{ route('updateCompanyProfile') }}" method="post">
+                            <div class="table-responsive viewCompanyProfileRow">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>Company Name: </th>
+                                            <td>{{ isset($employerDetails->company_name) ? $employerDetails->company_name : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Company Website: </th>
+                                            <td>{{ isset($employerDetails->company_website) ? $employerDetails->company_website : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Company Contact Person: </th>
+                                            <td>{{ isset($employerDetails->company_contact_person) ? $employerDetails->company_contact_person : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Company Contact Email: </th>
+                                            <td>{{ isset($employerDetails->company_contact_email) ? $employerDetails->company_contact_email : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Company Contact Phone: </th>
+                                            <td>{{ isset($employerDetails->company_contact_no) ? $employerDetails->company_contact_no : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Foundation Date: </th>
+                                            <td>{{ isset($employerDetails->foundation_date) ? $employerDetails->foundation_date : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>No Of Employee: </th>
+                                            <td>{{ isset($employerDetails->no_of_employees) ? $employerDetails->no_of_employees : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>GST Number: </th>
+                                            <td>{{ isset($employerDetails->gst_no) ? $employerDetails->gst_no : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Company Description: </th>
+                                            <td>{!! isset($employerDetails->company_description) ? $employerDetails->company_description : '' !!}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="job-bx-title clearfix viewCompanyProfileRow">
+                                <h6 class="float-start text-uppercase">Company Address</h5>
+                            </div>
+                            <div class="table-responsive viewCompanyProfileRow">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>Company Address: </th>
+                                            <td>{{ isset($employerDetails->company_address) ? $employerDetails->company_address.', '. $employerDetails->city->name .', '. $employerDetails->state->name .', '. $employerDetails->country->name .' - '. $employerDetails->zip: '--'}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <form id="companyProfileForm" class="row g-3 mt-2 d-none editCompanyProfileRow" action="{{ route('updateCompanyProfile') }}" method="post">
                                 @csrf
                                 <div class="row m-b30">
                                     <div class="col-lg-6 col-md-6">
@@ -57,18 +136,6 @@
                                             <span class="error" id="error_company_contact_no"></span>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label>Job Category</label>
-                                            <select class="form-control select2" name="job_category_id" id="job_category_id" data-error="#error_job_category_id">
-                                                <option value="">Select</option>
-                                                @foreach($jobCategories as $category)
-                                                <option value="{{ $category->id }}" {{ isset($employerDetails->job_category_id) && $employerDetails->job_category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <span class="error" id="error_job_category_id"></span>
-                                        </div>
-                                    </div> -->
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
                                             <label>Foundation Date</label>
@@ -194,6 +261,22 @@
             plugins: "advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount",
             toolbar: 'formatselect | undo redo | numlist bullist | bold italic | alignleft aligncenter | alignright alignjustify'
         });
+
+         $('#edit-company-profile').click(function() {
+            $('.editCompanyRow').removeClass('d-none');
+            $('.editCompanyProfileRow').removeClass('d-none');
+            $('.viewCompanyProfileRow').addClass('d-none');
+            $('.viewCompanyRow').addClass('d-none');
+            $('#companyProfileText').html('Edit Company');
+        })
+
+        $('#view-company-profile').click(function() {
+            $('.viewCompanyRow').removeClass('d-none');
+            $('.viewCompanyProfileRow').removeClass('d-none');
+            $('.editCompanyRow').addClass('d-none');
+            $('.editCompanyProfileRow').addClass('d-none');
+            $('#companyProfileText').html('Company Profile');
+        })
 
         $('#country_id').on('changed.bs.select', function() {
             var countryId = $(this).val();

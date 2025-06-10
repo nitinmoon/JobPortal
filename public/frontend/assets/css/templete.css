@@ -1392,7 +1392,7 @@
 /* Jobs Link */
 .job-links .fa-download,
 .job-links .fa-eye{
-    background-color: var(--primary);
+    background-color: #ffc107;
     color: #fff;
     border: 0;
     border-radius: 5px;
@@ -1407,12 +1407,20 @@
     padding: 7px;
 }
 
-.job-links .fa-arrow-circle-o-up {
+.job-links .bi-pencil-square {
+    background-color: #223d78;
+    color: #fff;
+    border: 0;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+.job-links .bi-box-arrow-up {
     background-color: #198754;
     color: #fff;
     border: 0;
     border-radius: 5px;
-    padding: 7px;
+    padding: 6px;
 }
 
 /* Modal Box Info */

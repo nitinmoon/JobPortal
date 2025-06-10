@@ -79,23 +79,23 @@ class JobRepository extends BaseRepository
             }
         }
 
-        if (!empty($inputArray['upload_file'])) {
-            $filePath = config('constants.JOB_FILE');
-            $jobId = $inputArray['jobId'];
-            // Delete old file
-            $oldFileName = Job::where('id', $jobId)->value('upload_file');
-            if (!empty($oldFileName)) {
-                File::delete($filePath . '/' . $oldFileName);
-            }
-            // Generate new file name
-            $fileName = config('constants.JOB_PREFIX') . $jobId . '_Job.' . $inputArray['upload_file']->getClientOriginalExtension();
-            // Create directory if it doesn't exist
-            if (!File::exists($filePath)) {
-                File::makeDirectory($filePath, 0777, true);
-            }
-            // Move uploaded file
-            $inputArray['upload_file']->move($filePath, $fileName);
-        }
+        // if (!empty($inputArray['upload_file'])) {
+        //     $filePath = config('constants.JOB_FILE');
+        //     $jobId = $inputArray['jobId'];
+        //     // Delete old file
+        //     $oldFileName = Job::where('id', $jobId)->value('upload_file');
+        //     if (!empty($oldFileName)) {
+        //         File::delete($filePath . '/' . $oldFileName);
+        //     }
+        //     // Generate new file name
+        //     $fileName = config('constants.JOB_PREFIX') . $jobId . '_Job.' . $inputArray['upload_file']->getClientOriginalExtension();
+        //     // Create directory if it doesn't exist
+        //     if (!File::exists($filePath)) {
+        //         File::makeDirectory($filePath, 0777, true);
+        //     }
+        //     // Move uploaded file
+        //     $inputArray['upload_file']->move($filePath, $fileName);
+        // }
 
         $condition = ['id' => $inputArray['jobId']];
         $employer_id = isset($inputArray['employer_id']) ? $inputArray['employer_id'] : auth()->user()->id;
@@ -120,7 +120,7 @@ class JobRepository extends BaseRepository
             'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
             'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
             'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
-            'upload_file' => isset($fileName) ? $fileName : null,
+            // 'upload_file' => isset($fileName) ? $fileName : null,
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id
         ];

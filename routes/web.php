@@ -248,6 +248,7 @@ Route::controller(FrontendJobController::class)->group(function () {
     Route::get('/jobs', 'index')->name('jobs');
     Route::get('/get-jobs-data', 'getJobsData')->name('getJobsData');
     Route::get('/job-details/{jobId}', 'jobDetails')->name('jobDetails');
+    Route::get('/edit-job-details/{jobId}', 'editJobDetails')->name('editJobDetails');
 });
 
 /*
@@ -271,7 +272,7 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
         Route::controller(FrontendEmployerController::class)->group(function () {
             Route::get('/my-profile', 'myProfile')->name('myProfile');
             Route::get('/company-profile', 'companyProfile')->name('companyProfile');
-            Route::get('/company-job-post', 'companyJobPost')->name('companyJobPost');
+            Route::get('/company-job-post/{jobId?}', 'companyJobPost')->name('companyJobPost');
             Route::post('/add-update-job', 'addUpdateJob')->name('addUpdateJob');
             Route::get('/company-transactions', 'companyTransactions')->name('companyTransactions');
             Route::get('/company-manage-jobs', 'companyManageJobs')->name('companyManageJobs');
