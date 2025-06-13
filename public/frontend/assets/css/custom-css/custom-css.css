@@ -89,3 +89,7 @@
  .js-example-basic-single {
     width: 100% !important;
  }
+
+.ml-15 {
+    margin-left:15px !important;
+}

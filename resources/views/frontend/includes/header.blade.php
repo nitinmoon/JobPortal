@@ -76,14 +76,36 @@
                         <li class="{{ Request::routeIs('home') ? 'active' : ''  }}">
                             <a href="{{ route('home') }}">Home</a>
                         </li>
+                        <li class="{{ Request::routeIs('about') ? 'active' : ''  }}">
+                            <a href="{{ route('about') }}">About Us</a>
                         <li class="{{ Request::routeIs('jobs') ? 'active' : ''  }}">
                             <a href="{{ route('jobs') }}">Jobs</a>
                         </li>
-                        <li class="">
-                            <a href="#">About Us</a>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Industries</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="{{ route('it') }}">IT Industries</a>
+                                    <a class="dropdown-item dropdown-toggle" href="{{ route('noniit') }}">Non-IT
+                                        Industries</a>
+
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Staffing Solutionss</a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="{{route('executive')}}">Executive
+                                        Search</a>
+                                    <a class="dropdown-item dropdown-toggle" href="{{route('Permanent')}}">Permanent
+                                        Staffing</a>
+                                    <a class="dropdown-item dropdown-toggle"
+                                        href="{{route('Contract')}}">Contract-to-Hire</a>
+
+                            </ul>
                         </li>
                         <li class="">
-                            <a href="{{ route('contactUs') }}">Contact Us</a>
+                            <a href="{{ route('client') }}">Clinet</a>
                         </li>
                     </ul>
                 </div>
