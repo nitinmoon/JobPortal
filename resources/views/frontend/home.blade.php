@@ -59,7 +59,7 @@
 
 
     <!-- Partners -->
-    <div class="section-full content-inner-1 partners bg-white style-1">
+    <!-- <div class="section-full content-inner-1 partners bg-white style-1">
         <div class="container">
             <div
                 class="our-partners item-center owl-loaded owl-theme owl-carousel owl-none mfp-gallery owl-dots-none">
@@ -95,7 +95,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Partners End-->
 
     <!-- About Work -->
