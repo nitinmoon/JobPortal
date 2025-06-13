@@ -184,9 +184,9 @@ class JobService
      * @return data
      *********************************
      */
-    public function getAllJobs($count = '')
+    public function getAllJobs($request, $count = '')
     {
-        return $this->jobRepository->getAllJobs($count);
+        return $this->jobRepository->getAllJobs($request, $count);
     }
 
     /**

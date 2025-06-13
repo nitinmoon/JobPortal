@@ -246,6 +246,16 @@ class CandidateRepository extends BaseRepository
         if (isset($inputArray['profile_summary'])) {
             $candidateDetails['profile_summary'] = $inputArray['profile_summary'];
         }
+        if (isset($inputArray['job_category_id'])) {
+            $candidateDetails['job_category_id'] = $inputArray['job_category_id'];
+            $candidateDetails['designation_id'] = $inputArray['designation_id'];
+            $candidateDetails['job_type_id'] = $inputArray['job_type_id'];
+            $candidateDetails['work_type_id'] = $inputArray['work_type_id'];
+            $candidateDetails['current_salary'] = $inputArray['current_salary'];
+            $candidateDetails['shift'] = $inputArray['shift'];
+            $candidateDetails['availability_to_join'] = $inputArray['availability_to_join'];
+            $candidateDetails['expected_salary'] = $inputArray['expected_salary'];
+        }
         if (!empty($inputArray['resume_file'])) {
             $filePath = config('constants.CANDIDATE_RESUME_PATH');
             $oldFileName = CandidateDetail::where('candidate_id', $inputArray['candidate_id'])->pluck('resume_file');
@@ -274,6 +284,14 @@ class CandidateRepository extends BaseRepository
         return CandidateDetail::select(
             'candidate_details.id',
             'candidate_details.candidate_id',
+            'candidate_details.job_category_id',
+            'candidate_details.job_type_id as jobTypeId',
+            'candidate_details.designation_id',
+            'candidate_details.work_type_id as workTypeId',
+            'candidate_details.current_salary',
+            'candidate_details.expected_salary',
+            'candidate_details.availability_to_join',
+            'candidate_details.shift',
             'candidate_details.resume_headline',
             'candidate_details.profile_summary',
             'candidate_details.resume_file',

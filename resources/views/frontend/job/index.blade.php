@@ -5,7 +5,7 @@
 @section('content')
 <div class="page-content bg-white">
     <!-- inner page banner -->
-    <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(images/banner/bnr1.jpg);">
+    <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(public/frontend/assets/images/banner/bnr1.jpg);">
         <div class="container">
             <div class="dez-bnr-inr-entry">
                 <h1 class="text-white">Browse Jobs</h1>
@@ -28,10 +28,10 @@
                 <form class="dezPlaceAni">
                     <div class="row">
                         <div class="col-lg-4 col-md-6">
-                            <div class="form-group">
+                            <div class="form-group {{ isset($_GET['job_title']) && $_GET['job_title'] != '' ? 'focused' : '' }}">
                                 <label>Job Title, Keywords, or Phrase</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input type="text" class="form-control" id="job_title" placeholder="" value="{{ isset($_GET['job_title']) ? $_GET['job_title'] : '' }}">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                                     </div>
@@ -39,36 +39,29 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                            <div class="form-group">
-                                <label>City, State or ZIP</label>
+                            <div class="form-group {{ isset($_GET['location']) && $_GET['location'] != '' ? 'focused' : '' }}">
+                                <label>City, State or Country</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input type="text" class="form-control" id="location" placeholder="" value="{{ isset($_GET['location']) ? $_GET['location'] : '' }}">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                     </div>
                                 </div>
                             </div>
+                            <span id="error_location" class="error"></span>
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <select>
-                                    <option>Select Sector</option>
-                                    <option>Construction</option>
-                                    <option>Corodinator</option>
-                                    <option>Employer</option>
-                                    <option>Financial Career</option>
-                                    <option>Information Technology</option>
-                                    <option>Marketing</option>
-                                    <option>Quality check</option>
-                                    <option>Real Estate</option>
-                                    <option>Sales</option>
-                                    <option>Supporting</option>
-                                    <option>Teaching</option>
+                                <select id="job_category_id">
+                                    <option value="">Select Category</option>
+                                    @foreach($jobCategories as $jobCategory)
+                                    <option value="{{ $jobCategory->id }}" {{ isset($_GET['job_category_id']) && base64_decode($_GET['job_category_id']) == $jobCategory->id ? 'selected' : '' }}>{{ $jobCategory->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-6">
-                            <button type="submit" class="site-button btn-block">Find Job</button>
+                            <button type="button" class="site-button btn-block" id="findJobBtn">Find Job</button>
                         </div>
                     </div>
                 </form>
@@ -84,37 +77,23 @@
                 <div class="row">
                     <div class="col-xl-3 col-lg-4 col-md-5 m-b30">
                         <aside id="accordion1" class="sticky-top sidebar-filter">
-                            <h6 class="title"><i class="fa fa-sliders m-r5"></i> Refined By <a href="javascript:void(0);" class="font-12 float-end">Reset All</a></h6>
+                            <h6 class="title"><i class="fa fa-sliders m-r5"></i> Refined By <a href="javascript:void(0);" class="font-12 float-end" id="resetAll">Reset All</a></h6>
                             <div class="panel">
                                 <div class="acod-head">
                                     <h6 class="acod-title">
-                                        <a data-bs-toggle="collapse" href="#companies">
-                                            Companies
+                                        <a data-bs-toggle="collapse" href="#jobCategories">
+                                            Job Categories
                                         </a>
                                     </h6>
                                 </div>
-                                <div id="companies" class="acod-body collapse show">
+                                <div id="jobCategories" class="acod-body collapse show">
                                     <div class="acod-content">
+                                        @foreach($jobCategories as $jobCategory)
                                         <div class="form-check">
-                                            <input class="form-check-input" id="companies1" type="checkbox" name="checkbox-companies">
-                                            <label class="form-check-label" for="companies1">Job Mirror Consultancy <span>(50)</span> </label>
+                                            <input class="form-check-input job_category" id="job_category_{{ $jobCategory->id }}" type="checkbox" name="job_category[]" value="{{ $jobCategory->id }}">
+                                            <label class="form-check-label" for="job_category_{{ $jobCategory->id }}">{{ $jobCategory->name }} <span>(50)</span> </label>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="companies2" type="checkbox" name="checkbox-companies">
-                                            <label class="form-check-label" for="companies2">Engineering Group <span>(80)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="companies3" type="checkbox" name="checkbox-companies">
-                                            <label class="form-check-label" for="companies3">Electric Co. <span>(235)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="companies4" type="checkbox" name="checkbox-companies">
-                                            <label class="form-check-label" for="companies4">Telecom industry <span>(568)</span></label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="companies5" type="checkbox" name="checkbox-companies">
-                                            <label class="form-check-label" for="companies5">Safety/ Health <span>(798)</span></label>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -128,26 +107,12 @@
                                 </div>
                                 <div id="experience" class="acod-body collapse">
                                     <div class="acod-content">
+                                        @foreach($experienceOptions as $key => $experience)
                                         <div class="form-check">
-                                            <input class="form-check-input" id="one-years" type="radio" name="radio-years">
-                                            <label class="form-check-label" for="one-years">0-1 Years <span>(120)</span> </label>
+                                            <input class="form-check-input experience" id="experience_{{ $key }}" type="radio" name="experience" value="{{ $experience }}">
+                                            <label class="form-check-label" for="experience_{{ $key }}">{{ $experience }} <span>(120)</span> </label>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="two-years" type="radio" name="radio-years">
-                                            <label class="form-check-label" for="two-years">1-2 Years <span>(300)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="three-years" type="radio" name="radio-years">
-                                            <label class="form-check-label" for="three-years">2-3 Years <span>(235)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="four-years" type="radio" name="radio-years">
-                                            <label class="form-check-label" for="four-years">3-4 Years <span>(568)</span></label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="five-years" type="radio" name="radio-years">
-                                            <label class="form-check-label" for="five-years">4-5 Years <span>(798)</span></label>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -161,92 +126,50 @@
                                 </div>
                                 <div id="salary" class="acod-body collapse">
                                     <div class="acod-content">
+                                        @foreach($salaryRangeOptions as $key => $salaryRange)
                                         <div class="form-check">
-                                            <input class="form-check-input" id="salary-op1" type="radio" name="radio-currency">
-                                            <label class="form-check-label" for="salary-op1">0-1 lacs <span>(120)</span> </label>
+                                            <input class="form-check-input salary_range" id="salary_range_{{ $key }}" type="radio" name="salary_range" value="{{ $salaryRange }}">
+                                            <label class="form-check-label" for="salary_range_{{ $key }}">{{ $salaryRange }} <span>(120)</span> </label>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="salary-op2" type="radio" name="radio-currency">
-                                            <label class="form-check-label" for="salary-op2">1-2 lacs <span>(300)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="salary-op3" type="radio" name="radio-currency">
-                                            <label class="form-check-label" for="salary-op3">2-3 lacs <span>(235)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="salary-op4" type="radio" name="radio-currency">
-                                            <label class="form-check-label" for="salary-op4">3-4 lacs <span>(568)</span></label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="salary-op5" type="radio" name="radio-currency">
-                                            <label class="form-check-label" for="salary-op5">4-5 lacs <span>(798)</span></label>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                             <div class="panel">
                                 <div class="acod-head">
                                     <h6 class="acod-title">
-                                        <a data-bs-toggle="collapse" href="#job-function" class="collapsed">
-                                            Job Function
+                                        <a data-bs-toggle="collapse" href="#jobType" class="collapsed">
+                                            Job Type
                                         </a>
                                     </h6>
                                 </div>
-                                <div id="job-function" class="acod-body collapse">
+                                <div id="jobType" class="acod-body collapse">
                                     <div class="acod-content">
+                                        @foreach($jobTypes as $jobType)
                                         <div class="form-check">
-                                            <input class="form-check-input" id="function-services-1" type="radio" name="radio-function">
-                                            <label class="form-check-label" for="function-services-1">Production Management <span>(120)</span> </label>
+                                            <input class="form-check-input job_type" id="job_type_{{ $jobType->id }}" type="radio" name="job_type" value="{{ $jobType->id }}">
+                                            <label class="form-check-label" for="job_type_{{ $jobType->id }}">{{ $jobType->name }} <span>(120)</span> </label>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="function-services-2" type="radio" name="radio-function">
-                                            <label class="form-check-label" for="function-services-2">Design Engineering <span>(300)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="function-services-3" type="radio" name="radio-function">
-                                            <label class="form-check-label" for="function-services-3">Safety/ Health <span>(235)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="function-services-4" type="radio" name="radio-function">
-                                            <label class="form-check-label" for="function-services-4">Engineering <span>(568)</span></label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="function-services-5" type="radio" name="radio-function">
-                                            <label class="form-check-label" for="function-services-5">Product Development <span>(798)</span></label>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                             <div class="panel">
                                 <div class="acod-head">
                                     <h6 class="acod-title">
-                                        <a data-bs-toggle="collapse" href="#industry" class="collapsed">
-                                            Industry
+                                        <a data-bs-toggle="collapse" href="#workType" class="collapsed">
+                                            Work Type
                                         </a>
                                     </h6>
                                 </div>
-                                <div id="industry" class="acod-body collapse">
+                                <div id="workType" class="acod-body collapse">
                                     <div class="acod-content">
+                                        @foreach(getJobWorkType() as $workType)
                                         <div class="form-check">
-                                            <input class="form-check-input" id="industry1" type="radio" name="radio-industry">
-                                            <label class="form-check-label" for="industry1">Telecom <span>(5)</span> </label>
+                                            <input class="form-check-input work_type" id="work_type_{{ $workType->id }}" type="radio" name="work_type" value="{{ $workType->id }}">
+                                            <label class="form-check-label" for="work_type_{{ $workType->id }}">{{ $workType->name }} <span>(120)</span> </label>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="industry2" type="radio" name="radio-industry">
-                                            <label class="form-check-label" for="industry2">Consulting Services <span>(10)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="industry3" type="radio" name="radio-industry">
-                                            <label class="form-check-label" for="industry3">Engineering/Projects <span>(15)</span> </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="industry4" type="radio" name="radio-industry">
-                                            <label class="form-check-label" for="industry4">Manufacturing/Industrial <span>(12)</span></label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="industry5" type="radio" name="radio-industry">
-                                            <label class="form-check-label" for="industry5">Architecture/Interior Design <span>(8)</span></label>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -255,7 +178,7 @@
                     <div class="col-xl-9 col-lg-8 col-md-7">
                         <div class="job-bx-title clearfix">
                             <h5 class="font-weight-700 float-start text-uppercase"><span id="jobCount"></span> Jobs Found</h5>
-                            <div class="float-end">
+                            <!-- <div class="float-end">
                                 <span class="select-title">Sort by freshness</span>
                                 <select>
                                     <option>Last 2 Months</option>
@@ -267,7 +190,7 @@
                                     <a href="browse-job-filter-list.html" class="p-lr5"><i class="fa fa-th-list"></i></a>
                                     <a href="browse-job-filter-grid.html" class="p-lr5"><i class="fa fa-th"></i></a>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <ul id="job-list" class="post-job-bx">
                         </ul>
@@ -286,24 +209,88 @@
 @section('script')
 <script>
     $(function() {
+        $('#findJobBtn').click(function() {
+            var job_title = $('#job_title').val();
+            var place = $('#location').val();
+            var job_category_id = $('#job_category_id').val();
+            if(job_title == '' && place == '' && job_category_id == '') {
+                $('#error_location').html('Please select at least one filter');
+                return false;
+            }
+            getAllJobs();
+        });
+
+        $('.job_category').click(function() {
+            getAllJobs();
+        });
+
+        $('.experience').click(function() {
+            getAllJobs();
+        });
+
+        $('.salary_range').click(function() {
+            getAllJobs();
+        });
+
+        $('.job_type').click(function() {
+            getAllJobs();
+        });
+
+        $('.work_type').click(function() {
+            getAllJobs();
+        });
+
+        $('#job_title, #location, #job_category_id').change(function() {
+            $('#error_location').html('');
+        });
+
+        $('#resetAll').click(function() {
+            $('input[type="checkbox"]').prop('checked', false);
+            $('input[name="experience"]').prop('checked', false);
+            $('input[name="salary_range"]').prop('checked', false);
+            $('input[name="job_type"]').prop('checked', false);
+            $('input[name="work_type"]').prop('checked', false);
+            getAllJobs();
+        });
+
+        getAllJobs();
+
         const jobsPerPage = 10;
         let currentPage = 1;
         let allJobs = [];
 
-        // Fetch jobs data from Laravel API
-        $.ajax({
-            url: "{{ route('getJobsData') }}",
-            method: 'GET',
-            success: function(data) {
-                allJobs = data.jobs;
-                jobsCount = data.jobsCount;
-                $('#jobCount').html(jobsCount);
-                renderJobs(currentPage);
-            },
-            error: function() {
-                $('#job-list').html('<p>Error loading data</p>');
-            }
-        });
+        function getAllJobs() {
+
+            var job_category = $('input[name="job_category[]"]:checked').map(function() {
+                return this.value;
+            }).get();
+
+            // Fetch jobs data from Laravel API
+            $.ajax({
+                url: "{{ route('getJobsData') }}",
+                method: 'POST',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'job_title' : $('#job_title').val(),
+                    'location' : $('#location').val(),
+                    'job_category_id' : $('#job_category_id').val(),
+                    'job_category' : job_category,
+                    'experience' : $('input[name="experience"]:checked').val(),
+                    'salary_range' : $('input[name="salary_range"]:checked').val(),
+                    'job_type' : $('input[name="job_type"]:checked').val(),
+                    'work_type' : $('input[name="work_type"]:checked').val()
+                },
+                success: function(data) {
+                    allJobs = data.jobs;
+                    jobsCount = data.jobsCount;
+                    $('#jobCount').html(jobsCount);
+                    renderJobs(currentPage);
+                },
+                error: function() {
+                    $('#job-list').html('<p>Error loading data</p>');
+                }
+            });
+        }
 
         function renderJobs(page) {
             $('#job-list').empty();
@@ -336,7 +323,7 @@
                                 <div class="d-flex">
                                 <div class="job-time me-auto">
                                 <a href="javascript:void(0);"><span>${job.workType}</span></a>&emsp;
-                                <a href="${job.jobDetailsRoute}" class="site-button style-1">View Job</a>
+                                <a href="${job.jobDetailsRoute}" class="site-button style-3 viewJobBtn">View Job</a>
                                 </div>
                                 <div class="salary-bx">
                                     <span>${job.salary_range}</span>

@@ -135,8 +135,9 @@ class JobRepository extends BaseRepository
      * @return data
      *********************************
      */
-    public function getAllJobs($count = '')
+    public function getAllJobs($request, $count = '')
     {
+        $filterData = $request->all();
         $queryBuilder = Job::select([
             'jobs.id',
             'jobs.job_title',
@@ -150,10 +151,45 @@ class JobRepository extends BaseRepository
             'jobs.salary_range',
             'jobs.deadline',
             'jobs.job_status',
+            'countries.name',
+            'states.name',
+            'cities.name',
             DB::raw('DATE(jobs.created_at) as date')
         ])
         ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
-        ->where('jobs.job_status', JobStatusConstants::APPROVED)
+        ->leftJoin('countries', 'countries.id', '=', 'jobs.country_id')
+        ->leftJoin('states', 'states.id', '=', 'jobs.state_id')
+        ->leftJoin('cities', 'cities.id', '=', 'jobs.city_id');
+        if (isset($filterData['job_title']) && $filterData['job_title'] != '') {
+            $queryBuilder->where('jobs.job_title', 'LIKE', '%'.$filterData['job_title'].'%');
+        }
+        if (isset($filterData['job_category_id']) && $filterData['job_category_id'] != '') {
+            $queryBuilder->where('jobs.job_category_id', $filterData['job_category_id']);
+        }
+        if (isset($filterData['job_category']) && $filterData['job_category'] != '') {
+            $queryBuilder->whereIn('jobs.job_category_id', $filterData['job_category']);
+        }
+        if (isset($filterData['experience']) && $filterData['experience'] != '') {
+            $queryBuilder->where('jobs.experience', $filterData['experience']);
+        }
+        if (isset($filterData['salary_range']) && $filterData['salary_range'] != '') {
+            $queryBuilder->where('jobs.salary_range', $filterData['salary_range']);
+        }
+        if (isset($filterData['job_type']) && $filterData['job_type'] != '') {
+            $queryBuilder->where('jobs.job_type_id', $filterData['job_type']);
+        }
+        if (isset($filterData['work_type']) && $filterData['work_type'] != '') {
+            $queryBuilder->where('jobs.work_type_id', $filterData['work_type']);
+        }
+        if (isset($filterData['location']) && $filterData['location'] != '') {
+            $location = $filterData['location'];
+            $queryBuilder = $queryBuilder->where(function ($query) use ($location) {
+                $query->where('countries.name', $location)
+                    ->orWhere('states.name', $location)
+                    ->orWhere('cities.name', $location);
+            });
+        }
+        $queryBuilder = $queryBuilder->where('jobs.job_status', JobStatusConstants::APPROVED)
         ->where('jobs.status', StatusConstants::ACTIVE)
         ->orderByDesc('jobs.id')->take($count)->get();
 

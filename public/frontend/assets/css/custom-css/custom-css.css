@@ -89,3 +89,11 @@
  .js-example-basic-single {
     width: 100% !important;
  }
+ .viewJobBtn {
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 2px 15px;
+    border-radius: 6px;
+    background-color: #223d78;
+}

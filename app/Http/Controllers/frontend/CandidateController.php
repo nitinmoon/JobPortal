@@ -283,6 +283,15 @@ class CandidateController extends Controller
                 'state_id',
                 'city_id',
                 'flag',
+                'job_category_id',
+                'designation_id',
+                'job_type_id',
+                'work_type_id',
+                'current_salary',
+                'shift',
+                'availability_to_join',
+                'expected_salary',
+                'flag',
                 'job_id'
             ]
         );
