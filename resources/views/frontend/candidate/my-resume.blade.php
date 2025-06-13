@@ -1477,7 +1477,7 @@
                                                         <select class="js-example-basic-single" data-error="#error_job_type_id" name="job_type_id" data-placeholder="Select Job Type">
                                                             <option value="">Select</option>
                                                             @foreach($jobTypes as $jobType)
-                                                            <option value="{{ $jobType->id }}" {{ isset($candidateDetails->jobTypeId) && $candidateDetails->jobTypeId == $jobType->id ? 'selected' : '' }}>{{ $jobType->name }}</option>
+                                                            <option value="{{ $jobType->id }}" {{ isset($candidateDetails->job_type_id) && $candidateDetails->job_type_id == $jobType->id ? 'selected' : '' }}>{{ $jobType->name }}</option>
                                                             @endforeach
                                                         </select>
                                                         <span class="error" id="error_job_type_id"></span>
@@ -1491,7 +1491,7 @@
                                                         <select class="js-example-basic-single" data-error="#error_work_type_id" name="work_type_id" data-placeholder="Select Work Type">
                                                             <option value="">Select</option>
                                                             @foreach($jobWorkTypes as $jobWorkType)
-                                                            <option value="{{ $jobWorkType->id }}" {{ isset($candidateDetails->workTypeId) && $candidateDetails->workTypeId == $jobWorkType->id ? 'selected' : '' }}>{{ $jobWorkType->name }}</option>
+                                                            <option value="{{ $jobWorkType->id }}" {{ isset($candidateDetails->work_type_id) && $candidateDetails->work_type_id == $jobWorkType->id ? 'selected' : '' }}>{{ $jobWorkType->name }}</option>
                                                             @endforeach
                                                         </select>
                                                         <span class="error" id="error_work_type_id"></span>
@@ -1576,25 +1576,29 @@
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Work Type</label>
-                                        <span class="clearfix font-13">{{ isset($candidateDetails->workTypeId) && $candidateDetails->workTypeId != '' ? $candidateDetails->workType->name : '' }}</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->work_type_id) ? $candidateDetails->workType->name : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Availability to Join</label>
-                                        <span class="clearfix font-13">12 july</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->availability_to_join) && $candidateDetails->availability_to_join != '' ? availabilityToJoin($candidateDetails->availability_to_join) : '' }}</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Job Type</label>
-                                        <span class="clearfix font-13">{{ isset($candidateDetails->jobTypeId) && $candidateDetails->jobTypeId != '' ? $candidateDetails->jobType->name : '' }}</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->job_type_id) ? $candidateDetails->jobType->name : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Desired Shift</label>
-                                        <span class="clearfix font-13">Add Desired Shift</span>
+                                        <label class="m-b0">Preferred Shift</label>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->shift) && $candidateDetails->shift == '1' ? 'Morning' : 'Evening' }}</span>
+                                    </div>
+                                    <div class="clearfix m-b20">
+                                        <label class="m-b0">Current Salary</label>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->current_salary) && $candidateDetails->current_salary != '' ? $candidateDetails->current_salary.' LPA' : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Expected Salary</label>
-                                        <span class="clearfix font-13">1 Lakhs</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->job_category_id) && $candidateDetails->expected_salary != '' ? $candidateDetails->expected_salary.' LPA' : '' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1603,7 +1607,7 @@
                         <div id="personal_details_bx" class="job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b30">Personal Details</h5>
-                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#personaldetails" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
+                                <!-- <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#personaldetails" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a> -->
                             </div>
                             <!-- Modal -->
                             <div class="modal fade modal-bx-info editor" id="personaldetails" tabindex="-1" role="dialog" aria-labelledby="PersonaldetailsModalLongTitle" aria-hidden="true">
@@ -1781,45 +1785,25 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Date of Birth</label>
-                                        <span class="clearfix font-13">31 July 1998</span>
+                                        <span class="clearfix font-13">{{ isset($userDetails->dob) ? date('d/m/Y', strtotime($userDetails->dob)) : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Gender</label>
-                                        <span class="clearfix font-13">male</span>
+                                        <label class="m-b0">Email</label>
+                                        <span class="clearfix font-13">{{ isset($userDetails->email) ? $userDetails->email : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Marital Status</label>
-                                        <span class="clearfix font-13">Single / unmarried</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Passport Number</label>
-                                        <span class="clearfix font-13">+ 123 456 7890</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Differently Abled</label>
-                                        <span class="clearfix font-13">None</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Languages</label>
-                                        <span class="clearfix font-13">English</span>
+                                        <label class="m-b0">Permanent Address</label>
+                                        <span class="clearfix font-13">{{ isset($userDetails->address) ? $userDetails->address.', '.$userDetails->city_name.', '.$userDetails->state_name.', '.$userDetails->country_name.' - '.$userDetails->zip : '--' }}</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Permanent Address</label>
-                                        <span class="clearfix font-13">Add Permanent Address</span>
+                                        <label class="m-b0">Gender</label>
+                                        <span class="clearfix font-13">{{ isset($userDetails->gender) ? getGender($userDetails->gender) : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Area Pin Code</label>
-                                        <span class="clearfix font-13">302021</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Hometown</label>
-                                        <span class="clearfix font-13">Delhi</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Work permit of other country</label>
-                                        <span class="clearfix font-13">USA</span>
+                                        <label class="m-b0">Phone</label>
+                                        <span class="clearfix font-13">{{ isset($userDetails->phone) ? $userDetails->phone : '' }}</span>
                                     </div>
                                 </div>
                             </div>
