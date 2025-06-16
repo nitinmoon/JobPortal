@@ -33,7 +33,7 @@
                         <h5 class="m-b30 text-white">Frequently Asked Questions</h5>
                         <ul class="list-2 list-line">
                             <li><a href="{{ route('privacy') }}">Privacy & Policy</a></li>
-                            <li><a href="{{ route('terms') }}">Terms of Serice</a></li>
+                            <li><a href="{{ route('terms') }}">Terms and Conditions</a></li>
                             <li><a href="javascript:void(0);">Communications</a></li>
                             <li><a href="javascript:void(0);">Referral Terms</a></li>
                             <li><a href="javascript:void(0);">Lending Licnses</a></li>
