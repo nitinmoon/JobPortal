@@ -35,10 +35,10 @@ class HomeController extends Controller
      * @return view
      * **********************************
      */
-    public function index()
+    public function index(Request $request)
     {
         $jobCategories = $this->jobCategoryService->getAllJobCategory();
-        $jobs = $this->jobService->getAllJobs('6');
+        $jobs = $this->jobService->getAllJobs($request, '6');
         return view('frontend.home', compact('jobs', 'jobCategories'));
     }
 

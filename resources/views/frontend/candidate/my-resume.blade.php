@@ -54,19 +54,19 @@
                             <h4 class="m-b0">{{ isset($userDetails->id) ? $userDetails->first_name.' '.$userDetails->middle_name.' '.$userDetails->last_name : '' }}
                                 <a class="m-l15 font-16 text-white" href="{{ route('candidateProfile') }}"><i class="fas fa-pencil-alt"></i></a>
                             </h4>
-                            <p class="m-b15">Freelance Senior PHP Developer at various agencies</p>
+                            <p class="m-b15">{{ isset($candidateDetails->designation->name) ? $candidateDetails->designation->name : '--' }}</p>
                             <ul class="clearfix">
                                 <li><i class="ti-location-pin"></i> {{ isset($userDetails->address) ? $userDetails->address.', '.$userDetails->city_name.', '.$userDetails->state_name.', '.$userDetails->country_name.' - '.$userDetails->zip : '' }}</li>
                                 <li><i class="ti-mobile"></i> {{ isset($userDetails->phone) ? $userDetails->phone : '' }}</li>
-                                <li><i class="ti-briefcase"></i> Fresher</li>
+                                <li><i class="ti-briefcase"></i> {{ isset($candidateDetails->experience) ? $candidateDetails->experience : '--' }}</li>
                                 <li><i class="ti-email"></i> {{ isset($userDetails->email) ? $userDetails->email : '' }}</li>
                             </ul>
-                            <div class="progress-box m-t10">
+                            <!-- <div class="progress-box m-t10">
                                 <div class="progress-info">Profile Strength (Average)<span>70%</span></div>
                                 <div class="progress">
                                     <div class="progress-bar bg-primary" style="width: 80%" role="progressbar"></div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -1438,8 +1438,9 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body">
-                                            <form>
+                                        <form id="editCareerProfileForm" action="{{ route('updateCandidateDetails') }}" method="POST">
+                                            @csrf
+                                            <div class="modal-body">
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3">
                                                         <label for="inputEmail5" class="form-label">Job Category <span class="text-danger">*</span></label>
@@ -1448,7 +1449,7 @@
                                                         <select class="js-example-basic-single" data-error="#error_job_category_id" name="job_category_id" data-placeholder="Select Category">
                                                             <option value="">Select</option>
                                                             @foreach($jobCategories as $category)
-                                                            <option value="{{ $category->id }}" {{ isset($candidateDetails->category) && $candidateDetails->category != '' && $category->id == $candidateDetails->job_category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                                            <option value="{{ $category->id }}" {{ isset($candidateDetails->job_category_id) && $category->id == $candidateDetails->job_category_id ? 'selected' : '' }}>{{ $category->name }}</option>
                                                             @endforeach
                                                         </select>
                                                         <span class="error" id="error_job_category_id"></span>
@@ -1473,7 +1474,7 @@
                                                         <label for="inputEmail5" class="form-label">Job Type <span class="text-danger">*</span></label>
                                                     </div>
                                                     <div class="col-lg-9 col-md-9">
-                                                        <select class="js-example-basic-single" data-error="#error_job_type_id" name="job_type_id" data-placeholder="Select job type">
+                                                        <select class="js-example-basic-single" data-error="#error_job_type_id" name="job_type_id" data-placeholder="Select Job Type">
                                                             <option value="">Select</option>
                                                             @foreach($jobTypes as $jobType)
                                                             <option value="{{ $jobType->id }}" {{ isset($candidateDetails->job_type_id) && $candidateDetails->job_type_id == $jobType->id ? 'selected' : '' }}>{{ $jobType->name }}</option>
@@ -1487,13 +1488,22 @@
                                                         <label for="inputEmail5" class="form-label">Work Type <span class="text-danger">*</span></label>
                                                     </div>
                                                     <div class="col-lg-9 col-md-9">
-                                                        <select class="js-example-basic-single" data-error="#error_skills" multiple="multiple" name="skills[]" data-placeholder="Select Skills">
+                                                        <select class="js-example-basic-single" data-error="#error_work_type_id" name="work_type_id" data-placeholder="Select Work Type">
                                                             <option value="">Select</option>
                                                             @foreach($jobWorkTypes as $jobWorkType)
-                                                            <option value="{{ $jobWorkType->id }}" {{ isset($candidateDetails->skills) && $candidateDetails->skills == $jobWorkType->id ? 'selected' : '' }}>{{ $jobWorkType->name }}</option>
+                                                            <option value="{{ $jobWorkType->id }}" {{ isset($candidateDetails->work_type_id) && $candidateDetails->work_type_id == $jobWorkType->id ? 'selected' : '' }}>{{ $jobWorkType->name }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <span class="error" id="error_skills"></span>
+                                                        <span class="error" id="error_work_type_id"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-lg-3 col-md-3">
+                                                        <label for="inputEmail5" class="form-label">Current Salary <span class="text-danger">*</span></label>
+                                                    </div>
+                                                    <div class="col-lg-9 col-md-9">
+                                                        <input type="text" class="form-control" name="current_salary" id="current_salary" placeholder="Enter Current Salary" value="{{ isset($candidateDetails->current_salary) && $candidateDetails->current_salary != '' ? $candidateDetails->current_salary : '' }}">
+                                                        <span class="error" id="error_current_salary"></span>
                                                     </div>
                                                 </div>
                                                 <div class="row mt-3">
@@ -1503,14 +1513,14 @@
                                                             <div class="row">
                                                                 <div class="col-lg-3 col-md-6 col-sm-6 col-6">
                                                                     <div class="form-check">
-                                                                        <input type="radio" class="form-check-input" id="day" name="example1">
-                                                                        <label class="form-check-label" for="day">Morning</label>
+                                                                        <input type="radio" class="form-check-input" id="morning" name="shift" value="1" {{ isset($candidateDetails->shift) && $candidateDetails->shift == '1' ? 'checked' : '' }}>
+                                                                        <label class="form-check-label" for="morning">Morning</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-6 col-sm-6 col-6">
                                                                     <div class="form-check">
-                                                                        <input type="radio" class="form-check-input" id="night" name="example1">
-                                                                        <label class="form-check-label" for="night">Evening</label>
+                                                                        <input type="radio" class="form-check-input" id="evening" name="shift" value="2" {{ isset($candidateDetails->shift) && $candidateDetails->shift == '2' ? 'checked' : '' }}>
+                                                                        <label class="form-check-label" for="evening">Evening</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1521,18 +1531,12 @@
                                                             <label>Availability to Join</label>
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <select>
-                                                                        <option>2021</option>
-                                                                        <option>2020</option>
-                                                                        <option>2019</option>
-                                                                        <option>2018</option>
-                                                                        <option>2017</option>
-                                                                        <option>2016</option>
-                                                                        <option>2015</option>
-                                                                        <option>2014</option>
-                                                                        <option>2013</option>
-                                                                        <option>2012</option>
-                                                                        <option>2011</option>
+                                                                    <select name="availability_to_join">
+                                                                        <option value="">Select</option>
+                                                                        <option value="1" {{ isset($candidateDetails->availability_to_join) && $candidateDetails->availability_to_join == '1' ? 'selected' : '' }}>15 Days</option>
+                                                                        <option value="2" {{ isset($candidateDetails->availability_to_join) && $candidateDetails->availability_to_join == '2' ? 'selected' : '' }}>1 Month</option>
+                                                                        <option value="3" {{ isset($candidateDetails->availability_to_join) && $candidateDetails->availability_to_join == '3' ? 'selected' : '' }}>2 Months</option>
+                                                                        <option value="4" {{ isset($candidateDetails->availability_to_join) && $candidateDetails->availability_to_join == '4' ? 'selected' : '' }}>3 Months</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -1542,26 +1546,19 @@
                                                         <div class="form-group">
                                                             <label>Expected Salary</label>
                                                             <div class="row">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <select>
-                                                                        <option>0 lakh</option>
-                                                                        <option>1 lakh</option>
-                                                                        <option>2 lakh</option>
-                                                                        <option>5 lakh</option>
-                                                                        <option>4 lakh</option>
-                                                                        <option>5 lakh</option>
-                                                                    </select>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                    <input type="text" class="form-control" name="expected_salary" id="expected_salary" placeholder="Enter Expected Salary" value="{{ isset($candidateDetails->expected_salary) && $candidateDetails->expected_salary != '' ? $candidateDetails->expected_salary : '' }}">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="site-button" data-bs-dismiss="modal">Cancel</button>
-                                            <button type="button" class="site-button">Save</button>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="site-button" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="site-button">Save</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -1571,33 +1568,37 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Job Category</label>
-                                        <span class="clearfix font-13">Accounts</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->job_category_id) && $candidateDetails->job_category_id != '' ? $candidateDetails->jobCategory->name : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Role</label>
-                                        <span class="clearfix font-13">Web Designer</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->designation_id) && $candidateDetails->designation_id != '' ? $candidateDetails->designation->name : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Work Type</label>
-                                        <span class="clearfix font-13">Full Time</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->work_type_id) ? $candidateDetails->workType->name : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Availability to Join</label>
-                                        <span class="clearfix font-13">12 july</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->availability_to_join) && $candidateDetails->availability_to_join != '' ? availabilityToJoin($candidateDetails->availability_to_join) : '' }}</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Job Type</label>
-                                        <span class="clearfix font-13">permanent</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->job_type_id) ? $candidateDetails->jobType->name : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Desired Shift</label>
-                                        <span class="clearfix font-13">Add Desired Shift</span>
+                                        <label class="m-b0">Preferred Shift</label>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->shift) && $candidateDetails->shift == '1' ? 'Morning' : 'Evening' }}</span>
+                                    </div>
+                                    <div class="clearfix m-b20">
+                                        <label class="m-b0">Current Salary</label>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->current_salary) && $candidateDetails->current_salary != '' ? $candidateDetails->current_salary.' LPA' : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Expected Salary</label>
-                                        <span class="clearfix font-13">1 Lakhs</span>
+                                        <span class="clearfix font-13">{{ isset($candidateDetails->job_category_id) && $candidateDetails->expected_salary != '' ? $candidateDetails->expected_salary.' LPA' : '' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1606,7 +1607,7 @@
                         <div id="personal_details_bx" class="job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b30">Personal Details</h5>
-                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#personaldetails" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a>
+                                <!-- <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#personaldetails" class="site-button add-btn button-sm"><i class="fas fa-pencil-alt m-r5"></i> Edit</a> -->
                             </div>
                             <!-- Modal -->
                             <div class="modal fade modal-bx-info editor" id="personaldetails" tabindex="-1" role="dialog" aria-labelledby="PersonaldetailsModalLongTitle" aria-hidden="true">
@@ -1784,45 +1785,25 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Date of Birth</label>
-                                        <span class="clearfix font-13">31 July 1998</span>
+                                        <span class="clearfix font-13">{{ isset($userDetails->dob) ? date('d/m/Y', strtotime($userDetails->dob)) : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Gender</label>
-                                        <span class="clearfix font-13">male</span>
+                                        <label class="m-b0">Email</label>
+                                        <span class="clearfix font-13">{{ isset($userDetails->email) ? $userDetails->email : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Marital Status</label>
-                                        <span class="clearfix font-13">Single / unmarried</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Passport Number</label>
-                                        <span class="clearfix font-13">+ 123 456 7890</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Differently Abled</label>
-                                        <span class="clearfix font-13">None</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Languages</label>
-                                        <span class="clearfix font-13">English</span>
+                                        <label class="m-b0">Permanent Address</label>
+                                        <span class="clearfix font-13">{{ isset($userDetails->address) ? $userDetails->address.', '.$userDetails->city_name.', '.$userDetails->state_name.', '.$userDetails->country_name.' - '.$userDetails->zip : '--' }}</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Permanent Address</label>
-                                        <span class="clearfix font-13">Add Permanent Address</span>
+                                        <label class="m-b0">Gender</label>
+                                        <span class="clearfix font-13">{{ isset($userDetails->gender) ? getGender($userDetails->gender) : '' }}</span>
                                     </div>
                                     <div class="clearfix m-b20">
-                                        <label class="m-b0">Area Pin Code</label>
-                                        <span class="clearfix font-13">302021</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Hometown</label>
-                                        <span class="clearfix font-13">Delhi</span>
-                                    </div>
-                                    <div class="clearfix m-b20">
-                                        <label class="m-b0">Work permit of other country</label>
-                                        <span class="clearfix font-13">USA</span>
+                                        <label class="m-b0">Phone</label>
+                                        <span class="clearfix font-13">{{ isset($userDetails->phone) ? $userDetails->phone : '' }}</span>
                                     </div>
                                 </div>
                             </div>

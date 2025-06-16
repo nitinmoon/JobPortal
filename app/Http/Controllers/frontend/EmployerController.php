@@ -167,7 +167,6 @@ class EmployerController extends Controller
             '5 - 7 Years',
             'Above 7+',
         ];
-
         $salaryRangeOptions = [
             '1 - 2 Lacs',
             '2 - 3 Lacs',
@@ -181,23 +180,20 @@ class EmployerController extends Controller
             '10 - 15 Lacs',
             'Above 15+',
         ];
-
-        return view('frontend.employer.company-job-post',
-            compact(
-                'countries',
-                'states',
-                'cities',
-                'designations',
-                'jobCategories',
-                'jobTypes',
-                'genders',
-                'englishLevels',
-                'skills',
-                'jobDetails',
-                'experienceOptions',
-                'salaryRangeOptions'
-            )
-        );
+        return view('frontend.employer.company-job-post', compact(
+            'countries',
+            'states',
+            'cities',
+            'designations',
+            'jobCategories',
+            'jobTypes',
+            'genders',
+            'englishLevels',
+            'skills',
+            'jobDetails',
+            'experienceOptions',
+            'salaryRangeOptions'
+        ));
     }
 
     /**

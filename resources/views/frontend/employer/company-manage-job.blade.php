@@ -119,6 +119,7 @@
             const end = start + jobsPerPage;
             const paginatedJobs = allJobs.slice(start, end);
             console.log(paginatedJobs);
+            if (paginatedJobs != '') {
             paginatedJobs.forEach(job => {
                 const viewJobRoute = "{{ route('jobDetails', ':id') }}";
                 const editJobRoute = "{{ route('companyJobPost', ':id') }}";
@@ -165,6 +166,13 @@
                     </tr>
                 `);
             });
+        } else {
+            $('#job-list').append(`<tr>
+                        <td class="feature text-center" colspan="5">
+                            No jobs found!
+                        </td>
+                    </tr>`);
+        }
 
             renderPagination();
         }

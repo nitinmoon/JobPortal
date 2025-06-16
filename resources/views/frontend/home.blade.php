@@ -17,7 +17,7 @@
                                 <div class="form-group">
                                     <label>Job Title, Keywords, or Phrase</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="">
+                                        <input type="text" class="form-control" id="job_title" placeholder="">
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="fa fa-search"></i></span>
                                         </div>
@@ -26,35 +26,28 @@
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
-                                    <label>City, State or ZIP</label>
+                                    <label>City, State or Country</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="">
+                                        <input type="text" class="form-control" id="location" placeholder="">
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                         </div>
                                     </div>
                                 </div>
+                                <span id="error_location" class="error"></span>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
-                                    <select>
-                                        <option>Select Sector</option>
-                                        <option>Construction</option>
-                                        <option>Corodinator</option>
-                                        <option>Employer</option>
-                                        <option>Financial Career</option>
-                                        <option>Information Technology</option>
-                                        <option>Marketing</option>
-                                        <option>Quality check</option>
-                                        <option>Real Estate</option>
-                                        <option>Sales</option>
-                                        <option>Supporting</option>
-                                        <option>Teaching</option>
+                                    <select id="job_category_id">
+                                        <option value="">Select Category</option>
+                                        @foreach($jobCategories as $jobCategory)
+                                        <option value="{{ $jobCategory->id }}">{{ $jobCategory->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-6">
-                                <button type="submit" class="site-button btn-block">Find Job</button>
+                                <button type="button" class="site-button btn-block" id="findJobBtn">Find Job</button>
                             </div>
                         </div>
                     </form>
@@ -421,13 +414,12 @@
                                     of a page when looking at its layout.</p>
                                 <div class="dz-buttons d-flex align-items-center">
                                     <div class="job-time me-auto">
-                                        <a href="javascript:void(0);"><span>{{ isset($job->workType) ? $job->workType : '' }}</span></a>
+                                        <a href="{{ route('jobDetails', base64_encode($job->id)) }}" class="site-button style-3 viewJobBtn">View Job</a>
                                     </div>
-                                    <!-- <a href="{{ route('jobDetails', base64_encode($job->id)) }}" class="site-button style-1">View Job</a> -->
                                     <div class="dz-salary"><span>{{ isset($job->salary_range) ? $job->salary_range : '' }}</span></div>
                                 </div>
                             </div>
-                            <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">{{ isset($job->jobType) ? $job->jobType : '' }}</a></div>
+                            <div class="dz-timing"><a href="javascript:void(0);">{{ isset($job->jobType) ? $job->jobType : '' }}</a>&nbsp;<a href="javascript:void(0);">{{ isset($job->workType) ? $job->workType : '' }}</a></div>
                         </div>
                     </a>
                 </div>
@@ -532,6 +524,20 @@
 @section('script')
 <script>
     $(function() {
+        $('#findJobBtn').click(function() {
+            var job_title = $('#job_title').val();
+            var place = $('#location').val();
+            var job_category_id = $('#job_category_id').val();
+            if(job_title == '' && place == '' && job_category_id == '') {
+                $('#error_location').html('Please select at least one filter');
+                return false;
+            }
+            location.href = "{{ url('/jobs?job_title=') }}"+ job_title + "&location=" + place + "&job_category_id=" + btoa(job_category_id);
+        });
+
+        $('#job_title, #location, #job_category_id').change(function() {
+            $('#error_location').html('');
+        });
     });
 </script>
 @endsection

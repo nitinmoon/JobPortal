@@ -14,8 +14,12 @@ class CandidateDetail extends Model
     protected $fillable = [
         'candidate_id',
         'designation_id',
+        'job_category_id',
+        'job_type_id',
+        'work_type_id',
         'current_salary',
         'expected_salary',
+        'shift',
         'experience',
         'marital_status',
         'education',
@@ -39,5 +43,20 @@ class CandidateDetail extends Model
     public function designation()
     {
         return $this->belongsTo(Designation::class, 'designation_id');
+    }
+
+    public function jobCategory()
+    {
+        return $this->belongsTo(JobCategory::class, 'job_category_id');
+    }
+
+    public function jobType()
+    {
+        return $this->belongsTo(JobType::class, 'job_type_id');
+    }
+
+    public function workType()
+    {
+        return $this->belongsTo(WorkType::class, 'work_type_id');
     }
 }

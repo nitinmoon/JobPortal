@@ -632,3 +632,27 @@ if (!function_exists('getJobApplicantCount')) {
             ->count();
     }
 }
+
+/**
+ * ***************************
+ * method use to get gender
+ * ---------------------------
+ * @param string $status
+ * @return data
+ * ***************************
+ */
+if (!function_exists('availabilityToJoin')) {
+    function availabilityToJoin($days)
+    {
+        if ($days == '1') {
+            $duration = "15 Days";
+        } elseif ($days == '2') {
+            $duration = "1 Month";
+        } elseif ($days == '3') {
+            $duration = "2 Months";
+        } else {
+            $duration = "3 Months";
+        }
+        return $duration;
+    }
+}

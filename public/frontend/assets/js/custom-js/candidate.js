@@ -252,6 +252,102 @@ $(function() {
         }
     });
 
+    $("#editCareerProfileForm").validate({
+        rules: {
+            job_category_id: {
+                required: true
+            },
+            designation_id: {
+                required: true
+            },
+            job_type_id: {
+                required: true
+            },
+            work_type_id: {
+                required: true
+            },
+            current_salary: {
+                required: true
+            }
+        },
+        messages: {
+            job_category_id: {
+                required: "Please select job category"
+            },
+            designation_id: {
+                required: "Please select designation"
+            },
+            job_type_id: {
+                required: "Please select job type"
+            },
+            work_type_id: {
+                required: "Please select work type"
+            },
+            current_salary: {
+                required: "Please enter current salary"
+            }
+        },
+        errorClass: "error is-invalid",
+        errorElement: "label",
+        errorPlacement: function (error, element) {
+            var placement = $(element).data("error");
+            if (placement) {
+                $(placement).append(error);
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function (form) {
+            var href = $('#editCareerProfileForm').attr('action');
+            var formData = new FormData(form);
+            $(".error").html('');
+            $.ajax({
+                type: 'POST',
+                url: href,
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#preloader').show();
+                },
+                success: function (res) {
+                    if (res.status == true) {
+                        setTimeout(() => {
+                            location.href = res.redirectRoute;
+                        }, 2000);
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
+                        });
+                    } else {
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
+                        });
+                    }
+                },
+                complete: function () {
+                    $('#preloader').hide();
+                },
+                error: function (err) {
+                    $("#preloader").hide();
+                    if (err.status == 422) {
+                        $errResponse = JSON.parse(err.responseText);
+                        $.each($errResponse.errors, function (key, value) {
+                            console.log(key + "----" + value)
+                            $("#error_" + key).html(value)
+                        })
+
+                    }
+                }
+            });
+        }
+    });
+
     $("#uploadResumeForm").validate({
         rules: {
             resume_file: {
