@@ -59,43 +59,53 @@
 
 
     <!-- Partners -->
-    <!-- <div class="section-full content-inner-1 partners bg-white style-1">
+    <div class="section-full content-inner-1 partners bg-white style-1">
         <div class="container">
             <div
                 class="our-partners item-center owl-loaded owl-theme owl-carousel owl-none mfp-gallery owl-dots-none">
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner1.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo1.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner2.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo3.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner3.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo4.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner4.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo6.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner5.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo8.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner6.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/non-it-industires/Client-logo2.jpg') }}" alt="">
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="javascript:void(0);" class="partners-media">
+                        <img src="{{ asset('frontend/assets/images/non-it-industires/Client-logo5.jpg') }}" alt="">
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="javascript:void(0);" class="partners-media">
+                        <img src="{{ asset('frontend/assets/images/non-it-industires/Client-logo7.jpg') }}" alt="">
                     </a>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
     <!-- Partners End-->
 
     <!-- About Work -->

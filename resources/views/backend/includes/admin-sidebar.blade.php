@@ -44,20 +44,26 @@
         </li>
         <li class="nav-item">
             <a class="nav-link {{ (Request::routeIs('jobsList') || Request::routeIs('addJob') || Request::routeIs('editJob') || Request::routeIs('viewdetailJob')) ? '' : 'collapsed' }}" href="{{ route('jobsList') }}">
-                <i class="bi bi-person"></i>
+                <i class="bi bi-person-workspace"></i>
                 <span>Jobs</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{ (Request::routeIs('candidateApplyJobs')) ? '' : 'collapsed' }}" href="{{ route('candidateApplyJobsList') }}">
-                <i class="bi bi-person"></i>
+                <i class="bi bi-file-earmark-person-fill"></i>
                 <span>Applyed Jobs</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{ (Request::routeIs('contacts')) ? '' : 'collapsed' }}" href="{{ route('contacts') }}">
-                <i class="bi bi-person"></i>
+                <i class="bi bi-person-lines-fill"></i>
                 <span>Contacts</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ (Request::routeIs('reports')) ? '' : 'collapsed' }}" href="{{ route('reports') }}">
+                <i class="bi bi-journals"></i>
+                <span>Reports</span>
             </a>
         </li>
     </ul>

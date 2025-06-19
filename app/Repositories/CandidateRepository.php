@@ -353,8 +353,7 @@ class CandidateRepository extends BaseRepository
             ->distinct()
             ->join('apply_jobs', 'apply_jobs.candidate_id', '=', 'users.id')
             ->where('users.portal_access', '1')
-            ->where('users.role_id', UserRoleConstants::USER_ROLE_CANDIDATE)
-            ->where('apply_jobs.employer_id', auth()->user()->id);
+            ->where('users.role_id', UserRoleConstants::CANDIDATE);
         if (!empty($searchString) && $searchString != '') {
             $queryBuilder = $queryBuilder->where('users.title', 'LIKE', "%{$searchString}%")
                 ->orWhere('users.first_name', 'LIKE', "%{$searchString}%")

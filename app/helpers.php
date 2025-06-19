@@ -297,7 +297,7 @@ if (!function_exists('getJobAppliedStatusName')) {
         } elseif ($status == '3') {
             $statusName =  'Shortlisted';
         } else {
-            $statusName = '';
+            $statusName = 'Hired';
         }
         return $statusName;
     }

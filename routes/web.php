@@ -10,6 +10,7 @@ use App\Http\Controllers\backend\JobCategoryController;
 use App\Http\Controllers\backend\JobController;
 use App\Http\Controllers\backend\JobTypeController;
 use App\Http\Controllers\backend\LoginController;
+use App\Http\Controllers\backend\ReportController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\frontend\AuthController;
 use App\Http\Controllers\frontend\CandidateController as FrontendCandidateController;
@@ -178,6 +179,13 @@ Route::middleware(['isAdminLoggedIn'])->group(function () {
         Route::controller(ApplyJobController::class)->group(function () {
             Route::get('/candidate-applied-jobs', 'index')->name('candidateApplyJobs');
             Route::post('/candidate-applied-jobs', 'index')->name('candidateApplyJobsList');
+        });
+
+        /*
+        | Report Routes
+        */
+        Route::controller(ReportController::class)->group(function () {
+            Route::get('/reports', 'index')->name('reports');
         });
     });
 });
