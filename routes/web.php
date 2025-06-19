@@ -325,6 +325,16 @@ Route::middleware(['isCandidateLoggedIn'])->group(function () {
             Route::get('/applied-jobs-data', 'getAppliedJobsData')->name('getAppliedJobsData');
             Route::post('/update-cadidate-details', 'updateCandidateDetails')->name('updateCandidateDetails');
             Route::post('/upload-resume', 'uploadResume')->name('uploadResume');
+            Route::get('/add-employment-modal', 'addEmploymentModal')
+            ->name('addEmploymentModal');
+            Route::post('/add-update-employment', 'addUpdateEmployment')->name('addUpdateEmployment');
+            Route::get('/edit-employment-modal/{id}', 'editEmploymentModal')
+                ->name('editEmploymentModal');
+            Route::get('/add-education-modal', 'addEducationModal')
+            ->name('addEducationModal');
+            Route::post('/add-update-education', 'addUpdateEducation')->name('addUpdateEducation');
+            Route::get('/edit-education-modal/{id}', 'editEducationModal')
+                ->name('editEducationModal');
         });
     });
 });

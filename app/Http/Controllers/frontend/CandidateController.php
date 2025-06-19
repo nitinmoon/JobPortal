@@ -189,6 +189,8 @@ class CandidateController extends Controller
     {
         $userDetails = $this->employerService->getUserDetails(auth()->user()->id);
         $candidateDetails = $this->candidateService->getCandidateDetails(auth()->user()->id);
+        $employmentDetails = $this->candidateService->getAllEmploymentDetails(auth()->user()->id);
+        $educationDetails = $this->candidateService->getAllEducationDetails(auth()->user()->id);
         $skills = $this->skillService->getAllSkills();
         $jobCategories = $this->jobCategoryService->getAllJobCategory();
         $designations = $this->designationService->getAllDesignations();
@@ -216,6 +218,8 @@ class CandidateController extends Controller
                 'cities',
                 'designations',
                 'candidateDetails',
+                'employmentDetails',
+                'educationDetails',
                 'skills',
                 'jobCategories',
                 'jobTypes',
@@ -311,13 +315,13 @@ class CandidateController extends Controller
         return view('frontend.candidate.change-password', compact('userDetails'));
     }
 
-     /**
+    /**
      * *******************************
      * method used to change password
      * -------------------------------
      * @param object $request
      * *******************************
-    */
+     */
     public function changeCandidatePassword(AdminChangePasswordRequest $request)
     {
         $credentials = $this->validatechangePasswordRequest($request);
@@ -355,21 +359,21 @@ class CandidateController extends Controller
     public function updateCandidateProfilePhoto(ProfileImageRequest $request)
     {
         // try {
-            $inputArray = $this->validateImage($request);
-            $imageName  = time().'.'.$inputArray['profile_photo']->extension();
-            $imagepath = config('constants.PROFILE_PATH');
-            if (!file_exists($imagepath)) {
-                mkdir($imagepath, 0777, true);
-            }
-            $inputArray['profile_photo']->move(config('constants.PROFILE_PATH'), $imageName);
-            $inputArray['profile_photo'] = $imageName;
-            $this->userService->updateProfilePhoto(auth()->user()->id, $inputArray);
-            return response()->json(
-                [
-                    'status' => true,
-                    'msg' => "Profile photo updated successfully!"
-                ]
-            );
+        $inputArray = $this->validateImage($request);
+        $imageName  = time() . '.' . $inputArray['profile_photo']->extension();
+        $imagepath = config('constants.PROFILE_PATH');
+        if (!file_exists($imagepath)) {
+            mkdir($imagepath, 0777, true);
+        }
+        $inputArray['profile_photo']->move(config('constants.PROFILE_PATH'), $imageName);
+        $inputArray['profile_photo'] = $imageName;
+        $this->userService->updateProfilePhoto(auth()->user()->id, $inputArray);
+        return response()->json(
+            [
+                'status' => true,
+                'msg' => "Profile photo updated successfully!"
+            ]
+        );
         // } catch (\Exception  $exception) {
         //     return back()->withError($exception->getMessage())->withInput();
         // }
@@ -414,5 +418,178 @@ class CandidateController extends Controller
             'jobs' => $appliedJobs,
             'jobsCount' => $jobsCount
         ]);
+    }
+
+    /**
+     * ************************************************
+     * Function is used to add edit employment
+     * ------------------------------------------------
+     * @return jsonResponse
+     * ************************************************
+     */
+    public function addEmploymentModal()
+    {
+        $designations = $this->designationService->getAllDesignations();
+        $html = view('frontend.candidate.add-edit-employment', compact('designations'))->render();
+        return response()->json(array('body' => $html));
+    }
+
+    /**
+     * *************************************
+     * method use to add employment
+     * -------------------------------------
+     * @param object $request
+     * @return jsonResponse
+     * **************************************
+     */
+    public function addUpdateEmployment(Request $request)
+    {
+        try {
+            $inputArray = $this->validateEmploymentInput($request);
+            $this->candidateService->addUpdateEmployment($inputArray);
+            $msg = $inputArray['employment_id'] == 0 ? 'Employment added successfully!' : 'Employment updated successfully!';
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => $msg
+                ]
+            );
+        } catch (Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    /**
+     ****************************************************
+     * Function use to validate employment input
+     * --------------------------------------------------
+     * @param object $request
+     * @return array request
+     * @description input ('name', 'description', 'reimbursementTypeId')
+     ********************************************************************
+     */
+    private function validateEmploymentInput(Request $request)
+    {
+        return $request->only(
+            [
+                'employment_id',
+                'designation_id',
+                'organization',
+                'work_from_year',
+                'work_from_month',
+                'work_till_year',
+                'work_till_month',
+                'experience',
+                'current_company',
+                'job_profile',
+            ]
+        );
+    }
+
+    /**
+     *****************************************************
+     * Function use to view edit employment modal
+     * ---------------------------------------------------
+     * @param int $employmentId
+     * @return jsonResponse
+     ******************************************************
+     */
+    public function editEmploymentModal($employmentId)
+    {
+        $designations = $this->designationService->getAllDesignations();
+        $employmentDetails = $this->candidateService->getEmploymentDetails($employmentId);
+        $html = view('frontend.candidate.add-edit-employment', compact('designations', 'employmentDetails'))
+            ->render();
+        return response()->json(array('body' => $html));
+    }
+
+    /**
+     * ************************************************
+     * Function is used to add edit education
+     * ------------------------------------------------
+     * @return jsonResponse
+     * ************************************************
+     */
+    public function addEducationModal()
+    {
+        $html = view('frontend.candidate.add-edit-education')->render();
+        return response()->json(array('body' => $html));
+    }
+
+    /**
+     * *************************************
+     * method use to add education
+     * -------------------------------------
+     * @param object $request
+     * @return jsonResponse
+     * **************************************
+     */
+    public function addUpdateEducation(Request $request)
+    {
+        try {
+            $inputArray = $this->validateEducationInput($request);
+            $this->candidateService->addUpdateEducation($inputArray);
+            $msg = $inputArray['education_id'] == 0 ? 'Education added successfully!' : 'Education updated successfully!';
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => $msg
+                ]
+            );
+        } catch (Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    /**
+     ****************************************************
+     * Function use to validate education input
+     * --------------------------------------------------
+     * @param object $request
+     * @return array request
+     * @description input ('name', 'description', 'education_id')
+     ********************************************************************
+     */
+    private function validateEducationInput(Request $request)
+    {
+        return $request->only(
+            [
+                'education_id',
+                'education',
+                'college',
+                'university',
+                'year_of_passing',
+                'month_of_passing',
+                'percentage'
+            ]
+        );
+    }
+
+    /**
+     *****************************************************
+     * Function use to view edit education modal
+     * ---------------------------------------------------
+     * @param int $educationId
+     * @return jsonResponse
+     ******************************************************
+     */
+    public function editEducationModal($educationId)
+    {
+        $educationDetails = $this->candidateService->getEducationDetails($educationId);
+        $html = view('frontend.candidate.add-edit-education', compact('educationDetails'))
+            ->render();
+        return response()->json(array('body' => $html));
     }
 }

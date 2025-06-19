@@ -168,6 +168,32 @@ class CandidateService
     }
 
     /**
+     * **********************************************
+     * method used to update employment details
+     * ----------------------------------------------
+     * @param array $inputArray
+     * @return data
+     * *************************************************
+     */
+    public function addUpdateEmployment($inputArray)
+    {
+        return $this->candidateRepository->addUpdateEmployment($inputArray);
+    }
+
+    /**
+     * **********************************************
+     * method used to update education details
+     * ----------------------------------------------
+     * @param array $inputArray
+     * @return data
+     * *************************************************
+     */
+    public function addUpdateEducation($inputArray)
+    {
+        return $this->candidateRepository->addUpdateEducation($inputArray);
+    }
+
+    /**
      * ******************************************
      * method used to get candidate details
      * ------------------------------------------
@@ -178,6 +204,58 @@ class CandidateService
     public function getCandidateDetails($candidateId)
     {
         return $this->candidateRepository->getCandidateDetails($candidateId);
+    }
+
+    /**
+     * ******************************************
+     * method used to get employment details
+     * ------------------------------------------
+     * @param int $candidateId
+     * @return data
+     * ******************************************
+     */
+    public function getAllEmploymentDetails($candidateId)
+    {
+        return $this->candidateRepository->getAllEmploymentDetails($candidateId);
+    }
+
+    /**
+     * ******************************************
+     * method used to get employment details
+     * ------------------------------------------
+     * @param int $employmentId
+     * @return data
+     * ******************************************
+     */
+    public function getEmploymentDetails($employmentId)
+    {
+        return $this->candidateRepository->getEmploymentDetails($employmentId);
+    }
+
+    /**
+     * ******************************************
+     * method used to get education details
+     * ------------------------------------------
+     * @param int $candidateId
+     * @return data
+     * ******************************************
+     */
+    public function getAllEducationDetails($candidateId)
+    {
+        return $this->candidateRepository->getAllEducationDetails($candidateId);
+    }
+
+    /**
+     * ******************************************
+     * method used to get education details
+     * ------------------------------------------
+     * @param int $educationId
+     * @return data
+     * ******************************************
+     */
+    public function getEducationDetails($educationId)
+    {
+        return $this->candidateRepository->getEducationDetails($educationId);
     }
 
     /**

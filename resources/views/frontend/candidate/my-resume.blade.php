@@ -310,45 +310,31 @@
                         <div id="employment_bx" class="job-bx table-job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b15">Employment</h5>
-                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#employment" class="site-button add-btn button-sm"><i class="fas fa-plus m-r5"></i> Add</a>
+                                <a href="javascript:void(0);" data-url="{{ route('addEmploymentModal') }}" class="site-button add-btn button-sm add-employment"><i class="fas fa-plus m-r5"></i> Add</a>
                             </div>
                             <p>Mention your employment details including your current and previous company work experience</p>
                             <table>
                                 <thead>
                                     <tr>
                                         <th>Designation</th>
-                                        <th>Experience</th>
+                                        <th>Organization</th>
                                         <th>From</th>
                                         <th>To</th>
-                                        <th>Location</th>
+                                        <th>Experience</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($employmentDetails as $employment)
                                     <tr>
-                                        <td>Software Developer</td>
-                                        <td>3 years 4 months</td>
-                                        <td>2020</td>
-                                        <td>Present</td>
-                                        <td>Pune</td>
-                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+                                        <td>{{ $employment->designation->name }}</td>
+                                        <td>{{ $employment->organization }}</td>
+                                        <td>{{ getMonth($employment->work_from) }}</td>
+                                        <td>{{ getMonth($employment->work_till) }}</td>
+                                        <td>{{ $employment->experience }}</td>
+                                        <td><a class="m-l15 font-14 edit-employment" href="javascript:void(0);" data-url="{{ route('editEmploymentModal', $employment->id) }}"><i class="fas fa-pencil-alt"></i></a></td>
                                     </tr>
-                                    <tr>
-                                        <td>PHP Developer</td>
-                                        <td>2 years 4 months</td>
-                                        <td>2015</td>
-                                        <td>2017</td>
-                                        <td>Pune</td>
-                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jr PHP Developer</td>
-                                        <td>1 years 4 months</td>
-                                        <td>2014</td>
-                                        <td>2015</td>
-                                        <td>Pune</td>
-                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <!-- <h6 class="font-14 m-b0">Junior Software DeveloperEdit</h6>
@@ -357,138 +343,9 @@
                             <p class="m-b0">Available to join in 1 Months</p>
                             <p class="m-b0">Junior Software Developer</p> -->
                             <!-- Modal -->
-                            <div class="modal fade modal-bx-info editor" id="employment" tabindex="-1" role="dialog" aria-labelledby="EmploymentModalLongTitle" aria-hidden="true">
+                            <div class="modal fade modal-bx-info editor" id="employmentModal" tabindex="-1" role="dialog" aria-labelledby="EmploymentModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="EmploymentModalLongTitle">Add Employment</h5>
-                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Your Designation</label>
-                                                            <input type="email" class="form-control" placeholder="Enter Your Designation">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Your Organization</label>
-                                                            <input type="email" class="form-control" placeholder="Enter Your Organization">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Is this your current company?</label>
-                                                            <div class="row">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <div class="form-check">
-                                                                        <input type="radio" class="form-check-input" id="employ_yes" name="example1">
-                                                                        <label class="form-check-label" for="employ_yes">Yes</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <div class="form-check">
-                                                                        <input type="radio" class="form-check-input" id="employ_no" name="example1">
-                                                                        <label class="form-check-label" for="employ_no">No</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Started Working From</label>
-                                                            <div class="row">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <select>
-                                                                        <option>2021</option>
-                                                                        <option>2020</option>
-                                                                        <option>2019</option>
-                                                                        <option>2018</option>
-                                                                        <option>2017</option>
-                                                                        <option>2016</option>
-                                                                        <option>2015</option>
-                                                                        <option>2014</option>
-                                                                        <option>2013</option>
-                                                                        <option>2012</option>
-                                                                        <option>2011</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <select>
-                                                                        <option>january</option>
-                                                                        <option>february</option>
-                                                                        <option>March</option>
-                                                                        <option>April</option>
-                                                                        <option>May</option>
-                                                                        <option>Jun</option>
-                                                                        <option>July</option>
-                                                                        <option>August</option>
-                                                                        <option>September</option>
-                                                                        <option>October</option>
-                                                                        <option>November</option>
-                                                                        <option>December</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Worked Till</label>
-                                                            <div class="row">
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <select>
-                                                                        <option>2021</option>
-                                                                        <option>2020</option>
-                                                                        <option>2019</option>
-                                                                        <option>2018</option>
-                                                                        <option>2017</option>
-                                                                        <option>2016</option>
-                                                                        <option>2015</option>
-                                                                        <option>2014</option>
-                                                                        <option>2013</option>
-                                                                        <option>2012</option>
-                                                                        <option>2011</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                                                                    <select>
-                                                                        <option>january</option>
-                                                                        <option>february</option>
-                                                                        <option>March</option>
-                                                                        <option>April</option>
-                                                                        <option>May</option>
-                                                                        <option>Jun</option>
-                                                                        <option>July</option>
-                                                                        <option>August</option>
-                                                                        <option>September</option>
-                                                                        <option>October</option>
-                                                                        <option>November</option>
-                                                                        <option>December</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 col-md-12">
-                                                        <div class="form-group">
-                                                            <label>Describe your Job Profile</label>
-                                                            <textarea class="form-control" placeholder="Type Description"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="site-button" data-bs-dismiss="modal">Cancel</button>
-                                            <button type="button" class="site-button">Save</button>
-                                        </div>
+                                    <div class="modal-content" id="employmentModalBody">
                                     </div>
                                 </div>
                             </div>
@@ -497,10 +354,16 @@
                         <div id="education_bx" class="job-bx table-job-bx m-b30">
                             <div class="d-flex">
                                 <h5 class="m-b15">Education</h5>
-                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#education" class="site-button add-btn button-sm"><i class="fas fa-plus m-r5"></i> Add</a>
+                                <a href="javascript:void(0);" data-url="{{ route('addEducationModal') }}"  class="site-button add-btn button-sm add-education"><i class="fas fa-plus m-r5"></i> Add</a>
                             </div>
                             <p>Mention your education details including your current and previous company work experience</p>
                             <!-- Modal -->
+                             <div class="modal fade modal-bx-info editor" id="educationModal" tabindex="-1" role="dialog" aria-labelledby="educationModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" id="educationModalBody">
+                                    </div>
+                                </div>
+                            </div>
                             <!-- <div class="modal fade modal-bx-info editor" id="education" tabindex="-1" role="dialog" aria-labelledby="EducationModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -546,40 +409,32 @@
                                 </div>
                             </div> -->
                             <!-- Modal End -->
+                             <div class="table table-responsive" style="x-overflow:scroll;width:100%">
                             <table>
                                 <thead>
                                     <tr>
                                         <th>Education</th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th>Location</th>
+                                        <th style="min-width: 150px !important;">College / Institute</th>
+                                        <th style="min-width: 150px !important;">Board / University</th>
+                                        <th>Year of Passing</th>
+                                        <th>Percentage / CGPA</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($educationDetails as $education)
                                     <tr>
-                                        <td>Graduate</td>
-                                        <td>2020</td>
-                                        <td>2023</td>
-                                        <td>Pune</td>
-                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
+                                        <td>{{ $education->education }}</td>
+                                        <td>{{ $education->college }}</td>
+                                        <td>{{ $education->university }}</td>
+                                        <td>{{ getMonth($education->year_of_passing) }}</td>
+                                        <td>{{ $education->percentage }}</td>
+                                        <td><a class="m-l15 font-14 edit-education" href="javascript:void(0);" data-url="{{ route('editEducationModal', $education->id) }}"><i class="fas fa-pencil-alt"></i></a></td>
                                     </tr>
-                                    <tr>
-                                        <td>12th</td>
-                                        <td>2015</td>
-                                        <td>2017</td>
-                                        <td>Pune</td>
-                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>10th</td>
-                                        <td>2014</td>
-                                        <td>2015</td>
-                                        <td>Pune</td>
-                                        <td><a class="m-l15 font-14" data-bs-toggle="modal" data-bs-target="#itskills" href="#"><i class="fas fa-pencil-alt"></i></a></td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
+                            </div>
                             <!-- <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="clearfix m-b20">
@@ -1812,7 +1667,10 @@
                         <div id="attach_resume_bx" class="job-bx m-b30">
                             <form id="uploadResumeForm" class="attach-resume" action="{{ route('updateCandidateDetails') }}" method="POST">
                                 @csrf
-                                <h5 class="m-b10">Attach Resume</h5>
+                                <div class="d-flex">
+                                    <h5 class="m-b10">Attach Resume</h5>
+                                    <a href="{{ route('downloadCandidateResume', $candidateDetails->resume_file) }}" class="site-button add-btn button-sm" download><i class="fas fa-download m-r5"></i> Download Resume</a>
+                                </div>
                                 <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12">
