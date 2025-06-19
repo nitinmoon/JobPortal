@@ -656,3 +656,29 @@ if (!function_exists('availabilityToJoin')) {
         return $duration;
     }
 }
+
+if (!function_exists('getExperience')) {
+    function getExperience($from_date, $to_date)
+    {
+        $fromDate = new DateTime($from_date);
+        $toDate = new DateTime($to_date);
+        $dd = date_diff($fromDate, $toDate);
+        $experience = ($dd->y == 0) ? $dd->m . " Months" : $dd->y . " Years " . $dd->m . " Months";
+        return $experience;
+    }
+}
+
+if (!function_exists('getMonth')) {
+    function getMonth($input)
+    {
+        // Split the input into year and month
+        list($year, $month) = explode('-', $input);
+        // Create a DateTime object
+        $date = DateTime::createFromFormat('!Y-n', "$year-$month");
+
+        // Format the date to "YYYY Month"
+        $formattedDate = $date->format('M Y');
+
+        return $formattedDate; // Output: 2020 January
+    }
+}

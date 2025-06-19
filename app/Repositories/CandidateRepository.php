@@ -9,6 +9,8 @@ use App\Models\Constants\StatusConstants;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use App\Models\Constants\UserRoleConstants;
+use App\Models\EducationDetail;
+use App\Models\EmploymentDetail;
 use App\Models\Job;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -462,5 +464,123 @@ class CandidateRepository extends BaseRepository
             }
         }
         return $queryBuilder = $queryBuilder->orderBy('users.id', 'desc')->withTrashed()->get();
+    }
+
+    /**
+     * **********************************************
+     * method used to update employment details
+     * ----------------------------------------------
+     * @param array $inputArray
+     * @return data
+     * *************************************************
+     */
+    public function addUpdateEmployment($inputArray)
+    {
+        $inputArray['candidate_id'] = Auth::user()->id;
+        $inputArray['work_from'] = $inputArray['work_from_year'].'-'.$inputArray['work_from_month'];
+        $inputArray['work_till'] = $inputArray['work_till_year'].'-'.$inputArray['work_till_month'];
+        $inputArray['experience'] = getExperience($inputArray['work_from'], $inputArray['work_till']);
+        $condition = ['id' => $inputArray['employment_id']];
+        $employmentDetails = [
+            'candidate_id' => $inputArray['candidate_id'],
+            'designation_id' => $inputArray['designation_id'],
+            'organization' => $inputArray['organization'],
+            'work_from' => $inputArray['work_from'],
+            'work_till' => $inputArray['work_till'],
+            'experience' => $inputArray['experience'],
+            'current_company' => $inputArray['current_company'],
+            'job_profile' => $inputArray['job_profile'],
+            'updated_by' => Auth::user()->id
+        ];
+        if ($inputArray['employment_id'] == 0) {
+            $employmentDetails['created_by'] = Auth::user()->id;
+        }
+        EmploymentDetail::updateOrCreate($condition, $employmentDetails);
+        return $inputArray['employment_id'];
+    }
+
+    /**
+     * ******************************************
+     * method used to get candidate details
+     * ------------------------------------------
+     * @param int $candidateId
+     * @return data
+     * ******************************************
+     */
+    public function getAllEmploymentDetails($candidateId)
+    {
+        return EmploymentDetail::where('candidate_id', $candidateId)
+        ->orderBy('id', 'desc')->get();
+    }
+
+    /**
+     * ******************************************
+     * method used to get candidate details
+     * ------------------------------------------
+     * @param int $employmentId
+     * @return data
+     * ******************************************
+     */
+    public function getEmploymentDetails($employmentId)
+    {
+        return EmploymentDetail::where('id', $employmentId)
+        ->first();
+    }
+
+    /**
+     * **********************************************
+     * method used to update education details
+     * ----------------------------------------------
+     * @param array $inputArray
+     * @return data
+     * *************************************************
+     */
+    public function addUpdateEducation($inputArray)
+    {
+        $inputArray['candidate_id'] = Auth::user()->id;
+        $inputArray['year_of_passing'] = $inputArray['year_of_passing'].'-'.$inputArray['month_of_passing'];
+        $condition = ['id' => $inputArray['education_id']];
+        $educationDetails = [
+            'candidate_id' => $inputArray['candidate_id'],
+            'education' => $inputArray['education'],
+            'college' => $inputArray['college'],
+            'university' => $inputArray['university'],
+            'year_of_passing' => $inputArray['year_of_passing'],
+            'percentage' => $inputArray['percentage'],
+            'updated_by' => Auth::user()->id
+        ];
+        if ($inputArray['education_id'] == 0) {
+            $educationDetails['created_by'] = Auth::user()->id;
+        }
+        EducationDetail::updateOrCreate($condition, $educationDetails);
+        return $inputArray['education_id'];
+    }
+
+    /**
+     * ******************************************
+     * method used to get candidate details
+     * ------------------------------------------
+     * @param int $candidateId
+     * @return data
+     * ******************************************
+     */
+    public function getAllEducationDetails($candidateId)
+    {
+        return EducationDetail::where('candidate_id', $candidateId)
+        ->orderBy('id', 'desc')->get();
+    }
+
+    /**
+     * ******************************************
+     * method used to get candidate details
+     * ------------------------------------------
+     * @param int $educationId
+     * @return data
+     * ******************************************
+     */
+    public function getEducationDetails($educationId)
+    {
+        return EducationDetail::where('id', $educationId)
+        ->first();
     }
 }

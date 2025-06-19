@@ -252,6 +252,282 @@ $(function() {
         }
     });
 
+    //Add Employment
+    $(document).on('click', '.add-employment', function() {
+        var url = $(this).data("url");
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function(res) {
+                var data = res.body;
+                $('#employmentModal').modal('show');
+                // $('.modal-title').html('Add Employment');
+                $('#employmentModalBody').html(data);
+            },
+            error: function(request, status, error) {
+                console.log("ajax call went wrong:" + request.responseText);
+            }
+        });
+    });
+
+    //Edit Employment
+    $(document).on('click', '.edit-employment', function() {
+        var url = $(this).data("url");
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function(res) {
+                var data = res.body;
+                $('#employmentModal').modal('show');
+                // $('.modal-title').html('Edit Employment');
+                $('#employmentModalBody').html(data);
+            },
+            error: function(request, status, error) {
+                console.log("ajax call went wrong:" + request.responseText);
+            }
+        });
+    });
+
+    $("#employmentForm").validate({
+        rules: {
+            designation_id: {
+                required: true
+            },
+            organization: {
+                required: true
+            },
+            work_from_year: {
+                required: true
+            },
+            work_from_month: {
+                required: true
+            },
+            work_till_year: {
+                required: true
+            },
+            work_till_month: {
+                required: true
+            }
+        },
+        messages: {
+            designation_id: {
+                required: "Please select designation"
+            },
+            organization: {
+                required: "Please enter organization"
+            },
+            work_from_year: {
+                required: "Please select work from year"
+            },
+            work_from_month: {
+                required: "Please select work from month"
+            },
+            work_till_year: {
+                required: "Please select work till year"
+            },
+            work_till_month: {
+                required: "Please select work till month"
+            }
+        },
+        errorClass: "error is-invalid",
+        errorElement: "label",
+        errorPlacement: function (error, element) {
+            var placement = $(element).data("error");
+            if (placement) {
+                $(placement).append(error);
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function (form) {
+            var href = $('#employmentForm').attr('action');
+            var formData = new FormData(form);
+            $(".error").html('');
+            $.ajax({
+                type: 'POST',
+                url: href,
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#preloader').show();
+                },
+                success: function (res) {
+                    if (res.status == true) {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000);
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
+                        });
+                    } else {
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
+                        });
+                    }
+                },
+                complete: function () {
+                    $('#preloader').hide();
+                },
+                error: function (err) {
+                    $("#preloader").hide();
+                    if (err.status == 422) {
+                        $errResponse = JSON.parse(err.responseText);
+                        $.each($errResponse.errors, function (key, value) {
+                            console.log(key + "----" + value)
+                            $("#error_" + key).html(value)
+                        })
+
+                    }
+                }
+            });
+        }
+    });
+
+    //Add Education
+    $(document).on('click', '.add-education', function() {
+        var url = $(this).data("url");
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function(res) {
+                var data = res.body;
+                $('#educationModal').modal('show');
+                // $('.modal-title').html('Add Education');
+                $('#educationModalBody').html(data);
+            },
+            error: function(request, status, error) {
+                console.log("ajax call went wrong:" + request.responseText);
+            }
+        });
+    });
+
+    //Edit Education
+    $(document).on('click', '.edit-education', function() {
+        var url = $(this).data("url");
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function(res) {
+                var data = res.body;
+                $('#educationModal').modal('show');
+                // $('.modal-title').html('Edit Education');
+                $('#educationModalBody').html(data);
+            },
+            error: function(request, status, error) {
+                console.log("ajax call went wrong:" + request.responseText);
+            }
+        });
+    });
+
+    $("#educationForm").validate({
+        rules: {
+            education: {
+                required: true
+            },
+            college: {
+                required: true
+            },
+            university: {
+                required: true
+            },
+            year_of_passing: {
+                required: true
+            },
+            month_of_passing: {
+                required: true
+            },
+            percentage: {
+                required: true
+            },
+        },
+        messages: {
+            education: {
+                required: "Please select education"
+            },
+            college: {
+                required: "Please enter college / institute"
+            },
+            university: {
+                required: "Please enter board / university"
+            },
+            year_of_passing: {
+                required: "Please select year of passing"
+            },
+            month_of_passing: {
+                required: "Please select month of passing"
+            },
+            percentage: {
+                required: "Please enter percentage / CGPA"
+            }
+        },
+        errorClass: "error is-invalid",
+        errorElement: "label",
+        errorPlacement: function (error, element) {
+            var placement = $(element).data("error");
+            if (placement) {
+                $(placement).append(error);
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function (form) {
+            var href = $('#educationForm').attr('action');
+            var formData = new FormData(form);
+            $(".error").html('');
+            $.ajax({
+                type: 'POST',
+                url: href,
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#preloader').show();
+                },
+                success: function (res) {
+                    if (res.status == true) {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000);
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
+                        });
+                    } else {
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
+                        });
+                    }
+                },
+                complete: function () {
+                    $('#preloader').hide();
+                },
+                error: function (err) {
+                    $("#preloader").hide();
+                    if (err.status == 422) {
+                        $errResponse = JSON.parse(err.responseText);
+                        $.each($errResponse.errors, function (key, value) {
+                            console.log(key + "----" + value)
+                            $("#error_" + key).html(value)
+                        })
+
+                    }
+                }
+            });
+        }
+    });
+
     $("#editCareerProfileForm").validate({
         rules: {
             job_category_id: {
