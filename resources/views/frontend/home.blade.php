@@ -236,16 +236,10 @@
                 <div class="row align-items-center m-b50">
                     <div class="col-md-12 col-lg-6 m-b20">
                         <h2 class="m-b5">About Us</h2>
-                        <h3 class="fw4">We create unique experiences</h3>
-                        <p class="m-b15">Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-                            1500s, when an unknown printer took a galley of type and. It is a long established
-                            fact that a reader will be distracted by the readable content of a page when looking
-                            at its layout. The point of using Lorem Ipsum is that it has a more-or-less.</p>
-                        <p class="m-b15">It is a long established fact that a reader will be distracted by the
-                            readable content of a page when looking at its layout. The point of using Lorem
-                            Ipsum is that it has a more-or-less.</p>
-                        <a href="javascript:void(0);" class="site-button">Read More</a>
+                        <h3 class="fw4">Home</h3>
+                        <p class="m-b15">Liftale Staffing Services is an established professional recruitment & executive search firm catering to human resource needs of the IT and Non-IT organizations.</p>
+                        <p class="m-b15">To cope with the market standards and considering the increasing demand from the IT and Non-IT organizations, we aim to provide recruitment solutions for these organizations across the PAN India.</p>
+                        <a href="{{ route('about') }}" class="site-button">Read More</a>
                     </div>
                     <div class="col-md-12 col-lg-6">
                         <img src="{{ asset('frontend/assets/images/our-work/pic1.jpg') }}" alt="" />
