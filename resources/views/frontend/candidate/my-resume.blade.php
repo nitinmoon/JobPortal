@@ -325,6 +325,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if(count($employmentDetails)> 0)
                                     @foreach($employmentDetails as $employment)
                                     <tr>
                                         <td>{{ $employment->designation->name }}</td>
@@ -335,6 +336,11 @@
                                         <td><a class="m-l15 font-14 edit-employment" href="javascript:void(0);" data-url="{{ route('editEmploymentModal', $employment->id) }}"><i class="fas fa-pencil-alt"></i></a></td>
                                     </tr>
                                     @endforeach
+                                    @else
+                                    <tr>
+                                        <td class="text-center" colspan="6">No data found!</td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                             <!-- <h6 class="font-14 m-b0">Junior Software DeveloperEdit</h6>
@@ -422,6 +428,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if(count($educationDetails)> 0)
                                     @foreach($educationDetails as $education)
                                     <tr>
                                         <td>{{ $education->education }}</td>
@@ -432,6 +439,11 @@
                                         <td><a class="m-l15 font-14 edit-education" href="javascript:void(0);" data-url="{{ route('editEducationModal', $education->id) }}"><i class="fas fa-pencil-alt"></i></a></td>
                                     </tr>
                                     @endforeach
+                                    @else
+                                    <tr>
+                                        <td class="text-center" colspan="6">No data found!</td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                             </div>
