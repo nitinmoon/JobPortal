@@ -56,7 +56,7 @@
            <div class="industry-card"><img src="{{ asset('frontend/assets/images/it-industries/Client-logo27.jpg') }}" alt="Marsh"></div>
            <div class="industry-card"><img src="{{ asset('frontend/assets/images/it-industries/Client-logo28.jpg') }}" alt="Marsh"></div>
            <div class="industry-card"><img src="{{ asset('frontend/assets/images/it-industries/Client-logo29.jpg') }}" alt="Marsh"></div>
-           <div class="industry-card"><img src="{{ asset('frontend/assets/images/it-industries/Client-logo30.jpg') }}" alt="Marsh"></div>
+           <!-- <div class="industry-card"><img src="{{ asset('frontend/assets/images/it-industries/Client-logo30.jpg') }}" alt="Marsh"></div> -->
            <div class="industry-card"><img src="{{ asset('frontend/assets/images/it-industries/Client-logo31.jpg') }}" alt="Marsh"></div>
            <div class="industry-card"><img src="{{ asset('frontend/assets/images/it-industries/Client-logo32.jpg') }}" alt="Marsh"></div>
            <div class="industry-card"><img src="{{ asset('frontend/assets/images/it-industries/Client-logo33.jpg') }}" alt="Marsh"></div>

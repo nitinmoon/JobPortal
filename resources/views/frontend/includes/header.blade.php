@@ -85,27 +85,27 @@
                             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Industries</a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="{{ route('it') }}">IT Industries</a>
-                                    <a class="dropdown-item dropdown-toggle" href="{{ route('noniit') }}">Non-IT
+                                    <a class="dropdown-item" href="{{ route('it') }}">IT Industries</a>
+                                    <a class="dropdown-item" href="{{ route('noniit') }}">Non-IT
                                         Industries</a>
 
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Staffing Solutionss</a>
+                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Staffing Solutions</a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="{{route('executive')}}">Executive
+                                    <a class="dropdown-item" href="{{route('executive')}}">Executive
                                         Search</a>
-                                    <a class="dropdown-item dropdown-toggle" href="{{route('Permanent')}}">Permanent
+                                    <a class="dropdown-item" href="{{route('Permanent')}}">Permanent
                                         Staffing</a>
-                                    <a class="dropdown-item dropdown-toggle"
+                                    <a class="dropdown-item"
                                         href="{{route('Contract')}}">Contract-to-Hire</a>
 
                             </ul>
                         </li>
                         <li class="">
-                            <a href="{{ route('client') }}">Clinet</a>
+                            <a href="{{ route('client') }}">Client</a>
                         </li>
                     </ul>
                 </div>
