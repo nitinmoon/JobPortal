@@ -92,7 +92,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Staffing Solutions</a>
+                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Staffing Solutionsss</a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-submenu">
                                     <a class="dropdown-item" href="{{route('executive')}}">Executive
