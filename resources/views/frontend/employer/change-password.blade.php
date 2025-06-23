@@ -18,7 +18,7 @@
                         <div class="job-bx submit-resume">
                             <div class="job-bx-title clearfix">
                                 <h5 class="font-weight-700 float-start text-uppercase">Change Password</h5>
-                                <a href="{{ route('companyResume') }}" class="site-button right-arrow button-sm float-end">Back</a>
+                                <a href="{{ route('companyResume') }}" class="site-button right-arrow button-sm float-end"><i class="fa fa-arrow-left"></i> Back</a>
                             </div>
                             <form id="change-password-action" action="{{ route('changeEmployerPassword') }}" method="post">
                                 @csrf

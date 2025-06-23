@@ -7,8 +7,9 @@
                         <div class="logo-white">
                             <img class="logo m-b15" src="{{ asset('frontend/assets/images/footer-logo.png') }}" width="180" alt="" />
                         </div>
-                        <p class="text-capitalize m-b20">Lorem Ipsum is simply dummy text of the printing and typesetting industry has been the industry's standard dummy text ever since the.</p>
-                        <div class="subscribe-form m-b20">
+                         <p><span style="font-weight: bold;">Liftale Staffing Service</span> is an established professional recruitment & executive search firm catering to human resource needs of the IT and Non-IT organizations.
+                        </p>
+                        <!-- <div class="subscribe-form m-b20">
                             <form class="dzSubscribe" action="script/mailchamp.php" method="post">
                                 <div class="dzSubscribeMsg"></div>
                                 <div class="input-group">
@@ -18,14 +19,14 @@
                                     </span>
                                 </div>
                             </form>
-                        </div>
-                        <ul class="list-inline m-a0">
+                        </div> -->
+                        <!-- <ul class="list-inline m-a0">
                             <li><a target="_blank" href="https://www.facebook.com/" class="site-button white facebook circle "><i class="fab fa-facebook-f"></i></a></li>
                             <li><a target="_blank" href="https://www.google.com/" class="site-button white google-plus circle "><i class="fab fa-google-plus-g"></i></a></li>
                             <li><a target="_blank" href="https://www.linkedin.com/" class="site-button white linkedin circle "><i class="fab fa-linkedin-in"></i></a></li>
                             <li><a target="_blank" href="https://www.instagram.com/" class="site-button white instagram circle "><i class="fab fa-instagram"></i></a></li>
                             <li><a target="_blank" href="https://twitter.com/" class="site-button white twitter circle "><i class="fab fa-twitter"></i></a></li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
                 <div class="col-xl-5 col-lg-5 col-md-8 col-sm-8 col-12">
@@ -41,7 +42,7 @@
                             <li><a href="javascript:void(0);">How It Works</a></li>
                             <li><a href="javascript:void(0);">For Employers</a></li>
                             <li><a href="javascript:void(0);">Underwriting</a></li>
-                            <li><a href="javascript:void(0);">Contact Us</a></li>
+                            <li><a href="{{ route('contactUs') }}">Contact Us</a></li>
                             <li><a href="javascript:void(0);">Lending Licnses</a></li>
                             <li><a href="javascript:void(0);">Support</a></li>
                         </ul>
@@ -68,8 +69,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <span> © Copyright 2025 by <i class="fa fa-heart m-lr5 text-red heart"></i>
-                        <a href="https://liftale.com/" target="_blank">Liftale </a> All rights reserved.</span>
+                    <span> Copyright ©{{ date('Y') }} @
+                        <a href="https://liftale.com/" target="_blank">Liftale </a> All rights reserved Designed & Maintained by webpixabyte.com</span>
                 </div>
             </div>
         </div>

@@ -10,7 +10,6 @@ body.layout-dark{
 	color: #999999;
 }
 
-
 /* Text Color ==================== */
 body.layout-dark p a,
 body.layout-dark .like-btn .checkmark:before,
@@ -72,7 +71,6 @@ body.layout-dark .bootstrap-select .dropdown-toggle{
  	color: #fff!important;
 }
 
-
 /* Background Dark Color ==================== */
 body.layout-dark .bg-gray,
 body.layout-dark .job-bx,
@@ -105,7 +103,6 @@ body.layout-dark .form-check-input{
     background-color: #222339;
 }
 
-
 body.layout-dark .bootstrap-select .dropdown-toggle{
     background-color: #222339!important;
 }
@@ -113,8 +110,6 @@ body.layout-dark .bootstrap-select .dropdown-toggle{
 body.layout-dark .browse-job-find .bootstrap-select .dropdown-toggle{
     background-color: #222339!important;	
 }
-
-
 
 /* Border Color ==================== */
 body.layout-dark .job-bx-title,
@@ -176,7 +171,6 @@ body.layout-dark .checkmark {
     border: 1px solid rgba(255,255,255,0.2);
 }
 
-
 /* Form Controls ==================== */
 body.layout-dark .job-bx .btn.dropdown-toggle.btn-light, 
 body.layout-dark .submit-resume .form-control, 
@@ -187,7 +181,6 @@ body.layout-dark .modal-bx-info .modal-body .btn.dropdown-toggle.btn-light,
 body.layout-dark .browse-job.modal .form-control{
     background-color: #0e0f20!important;
 }
-
 
 body.layout-dark .job-bx .form-control, 
 body.layout-dark .category-bx li a,
@@ -207,7 +200,6 @@ body.layout-dark .browse-job .form-control,
 body.layout-dark .browse-job .form-control::placeholder{
 	color: #dbdbdb;
 }
-
 
 /* a tags Hover Color ==================== */
 body.layout-dark .table-job-bx .job-name a:hover, 
@@ -235,14 +227,12 @@ body.layout-dark .job-time span{
 	background-color: var(--primary);
 }
 
-
 /* Primary Color ==================== */
 body.layout-dark .candidates-bx:before,
 body.layout-dark .candidates-bx:after,
 body.layout-dark .layout-btn:after{
 	color: var(--primary);
 }
-
 
 /* Dark Theme Extra Color ==================== */
 body.layout-dark,
@@ -306,7 +296,6 @@ body.layout-dark .site-button.white:hover .text-primary{
 	}
 }
 
-
 /* css value with !important ==================== */
 body.layout-dark .job-bx-title .btn.dropdown-toggle.btn-default,
 body.layout-dark .browse-job .btn.dropdown-toggle.btn-default{
@@ -348,7 +337,7 @@ body.layout-dark .main-bnr .banner-content .dz-searches h4 {
 }
 body.layout-dark .partners-media img {
     width: 100%;
-    height: 100%;
+    height: 80%;
     filter: contrast(0);
     opacity: unset;
 }

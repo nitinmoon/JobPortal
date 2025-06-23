@@ -26,9 +26,9 @@
       <div class="container">
         <div class="row text-justify">
           <!-- <h1 class="text-center">KNOW US</h1> -->
-          <p class="subtitle">WE Are offering you Solutions Improve and Stimulate your Business</p>
+          <h5 class="text-center">We are offering you Solutions Improve and Stimulate your business</h5>
 
-          <div class="section-one">
+          <div class="section-one mt-3">
             <div class="text">
               <p><span style="font-weight: bold; color: black;">Liftale Staffing Service</span> is an established professional recruitment & executive search firm catering to human resource needs of the IT and Non-IT organizations.
                 To cope with the market standards and considering the increasing demand from the IT and Non-IT organizations, we aim to provide recruitment solutions for these organizations across the PAN India.

@@ -18,7 +18,7 @@
                         <div class="job-bx submit-resume">
                             <div class="job-bx-title clearfix">
                                 <h5 class="font-weight-700 float-start text-uppercase">Resume</h5>
-                                <a href="{{ route('companyManageJobs') }}" class="site-button right-arrow button-sm float-end">Back</a>
+                                <a href="{{ route('companyManageJobs') }}" class="site-button right-arrow button-sm float-end"><i class="fa fa-arrow-left"></i> Back</a>
                             </div>
                             <div class="d-none bg-secondary text-white text-center" id="resumeError">Resume Not Found!</div>
                             <ul id="resume-job-list" class="post-job-bx browse-job-grid post-resume row">

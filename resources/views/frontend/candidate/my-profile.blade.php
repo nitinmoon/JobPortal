@@ -29,7 +29,7 @@
                                         </a>
                                     </div>
                                     <div class="col-md-2">
-                                        <a href="{{ route('candidateProfile') }}" class="site-button right-arrow button-sm">Back</a>
+                                        <a href="{{ route('candidateProfile') }}" class="site-button right-arrow button-sm"><i class="fa fa-arrow-left"></i> Back</a>
                                     </div>
                                 </div>
                                 <div class="row d-none editRow">
@@ -42,7 +42,7 @@
                                         </a>
                                     </div>
                                     <div class="col-md-2">
-                                        <a href="{{ route('candidateProfile') }}" class="site-button right-arrow button-sm">Back</a>
+                                        <a href="{{ route('candidateProfile') }}" class="site-button right-arrow button-sm"><i class="fa fa-arrow-left"></i> Back</a>
                                     </div>
                                 </div>
                             </div>

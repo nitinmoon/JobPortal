@@ -246,7 +246,6 @@
                 <div class="row align-items-center m-b50">
                     <div class="col-md-12 col-lg-6 m-b20">
                         <h2 class="m-b5">About Us</h2>
-                        <h3 class="fw4">Home</h3>
                         <p class="m-b15">Liftale Staffing Services is an established professional recruitment & executive search firm catering to human resource needs of the IT and Non-IT organizations.</p>
                         <p class="m-b15">To cope with the market standards and considering the increasing demand from the IT and Non-IT organizations, we aim to provide recruitment solutions for these organizations across the PAN India.</p>
                         <a href="{{ route('about') }}" class="site-button">Read More</a>
@@ -265,7 +264,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="m-b10">Make a Difference with Your Online Resume!</h2>
-                    <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
                     <a href="{{ route('candidateRegister') }}" class="site-button m-t20 outline outline-2 radius-xl">Create an Account</a>
                 </div>
             </div>
@@ -446,8 +444,8 @@
             <div class="section-head style-1 text-center">
                 <h6>Clients Testimonials</h6>
                 <h2 class="section-title-3">What A Job Holder Says About Us</h2>
-                <p class="dz-text-2">There are many variations of passages of available, but the majority have suffered
-                    some form, by injected humour, or look even slightly believable.</p>
+                <!-- <p class="dz-text-2">There are many variations of passages of available, but the majority have suffered
+                    some form, by injected humour, or look even slightly believable.</p> -->
             </div>
             <div class="review-testimonial owl-carousel owl-btn-center-lr owl-btn-3 owl-theme owl-btn-center-lr owl-btn-1 owl-dots-none">
                 <div class="item">
