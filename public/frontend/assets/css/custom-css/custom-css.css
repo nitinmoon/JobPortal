@@ -90,7 +90,7 @@
     width: 100% !important;
  }
  .viewJobBtn {
-    font-family: 'Rubik', sans-serif;
+    font-family: "Poppins";
     font-size: 16px;
     font-weight: 500;
     padding: 2px 15px;
@@ -103,4 +103,10 @@
 }
 .overlay-black-middle {
     background-color: #223d78 !important;
+}
+.sticky-header .main-bar .container {
+    max-width: 1400px !important;
+}
+h5 {
+    font-size: 18px !important;
 }

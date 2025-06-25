@@ -78,6 +78,7 @@
                         </li>
                         <li class="{{ Request::routeIs('about') ? 'active' : ''  }}">
                             <a href="{{ route('about') }}">About Us</a>
+                        </li>
                         <li class="{{ Request::routeIs('jobs') ? 'active' : ''  }}">
                             <a href="{{ route('jobs') }}">Jobs</a>
                         </li>
@@ -106,6 +107,9 @@
                         </li>
                         <li class="">
                             <a href="{{ route('client') }}">Client</a>
+                        </li>
+                        <li class="{{ Request::routeIs('contactUs') ? 'active' : ''  }}">
+                            <a href="{{ route('contactUs') }}">Contact Us</a>
                         </li>
                     </ul>
                 </div>

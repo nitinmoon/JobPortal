@@ -85,7 +85,7 @@
      padding: 40px 20px;
      max-width: 1200px;
      margin: auto;
-     font-family: 'Segoe UI', sans-serif;
+     font-family: "Poppins";
      text-align: center;
    }
 
