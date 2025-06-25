@@ -31,33 +31,31 @@
                 </div>
                 <div class="col-xl-5 col-lg-5 col-md-8 col-sm-8 col-12">
                     <div class="widget border-0">
-                        <h5 class="m-b30 text-white">Frequently Asked Questions</h5>
+                        <h5 class="m-b30 text-white">Main Links</h5>
                         <ul class="list-2 list-line">
                             <li><a href="{{ route('privacy') }}">Privacy & Policy</a></li>
                             <li><a href="{{ route('terms') }}">Terms and Conditions</a></li>
-                            <li><a href="javascript:void(0);">Communications</a></li>
-                            <li><a href="javascript:void(0);">Referral Terms</a></li>
-                            <li><a href="javascript:void(0);">Lending Licnses</a></li>
-                            <li><a href="javascript:void(0);">Support</a></li>
-                            <li><a href="javascript:void(0);">How It Works</a></li>
-                            <li><a href="javascript:void(0);">For Employers</a></li>
-                            <li><a href="javascript:void(0);">Underwriting</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li><a href="{{ route('about') }}">About Us</a></li>
+                            <li><a href="{{ route('jobs') }}">Jobs</a></li>
+                            <li><a href="{{ route('it') }}">IT Industries</a></li>
+                            <li><a href="{{ route('noniit') }}">Non-IT Industries</a></li>
+                            <li><a href="{{ route('executive') }}">Executive Search</a></li>
+                            <li><a href="{{ route('Permanent') }}">Permanent Staffing</a></li>
+                            <li><a href="{{ route('Contract') }}">Contract-to-Hire</a></li>
+                            <li><a href="{{ route('client') }}">Client</a></li>
                             <li><a href="{{ route('contactUs') }}">Contact Us</a></li>
-                            <li><a href="javascript:void(0);">Lending Licnses</a></li>
-                            <li><a href="javascript:void(0);">Support</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-12">
                     <div class="widget border-0">
-                        <h5 class="m-b30 text-white">Find Jobs</h5>
+                        <h5 class="m-b30 text-white">Quick Links</h5>
                         <ul class="list-2 w10 list-line">
-                            <li><a href="javascript:void(0);">US Jobs</a></li>
-                            <li><a href="javascript:void(0);">Canada Jobs</a></li>
-                            <li><a href="javascript:void(0);">UK Jobs</a></li>
-                            <li><a href="javascript:void(0);">Emplois en Fnce</a></li>
-                            <li><a href="javascript:void(0);">Jobs in Deuts</a></li>
-                            <li><a href="javascript:void(0);">Vacatures China</a></li>
+                            <li><a href="{{ route('candidateRegister') }}">Candidate Register</a></li>
+                            <li><a href="{{ route('employerRegister') }}">Employer Register</a></li>
+                            <li><a href="{{ route('candidateLogin') }}">Candidate Login</a></li>
+                            <li><a href="{{ route('employerLogin') }}">Employer Login</a></li>
                         </ul>
                     </div>
                 </div>

@@ -244,7 +244,7 @@ h4,
 h5,
 h6 {
     color: var(--title);
-    font-family: 'Rubik', sans-serif;
+    font-family: "Poppins";
 }
 h1 a,
 h2 a,
@@ -3001,7 +3001,7 @@ blockquote:before {
     -moz-transition: all 0.15s linear;
     -o-transition: all 0.15s linear;
 	font-weight: 500;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 }
 .header-nav .nav > li .sub-menu li a:hover {
     background-color: #F2F2F2;
@@ -4629,7 +4629,7 @@ header[class*="bg-"] .navbar-toggler span {
     margin: 0 -4px;
     list-style: none;
 	text-transform:capitalize;
-	font-family:"Montserrat",sans-serif;
+	font-family:"Poppins";
 }
 .dez-post-meta ul li {
     padding: 0;
@@ -5183,7 +5183,7 @@ header[class*="bg-"] .navbar-toggler span {
     color: #707070;
     color: rgba(51, 51, 51, 0.7);
     display: block;
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Poppins";
     font-size: 12px;
     font-size: 1.2rem;
     line-height: 1.5;
@@ -6076,12 +6076,12 @@ ol.comment-list li.comment .comment-respond .comment-form p {
 	font-weight:600;
 	font-size:13px;
 	text-transform:uppercase;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	color:#000;
 }
 .widget-testimonial .testimonial-position{
 	text-transform:uppercase;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	color:#888;
 	font-size:12px;
 	font-style: inherit;
@@ -7864,7 +7864,7 @@ a,
     color: #777;
 }
 ul[class*="list-"]{
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	font-size:15px;
 }
 
@@ -8840,7 +8840,7 @@ ul[class*="list-"]{
     padding: 15px;
     position: relative;
 	font-size:15px;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	font-weight: 400;
 }
 .testimonial-detail {
@@ -9294,13 +9294,13 @@ ul[class*="list-"]{
 	font-weight:600;
 	font-size:13px;
 	text-transform:uppercase;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	color:#000;
 }
 .testimonial-9 .testimonial-position,
 .testimonial-10 .testimonial-position{
 	text-transform:uppercase;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	color:#888;
 	font-size:12px;
 	font-style: inherit;

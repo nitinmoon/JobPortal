@@ -439,13 +439,11 @@
     <!-- Latest jobs END -->
 
     <!-- Reviews Testimonial -->
-    <div class="section-full content-inner-2 testimonials bg-white">
+    <!-- <div class="section-full content-inner-2 testimonials bg-white">
         <div class="container">
             <div class="section-head style-1 text-center">
                 <h6>Clients Testimonials</h6>
                 <h2 class="section-title-3">What A Job Holder Says About Us</h2>
-                <!-- <p class="dz-text-2">There are many variations of passages of available, but the majority have suffered
-                    some form, by injected humour, or look even slightly believable.</p> -->
             </div>
             <div class="review-testimonial owl-carousel owl-btn-center-lr owl-btn-3 owl-theme owl-btn-center-lr owl-btn-1 owl-dots-none">
                 <div class="item">
@@ -525,7 +523,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Reviews Testimonial END -->
 </div>
 @endsection
