@@ -245,6 +245,7 @@ Route::view('/client', 'frontend.client')->name('client');
 Route::view('/executive','frontend.executive')->name('executive');
 Route::view('/Permanent', 'frontend.Permanent')->name('Permanent');
 Route::view('/Contract', 'frontend.Contract')->name('Contract');
+Route::view('/Recruitment-Process-Outsourcing', 'frontend.recruitment-process')->name('recruitmentProcess');
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
@@ -302,6 +303,7 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
             Route::get('/candidate-resumes-data', 'getCandidateResumes')->name('getCandidateResumes');
             Route::get('/download-candidate-resume/{fileName?}', 'downloadCandidateResume')->name('downloadCandidateResume');
             Route::get('/get-employer-jobs', 'getEmployerJobs')->name('getEmployerJobs');
+            Route::post('/change-apply-job-status', 'changeApplyJobStatus')->name('changeApplyJobStatus');
         });
     });
 });

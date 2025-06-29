@@ -412,7 +412,6 @@ class CandidateController extends Controller
     public function getAppliedJobsData()
     {
         $appliedJobs = $this->applyJobService->getAppliedJobs(auth()->user()->id);
-        // dd($appliedJobs);
         $jobsCount = count($appliedJobs);
         return response()->json([
             'jobs' => $appliedJobs,

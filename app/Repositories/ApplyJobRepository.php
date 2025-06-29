@@ -37,6 +37,7 @@ class ApplyJobRepository extends BaseRepository
             'cities.name as city',
             'jobs.city_id',
             'employer_details.company_name',
+            'apply_jobs.status',
             DB::raw('DATE(jobs.created_at) as date')
          ])
          ->leftJoin('jobs', 'jobs.id', '=', 'apply_jobs.job_id')
@@ -58,6 +59,8 @@ class ApplyJobRepository extends BaseRepository
             $queryBuilder[$key]['salary_range'] = isset($jobData->salary_range) ? '₹ '.$jobData->salary_range.' / P.A.' : '';
             // $queryBuilder[$key]['skills'] = isset($jobData->skills) ? getJobSkills($jobData->skills) : '';
             $queryBuilder[$key]['date'] = isset($jobData->date) ? date('d M Y', strtotime($jobData->date)) : '';
+            $queryBuilder[$key]['status_label'] = isset($jobData->status) ? getJobAppliedStatusName($jobData->status) : '';
+            $queryBuilder[$key]['status_badge_class'] = isset($jobData->status) ? getJobAppliedBadgeColor($jobData->status) : '';
         }
         return $queryBuilder;
     }

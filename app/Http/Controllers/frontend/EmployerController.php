@@ -7,6 +7,7 @@ use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\CompanyLogoRequest;
 use App\Http\Requests\JobFormRequest;
 use App\Models\Constants\UserRoleConstants;
+use App\Services\ApplyJobService;
 use App\Services\CityService;
 use App\Services\CountryService;
 use App\Services\DesignationService;
@@ -37,6 +38,7 @@ class EmployerController extends Controller
     private $loginService;
     private $userService;
     private $skillService;
+    private $applyJobService;
 
     public function __construct(
         JobService $jobService,
@@ -49,7 +51,8 @@ class EmployerController extends Controller
         JobTypeService $jobTypeService,
         LoginService $loginService,
         UserService $userService,
-        SkillService $skillService
+        SkillService $skillService,
+        ApplyJobService $applyJobService
     ) {
         $this->jobService = $jobService;
         $this->employerService = $employerService;
@@ -62,6 +65,7 @@ class EmployerController extends Controller
         $this->loginService = $loginService;
         $this->userService = $userService;
         $this->skillService = $skillService;
+        $this->applyJobService = $applyJobService;
     }
 
     /**
@@ -582,5 +586,50 @@ class EmployerController extends Controller
                 ]
             );
         }
+    }
+
+    /**
+     * ******************************************
+     * Function used to change apply job status
+     * ------------------------------------------
+     * @param object $request
+     * @return jsonResponse
+     * ******************************************
+     */
+    public function changeApplyJobStatus(Request $request)
+    {
+        try {
+            $inputArray = $this->validateApplyChangeStatusJobInput($request);
+            $this->applyJobService->changeApplyJobStatus($inputArray);
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => 'Status changed successfully!'
+                ]
+            );
+        } catch (Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json([
+                'status' => false,
+                'msg' => $exception->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     *********************************************************
+     * Function use to validate apply job change status input
+     * -------------------------------------------------------
+     * @param object $request
+     * @return object request
+     *********************************************************
+     */
+    private function validateApplyChangeStatusJobInput(Request $request)
+    {
+        return $request->only(
+            [
+                'id', 'status'
+            ]
+        );
     }
 }

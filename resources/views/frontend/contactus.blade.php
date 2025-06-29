@@ -92,21 +92,21 @@
                                     <div class="icon-bx-xs border-1"> <a href="#" class="icon-cell"><i class="ti-location-pin"></i></a> </div>
                                     <div class="icon-content">
                                         <h6 class="text-uppercase m-tb0 dez-tilte">Address:</h6>
-                                        <p>123 West Street, pune, India</p>
+                                        <p>Plot No 17, Kala Niketan Society, Kala Nagar, Dhankawadi, Pune-Satara Road, PUNE 43</p>
                                     </div>
                                 </li>
                                 <li class="icon-bx-wraper left  m-b30">
                                     <div class="icon-bx-xs border-1"> <a href="#" class="icon-cell"><i class="ti-email"></i></a> </div>
                                     <div class="icon-content">
                                         <h6 class="text-uppercase m-tb0 dez-tilte">Email:</h6>
-                                        <p>info@liftale.com</p>
+                                        <a href="mailto:hr@liftale.com">hr@liftale.com</a>
                                     </div>
                                 </li>
                                 <li class="icon-bx-wraper left">
                                     <div class="icon-bx-xs border-1"> <a href="#" class="icon-cell"><i class="ti-mobile"></i></a> </div>
                                     <div class="icon-content">
                                         <h6 class="text-uppercase m-tb0 dez-tilte">PHONE</h6>
-                                        <p>+91 222 333 4444</p>
+                                        <a href="tel:020 2437 3939">020 2437 3939</a>
                                     </div>
                                 </li>
                             </ul>
@@ -172,7 +172,14 @@
                     </div>
                     <!-- Left part END -->
                     <div class="col-lg-4 col-md-12 d-lg-flex m-b30">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227748.3825624477!2d75.65046970649679!3d26.88544791796718!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396c4adf4c57e281%3A0xce1c63a0cf22e09!2sJaipur%2C+Rajasthan!5e0!3m2!1sen!2sin!4v1500819483219" class="align-self-stretch radius-sm" style="border:0; width:100%; min-height:350px;" allowfullscreen></iframe>
+                        <iframe
+                            src="https://www.google.com/maps?q=Plot+No+17,+Kala+Niketan+Society,+Kala+Nagar,+Dhankawadi,+Pune-Satara+Road,+PUNE+43&output=embed"
+                            class="align-self-stretch radius-sm"
+                            style="border:0; width:100%; min-height:350px;"
+                            allowfullscreen
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
                 </div>
             </div>
