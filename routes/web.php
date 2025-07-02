@@ -219,10 +219,12 @@ Route::middleware(['guest'])->group(function () {
         Route::prefix('employer')->group(function () {
             Route::get('/employer-register', 'register')->name('employerRegister');
             Route::get('/employer-login', 'login')->name('employerLogin');
+            Route::get('/employer-forgot-password', 'userForgotPassword')->name('employerForgotPassword');
         });
         Route::prefix('candidate')->group(function () {
             Route::get('/candidate-register', 'register')->name('candidateRegister');
             Route::get('/candidate-login', 'login')->name('candidateLogin');
+            Route::get('/candidate-forgot-password', 'userForgotPassword')->name('candidateForgotPassword');
         });
         Route::post('/verify-email', 'verifyEmail')->name('verifyEmail');
         Route::post('/verify-otp', 'verifyOtp')->name('verifyOtp');
