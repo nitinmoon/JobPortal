@@ -19,7 +19,7 @@
                     <div class="col-xl-9 col-lg-8 m-b30">
                         <div class="job-bx submit-resume">
                             <div class="job-bx-title clearfix">
-                                <div class="row viewRow">
+                                <div class="row viewRow {{ isset($flag) && $flag == 'apply-job' ? 'd-none' : '' }}">
                                     <div class="col-md-9">
                                         <h6 class="float-start text-uppercase">Basic Information</h6>
                                     </div>
@@ -32,7 +32,7 @@
                                         <a href="{{ route('candidateProfile') }}" class="site-button right-arrow button-sm"><i class="fa fa-arrow-left"></i> Back</a>
                                     </div>
                                 </div>
-                                <div class="row d-none editRow">
+                                <div class="row {{ isset($flag) && $flag == 'apply-job' ? '' : 'd-none' }} editRow">
                                     <div class="col-md-9">
                                         <h6 class="float-start text-uppercase">Edit Information</h6>
                                     </div>
@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="table-responsive viewProfileRow">
+                            <div class="table-responsive {{ isset($flag) && $flag == 'apply-job' ? 'd-none' : '' }} viewProfileRow">
                                 <table class="table table-bordered">
                                     <tbody>
                                         <tr>
@@ -64,10 +64,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="job-bx-title clearfix viewProfileRow">
+                            <div class="job-bx-title clearfix {{ isset($flag) && $flag == 'apply-job' ? 'd-none' : '' }} viewProfileRow">
                                 <h6 class="float-start text-uppercase">Contact Information</h5>
                             </div>
-                            <div class="table-responsive viewProfileRow">
+                            <div class="table-responsive {{ isset($flag) && $flag == 'apply-job' ? 'd-none' : '' }} viewProfileRow">
                                 <table class="table table-bordered">
                                     <tbody>
                                         <tr>
@@ -85,7 +85,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <form id="myProfileForm" class="row g-3 mt-2 d-none editProfileRow" action="{{ route('updateCandidateProfile') }}" method="post">
+                            <form id="myProfileForm" class="row g-3 mt-2 {{ isset($flag) && $flag == 'apply-job' ? '' : 'd-none' }} editProfileRow" action="{{ route('updateCandidateProfile') }}" method="post">
                                 @csrf
                                 <div class="row m-b30">
                                     <div class="col-lg-3 col-md-3">

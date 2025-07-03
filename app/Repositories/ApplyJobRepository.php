@@ -57,7 +57,7 @@ class ApplyJobRepository extends BaseRepository
             $queryBuilder[$key]['jobType'] = isset($jobData->job_type_id) ? $jobData->jobType->name : '';
             $queryBuilder[$key]['workType'] = isset($jobData->work_type_id) ? $jobData->workType->name : '';
             $queryBuilder[$key]['salary_range'] = isset($jobData->salary_range) ? '₹ '.$jobData->salary_range.' / P.A.' : '';
-            // $queryBuilder[$key]['skills'] = isset($jobData->skills) ? getJobSkills($jobData->skills) : '';
+            $queryBuilder[$key]['skills'] = isset($jobData->skills) ? getJobSkills($jobData->skills) : '';
             $queryBuilder[$key]['date'] = isset($jobData->date) ? date('d M Y', strtotime($jobData->date)) : '';
             $queryBuilder[$key]['status_label'] = isset($jobData->status) ? getJobAppliedStatusName($jobData->status) : '';
             $queryBuilder[$key]['status_badge_class'] = isset($jobData->status) ? getJobAppliedBadgeColor($jobData->status) : '';

@@ -287,11 +287,13 @@
                                                         <label for="inputEmail5" class="form-label">Skills <span class="text-danger">*</span></label>
                                                     </div>
                                                     <div class="col-lg-10 col-md-10">
-                                                        <select class="js-example-basic-single" data-error="#error_skills" multiple="multiple" name="skills[]" data-placeholder="Select Skills">
-                                                            <option value="">Select</option>
-                                                            @foreach($skills as $row)
-                                                            <option value="{{ $row->id }}" {{ (isset($candidateDetails->skills) && $candidateDetails->skills != '' && in_array($row->id, json_decode($candidateDetails->skills))) ? 'selected' : '' }}>{{ $row->name }}</option>
+                                                        <select class="form-control skills-select" multiple="multiple" name="skills[]" id="skills" data-error="#error_skills" data-placeholder="Enter your skills" style="width:100% !important;">
+                                                            @if (isset($skills))
+                                                            <option value="">Select skills</option>
+                                                            @foreach($skills as $skill)
+                                                                <option value="{{ $skill->name }}" {{ (isset($candidateDetails->skills) && $candidateDetails->skills != '' && in_array($skill->id, explode(',', $candidateDetails->skills))) ? 'selected' : '' }}>{{ $skill->name }}</option>
                                                             @endforeach
+                                                            @endif
                                                         </select>
                                                         <span class="error" id="error_skills"></span>
                                                     </div>
@@ -1681,7 +1683,9 @@
                                 @csrf
                                 <div class="d-flex">
                                     <h5 class="m-b10">Attach Resume</h5>
-                                    <a href="{{ route('downloadCandidateResume', $candidateDetails->resume_file) }}" class="site-button add-btn button-sm" download><i class="fas fa-download m-r5"></i> Download Resume</a>
+                                    @if(!empty($candidateDetails) && !empty($candidateDetails->resume_file))
+                                        <a href="{{ route('downloadCandidateResume', $candidateDetails->resume_file) }}" class="site-button add-btn button-sm" download><i class="fas fa-download m-r5"></i> Download Resume</a>
+                                    @endif
                                 </div>
                                 <p>Resume is the most important document recruiters look for. Recruiters generally do not look at profiles without resumes.</p>
                                 <div class="row">
@@ -1721,6 +1725,12 @@
 <script src="{{ asset('frontend/assets/js/custom-js/candidate.js') }}"></script>
 <script>
     $(function() {
+        $(".skills-select, .job_tags-select").select2({
+            dropdownParent: $('#keyskills'),
+            tags: true,
+            placeholder: " Enter / Select your skills",
+        });
+
         document.querySelectorAll('ul a[data-page]').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
