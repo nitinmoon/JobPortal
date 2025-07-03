@@ -102,6 +102,7 @@ $(function () {
     $(".login-input").keypress(function () {
         $("#error_email").html("");
         $("#error_password").html("");
+        $("#loginSubmitBtn").prop("disabled", false);
     });
 
     $(".login-pass").change(function () {

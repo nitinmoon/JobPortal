@@ -41,7 +41,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-700">Password *</label>
-                                <input type="password" class="form-control login-input" name="password" placeholder="Enter Password" autocomplete="current-password" required>
+                                <input type="password" class="form-control login-input login-pass" name="password" placeholder="Enter Password" autocomplete="current-password" required>
                                 <span class="error" id="error_password"></span>
                             </div>
                             <!-- <div class="form-group">

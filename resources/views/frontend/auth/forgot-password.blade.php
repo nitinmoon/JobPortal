@@ -42,6 +42,7 @@
                             <div class="form-group">
                                 <label class="font-weight-700">E-MAIL *</label>
                                 <input name="email" class="form-control" placeholder="abc@example.com" type="email">
+                                <span class="error" id="error_email"></span>
                             </div>
                             <div class="text-left">
                                 <a class="site-button outline gray button-lg" href="{{ $roleId == App\Models\Constants\UserRoleConstants::EMPLOYER ? route('employerLogin') : route('candidateLogin') }}">Back</a>
