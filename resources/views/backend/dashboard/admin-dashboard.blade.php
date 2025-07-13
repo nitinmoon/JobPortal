@@ -10,7 +10,24 @@
       <div class="row">
           <div class="col-lg-12">
               <div class="row">
-                  <div class="col-xxl-4 col-md-6">
+                  <div class="col-xxl-3 col-md-6">
+                      <div class="card info-card revenue-card">
+                          <div class="card-body">
+                              <h5 class="card-title">Jobs</h5>
+                              <div class="d-flex align-items-center">
+                                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                      <i class="bi bi-person-workspace"></i>
+                                  </div>
+                                  <div class="ps-3">
+                                      <h6>{{ getJobsCount() }}</h6>
+                                      <span class="text-success small pt-1 fw-bold text-end"><a href="{{ route('jobsList') }}">View All</a></span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::SUPER_ADMIN)
+                  <div class="col-xxl-3 col-md-6">
                       <div class="card info-card sales-card">
                           <div class="card-body">
                               <h5 class="card-title">Employers</h5>
@@ -26,7 +43,7 @@
                           </div>
                       </div>
                   </div>
-                  <div class="col-xxl-4 col-md-6">
+                  <div class="col-xxl-3 col-md-6">
                       <div class="card info-card revenue-card">
                           <div class="card-body">
                               <h5 class="card-title">Candidates</h5>
@@ -43,9 +60,9 @@
                       </div>
                   </div>
                   <!-- Revenue Card -->
-                  <div class="col-xxl-4 col-md-6">
+                  <div class="col-xxl-3 col-md-6">
                       <div class="card info-card revenue-card">
-                          <div class="filter">
+                          <!-- <div class="filter">
                               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                   <li class="dropdown-header text-start">
@@ -56,21 +73,22 @@
                                   <li><a class="dropdown-item jobApplyCountFilter" href="javascript:void(0);" data-id="week">Week</a></li>
                                   <li><a class="dropdown-item jobApplyCountFilter" href="javascript:void(0);" data-id="month">Month</a></li>
                               </ul>
-                          </div>
+                          </div> -->
                           <div class="card-body">
-                              <h5 class="card-title">Candidates Applied <span>| This Month</span></h5>
+                              <h5 class="card-title">Applied Candidates Jobs</h5>
                               <div class="d-flex align-items-center">
                                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                      <i class="bi bi-currency-dollar"></i>
+                                      <i class="bi bi-file-earmark-person-fill"></i>
                                   </div>
                                   <div class="ps-3">
-                                      <input type="hidden" id="candidateaAppliedRoute" value="{{ route('getApplyJobCount') }}"></input>
-                                      <h6 id="candidateApplyCount"></h6>
+                                      <h6>{{ getAppliedJobsCount() }}</h6>
+                                      <span class="text-success small pt-1 fw-bold text-end"><a href="{{ route('candidateApplyJobs') }}">View All</a></span>
                                   </div>
                               </div>
                           </div>
                       </div>
                   </div>
+                  @endif
                   <!-- End Revenue Card -->
               </div>
           </div>

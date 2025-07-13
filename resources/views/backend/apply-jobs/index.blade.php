@@ -1,15 +1,15 @@
 @extends('backend.layouts.app')
-@section('title', 'Apply Jobs Candidates')
+@section('title', 'Applied Jobs Candidates')
 @section('style')
 <link rel="stylesheet" href="{{ asset('backend/assets/css/custom-css/switch.css') }}">
 @endsection
 @section('content')
 <div class="pagetitle">
-    <h1>Apply Jobs Candidates</h1>
+    <h1>Applied Jobs Candidates</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Apply Jobs Candidates</li>
+            <li class="breadcrumb-item active">Applied Jobs Candidates</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->

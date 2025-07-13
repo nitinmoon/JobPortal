@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if (Auth::user()->role_id == UserRoleConstants::SUPER_ADMIN) {
+                if (Auth::user()->role_id == UserRoleConstants::SUPER_ADMIN || Auth::user()->role_id == UserRoleConstants::SUB_ADMIN) {
                     return redirect(RouteServiceProvider::ADMIN_DASHBOARD);
                 } elseif (Auth::user()->role_id == UserRoleConstants::EMPLOYER) {
                     return redirect(RouteServiceProvider::EMPLOYER_PROFILE);

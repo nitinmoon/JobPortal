@@ -24,5 +24,9 @@ class RoleSeeder extends Seeder
         Role::create([
             'name' => 'Candidate'
         ]);
+
+        Role::create([
+            'name' => 'Sub Admin'
+        ]);
     }
 }

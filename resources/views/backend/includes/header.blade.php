@@ -21,7 +21,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' ? route('adminMyProfile') : route('employerMyProfile') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' || auth()->user()->role_id == '4' ? route('adminMyProfile') : route('employerMyProfile') }}">
                             <i class="bi bi-person"></i>
                             <span>My Profile</span>
                         </a>
@@ -30,7 +30,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' ? route('adminLogout') : route('employerLogout') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' || auth()->user()->role_id == '4' ? route('adminLogout') : route('employerLogout') }}">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Sign Out</span>
                         </a>

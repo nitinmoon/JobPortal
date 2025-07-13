@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminChangePasswordRequest;
 use App\Http\Requests\AdminProfileImageRequest;
 use App\Http\Requests\AdminProfileInputRequest;
+use App\Http\Requests\SubAdminProfileInputRequest;
 use App\Models\Constants\ApplyJobStatusConstants;
 use App\Services\ApplyJobService;
 use App\Services\LoginService;
@@ -37,7 +38,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role_id != UserRoleConstants::SUPER_ADMIN) {
+        if (auth()->user()->role_id != UserRoleConstants::SUPER_ADMIN && auth()->user()->role_id != UserRoleConstants::SUB_ADMIN) {
             return back();
         }
         return view('backend.dashboard.admin-dashboard');
@@ -122,7 +123,7 @@ class DashboardController extends Controller
             return response()->json(['status' => 2, 'msg' => "Old password does not matched!"]);
         }
         $this->loginService->changePassword($credentials);
-        return response()->json(['status' => 1, 'msg' => "Password updated successfully!", 'redirect_url' => route('    ')]);
+        return response()->json(['status' => 1, 'msg' => "Password updated successfully!", 'redirect_url' => route('logout')]);
     }
 
     /**
@@ -167,12 +168,12 @@ class DashboardController extends Controller
      */
     public function updateAdminProfileImage(AdminProfileImageRequest $request, $userId)
     {
-        // try {
+        try {
             $inputArray = $this->validateImage($request);
             $this->loginService->updateAdminProfileImage($userId, $inputArray);
-        // } catch (\Exception  $exception) {
-        //     return back()->withError($exception->getMessage())->withInput();
-        // }
+        } catch (\Exception  $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
         return back()->with('success', "Profile photo updated successfully");
     }
 
@@ -188,5 +189,64 @@ class DashboardController extends Controller
     private function validateImage(Request $request)
     {
         return $request->only(['profile_photo', 'roleId']);
+    }
+
+    /**
+     * *****************************************
+     * function used to view subadmin profile
+     * -----------------------------------------
+     * @return view
+     * *****************************************
+     */
+    public function subAdminProfile()
+    {
+        if (auth()->user()->role_id != UserRoleConstants::SUPER_ADMIN) {
+            return back();
+        }
+        $title = getEnum('users', 'title');
+        $gender = getEnum('users', 'gender');
+        $subAdminDetails = $this->loginService->subAdminDetails();
+        return view('backend.profile.sub-admin-profile', compact(
+            'title',
+            'gender',
+            'subAdminDetails'
+        ));
+    }
+
+    public function updateSubAdminProfile(SubAdminProfileInputRequest $request)
+    {
+        try {
+            $inputArray = $this->validateSubAdminProfileInput($request);
+            $this->loginService->updateSubAdminProfile($inputArray);
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => 'Profile updated successfully!'
+                ]
+            );
+        } catch (Exception $exception) {
+            Log::channel('exceptionLog')->error("Exception: ".$exception->getMessage().' in '.$exception->getFile().' StackTrace:'.$exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage()
+                ]
+            );
+        }
+    }
+
+    /**
+     ***********************************************
+     * Function use to validate admin profile input
+     * ---------------------------------------------
+     * @param object $request
+     * @return object request
+     ***********************************************
+     */
+    private function validateSubAdminProfileInput(Request $request)
+    {
+        return $request->only(
+            ['title', 'first_name', 'middle_name', 'last_name', 'email', 'phone', 'dob', 'gender', 'password', 'confirm_password']
+        );
     }
 }

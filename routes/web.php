@@ -70,6 +70,8 @@ Route::middleware(['isAdminLoggedIn'])->group(function () {
             Route::post('/change-password', 'changePassword')->name('changePassword');
             Route::get('/get-apply-job-count', 'getApplyJobCount')->name('getApplyJobCount');
             Route::post('update-admin-profile-image/{id}', 'updateAdminProfileImage')->name('updateAdminProfileImage');
+            Route::get('/sub-admin-profile', 'subAdminProfile')->name('subAdminProfile');
+            Route::post('update-sub-admin-profile', 'updateSubAdminProfile')->name('updateSubAdminProfile');
         });
 
         /*
@@ -244,7 +246,7 @@ Route::view('/about', 'frontend.about')->name('about');
 Route::view('/it', 'frontend.it')->name('it');
 Route::view('/noniit', 'frontend.noniit')->name('noniit');
 Route::view('/client', 'frontend.client')->name('client');
-Route::view('/executive','frontend.executive')->name('executive');
+Route::view('/executive', 'frontend.executive')->name('executive');
 Route::view('/Permanent', 'frontend.Permanent')->name('Permanent');
 Route::view('/Contract', 'frontend.Contract')->name('Contract');
 Route::view('/Recruitment-Process-Outsourcing', 'frontend.recruitment-process')->name('recruitmentProcess');
