@@ -318,4 +318,17 @@ class AuthController extends Controller
         Auth::logout();
         return redirect(route('home'));
     }
+
+    /**
+     * ******************************************
+     * method used to view forgot password page
+     * ------------------------------------------
+     * @return view
+     * ******************************************
+     */
+    public function userForgotPassword()
+    {
+        $roleId = RouteRequest::routeIs('employerForgotPassword') ? UserRoleConstants::EMPLOYER : UserRoleConstants::CANDIDATE;
+        return view('frontend.auth.forgot-password', compact('roleId'));
+    }
 }

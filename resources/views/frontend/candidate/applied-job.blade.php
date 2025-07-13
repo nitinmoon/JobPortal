@@ -81,6 +81,9 @@
                     $('#applied-job-list').append(`
                     <li>
                         <div class="post-bx">
+                            <span class="badge bg-${job.status_badge_class} position-absolute top-0 end-0 m-2 text-uppercase">
+                                ${job.status_label}
+                            </span>
                             <div class="job-post-info m-a0">
                                 <h4><a href="${job.jobDetailsRoute}">${job.job_title}</a></h4>
                                 <ul>

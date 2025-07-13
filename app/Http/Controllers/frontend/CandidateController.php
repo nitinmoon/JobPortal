@@ -97,8 +97,7 @@ class CandidateController extends Controller
         $countries = $this->countryService->getAllCountry();
         $designations = $this->designationService->getAllDesignations();
         // $languages = getLanguages();
-        return view(
-            'frontend.candidate.my-profile',
+        return view('frontend.candidate.my-profile',
             compact(
                 'title',
                 'genders',
@@ -403,8 +402,7 @@ class CandidateController extends Controller
     public function appliedJobs()
     {
         $userDetails = $this->employerService->getUserDetails(auth()->user()->id);
-        return view(
-            'frontend.candidate.applied-job',
+        return view('frontend.candidate.applied-job',
             compact('userDetails')
         );
     }
@@ -412,7 +410,6 @@ class CandidateController extends Controller
     public function getAppliedJobsData()
     {
         $appliedJobs = $this->applyJobService->getAppliedJobs(auth()->user()->id);
-        // dd($appliedJobs);
         $jobsCount = count($appliedJobs);
         return response()->json([
             'jobs' => $appliedJobs,

@@ -74,27 +74,35 @@
                 ? job.skills.map(skill => `<a href="javascript:void(0);"><span>${skill}</span></a>`).join('')
                 : '';
                 $('#resume-job-list').append(`
-                    <li class="col-lg-6 col-md-6">
-                        <div class="post-bx">
-                            <div class="d-flex m-b20">
-                                <div class="job-post-info">
+                    <li class="col-lg-6 col-md-6 mb-3">
+                        <div class="post-bx p-3" style="background-color:#f8f9ff; border-radius:8px;">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
                                     <h5 class="m-b0">
                                         <a href="candidate-profile/${job.candidate_id}">${job.candidate_name}</a>
                                     </h5>
                                     <p class="m-b5 font-13">
                                         <a href="javascript:void(0);" class="text-primary">${job.job_title}</a> at ${job.company_name ?? ''}
                                     </p>
-                                    <ul>
-                                        <li><i class="fas fa-map-marker-alt"></i> ${job.location ?? 'N/A'}</li>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="fas fa-map-marker-alt me-1"></i> ${job.location ?? 'N/A'}</li>
                                     </ul>
                                 </div>
+                                <div class="d-flex flex-column align-items-end gap-2">
+                                    <select class="form-select form-select-sm change-apply-job-status" data-id="${job.id}" style="min-width: 120px; font-size:11px !important;">
+                                        <option value="1" ${job.status == 1 ? 'selected' : ''}>Application Sent</option>
+                                        <option value="2" ${job.status == 2 ? 'selected' : ''}>Resume Viewed</option>
+                                        <option value="3" ${job.status == 3 ? 'selected' : ''}>Shortlisted</option>
+                                        <option value="4" ${job.status == 4 ? 'selected' : ''}>Hired</option>
+                                    </select>
+                                    <a href="${job.resume_url}" class="btn btn-warning btn-sm" title="Download Resume">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="job-time m-t15 m-b10">
+                            <div class="job-time m-t10">
                                 ${skillHtml}
                             </div>
-                            <a href="${job.resume_url}" class="job-links">
-                                <i class="fa fa-download"></i>
-                            </a>
                         </div>
                     </li>
                 `);
@@ -152,6 +160,58 @@
                 currentPage = page;
                 renderJobs(currentPage);
             }
+        });
+
+        //Change Apply Job Status
+        $(document).on('change', '.change-apply-job-status', function (e) {
+            e.preventDefault();
+            const applyJobId = $(this).data('id');
+            const newStatus = $(this).val();
+            Swal.fire({
+                title: 'Change Status!',
+                text: "Are you sure you want to change it?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, change it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('changeApplyJobStatus') }}",
+                        method: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            id: applyJobId,
+                            status: newStatus
+                        },
+                        beforeSend: function () {
+                            $("#preloader").show();
+                        },
+                        success: function (res) {
+                            if (res.status == true) {
+                                Toast.create({
+                                    title: "Success!",
+                                    message: res.msg,
+                                    status: TOAST_STATUS.SUCCESS,
+                                    timeout: 5000
+                                });
+                                location.reload();
+                            } else {
+                                Toast.create({
+                                    title: "Error!",
+                                    message: res.msg,
+                                    status: TOAST_STATUS.DANGER,
+                                    timeout: 5000
+                                });
+                            }
+                        },
+                        complete: function () {
+                            $("#preloader").hide();
+                        }
+                    });
+                }
+            })
         });
     });
 </script>

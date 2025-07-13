@@ -12,6 +12,7 @@ use App\Models\Constants\UserRoleConstants;
 use App\Models\EducationDetail;
 use App\Models\EmploymentDetail;
 use App\Models\Job;
+use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
@@ -236,6 +237,19 @@ class CandidateRepository extends BaseRepository
      */
     public function updateCandidateDetails($inputArray)
     {
+        $skillArray = [];
+        foreach ($inputArray['skills'] as $skillName) {
+            $checkSkill = Skill::where('name', $skillName)->first();
+            if ($checkSkill == null) {
+                $skill = new Skill();
+                $skill->name = $skillName;
+                $skill->created_by = auth()->user()->id;
+                $skill->save();
+                $skillArray[] = $skill->id;
+            } else {
+                $skillArray[] = $checkSkill->id; // ← Include existing skill ID
+            }
+        }
         $inputArray['candidate_id'] = Auth::user()->id;
         $condition = ['candidate_id' => $inputArray['candidate_id']];
         $candidateDetails = [];
@@ -243,7 +257,7 @@ class CandidateRepository extends BaseRepository
             $candidateDetails['resume_headline'] = $inputArray['resume_headline'];
         }
         if (isset($inputArray['skills'])) {
-            $candidateDetails['skills'] = $inputArray['skills'];
+            $candidateDetails['skills'] = !empty($skillArray) ? implode(',', $skillArray) : '';
         }
         if (isset($inputArray['profile_summary'])) {
             $candidateDetails['profile_summary'] = $inputArray['profile_summary'];

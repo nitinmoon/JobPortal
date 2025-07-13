@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Models\Constants\UserRoleConstants;
 use App\Models\User;
 use App\Services\LoginService;
 use Illuminate\Support\Facades\Auth;
@@ -249,12 +250,13 @@ class LoginController extends Controller
                 ]
             );
         }
+        $redirectRoute = $user['role_id'] == UserRoleConstants::SUPER_ADMIN ? route('adminLogin') : ($user['role_id'] == UserRoleConstants::EMPLOYER ? route('employerLogin') : route('candidateLogin'));
         $this->loginService->updateResetPassword($user, $request);
         return response()->json(
             [
                 'status' => true,
                 'msg' => 'Password reset successfully!',
-                'redirectRoute' => route('adminLogin')
+                'redirectRoute' => $redirectRoute
             ]
         );
     }

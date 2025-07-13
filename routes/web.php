@@ -221,10 +221,12 @@ Route::middleware(['guest'])->group(function () {
         Route::prefix('employer')->group(function () {
             Route::get('/employer-register', 'register')->name('employerRegister');
             Route::get('/employer-login', 'login')->name('employerLogin');
+            Route::get('/employer-forgot-password', 'userForgotPassword')->name('employerForgotPassword');
         });
         Route::prefix('candidate')->group(function () {
             Route::get('/candidate-register', 'register')->name('candidateRegister');
             Route::get('/candidate-login', 'login')->name('candidateLogin');
+            Route::get('/candidate-forgot-password', 'userForgotPassword')->name('candidateForgotPassword');
         });
         Route::post('/verify-email', 'verifyEmail')->name('verifyEmail');
         Route::post('/verify-otp', 'verifyOtp')->name('verifyOtp');
@@ -247,6 +249,7 @@ Route::view('/client', 'frontend.client')->name('client');
 Route::view('/executive', 'frontend.executive')->name('executive');
 Route::view('/Permanent', 'frontend.Permanent')->name('Permanent');
 Route::view('/Contract', 'frontend.Contract')->name('Contract');
+Route::view('/Recruitment-Process-Outsourcing', 'frontend.recruitment-process')->name('recruitmentProcess');
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
@@ -304,6 +307,7 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
             Route::get('/candidate-resumes-data', 'getCandidateResumes')->name('getCandidateResumes');
             Route::get('/download-candidate-resume/{fileName?}', 'downloadCandidateResume')->name('downloadCandidateResume');
             Route::get('/get-employer-jobs', 'getEmployerJobs')->name('getEmployerJobs');
+            Route::post('/change-apply-job-status', 'changeApplyJobStatus')->name('changeApplyJobStatus');
         });
     });
 });

@@ -102,6 +102,8 @@
                                         Staffing</a>
                                     <a class="dropdown-item"
                                         href="{{route('Contract')}}">Contract-to-Hire</a>
+                                    <a class="dropdown-item"
+                                        href="{{route('recruitmentProcess')}}">Recruitment Process Outsourcing</a>
 
                             </ul>
                         </li>
