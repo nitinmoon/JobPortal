@@ -96,7 +96,7 @@ class ApplyJobRepository extends BaseRepository
             'apply_jobs.status',
             'apply_jobs.created_at as applyDate',
             'jobs.id as jobId',
-            'jobs.id as job_title',
+            'jobs.job_title as job_title',
             'users.first_name',
             'users.middle_name',
             'users.last_name',
