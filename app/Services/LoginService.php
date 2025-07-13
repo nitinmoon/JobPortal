@@ -155,4 +155,30 @@ class LoginService
     {
         return $this->loginRepository->updateAdminProfileImage($userId, $inputdata);
     }
+
+    /**
+     * *************************************
+     * method used to get sub admin details
+     * -------------------------------------
+     *
+     * @return data
+     * *************************************
+     */
+    public function subAdminDetails()
+    {
+        return $this->loginRepository->subAdminDetails();
+    }
+
+    /**
+     * *****************************************
+     * method used to update sub admin profile
+     * -----------------------------------------
+     * @param array $inputdata
+     * @return data
+     * *****************************************
+     */
+    public function updateSubAdminProfile($inputdata)
+    {
+        return $this->loginRepository->updateSubAdminProfile($inputdata);
+    }
 }

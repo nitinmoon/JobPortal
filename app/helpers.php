@@ -682,3 +682,31 @@ if (!function_exists('getMonth')) {
         return $formattedDate; // Output: 2020 January
     }
 }
+
+/**
+ *******************************
+ * method use to get users count
+ * ------------------------------
+ * @return data
+ *******************************
+ */
+if (!function_exists('getJobsCount')) {
+    function getJobsCount()
+    {
+        return Job::where('status', StatusConstants::ACTIVE)->count();
+    }
+}
+
+/**
+ *******************************
+ * method use to get users count
+ * ------------------------------
+ * @return data
+ *******************************
+ */
+if (!function_exists('getAppliedJobsCount')) {
+    function getAppliedJobsCount()
+    {
+        return ApplyJob::where('status', StatusConstants::ACTIVE)->count();
+    }
+}

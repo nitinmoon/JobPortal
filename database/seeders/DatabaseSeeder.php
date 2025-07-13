@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             JobTypeSeeder::class,
             UserSeeder::class,
             JobCategorySeeder::class,
-            DesignationSeeder::class
+            DesignationSeeder::class,
+            SubAdminSeeder::class
         ]);
     }
 }

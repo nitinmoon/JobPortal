@@ -8,6 +8,13 @@
                 <span>Dashboard</span>
             </a>
         </li>
+        @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::SUPER_ADMIN)
+        <li class="nav-item">
+            <a class="nav-link {{ Request::routeIs('subAdminProfile') ? '' : 'collapsed' }}" href="{{ route('subAdminProfile') }}">
+                <i class="bi bi-person-circle"></i>
+                <span>Sub Admin Profile</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link {{ (Request::routeIs('jobTypes') || Request::routeIs('jobCategories') || Request::routeIs('designations')) ? '' : 'collapsed' }}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-unity"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -42,16 +49,18 @@
                 <span>Employers</span>
             </a>
         </li>
+        @endif
         <li class="nav-item">
             <a class="nav-link {{ (Request::routeIs('jobsList') || Request::routeIs('addJob') || Request::routeIs('editJob') || Request::routeIs('viewdetailJob')) ? '' : 'collapsed' }}" href="{{ route('jobsList') }}">
                 <i class="bi bi-person-workspace"></i>
                 <span>Jobs</span>
             </a>
         </li>
+        @if(auth()->user()->role_id == App\Models\Constants\UserRoleConstants::SUPER_ADMIN)
         <li class="nav-item">
             <a class="nav-link {{ (Request::routeIs('candidateApplyJobs')) ? '' : 'collapsed' }}" href="{{ route('candidateApplyJobsList') }}">
                 <i class="bi bi-file-earmark-person-fill"></i>
-                <span>Applyed Jobs</span>
+                <span>Applied Jobs</span>
             </a>
         </li>
         <li class="nav-item">
@@ -66,6 +75,7 @@
                 <span>Reports</span>
             </a>
         </li>
+        @endif
     </ul>
 
 </aside>
