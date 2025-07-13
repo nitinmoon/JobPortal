@@ -8,12 +8,12 @@
   <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(images/banner/bnr1.jpg);">
     <div class="container">
       <div class="dez-bnr-inr-entry">
-        <h1 class="text-white">ABOUT US</h1>
+        <h1 class="text-white">About Us</h1>
         <!-- Breadcrumb row -->
         <div class="breadcrumb-row">
           <ul class="list-inline">
             <li><a href="{{ route('home') }}">Home</a></li>
-            <li>ABOUT US</li>
+            <li>About Us</li>
           </ul>
         </div>
       </div>
@@ -237,7 +237,7 @@
   }
 
   .section-two p {
-    font-size: 14px;
+    font-size: 15px;
     color: #222;
     line-height: 1.6;
   }
@@ -294,7 +294,7 @@
   .core-commitments {
     list-style-type: disc;
     padding-left: 20px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.6;
   }
 

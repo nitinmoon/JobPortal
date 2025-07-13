@@ -13002,3 +13002,29 @@ ol.commentlist li .star-rating {
     background-color: var(--primary);
     border-color: var(--primary);
 }
+
+.authBtn {
+    color: #fff;
+    padding: 10px 20px;
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    outline: none;
+    border-width: 0;
+    border-style: solid;
+    border-color: transparent;
+    line-height: 1.42857;
+	border-radius: 3px;
+	font-weight: 400;
+	text-align:center;
+	white-space: pre;
+    /* background-color: #EFBB20; */
+    background-color: #1AB2BE;
+}
+
+.authBtn:hover,
+.authBtn:focus,
+.active > .authBtn {
+    background-color: #223d78;
+    color: #fff;
+}

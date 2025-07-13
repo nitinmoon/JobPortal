@@ -232,9 +232,16 @@
                                             <textarea class="form-control" placeholder="New york city" name="company_address">{{ isset($employerDetails->company_address) ? $employerDetails->company_address : '' }}</textarea>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-lg-12">
+                                    <div class="col-lg-12">
+                                        <!-- <div id="map-container" class="mb-3">
+                                            <iframe id="map-frame" width="100%" height="300"
+                                                style="border:0;" allowfullscreen loading="lazy"
+                                                referrerpolicy="no-referrer-when-downgrade"
+                                                src="">
+                                            </iframe>
+                                        </div> -->
                                         <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d57784.32772205062!2d75.85546240000001!3d25.151897599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1545138498580" style="border:0; width: 100%; height:300px;" allowfullscreen></iframe>
-                                    </div> -->
+                                    </div>
                                     <div class="col-lg-6">
                                         <input type="hidden" name="employerId" id="employerId" value="{{ isset($employerDetails->id) ? $employerDetails->id : '0' }}">
                                         <button type="submit" class="site-button m-b30">Update</button>
@@ -254,6 +261,20 @@
 <script src="{{ asset('frontend/assets/js/custom-js/profile.js') }}"></script>
 <script>
     $(function() {
+        function updateMapByAddress(city, state, country) {
+            const address = encodeURIComponent(`${city}, ${state}, ${country}`);
+            const mapUrl = `https://www.google.com/maps/embed/v1/place?key={{ env('GOOGLE_MAPS_API_KEY') }}&q=${address}`;
+            document.getElementById('map-frame').src = mapUrl;
+        }
+
+        // Example: When all fields are selected (you can trigger this on form submit/change)
+        document.getElementById('city_id').addEventListener('change', function() {
+            const city = this.options[this.selectedIndex].text;
+            const state = document.getElementById('state_id').options[document.getElementById('state_id').selectedIndex].text;
+            const country = document.getElementById('country_id').options[document.getElementById('country_id').selectedIndex].text;
+            updateMapByAddress(city, state, country);
+        });
+
         tinymce.init({
             selector: 'textarea.basic-example',
             height: 200,

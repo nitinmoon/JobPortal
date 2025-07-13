@@ -48,7 +48,7 @@
               <div class="col-md-6">
                 <h2 class="vision-heading ">2.Automotive</h2>
                 <p>
-                  <span style="font-weight: bold;"> Staffing Services Staffing</span> Solutions works closely with a range of international automotive clients and tiered suppliers, helping them to source the skilled and experienced staff and/or contractors for all of their design, process and automotive engineering roles. We are committed to delivering consistent and cost-effective staffing solutions on every occasion, and have established a strong market presence.
+                  <span style="font-weight: bold;"> Staffing Services</span> Solutions works closely with a range of international automotive clients and tiered suppliers, helping them to source the skilled and experienced staff and/or contractors for all of their design, process and automotive engineering roles. We are committed to delivering consistent and cost-effective staffing solutions on every occasion, and have established a strong market presence.
                 </p>
                 <p>Our automotive recruitment teams have good experience in sourcing high-quality personnel within the core functions of design, quality, project management, engineering, operations and maintenance. Automotive include the following disciplines.</p>
                 <ul>

@@ -57,9 +57,9 @@
                             </ul>
                         </nav>
                         @else
-                        <nav class="header-nav ms-auto mt-3">
-                        <a href="{{ route('authType', ['flag' => base64_encode('signup')]) }}" class="site-button"><i class="fa fa-user"></i> Sign Up</a>
-                        <a href="{{ route('authType', ['flag' => base64_encode('login')]) }}" class="site-button"><i class="fa fa-lock"></i> Login</a>
+                        <nav class="d-block d-md-flex mt-3 gap-2">
+                        <a href="{{ route('authType', ['flag' => base64_encode('signup')]) }}" class="authBtn"><i class="fa fa-user"></i> Sign Up</a>
+                        <a href="{{ route('authType', ['flag' => base64_encode('login')]) }}" class="authBtn"><i class="fa fa-lock"></i> Login</a>
                         </nav>
                         @endif
                     </div>

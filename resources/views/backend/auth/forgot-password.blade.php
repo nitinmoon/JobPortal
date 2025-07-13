@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="credits">
-                            <small>© <?= date('Y') ?> <b>Job Portal</b> - All rights reserved!</small>
+                            <small>© <?= date('Y') ?> <b>Liftale</b> - All rights reserved!</small>
                         </div>
                     </div>
                 </div>

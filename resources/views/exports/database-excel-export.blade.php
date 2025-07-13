@@ -2,7 +2,7 @@
     <thead>
     <tr>
         <th colspan="6" style="text-align:center; font-size: 15px; font-weight: 600; height:50px; vertical-align: center; border: 1px solid black;">
-            Job Portal
+            Liftale
         </th>
     </tr>
     <tr>
