@@ -1,6 +1,27 @@
 @extends('frontend.layouts.app')
 @section('title', 'Home')
+@section('style')
+<style>
+    #map {
+        height: 400px !important;
+        width: 100% !important;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: block;
+    }
 
+    .leaflet-container {
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    #map-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>
+@endsection
 @section('content')
 <div class="page-content">
     <div class="content-block">
@@ -79,8 +100,13 @@
                                             <td>{{ isset($employerDetails->gst_no) ? $employerDetails->gst_no : '' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>Company Description: </th>
-                                            <td>{!! isset($employerDetails->company_description) ? $employerDetails->company_description : '' !!}</td>
+                                            <th style="vertical-align: top; white-space: nowrap;">Company Description: </th>
+                                           <td>
+                                                <div style="white-space: normal; padding-left: 5px;">
+                                                    {!! $employerDetails->company_description ?? '' !!}
+                                                </div>
+                                            </td>
+                                            <!-- <td>{!! isset($employerDetails->company_description) ? $employerDetails->company_description : '' !!}</td> -->
                                         </tr>
                                     </tbody>
                                 </table>
@@ -229,18 +255,15 @@
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
                                             <label>Company Address</label>
-                                            <textarea class="form-control" placeholder="New york city" name="company_address">{{ isset($employerDetails->company_address) ? $employerDetails->company_address : '' }}</textarea>
+                                            <textarea class="form-control" placeholder="New york city" name="company_address" id="company_address">{{ isset($employerDetails->company_address) ? $employerDetails->company_address : '' }}</textarea>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <!-- <div id="map-container" class="mb-3">
-                                            <iframe id="map-frame" width="100%" height="300"
-                                                style="border:0;" allowfullscreen loading="lazy"
-                                                referrerpolicy="no-referrer-when-downgrade"
-                                                src="">
-                                            </iframe>
-                                        </div> -->
-                                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d57784.32772205062!2d75.85546240000001!3d25.151897599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1545138498580" style="border:0; width: 100%; height:300px;" allowfullscreen></iframe>
+                                    <input type="hidden" id="country" value="{{ isset($employerDetails->country_id) ? $employerDetails->country->name : 'India'}}">
+                                    <input type="hidden" id="state" value="{{ isset($employerDetails->state_id) ? $employerDetails->state->name : 'Maharashtra'}}">
+                                    <input type="hidden" id="city" value="{{ isset($employerDetails->city_id) ? $employerDetails->city->name : 'Pune'}}">
+                                    <div class="col-md-12" id="map-div">
+                                        <div id="map" style="height: 400px; width: 100%; border: 1px solid #ccc; border-radius: 5px;"></div>
+                                        <div id="map-error" class="text-danger mt-2"></div>
                                     </div>
                                     <div class="col-lg-6">
                                         <input type="hidden" name="employerId" id="employerId" value="{{ isset($employerDetails->id) ? $employerDetails->id : '0' }}">
@@ -258,16 +281,67 @@
 </div>
 @endsection
 @section('script')
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="{{ asset('frontend/assets/js/custom-js/profile.js') }}"></script>
 <script>
-    $(function() {
-        function updateMapByAddress(city, state, country) {
-            const address = encodeURIComponent(`${city}, ${state}, ${country}`);
-            const mapUrl = `https://www.google.com/maps/embed/v1/place?key={{ env('GOOGLE_MAPS_API_KEY') }}&q=${address}`;
-            document.getElementById('map-frame').src = mapUrl;
+    document.addEventListener("DOMContentLoaded", function() {
+        const map = L.map('map').setView([20.5937, 78.9629], 5); // India center default
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        let marker;
+
+        const companyAddress = document.getElementById("company_address").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const state = document.getElementById("state").value.trim();
+        const country = document.getElementById("country").value.trim();
+
+        const addressAttempts = [];
+
+        if (companyAddress) addressAttempts.push(`${companyAddress}, ${city}, ${state}, ${country}`);
+        if (city) addressAttempts.push(`${city}, ${state}, ${country}`);
+        if (state) addressAttempts.push(`${state}, ${country}`);
+        if (country) addressAttempts.push(`${country}`);
+
+        function tryNextAddress(index = 0) {
+            if (index >= addressAttempts.length) {
+                document.getElementById("map-error").textContent = "📍 Location not found. Please check the address.";
+                return;
+            }
+
+            const currentAddress = addressAttempts[index];
+            console.log("Trying to locate:", currentAddress);
+
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(currentAddress)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const lat = data[0].lat;
+                        const lon = data[0].lon;
+
+                        map.setView([lat, lon], 13);
+                        marker = L.marker([lat, lon]).addTo(map)
+                            .bindPopup(currentAddress)
+                            .openPopup();
+
+                        setTimeout(() => map.invalidateSize(), 200);
+                    } else {
+                        tryNextAddress(index + 1); // Try the next fallback
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById("map-error").textContent = "🚫 Error loading map.";
+                });
         }
 
-        // Example: When all fields are selected (you can trigger this on form submit/change)
+        tryNextAddress(); // Start attempting
+    });
+
+    $(function() {
         document.getElementById('city_id').addEventListener('change', function() {
             const city = this.options[this.selectedIndex].text;
             const state = document.getElementById('state_id').options[document.getElementById('state_id').selectedIndex].text;
@@ -283,7 +357,7 @@
             toolbar: 'formatselect | undo redo | numlist bullist | bold italic | alignleft aligncenter | alignright alignjustify'
         });
 
-         $('#edit-company-profile').click(function() {
+        $('#edit-company-profile').click(function() {
             $('.editCompanyRow').removeClass('d-none');
             $('.editCompanyProfileRow').removeClass('d-none');
             $('.viewCompanyProfileRow').addClass('d-none');

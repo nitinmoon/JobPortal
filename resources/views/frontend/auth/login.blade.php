@@ -39,14 +39,14 @@
                                 <input type="email" class="form-control login-input" name="email" placeholder="Enter Email Address" autocomplete="username" required>
                                 <span class="error" id="error_email"></span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group position-relative">
                                 <label class="font-weight-700">Password *</label>
-                                <input type="password" class="form-control login-input login-pass" name="password" placeholder="Enter Password" autocomplete="current-password" required>
+                                <input type="password" class="form-control login-input login-pass" name="password" id="password" placeholder="Enter Password" autocomplete="current-password" required>
+                                <span class="position-absolute" style="top: 50px; right: 15px; cursor: pointer;" onclick="togglePassword()">
+                                    <i id="eyeIcon" class="fa fa-eye"></i>
+                                </span>
                                 <span class="error" id="error_password"></span>
                             </div>
-                            <!-- <div class="form-group">
-                                <p class="small mb-0 text-end"><a href="{{ route('forgotPassword') }}" class="text-primary">Forgot password?</a></p>
-                            </div> -->
                             <div class="form-group">
                                 <!-- Google Recaptcha -->
                                 <div class="g-recaptcha mt-4" data-callback="recaptchaCallback" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>

@@ -30,9 +30,12 @@
                                         <input type="email" name="email" class="form-control login-input" id="email" placeholder="abc@example.com">
                                         <span class="error" id="error_email"></span>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 position-relative">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="password" name="password" class="form-control login-input login-pass" placeholder="******">
+                                        <input type="password" id="password" name="password" class="form-control login-input login-pass" placeholder="******">
+                                        <span class="position-absolute" style="top: 40px; right: 15px; cursor: pointer;" onclick="togglePassword()">
+                                            <i id="eyeIcon" class="bi bi-eye"></i>
+                                        </span>
                                         <span class="error" id="error_password"></span>
                                     </div>
                                     <div class="col-md-12">

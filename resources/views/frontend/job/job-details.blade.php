@@ -1,7 +1,13 @@
 @extends('frontend.layouts.app')
 
 @section('title', 'Job Details')
-
+@section('style')
+<style>
+    .job-info-box ol {
+        margin-left: 25px !important;
+    }
+</style>
+@endsection
 @section('content')
 <div class="page-content bg-white">
     <!-- inner page banner -->
@@ -60,16 +66,16 @@
                             </ul>
                             <h5 class="font-weight-600 mt-5">Job Description</h5>
                             <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
-                            <p>{!! !empty($jobDetails->job_description) ? $jobDetails->job_description : '--' !!}</p>
+                            <p style="white-space: normal; padding-left: 5px;">{!! !empty($jobDetails->job_description) ? $jobDetails->job_description : '--' !!}</p>
                             <h5 class="font-weight-600">Job Responsibility</h5>
                             <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
-                            <p>{!! !empty($jobDetails->job_responsibility) ? $jobDetails->job_responsibility : '--' !!}</p>
+                            <p style="white-space: normal; padding-left: 5px;">{!! !empty($jobDetails->job_responsibility) ? $jobDetails->job_responsibility : '--' !!}</p>
                             <h5 class="font-weight-600">Educational Requirements</h5>
                             <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
-                            {!! !empty($jobDetails->educational_requirements) ? $jobDetails->educational_requirements : '--' !!}
+                            <p style="white-space: normal; padding-left: 5px;">{!! !empty($jobDetails->educational_requirements) ? $jobDetails->educational_requirements : '--' !!}</p>
                             <h5 class="font-weight-600">Other Benefits (Facilities)</h5>
                             <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
-                            {!! !empty($jobDetails->other_benefits) ? $jobDetails->other_benefits : '--' !!}
+                            <p style="white-space: normal; padding-left: 5px;">{!! !empty($jobDetails->other_benefits) ? $jobDetails->other_benefits : '--' !!}</p>
                             @if(!empty(Auth::user()))
                                 @if(isCandidateApplyJob(auth()->user()->id, $jobDetails->id) == '')
                                     @if(auth()->user()->role_id == '3')

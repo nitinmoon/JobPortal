@@ -129,8 +129,8 @@
                                         fill="white" />
                                 </svg>
                             </a>
-                            <a href="company-manage-job.html" class="dez-tilte">Search Jobs</a>
-                            <p class="dz-text">The standard chunk of used below of those interested.</p>
+                            <a href="company-manage-job.html" class="dez-tilte">Job Search</a>
+                            <p class="dz-text">Find your dream job with ease, your career journey starts here.</p>
                         </div>
                     </div>
                 </div>
@@ -157,8 +157,10 @@
                                         fill="white" />
                                 </svg>
                             </a>
-                            <a href="company-manage-job.html" class="dez-tilte">Cv/Resume</a>
-                            <p class="dz-text">The standard chunk of used below of those interested.</p>
+                            <a href="company-manage-job.html" class="dez-tilte">CV/Resume</a>
+                            <p class="dz-text">Stand out with a professionally crafted CV that highlights your true potential.<br>
+                                Upload your resume today and let top employers come to you.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -184,7 +186,7 @@
                                 </svg>
                             </a>
                             <a href="company-manage-job.html" class="dez-tilte">Create Account</a>
-                            <p class="dz-text">The standard chunk of used below of those interested.</p>
+                            <p class="dz-text">Create your free account in minutes and unlock exclusive job opportunities.</p>
                         </div>
                     </div>
                 </div>
@@ -203,7 +205,9 @@
                                 </svg>
                             </a>
                             <a href="company-manage-job.html" class="dez-tilte">Apply Them</a>
-                            <p class="dz-text">The standard chunk of used below of those interested.</p>
+                            <p class="dz-text">Found the perfect job? Apply instantly with just a few clicks.
+                                Take action now – your next career opportunity is waiting!
+                            </p>
                         </div>
                     </div>
                 </div>
