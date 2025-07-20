@@ -267,7 +267,7 @@ Route::controller(HomeController::class)->group(function () {
 |
 */
 Route::controller(FrontendJobController::class)->group(function () {
-    Route::get('/jobs', 'index')->name('jobs');
+    Route::get('/jobs/{flag?}', 'index')->name('jobs');
     Route::post('/get-jobs-data', 'getJobsData')->name('getJobsData');
     Route::get('/job-details/{jobId}', 'jobDetails')->name('jobDetails');
     Route::get('/edit-job-details/{jobId}', 'editJobDetails')->name('editJobDetails');

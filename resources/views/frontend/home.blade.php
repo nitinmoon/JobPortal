@@ -229,7 +229,7 @@
             <div class="row sp20 wrapper-spacing">
                 @foreach($jobCategories as $category)
                 <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
+                    <a href="{{ route('jobs') }}?job_category_id={{ base64_encode($category->id) }}" class="job-bx-wraper">
                         <div class="icon-content">
                             <i class="{{ $category->icon }} fa-2x"></i> <!-- Accounting Icon with increased size -->
                             <h5 class="job-name">{{ $category->name }}</h5>
@@ -255,7 +255,7 @@
                         <a href="{{ route('about') }}" class="site-button">Read More</a>
                     </div>
                     <div class="col-md-12 col-lg-6">
-                        <img src="{{ asset('frontend/assets/images/our-work/pic1.jpg') }}" alt="" />
+                        <img src="{{ asset('frontend/assets/images/sections-images/about-us.jpg') }}" alt="" />
                     </div>
                 </div>
 

@@ -5,7 +5,7 @@
             <div class="container clearfix">
                 <!-- Website Logo -->
                 <div class="logo-header mostion logo-dark">
-                    <a href="{{ route('home') }}"><img src="{{ asset('frontend/assets/images/logo.png') }}" alt=""></a>
+                    <a href="{{ route('home') }}"><img src="{{ asset('frontend/assets/images/logo/header-logo.jpg') }}" alt=""></a>
                 </div>
 
                 <!-- Nav Toggle Button -->

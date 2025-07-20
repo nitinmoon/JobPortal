@@ -35,7 +35,7 @@
                 <p>The vast variety of products manufactured throughout the country demand an enormous range of fasteners, MRO, and safety supplies to put them together. From standard fasteners and customized parts, to cleaning supplies and tools, manufacturers need to know they’ll have the parts they need to keep producing their products and meet customer demand.</p>
               </div>
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/manufacturing.jpg') }}" alt="Business Meeting">
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@
           <div class="category">
             <div class="row">
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/automotive.jpg') }}" alt="Business Meeting">
               </div>
               <div class="col-md-6">
                 <h2 class="vision-heading ">2.Automotive</h2>
@@ -85,7 +85,7 @@
                 </ul>
               </div>
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/fmcg.jpg') }}" alt="Business Meeting">
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@
           <div class="category">
             <div class="row">
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/healthcare.jpg') }}" alt="Business Meeting">
               </div>
               <div class="col-md-6">
                 <h2 class="vision-heading ">4. Healthcare</h2>
@@ -128,14 +128,14 @@
                 </ul>
               </div>
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/engineering.jpg') }}" alt="Business Meeting">
               </div>
             </div>
           </div>
           <div class="category">
             <div class="row">
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/chemical.jpg') }}" alt="Business Meeting">
               </div>
               <div class="col-md-6">
                 <h2 class="vision-heading ">6.Chemical</h2>

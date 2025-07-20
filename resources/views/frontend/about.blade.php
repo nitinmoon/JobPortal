@@ -39,7 +39,7 @@
               </p>
             </div>
             <div class="image">
-              <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+              <img src="{{ asset('frontend/assets/images/sections-images/about-us.jpg') }}" alt="Business Meeting">
             </div>
           </div>
 
@@ -81,7 +81,7 @@
 
           <div class="section-three">
             <div class="core-image">
-              <img src="public/frontend/assets/images/about-details-bottom.jpg" alt="Core Values">
+              <img src="{{ asset('frontend/assets/images/sections-images/values.jpg') }}" alt="Core Values">
             </div>
             <div class="core-text">
               <h2 class="vision-heading">VALUES:</h2>

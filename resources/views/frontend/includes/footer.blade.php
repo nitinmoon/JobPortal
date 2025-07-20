@@ -5,7 +5,7 @@
                 <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12">
                     <div class="widget">
                         <div class="logo-white">
-                            <img class="logo m-b15" src="{{ asset('frontend/assets/images/footer-logo.png') }}" width="180" alt="" />
+                            <img class="logo m-b15" src="{{ asset('frontend/assets/images/logo/footer-logo.png') }}" width="180" alt="" />
                         </div>
                          <p><span style="font-weight: bold;">Liftale Staffing Service</span> is an established professional recruitment & executive search firm catering to human resource needs of the IT and Non-IT organizations.
                         </p>

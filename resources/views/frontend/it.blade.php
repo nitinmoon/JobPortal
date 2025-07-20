@@ -28,7 +28,7 @@
           <div class="category">
             <div class="row">
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/business-operations.jpg') }}" alt="Business Meeting">
               </div>
               <div class="col-md-6">
                 <h2 class="vision-heading ">1. Business Operations</h2>
@@ -68,7 +68,7 @@
                 </ul>
               </div>
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/software-development.jpg') }}" alt="Business Meeting">
               </div>
             </div>
           </div>
@@ -76,7 +76,7 @@
           <div class="category">
             <div class="row">
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/quality-assurance.jpg') }}" alt="Business Meeting">
               </div>
               <div class="col-md-6">
                   <h2 class="vision-heading ">3. Quality Assurance</h2>
@@ -119,7 +119,7 @@
                 </ul>
               </div>
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/infrastructure.jpg') }}" alt="Business Meeting">
               </div>
             </div>
           </div>
@@ -127,7 +127,7 @@
           <div class="category">
             <div class="row">
               <div class="col-md-6 d-flex align-items-center">
-                <img src="public/frontend/assets/images/aboutus-page.jpg" alt="Business Meeting">
+                <img src="{{ asset('frontend/assets/images/sections-images/data-management.jpg') }}" alt="Business Meeting">
               </div>
               <div class="col-md-6">
                 <h2 class="vision-heading ">5. Data Management</h2>

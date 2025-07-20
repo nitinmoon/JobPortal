@@ -10,7 +10,7 @@
                     <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                         <div class="d-flex justify-content-center py-4">
                             <a href="{{ route('home') }}">
-                                <img class="admin-login-logo" src="{{ asset('frontend/assets/images/logo.png') }}" alt="">
+                                <img class="admin-login-logo" src="{{ asset('frontend/assets/images/logo/header-logo.jpg') }}" alt="">
                             </a>
                         </div>
                         <div class="card mb-3">
