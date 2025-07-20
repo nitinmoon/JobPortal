@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
-                                    <select id="job_category_id">
+                                    <select id="job_category_id" class="form-control selectpicker" data-live-search="true">
                                         <option value="">Select Category</option>
                                         @foreach($jobCategories as $jobCategory)
                                         <option value="{{ $jobCategory->id }}">{{ $jobCategory->name }}</option>
@@ -114,7 +114,7 @@
             <div class="section-head text-center style-1">
                 <h6>How It Work</h6>
                 <h2 class="section-title" style="font-size: 43px;">Follow Easy 4 Steps</h2>
-                <p>It is a long established fact that a reader will be distracted by the
+                <p class="mt-2">It is a long established fact that a reader will be distracted by the
                     readable content of a page when looking at its layout.</p>
             </div>
             <div class="row sp20  about-work-inner">
@@ -221,9 +221,9 @@
     <div class="section-full job-category content-inner-1 bg-white">
         <div class="container">
             <div class="section-head text-center style-1">
-                <h6>Jobs Category</h6>
-                <h2 class="section-title-3" style="font-size: 43px !important;">Choose Your Desire Category </h2>
-                <p>There are many variations of passages of available, but the majority have suffered
+                <h6>Job Categories</h6>
+                <h2 class="section-title-3" style="font-size: 43px !important;text-spacing: 2px">Choose Your Desire Category </h2>
+                <p class="mt-2">There are many variations of passages of available, but the majority have suffered
                     some form, by injected humour, or look even slightly believable.</p>
             </div>
             <div class="row sp20 wrapper-spacing">
@@ -233,7 +233,7 @@
                         <div class="icon-content">
                             <i class="{{ $category->icon }} fa-2x"></i> <!-- Accounting Icon with increased size -->
                             <h5 class="job-name">{{ $category->name }}</h5>
-                            <span>100+ Posted New Jobs</span>
+                            <!-- <span>100+ Posted New Jobs</span> -->
                         </div>
                     </a>
                 </div>

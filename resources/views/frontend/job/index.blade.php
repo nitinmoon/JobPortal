@@ -5,7 +5,7 @@
 @section('content')
 <div class="page-content bg-white">
     <!-- inner page banner -->
-    <div class="dez-bnr-inr overlay-black-middle" style="background-image:url(public/frontend/assets/images/banner/bnr1.jpg);">
+    <div class="dez-bnr-inr overlay-black-middle">
         <div class="container">
             <div class="dez-bnr-inr-entry">
                 <h1 class="text-white">Browse Jobs</h1>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <select id="job_category_id">
+                                <select id="job_category_id" class="form-control selectpicker" data-live-search="true">
                                     <option value="">Select Category</option>
                                     @foreach($jobCategories as $jobCategory)
                                     <option value="{{ $jobCategory->id }}" {{ isset($_GET['job_category_id']) && base64_decode($_GET['job_category_id']) == $jobCategory->id ? 'selected' : '' }}>{{ $jobCategory->name }}</option>
@@ -90,8 +90,11 @@
                                     <div class="acod-content">
                                         @foreach($jobCategories as $jobCategory)
                                         <div class="form-check">
-                                            <input class="form-check-input job_category" id="job_category_{{ $jobCategory->id }}" type="checkbox" name="job_category[]" value="{{ $jobCategory->id }}">
-                                            <label class="form-check-label" for="job_category_{{ $jobCategory->id }}">{{ $jobCategory->name }} <span>(50)</span> </label>
+                                            <input class="form-check-input job_category" id="job_category_{{ $jobCategory->id }}" type="checkbox" name="job_category[]" value="{{ $jobCategory->id }}" {{ isset($_GET['job_category_id']) && base64_decode($_GET['job_category_id']) == $jobCategory->id ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="job_category_{{ $jobCategory->id }}">
+                                                {{ $jobCategory->name }}
+                                                <!-- <span>(50)</span> -->
+                                            </label>
                                         </div>
                                         @endforeach
                                     </div>
@@ -110,7 +113,10 @@
                                         @foreach($experienceOptions as $key => $experience)
                                         <div class="form-check">
                                             <input class="form-check-input experience" id="experience_{{ $key }}" type="radio" name="experience" value="{{ $experience }}">
-                                            <label class="form-check-label" for="experience_{{ $key }}">{{ $experience }} <span>(120)</span> </label>
+                                            <label class="form-check-label" for="experience_{{ $key }}">
+                                                {{ $experience }}
+                                                <!-- <span>(120)</span> -->
+                                            </label>
                                         </div>
                                         @endforeach
                                     </div>
@@ -129,7 +135,10 @@
                                         @foreach($salaryRangeOptions as $key => $salaryRange)
                                         <div class="form-check">
                                             <input class="form-check-input salary_range" id="salary_range_{{ $key }}" type="radio" name="salary_range" value="{{ $salaryRange }}">
-                                            <label class="form-check-label" for="salary_range_{{ $key }}">{{ $salaryRange }} <span>(120)</span> </label>
+                                            <label class="form-check-label" for="salary_range_{{ $key }}">
+                                                {{ $salaryRange }}
+                                                <!-- <span>(120)</span> -->
+                                            </label>
                                         </div>
                                         @endforeach
                                     </div>
@@ -148,7 +157,10 @@
                                         @foreach($jobTypes as $jobType)
                                         <div class="form-check">
                                             <input class="form-check-input job_type" id="job_type_{{ $jobType->id }}" type="radio" name="job_type" value="{{ $jobType->id }}">
-                                            <label class="form-check-label" for="job_type_{{ $jobType->id }}">{{ $jobType->name }} <span>(120)</span> </label>
+                                            <label class="form-check-label" for="job_type_{{ $jobType->id }}">
+                                                {{ $jobType->name }}
+                                                <!-- <span>(120)</span> -->
+                                            </label>
                                         </div>
                                         @endforeach
                                     </div>
@@ -167,7 +179,10 @@
                                         @foreach(getJobWorkType() as $workType)
                                         <div class="form-check">
                                             <input class="form-check-input work_type" id="work_type_{{ $workType->id }}" type="radio" name="work_type" value="{{ $workType->id }}">
-                                            <label class="form-check-label" for="work_type_{{ $workType->id }}">{{ $workType->name }} <span>(120)</span> </label>
+                                            <label class="form-check-label" for="work_type_{{ $workType->id }}">
+                                                {{ $workType->name }}
+                                                <!-- <span>(120)</span> -->
+                                            </label>
                                         </div>
                                         @endforeach
                                     </div>
