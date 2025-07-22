@@ -124,7 +124,7 @@ class CandidateController extends Controller
         try {
             $inputArray = $this->validateMyProfileInput($request);
             $this->userService->updateMyProfile($inputArray);
-            $redirectRoute = isset($inputArray['flag']) && $inputArray['flag'] == 'apply-job' ? route('candidateProfile') : route('myResume');
+            $redirectRoute = isset($inputArray['flag']) && $inputArray['flag'] == 'apply-job' ? route('appliedJobs') : route('myResume');
             $msg = isset($inputArray['flag']) && $inputArray['flag'] == 'apply-job' ? 'Apply job succesfully!' : 'Profile updated successfully!';
             return response()->json(
                 [

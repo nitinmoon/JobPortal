@@ -88,9 +88,30 @@
                             <form id="myProfileForm" class="row g-3 mt-2 {{ isset($flag) && $flag == 'apply-job' ? '' : 'd-none' }} editProfileRow" action="{{ route('updateCandidateProfile') }}" method="post">
                                 @csrf
                                 <div class="row m-b30">
+                                    @if(isset($flag) && $flag == 'apply-job' && isCandidateApplyJob(auth()->user()->id, $jobId) == '')
+                                    <div class="col-md-12">
+                                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                            <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                            </symbol>
+                                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                                            </symbol>
+                                            <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                            </symbol>
+                                        </svg>
+                                        <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                            <div>
+                                                <b>Please ensure all your profile details are complete before applying for this job.</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                     <div class="col-lg-3 col-md-3">
                                         <div class="form-group">
-                                            <label>Title</label>
+                                            <label>Title<span class="error">*</span></label>
                                             <select class="form-control" name="title" id="title" data-error="#error_title">
                                                 <option value="">Select</option>
                                                 @foreach($title as $row)
@@ -102,7 +123,7 @@
                                     </div>
                                     <div class="col-lg-3 col-md-3">
                                         <div class="form-group">
-                                            <label>First Name</label>
+                                            <label>First Name<span class="error">*</span></label>
                                             <input type="text" class="form-control" name="first_name" id="first_name" value="{{ isset($userDetails->first_name) ? $userDetails->first_name : '' }}" placeholder="Enter First Name">
                                         </div>
                                         <span class="error" id="error_first_name"></span>
@@ -116,14 +137,14 @@
                                     </div>
                                     <div class="col-lg-3 col-md-3">
                                         <div class="form-group">
-                                            <label>Last Name</label>
+                                            <label>Last Name<span class="error">*</span></label>
                                             <input type="text" class="form-control" name="last_name" id="last_name" value="{{ isset($userDetails->last_name) ? $userDetails->last_name : '' }}" placeholder="Enter Last Name">
                                         </div>
                                         <span class="error" id="error_last_name"></span>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
-                                            <label>Date Of Birth</label>
+                                            <label>Date Of Birth<span class="error">*</span></label>
                                             <input type="date" class="form-control" name="dob" id="dob" placeholder="Enter Dob" value="{{ isset($userDetails->dob) ? $userDetails->dob : '' }}" min="1940-01-01" max="{{ date('Y-m-d', strtotime('-18 year', time())) }}">
                                         </div>
                                         <span class="error" id="error_dob"></span>
@@ -136,7 +157,7 @@
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
-                                            <label>Gender </label>
+                                            <label>Gender<span class="error">*</span></label>
                                             <select class="form-control" name="gender" id="gender" data-error="#error_gender">
                                                 <option value="">Select</option>
                                                 @foreach($genders as $gender)
@@ -154,21 +175,21 @@
                                 <div class="row m-b30">
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Email</label>
+                                            <label>Email<span class="error">*</span></label>
                                             <input type="email" class="form-control" name="email" id="email" value="{{ isset($userDetails->email) ? $userDetails->email : '' }}" placeholder="Enter Email">
                                         </div>
                                         <span class="error" id="error_email"></span>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Phone</label>
+                                            <label>Phone<span class="error">*</span></label>
                                             <input type="text" class="form-control" name="phone" id="phone" maxlength="10" value="{{ isset($userDetails->phone) ? $userDetails->phone : '' }}" placeholder="Enter Phone">
                                         </div>
                                         <span class="error" id="error_phone"></span>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Country</label>
+                                            <label>Country<span class="error">*</span></label>
                                             <select class="form-control selectpicker" name="country_id" id="country_id" data-error="#error_country_id" data-live-search="true">
                                                 <option value="">Select</option>
                                                 @foreach($countries as $row)
@@ -180,7 +201,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>State</label>
+                                            <label>State<span class="error">*</span></label>
                                             <select class="form-control selectpicker" name="state_id" id="state_id" data-error="#error_state_id" data-live-search="true">
                                                 @if(isset($userDetails->id))
                                                 @if(count($states) > 0)
@@ -199,7 +220,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>City</label>
+                                            <label>City<span class="error">*</span></label>
                                             <select class="form-control selectpicker" name="city_id" id="city_id" data-error="#error_city_id" data-live-search="true">
                                                 @if(isset($userDetails->id))
                                                 @if(count($states) > 0)
@@ -218,14 +239,14 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="form-group">
-                                            <label>Zip</label>
+                                            <label>Zip<span class="error">*</span></label>
                                             <input type="text" name="zip" id="zip" value="{{ isset($userDetails->zip) ? $userDetails->zip : '' }}" class="form-control" placeholder="Enter Zip" maxlength="6">
                                         </div>
                                         <span class="error" id="error_zip"></span>
                                     </div>
                                     <div class="col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label>Address</label>
+                                            <label>Address<span class="error">*</span> </label>
                                             <textarea class="form-control" placeholder="Enter Address" name="address" id="address">{{ isset($userDetails->address) ? $userDetails->address : '' }}</textarea>
                                         </div>
                                         <span class="error" id="error_address"></span>
