@@ -330,6 +330,7 @@ class EmployerRepository extends BaseRepository
             'users.role_id',
             'users.status',
             'user_addresses.address',
+            'user_addresses.current_address',
             'user_addresses.zip',
             'user_addresses.country_id',
             'user_addresses.state_id',

@@ -101,6 +101,9 @@ $(function () {
                 required: true,
                 alphanumsymbol: true,
             },
+            current_address: {
+                alphanumsymbol: true,
+            },
             zip: {
                 required: true,
                 number: true,
@@ -152,6 +155,9 @@ $(function () {
             address: {
                 required: "Please enter address",
                 alphanumsymbol: "Please enter a valid address",
+            },
+            current_address: {
+                alphanumsymbol: "Please enter a valid current address",
             },
             zip: {
                 required: "Please enter zip code",

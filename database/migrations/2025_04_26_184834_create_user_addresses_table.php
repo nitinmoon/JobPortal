@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('user_addresses', function (Blueprint $table) {
             $table->increments('id');
             $table->text('address')->nullable();
+            $table->text('current_address')->nullable();
             $table->string('zip', 10)->nullable();
             $table->integer('country_id')->unsigned()->nullable()->comment('foreign key (countries)');
             $table->foreign('country_id')->references('id')->on('countries');

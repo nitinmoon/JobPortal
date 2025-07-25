@@ -74,44 +74,44 @@
                     </div>
                     <ul class="nav navbar-nav">
                         <li class="{{ Request::routeIs('home') ? 'active' : ''  }}">
-                            <a href="{{ route('home') }}">Home</a>
+                            <a style="text-transform: none;" href="{{ route('home') }}">Home</a>
                         </li>
                         <li class="{{ Request::routeIs('about') ? 'active' : ''  }}">
-                            <a href="{{ route('about') }}">About Us</a>
+                            <a style="text-transform: none;" href="{{ route('about') }}">About Us</a>
                         </li>
                         <li class="{{ Request::routeIs('jobs') ? 'active' : ''  }}">
-                            <a href="{{ route('jobs') }}">Jobs</a>
+                            <a style="text-transform: none;" href="{{ route('jobs') }}">Jobs</a>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Industries</a>
+                            <a href="#" style="text-transform: none;" class="dropdown-toggle" data-bs-toggle="dropdown">Industries</a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-submenu">
-                                    <a class="dropdown-item" href="{{ route('it') }}">IT Industries</a>
-                                    <a class="dropdown-item" href="{{ route('noniit') }}">Non-IT
+                                    <a style="text-transform: none;" class="dropdown-item" href="{{ route('it') }}">IT Industries</a>
+                                    <a style="text-transform: none;" class="dropdown-item" href="{{ route('noniit') }}">Non-IT
                                         Industries</a>
 
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Staffing Solutions</a>
+                            <a href="#" style="text-transform: none;" class="dropdown-toggle" data-bs-toggle="dropdown">Staffing Solutions</a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-submenu">
-                                    <a class="dropdown-item" href="{{route('executive')}}">Executive
+                                    <a style="text-transform: none;" class="dropdown-item" href="{{route('executive')}}">Executive
                                         Search</a>
-                                    <a class="dropdown-item" href="{{route('Permanent')}}">Permanent
+                                    <a style="text-transform: none;" class="dropdown-item" href="{{route('Permanent')}}">Permanent
                                         Staffing</a>
-                                    <a class="dropdown-item"
+                                    <a style="text-transform: none;" class="dropdown-item"
                                         href="{{route('Contract')}}">Contract-to-Hire</a>
-                                    <a class="dropdown-item"
+                                    <a style="text-transform: none;" class="dropdown-item"
                                         href="{{route('recruitmentProcess')}}">Recruitment Process Outsourcing</a>
 
                             </ul>
                         </li>
                         <li class="">
-                            <a href="{{ route('client') }}">Client</a>
+                            <a style="text-transform: none;" href="{{ route('client') }}">Client</a>
                         </li>
                         <li class="{{ Request::routeIs('contactUs') ? 'active' : ''  }}">
-                            <a href="{{ route('contactUs') }}">Contact Us</a>
+                            <a style="text-transform: none;" href="{{ route('contactUs') }}">Contact Us</a>
                         </li>
                     </ul>
                 </div>

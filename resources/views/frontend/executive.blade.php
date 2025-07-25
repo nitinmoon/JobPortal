@@ -111,14 +111,16 @@
 
     .exec-subheading {
         font-size: 22px;
-        color: #2d3436;
+        /* color: #2d3436; */
+        color: #000;
         margin-top: 30px;
         margin-bottom: 10px;
     }
 
     .exec-subsubheading {
         font-size: 20px;
-        color: #2d3436;
+        /* color: #2d3436; */
+        color: #000;
         margin-top: 20px;
         margin-bottom: 10px;
     }
@@ -126,7 +128,8 @@
     .exec-list,
     .exec-steps {
         margin-left: 20px;
-        color: #2f3542;
+        /* color: #2f3542; */
+        color: #000;
         padding-left: 15px;
         margin-bottom: 20px;
 

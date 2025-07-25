@@ -257,7 +257,8 @@ h6 a:hover,
 .recent-posts-entry .post-date,
 .bootstrap-select .btn:before,
 body.dark-theme .site-filters.style1 li.active a{
- color: var(--primary);
+ /* color: var(--primary); */
+ color: #000000;
 }
 @media only screen and (max-width: 991px) {
  .nav-dark.header-nav .nav > li > a:hover, 

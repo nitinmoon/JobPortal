@@ -90,13 +90,15 @@
 
     .perm-subtitle {
         font-size: 18px;
-        color: #7f8c8d;
+        /* color: #7f8c8d; */
+        color: #000;
         margin-bottom: 20px;
     }
 
     .perm-text {
         font-size: 16px;
-        color: #34495e;
+        /* color: #34495e; */
+        color: #000;
         line-height: 1.7;
         margin-bottom: 15px;
     }

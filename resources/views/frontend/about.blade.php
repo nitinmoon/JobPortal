@@ -238,7 +238,8 @@
 
   .section-two p {
     font-size: 15px;
-    color: #222;
+    /* color: #222; */
+    color: #000;
     line-height: 1.6;
   }
 

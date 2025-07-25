@@ -185,7 +185,8 @@ class UserRepository extends BaseRepository
             'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
             'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
             'zip' => strip_tags($inputArray['zip']),
-            'address' => strip_tags($inputArray['address'])
+            'address' => strip_tags($inputArray['address']),
+            'current_address' => strip_tags($inputArray['current_address'])
         ];
         UserAddress::updateOrCreate($condition, $userAddresssDetails);
 

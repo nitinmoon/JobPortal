@@ -34,7 +34,7 @@ return new class extends Migration
             $table->text('profile_summary')->nullable();
             $table->text('languages')->nullable();
             $table->text('resume_file')->nullable();
-            $table->enum('shift', [1, 2])->nullable()->comment('1 - Morning, 2 - Evening');
+            $table->enum('shift', [1, 2, 3])->nullable()->comment('1 - Morning, 2 - Evening, 3 - Any');
             $table->enum('availability_to_join', [1, 2, 3, 4])->nullable()->comment('1 - 15 Days, 2 - 1 Months, 3 - 2 Months, 4 - 3 Months');
             $table->integer('created_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');

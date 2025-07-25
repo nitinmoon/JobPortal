@@ -31,7 +31,8 @@
 
     .contract-section p {
         font-size: 1rem;
-        color: #495057;
+        /* color: #495057; */
+        color: #000;
         line-height: 1.6;
     }
 

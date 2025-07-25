@@ -166,6 +166,7 @@ class CandidateController extends Controller
                 'dob',
                 'gender',
                 'address',
+                'current_address',
                 'zip',
                 'country_id',
                 'state_id',

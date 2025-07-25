@@ -659,7 +659,7 @@
 	text-align:left;
 }
 .find-job-bx h2{
-	font-size: 45px;
+	font-size: 36px;
     line-height: 60px;
 	font-weight:500;
 }
@@ -1352,7 +1352,8 @@
 .job-profile label,
 .submit-resume label,
 .browse-job label{
-	color: #333;
+	/* color: #333; */
+	color: #000;
 }
 .job-bx-title{
 	border-bottom: 1px solid;
@@ -2680,7 +2681,8 @@
 	font-weight: 400;
 	line-height: 24px;
 	margin-bottom: 0;
-	color: var(--title);
+	/* color: var(--title); */
+	color: #000;
 }
 .dz-text{
 	font-size: 15px;

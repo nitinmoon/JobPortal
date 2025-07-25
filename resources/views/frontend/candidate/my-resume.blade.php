@@ -1380,16 +1380,22 @@
                                                         <div class="form-group">
                                                             <label>Preferred Shift</label>
                                                             <div class="row">
-                                                                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                                                                <div class="col-lg-3 col-md-4 col-sm-4 col-4">
                                                                     <div class="form-check">
                                                                         <input type="radio" class="form-check-input" id="morning" name="shift" value="1" {{ isset($candidateDetails->shift) && $candidateDetails->shift == '1' ? 'checked' : '' }}>
                                                                         <label class="form-check-label" for="morning">Morning</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                                                                <div class="col-lg-3 col-md-4 col-sm-4 col-4">
                                                                     <div class="form-check">
                                                                         <input type="radio" class="form-check-input" id="evening" name="shift" value="2" {{ isset($candidateDetails->shift) && $candidateDetails->shift == '2' ? 'checked' : '' }}>
                                                                         <label class="form-check-label" for="evening">Evening</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-4 col-sm-4 col-4">
+                                                                    <div class="form-check">
+                                                                        <input type="radio" class="form-check-input" id="any" name="shift" value="3" {{ isset($candidateDetails->shift) && $candidateDetails->shift == '3' ? 'checked' : '' }}>
+                                                                        <label class="form-check-label" for="any">Any</label>
                                                                     </div>
                                                                 </div>
                                                             </div>

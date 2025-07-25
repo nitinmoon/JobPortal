@@ -113,7 +113,7 @@
         <div class="container">
             <div class="section-head text-center style-1">
                 <h6>How It Work</h6>
-                <h2 class="section-title" style="font-size: 43px;">Follow Easy 4 Steps</h2>
+                <h2 class="section-title" style="font-size: 36px;">Follow Easy 4 Steps</h2>
                 <p class="mt-2">It is a long established fact that a reader will be distracted by the
                     readable content of a page when looking at its layout.</p>
             </div>
@@ -222,7 +222,7 @@
         <div class="container">
             <div class="section-head text-center style-1">
                 <h6>Job Categories</h6>
-                <h2 class="section-title-3" style="font-size: 43px !important;text-spacing: 2px">Choose Your Desire Category </h2>
+                <h2 class="section-title-3" style="font-size: 36px !important;text-spacing: 2px">Choose Your Desire Category </h2>
                 <p class="mt-2">There are many variations of passages of available, but the majority have suffered
                     some form, by injected humour, or look even slightly believable.</p>
             </div>
@@ -249,7 +249,7 @@
             <div class="container">
                 <div class="row align-items-center m-b50">
                     <div class="col-md-12 col-lg-6 m-b20">
-                        <h2 class="m-b5" font-size: 30px;>About Us</h2>
+                        <h2 class="m-b5" style="font-size: 36px;">About Us</h2>
                         <p class="m-b15">Liftale Staffing Services is an established professional recruitment & executive search firm catering to human resource needs of the IT and Non-IT organizations.</p>
                         <p class="m-b15">To cope with the market standards and considering the increasing demand from the IT and Non-IT organizations, we aim to provide recruitment solutions for these organizations across the PAN India.</p>
                         <a href="{{ route('about') }}" class="site-button">Read More</a>
@@ -404,7 +404,7 @@
             <div class="latest-jobs-inner">
                 <div class="section-head style-1">
                     <h6>Latest Job</h6>
-                    <h2 class="section-title-3" style="font-size: 43px;">New Job Offer</h2>
+                    <h2 class="section-title-3" style="font-size: 36px;">New Job Offer</h2>
                     <p class="dz-text-2">More Than +500 Job Offer Everyday</p>
                 </div>
                 <a href="{{ route('jobs') }}" class="site-button style-1">View More..</a>

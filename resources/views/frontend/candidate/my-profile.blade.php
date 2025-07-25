@@ -82,6 +82,10 @@
                                             <th>Address: </th>
                                             <td>{{ isset($userDetails->address) ? $userDetails->address .', '. $userDetails->city_name .', '. $userDetails->state_name .', '. $userDetails->country_name .' - '. $userDetails->zip: '--'}}</td>
                                         </tr>
+                                        <tr>
+                                            <th>Current Address: </th>
+                                            <td>{{ isset($userDetails->current_address) ? $userDetails->current_address : '--'}}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -250,6 +254,13 @@
                                             <textarea class="form-control" placeholder="Enter Address" name="address" id="address">{{ isset($userDetails->address) ? $userDetails->address : '' }}</textarea>
                                         </div>
                                         <span class="error" id="error_address"></span>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label>Current Address </label>
+                                            <textarea class="form-control" placeholder="Enter Address" name="current_address" id="current_address">{{ isset($userDetails->current_address) ? $userDetails->current_address : '' }}</textarea>
+                                        </div>
+                                        <span class="error" id="error_current_address"></span>
                                     </div>
                                     <!-- <div class="col-lg-12">
                                         <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d57784.32772205062!2d75.85546240000001!3d25.151897599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1545138498580" style="border:0; width: 100%; height:300px;" allowfullscreen></iframe>
