@@ -80,7 +80,8 @@
     <script src="{{ asset('backend/assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
-    <script src="{{ asset('backend/assets/vendor/tinymce/tinymce.min.js') }}"></script>
+    <!-- <script src="{{ asset('backend/assets/vendor/tinymce/tinymce.min.js') }}"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.1/tinymce.min.js" integrity="sha512-bib7srucEhHYYWglYvGY+EQb0JAAW0qSOXpkPTMgCgW8eLtswHA/K4TKyD4+FiXcRHcy8z7boYxk0HTACCTFMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('backend/assets/vendor/php-email-form/validate.js') }}"></script>
 
     <!-- SweetAlert -->

@@ -15,9 +15,12 @@
 
 	<!-- MOBILE SPECIFIC -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 	<!-- FAVICONS ICON -->
 	<link rel="icon" href="{{ asset('frontend/assets/images/favicon.ico') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 	<!-- PAGE TITLE HERE -->
 	<title>@yield('title') | {{ env('APP_NAME') }}</title>
@@ -26,7 +29,7 @@
 	<script src="js/html5shiv.min.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-	
+
 	<!-- STYLESHEETS -->
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/plugins.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/style.css') }}">
@@ -34,17 +37,25 @@
 	<link class="skin" rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/skin/skin-1.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/dark-layout.css') }}">
 
-	
 	<!-- Google Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/custom-css/custom-css.css') }}">
+    <!-- Bootstrap Toaster -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/css/bootstrap-toaster.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <!-- Sweet alert -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     @yield('style')
 </head>
 
 <body id="bg">
     <div id="loading-area"></div>
+    <div id="preloader"></div>
     <div class="page-wraper">
         <!-- header -->
         @include('frontend.includes.header')
@@ -71,9 +82,25 @@
     <script src="{{ asset('frontend/assets/plugins/masonry/masonry.filter.js') }}"></script><!-- MASONRY -->
     <script src="{{ asset('frontend/assets/plugins/owl-carousel/owl.carousel.js') }}"></script><!-- OWL SLIDER -->
     <script src="{{ asset('frontend/assets/plugins/scroll/scrollbar.min.js') }}"></script><!-- OWL SLIDER -->
-    <script src="{{ asset('frontend/assets/js/custom.js') }}"></script><!-- CUSTOM FUCTIONS  -->
+    <script src="{{ asset('frontend/assets/js/custom-theme.js') }}"></script><!-- CUSTOM FUCTIONS  -->
     <script src="{{ asset('frontend/assets/js/dz.carousel.js') }}"></script><!-- SORTCODE FUCTIONS  -->
     <script src="{{ asset('frontend/assets/js/dz.ajax.js') }}"></script><!-- CONTACT JS  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.1/tinymce.min.js" integrity="sha512-bib7srucEhHYYWglYvGY+EQb0JAAW0qSOXpkPTMgCgW8eLtswHA/K4TKyD4+FiXcRHcy8z7boYxk0HTACCTFMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Select2 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+    <!-- Bootstrap Toaster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/umd/bootstrap-toaster.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/7.6.1/tinymce.min.js" integrity="sha512-bib7srucEhHYYWglYvGY+EQb0JAAW0qSOXpkPTMgCgW8eLtswHA/K4TKyD4+FiXcRHcy8z7boYxk0HTACCTFMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>   
+    <!-- Validation JS  -->
+    <script src="{{ asset('frontend/assets/js/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/jquery-validation/additional-methods.min.js') }}"></script>
+    <!-- Google recaptcha API library -->
+    <script async src="https://www.google.com/recaptcha/api.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <!-- sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip();

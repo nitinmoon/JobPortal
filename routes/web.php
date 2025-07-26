@@ -10,8 +10,14 @@ use App\Http\Controllers\backend\JobCategoryController;
 use App\Http\Controllers\backend\JobController;
 use App\Http\Controllers\backend\JobTypeController;
 use App\Http\Controllers\backend\LoginController;
+use App\Http\Controllers\backend\ReportController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\frontend\AuthController;
+use App\Http\Controllers\frontend\CandidateController as FrontendCandidateController;
+use App\Http\Controllers\frontend\EmployerController as FrontendEmployerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\HomeController;
+use App\Http\Controllers\frontend\JobController as FrontendJobController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +32,7 @@ use App\Http\Controllers\frontend\HomeController;
 
 /*
 |--------------------------------------------------------------------------
-| Admin Auth Routes
+| Backend Auth Routes
 |--------------------------------------------------------------------------
 |
 */
@@ -37,7 +43,7 @@ Route::middleware(['guest'])->group(function () {
     Route::prefix('console')->group(function () {
         Route::controller(LoginController::class)->group(function () {
             Route::get('/login', 'index')->name('adminLogin');
-            Route::post('/check-login', 'checkLogin')->name('checkLogin');
+            Route::post('/check-admin-login', 'checkLogin')->name('checkAdminLogin');
             Route::get('/forgot-password', 'forgotPassword')->name('forgotPassword');
             Route::post('/send-reset-password-link', 'sendResetPasswordLink')
                 ->name('sendResetPasswordLink');
@@ -49,14 +55,14 @@ Route::middleware(['guest'])->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| After Login Admin Routes
+| After Login Backend Routes
 |--------------------------------------------------------------------------
 |
 */
-Route::middleware(['isUserLoggedIn'])->group(function () {
+Route::middleware(['isAdminLoggedIn'])->group(function () {
     Route::prefix('console')->group(function () {
         /*
-        | Dashboard Login Routes
+        | Dashboard Routes
         */
         Route::controller(DashboardController::class)->group(function () {
             Route::get('/dashboard', 'index')->name('dashboard');
@@ -64,13 +70,15 @@ Route::middleware(['isUserLoggedIn'])->group(function () {
             Route::post('/change-password', 'changePassword')->name('changePassword');
             Route::get('/get-apply-job-count', 'getApplyJobCount')->name('getApplyJobCount');
             Route::post('update-admin-profile-image/{id}', 'updateAdminProfileImage')->name('updateAdminProfileImage');
+            Route::get('/sub-admin-profile', 'subAdminProfile')->name('subAdminProfile');
+            Route::post('update-sub-admin-profile', 'updateSubAdminProfile')->name('updateSubAdminProfile');
         });
 
         /*
         | Logout Routes
         */
         Route::controller(LoginController::class)->group(function () {
-            Route::get('/logout', 'logout')->name('logout');
+            Route::get('/admin-logout', 'logout')->name('adminLogout');
         });
 
         /*
@@ -131,7 +139,7 @@ Route::middleware(['isUserLoggedIn'])->group(function () {
         });
 
         /*
-        | Employer Routes
+        | Designation Routes
         */
         Route::controller(DesignationController::class)->group(function () {
             Route::get('/designations', 'index')->name('designations');
@@ -142,40 +150,16 @@ Route::middleware(['isUserLoggedIn'])->group(function () {
             Route::get('/delete-designation/{id}', 'deleteDesignation')->name('deleteDesignation');
             Route::get('/restore-designation/{id}', 'restoreDesignation')->name('restoreDesignation');
         });
-    });
-});
-
-/*
-|--------------------------------------------------------------------------
-| After Login Employer Routes
-|--------------------------------------------------------------------------
-|
-*/
-Route::middleware(['isEmployerLoggedIn'])->group(function () {
-    Route::prefix('employer')->group(function () {
-        /*
-        | Dashboard Routes
-        */
-        Route::controller(DashboardController::class)->group(function () {
-            Route::get('/dashboard', 'employerDashboard')->name('employerDashboard');
-        });
-
-        /*
-        | Employer Routes
-        */
-        Route::controller(EmployerController::class)->group(function () {
-            Route::get('/employer-logout', 'employerLogout')->name('employerLogout');
-            Route::get('/my-profile', 'myProfile')->name('employerMyProfile');
-        });
 
         /*
         | Job Routes
         */
         Route::controller(JobController::class)->group(function () {
-            Route::get('/jobs', 'index')->name('jobs');
+            Route::get('/jobs-list', 'index')->name('jobsList');
             Route::get('/add-job', 'addJob')->name('addJob');
-            Route::post('/add-update-job', 'addUpdateJob')->name('addUpdateJob');
+            Route::post('/add-update-job', 'adminAddUpdateJob')->name('adminAddUpdateJob');
             Route::get('/edit-job/{id}', 'editJob')->name('editJob');
+            Route::post('/change-job-approval-status', 'changeJobApprovalStatus')->name('changeJobApprovalStatus');
             Route::post('/change-job-status', 'changeJobStatus')->name('changeJobStatus');
             Route::get('/delete-job/{id}', 'deleteJob')->name('deleteJob');
             Route::get('/restore-job/{id}', 'restoreJob')->name('restoreJob');
@@ -184,19 +168,26 @@ Route::middleware(['isEmployerLoggedIn'])->group(function () {
         });
 
         /*
-        | Apply Job Routes
+        | Job Routes
         */
-        Route::controller(ApplyJobController::class)->group(function () {
-            Route::get('/apply-jobs-candidates', 'index')->name('applyJobsCandidates');
-            Route::post('/apply-job-change-status', 'applyJobChangeStatus')->name('applyJobChangeStatus');
+        Route::controller(ContactController::class)->group(function () {
+            Route::get('/contacts', 'index')->name('contacts');
+            Route::post('/contacts', 'index')->name('contactsList');
         });
 
         /*
-        | Database Routes
+        | Job Routes
         */
-        Route::controller(CandidateController::class)->group(function () {
-            Route::get('/database', 'database')->name('database');
-            Route::post('/database-export', 'databaseExport')->name('databaseExport');
+        Route::controller(ApplyJobController::class)->group(function () {
+            Route::get('/candidate-applied-jobs', 'index')->name('candidateApplyJobs');
+            Route::post('/candidate-applied-jobs', 'index')->name('candidateApplyJobsList');
+        });
+
+        /*
+        | Report Routes
+        */
+        Route::controller(ReportController::class)->group(function () {
+            Route::get('/reports', 'index')->name('reports');
         });
     });
 });
@@ -209,14 +200,147 @@ Route::controller(AjaxController::class)->group(function () {
     Route::get('/get-city', 'getCity')->name('getCity');
     Route::get('/autocomplete-location', 'autocompleteLocation')->name('autocompleteLocation');
     Route::get('/autocomplete-search-apply-candidate', 'autocompleteSearchApplyCandidate')
-    ->name('autocompleteSearchApplyCandidate');
+        ->name('autocompleteSearchApplyCandidate');
 });
 
 /*
-| Home Routes
+|--------------------------------------------------------------------------
+| Frontend Auth Routes
+|--------------------------------------------------------------------------
+|
 */
+Route::middleware(['guest'])->group(function () {
+    Route::get('/employer', function () {
+        return redirect(route('employerLogin'));
+    });
+    Route::get('/candidate', function () {
+        return redirect(route('candidateLogin'));
+    });
+    Route::controller(AuthController::class)->group(function () {
+        Route::get('/auth-type/{flag}', 'authType')->name('authType');
+        Route::prefix('employer')->group(function () {
+            Route::get('/employer-register', 'register')->name('employerRegister');
+            Route::get('/employer-login', 'login')->name('employerLogin');
+            Route::get('/employer-forgot-password', 'userForgotPassword')->name('employerForgotPassword');
+        });
+        Route::prefix('candidate')->group(function () {
+            Route::get('/candidate-register', 'register')->name('candidateRegister');
+            Route::get('/candidate-login', 'login')->name('candidateLogin');
+            Route::get('/candidate-forgot-password', 'userForgotPassword')->name('candidateForgotPassword');
+        });
+        Route::post('/verify-email', 'verifyEmail')->name('verifyEmail');
+        Route::post('/verify-otp', 'verifyOtp')->name('verifyOtp');
+        Route::post('/register-user', 'registerUser')->name('registerUser');
+        Route::post('/check-login', 'checkLogin')->name('checkLogin');
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Frontend Home Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::view('/about', 'frontend.about')->name('about');
+Route::view('/it', 'frontend.it')->name('it');
+Route::view('/noniit', 'frontend.noniit')->name('noniit');
+Route::view('/client', 'frontend.client')->name('client');
+Route::view('/executive', 'frontend.executive')->name('executive');
+Route::view('/Permanent', 'frontend.Permanent')->name('Permanent');
+Route::view('/Contract', 'frontend.Contract')->name('Contract');
+Route::view('/Recruitment-Process-Outsourcing', 'frontend.recruitment-process')->name('recruitmentProcess');
+
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/home', 'index')->name('home');
-    Route::get('/auth-type/{flag}', 'authType')->name('authType');
+    Route::get('/contact-us', 'contactUs')->name('contactUs');
+    Route::post('/save-contact', 'saveContact')->name('saveContact');
+    Route::get('/privacy', 'privacy')->name('privacy');
+    Route::get('/terms-and-condition', 'terms')->name('terms');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Frontend Job Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::controller(FrontendJobController::class)->group(function () {
+    Route::get('/jobs/{flag?}', 'index')->name('jobs');
+    Route::post('/get-jobs-data', 'getJobsData')->name('getJobsData');
+    Route::get('/job-details/{jobId}', 'jobDetails')->name('jobDetails');
+    Route::get('/edit-job-details/{jobId}', 'editJobDetails')->name('editJobDetails');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Frontend Logout Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/logout', 'logout')->name('logout');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Frontend Employer Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::middleware(['isEmployerLoggedIn'])->group(function () {
+    Route::prefix('employer')->group(function () {
+        Route::controller(FrontendEmployerController::class)->group(function () {
+            Route::get('/my-profile', 'myProfile')->name('myProfile');
+            Route::get('/company-profile', 'companyProfile')->name('companyProfile');
+            Route::get('/company-job-post/{jobId?}', 'companyJobPost')->name('companyJobPost');
+            Route::post('/add-update-job', 'addUpdateJob')->name('addUpdateJob');
+            Route::get('/company-transactions', 'companyTransactions')->name('companyTransactions');
+            Route::get('/company-manage-jobs', 'companyManageJobs')->name('companyManageJobs');
+            Route::get('/company-resume', 'companyResume')->name('companyResume');
+            Route::get('/employer-change-password', 'employerChangePassword')->name('employerChangePassword');
+            Route::post('/update-profile', 'updateProfile')->name('updateProfile');
+            Route::post('/update-company-profile', 'updateCompanyProfile')->name('updateCompanyProfile');
+            Route::post('/update-company-logo', 'updateCompanyLogo')->name('updateCompanyLogo');
+            Route::post('/change-employer-password', 'changeEmployerPassword')->name('changeEmployerPassword');
+            Route::get('/candidate-resumes-data', 'getCandidateResumes')->name('getCandidateResumes');
+            Route::get('/download-candidate-resume/{fileName?}', 'downloadCandidateResume')->name('downloadCandidateResume');
+            Route::get('/get-employer-jobs', 'getEmployerJobs')->name('getEmployerJobs');
+            Route::post('/change-apply-job-status', 'changeApplyJobStatus')->name('changeApplyJobStatus');
+        });
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Frontend Candidate Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::middleware(['isCandidateLoggedIn'])->group(function () {
+    Route::prefix('candidate')->group(function () {
+        Route::controller(FrontendCandidateController::class)->group(function () {
+            Route::get('/candidate-profile/{flag?}/{id?}', 'myProfile')->name('candidateProfile');
+            Route::post('/update-cadidate-profile', 'updateCandidateProfile')->name('updateCandidateProfile');
+            Route::get('/my-resume', 'myResume')->name('myResume');
+            Route::get('/cadidate-change-password', 'cadidateChangePassword')->name('cadidateChangePassword');
+            Route::post('/change-candidate-password', 'changeCandidatePassword')->name('changeCandidatePassword');
+            Route::post('/update-candidate-profile', 'updateCandidateProfilePhoto')->name('updateCandidateProfilePhoto');
+            Route::get('/applied-jobs', 'appliedJobs')->name('appliedJobs');
+            Route::get('/applied-jobs-data', 'getAppliedJobsData')->name('getAppliedJobsData');
+            Route::post('/update-cadidate-details', 'updateCandidateDetails')->name('updateCandidateDetails');
+            Route::post('/upload-resume', 'uploadResume')->name('uploadResume');
+            Route::get('/add-employment-modal', 'addEmploymentModal')
+            ->name('addEmploymentModal');
+            Route::post('/add-update-employment', 'addUpdateEmployment')->name('addUpdateEmployment');
+            Route::get('/edit-employment-modal/{id}', 'editEmploymentModal')
+                ->name('editEmploymentModal');
+            Route::get('/add-education-modal', 'addEducationModal')
+            ->name('addEducationModal');
+            Route::post('/add-update-education', 'addUpdateEducation')->name('addUpdateEducation');
+            Route::get('/edit-education-modal/{id}', 'editEducationModal')
+                ->name('editEducationModal');
+        });
+    });
 });

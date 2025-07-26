@@ -45,7 +45,7 @@ $(function() {
     //Change Job Category Status
     $(document).on('click', '.change-job-category-status', function (e) {
         e.preventDefault();
-        var status = $(this).is(":checked") ? '1' : '0';
+        var status = $(this).is(":checked") ? '1' : '2';
         var jobCategoryId = $(this).attr("id");
         var url = $(this).data("url");
         Swal.fire({
@@ -70,10 +70,11 @@ $(function() {
                     },
                     success: function (res) {
                         if (res.status == true) {
-                            $.notify({
-                                message: res.msg
-                            }, {
-                                type: 'success'
+                            Toast.create({
+                                title: "Success!",
+                                message: res.msg,
+                                status: TOAST_STATUS.SUCCESS,
+                                timeout: 5000,
                             });
                             $(".job-category-table").DataTable().ajax.reload();
                         }

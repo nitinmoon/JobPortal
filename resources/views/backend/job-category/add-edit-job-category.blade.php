@@ -11,26 +11,20 @@
     <input class="form-control" type="text" name="icon" id="icon" value="{{ isset($jobCategoryDetails->icon) ? $jobCategoryDetails->icon : '' }}" placeholder="e.g. fas fa-user or bi bi-house">
     <span class="error" id="error_icon"></span>
   </div>
+  <div class="form-group mt-1">
+    <label for=""><small>Select icon from sites <a href="https://icons.getbootstrap.com/" target="_blank">Find Icon</a> put the icon name in feild</small></label>
+  </div>
   <div class="modal-footer mt-3">
     <button type="button" class="btn  btn-secondary cancel-btn" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
     <button type="submit" class="btn btn-primary submit-btn" id="addEditSubmitJobCategory">Submit</button>
   </div>
 </form>
-<!-- <script src="{{ asset('assets/js/jquery-validation/jquery.validate.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery-validation/additional-methods.min.js') }}"></script> -->
 <script>
   $.validator.addMethod("alphanum", function (value, element) {
       return (
           this.optional(element) || value == value.match(/^[a-zA-Z0-9\s]+$/)
       );
   });
-
-  // $.validator.addMethod("alphanumsymbol", function (value, element) {
-  //     return (
-  //         this.optional(element) ||
-  //         value == value.match(/^[a-zA-Z0-9-.+:;!*@#$%&_=|'"?,/()\s]+$/)
-  //     );
-  // });
 
   $.validator.addMethod("validIcon", function (value, element) {
       return this.optional(element) || /^(fa|fas|far|fal|fab|fad)\sfa-[\w-]+$|^bi\sbi-[\w-]+$/.test(value);
@@ -106,16 +100,18 @@
           $('.job-category-table').DataTable().ajax.reload();
           if (res.status == true) {
             $('#add_job_category').modal('hide');
-            $.notify({
-              message: res.msg
-            }, {
-              type: 'success'
+            Toast.create({
+                title: "Success!",
+                message: res.msg,
+                status: TOAST_STATUS.SUCCESS,
+                timeout: 5000,
             });
           } else {
-            $.notify({
-              message: res.msg
-            }, {
-              type: 'danger'
+            Toast.create({
+                title: "Error!",
+                message: res.msg,
+                status: TOAST_STATUS.DANGER,
+                timeout: 5000,
             });
           }
           $('.job-category-table').DataTable().ajax.reload();

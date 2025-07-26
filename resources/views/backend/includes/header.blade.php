@@ -1,7 +1,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
-        <a href="{{ url('/') }}" class="logo d-flex align-items-center">
-            <span class="d-lg-block">Job</span>&nbsp;Portal
+        <a class="logo d-flex align-items-center" href="{{ route('home') }}">
+            <img class="admin-logo" src="{{ asset('frontend/assets/images/logo/header-logo.jpg') }}" alt="">
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
@@ -21,7 +21,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' ? route('adminMyProfile') : route('employerMyProfile') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' || auth()->user()->role_id == '4' ? route('adminMyProfile') : route('employerMyProfile') }}">
                             <i class="bi bi-person"></i>
                             <span>My Profile</span>
                         </a>
@@ -30,7 +30,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' ? route('logout') : route('employerLogout') }}">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ auth()->user()->role_id == '1' || auth()->user()->role_id == '4' ? route('adminLogout') : route('employerLogout') }}">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Sign Out</span>
                         </a>

@@ -6,6 +6,7 @@ $(function () {
     });
     tinymce.init({
         selector: 'textarea.basic-example',
+        readonly: false,
         height: 200,
         menubar: false,
         plugins: "advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount",
@@ -73,7 +74,7 @@ $(function () {
         },
         messages: {
             title: {
-                required: "Please select title",
+                required: "Select title",
             },
             first_name: {
                 required: "Please enter first name",
@@ -463,10 +464,11 @@ $(function () {
                     $(".error").html('')
                     if (res.status == 1) {
                         $('#changePasswordModal').modal('hide');
-                        $.notify({
-                            message: res.msg
-                        }, {
-                            type: 'success'
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
                         setTimeout(function () {
                             window.location = res.redirect_url;
@@ -474,10 +476,11 @@ $(function () {
                     } else if (res.status == 2) {
                         $("#error_current_password").html(res.msg);
                     } else {
-                        $.notify({
-                            message: res.msg
-                        }, {
-                            type: 'error'
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
                     }
                 },
@@ -489,6 +492,158 @@ $(function () {
                 error: function (err) {
                     if (err.status == 422) {
                         $(".error").html('')
+                        $errResponse = JSON.parse(err.responseText);
+                        $.each($errResponse.errors, function (key, value) {
+                            console.log(key + "----" + value)
+                            $("#error_" + key).html(value)
+                        })
+
+                    }
+                }
+            });
+        }
+    });
+
+    //Sub Admin Form
+    $("#subAdminProfileForm").validate({
+        rules: {
+            title: {
+                required: true,
+            },
+            first_name: {
+                required: true,
+                minlength: 2,
+                alpha: true,
+                maxlength: 100,
+            },
+            middle_name: {
+                minlength: 1,
+                alpha: true,
+                maxlength: 100,
+            },
+            last_name: {
+                required: true,
+                minlength: 1,
+                alpha: true,
+                maxlength: 100,
+            },
+            email: {
+                required: true,
+                emailCheck: true,
+            },
+            phone: {
+                required: true,
+                number: true,
+                minlength: 10,
+            },
+            gender: {
+                required: true,
+            },
+            dob: {
+                required: true,
+            },
+            password: {
+                minlength: 6,
+                maxlength: 12,
+            },
+            confirm_password: {
+                minlength: 6,
+                maxlength: 12,
+                equalTo: "#password",
+            }
+        },
+        messages: {
+            title: {
+                required: "Select title",
+            },
+            first_name: {
+                required: "Please enter first name",
+                alpha: "Please enter only characters",
+                maxlength: "First name must be less than 100 characters",
+            },
+            middle_name: {
+                alpha: "Please enter only characters",
+                maxlength: "Middle name must be less than 100 characters",
+            },
+            last_name: {
+                required: "Please enter last name",
+                alpha: "Please enter only characters",
+                maxlength: "Last name must be less than 100 characters",
+            },
+            email: {
+                required: "Please enter email address",
+                emailCheck: "Please enter a valid email address",
+            },
+            phone: {
+                required: "Please enter phone number",
+                number: "Please enter only digits",
+                minlength: "Please enter at least 10 digit",
+            },
+            gender: {
+                required: "Please select gender",
+            },
+            dob: {
+                required: "Please select date of birth",
+            },
+            password: {
+                alphanumsymbol: "Enter a valid new password",
+                minlength: "Password length must be greater than 6 characters",
+                maxlength: "Password must be less than or equal 12 characters",
+            },
+            confirm_password: {
+                alphanumsymbol: "Enter a valid confirm password",
+                minlength: "Password length must be greater than 6 characters",
+                equalTo: "Confirm password should match with new password",
+                maxlength: "Confirm password must be less than or equal 12 characters",
+            },
+        },
+        errorClass: "error is-invalid",
+        errorElement: "label",
+        errorPlacement: function (error, element) {
+            var placement = $(element).data("error");
+            if (placement) {
+                $(placement).append(error);
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function () {
+            var href = $('#subAdminProfileForm').attr('action');
+            var serializeData = $('#subAdminProfileForm').serialize();
+            $(".error").html('');
+            $.ajax({
+                type: 'POST',
+                url: href,
+                data: serializeData,
+                beforeSend: function () {
+                    $('#preloader').show();
+                },
+                success: function (res) {
+                    if (res.status == true) {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000);
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000
+                        })
+                    } else {
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000
+                        })
+                    }
+                },
+                complete: function () {
+                    $('#preloader').hide();
+                },
+                error: function (err) {
+                    $("#preloader").hide();
+                    if (err.status == 422) {
                         $errResponse = JSON.parse(err.responseText);
                         $.each($errResponse.errors, function (key, value) {
                             console.log(key + "----" + value)

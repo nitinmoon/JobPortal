@@ -1,0 +1,267 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Mail\AddUserMail;
+use App\Mail\SaveContactMail;
+use App\Mail\VerifyOtpMail;
+use App\Models\ApplyJob;
+use App\Models\Constants\ApplyJobStatusConstants;
+use App\Models\Constants\StatusConstants;
+use App\Models\Constants\UserRoleConstants;
+use App\Models\Constants\UserStatusConstants;
+use App\Models\ContactMessage;
+use App\Models\Job;
+use App\Models\User;
+use App\Models\UserAddress;
+use App\Repositories\BaseRepository;
+use App\Models\VerifyOtp;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Request;
+
+class UserRepository extends BaseRepository
+{
+    public function getModel()
+    {
+        return new User();
+    }
+
+    /**
+     * ******************************************
+     * method used to save user data in session
+     * ------------------------------------------
+     * @param array $inputArray
+     * @return data
+     * ******************************************
+     */
+    public function saveUserDataInSession($inputArray)
+    {
+        // Store user info in the session to use later
+        return session([
+            'first_name' => $inputArray['first_name'],
+            'last_name' => $inputArray['last_name'],
+            'email' => $inputArray['email']
+        ]);
+    }
+
+    /**
+     * **********************************
+     * method used to save verify otp
+     * ----------------------------------
+     * @param array $inputArray
+     * @return data
+     * **********************************
+     */
+    public function saveVerifyOtp($inputArray)
+    {
+        // Generate a random OTP
+        $otp = mt_rand(100000, 999999);
+
+        // Store or update OTP in the database
+        VerifyOtp::updateOrCreate(
+            ['email' => $inputArray['email']],
+            [
+                'otp' => $otp,
+                'expires_at' => now()->addMinutes(5),
+            ]
+        );
+
+        return $otp;
+    }
+
+    /**
+     * *************************************
+     * method used to send verify otp mail
+     * -------------------------------------
+     * @param string $email
+     * @param int $otp
+     * @return data
+     * *************************************
+     */
+    public function sendVerifyOtpMail($email, $otp)
+    {
+        try {
+            return Mail::to($email)->send(new VerifyOtpMail($otp));
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+    }
+
+    /**
+     * **********************************
+     * method used to verify otp
+     * ----------------------------------
+     * @param array $inputArray
+     * @return data
+     * **********************************
+     */
+    public function verifyOtp($inputArray)
+    {
+        $otpRecord = VerifyOtp::where('email', session('email'))
+            ->where('otp', $inputArray['otp'])
+            ->where('expires_at', '>', Carbon::now())
+            ->first();
+        if ($otpRecord != null) {
+            session(['email_verified_at' => date('Y-m-d H:i:s')]);
+            // Clear OTP record
+            $otpRecord->delete();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * **********************************
+     * method used to register user
+     * ----------------------------------
+     * @param array $inputArray
+     * @return data
+     * **********************************
+     */
+    public function registerUser($inputArray)
+    {
+        $user = new User();
+        $user->first_name = session('first_name');
+        $user->last_name = session('last_name');
+        $user->email = session('email');
+        $user->password = bcrypt($inputArray['password']);
+        $user->email_verified_at = session('email_verified_at');
+        $user->role_id = $inputArray['role_id'];
+        $user->save();
+        addUserMail($user->id, $inputArray['password']);
+        User::where('id', $user->id)->update([
+            'created_by' => $user->id
+        ]);
+
+        session()->flush();
+
+        return $user->id;
+    }
+
+    /**
+     * **********************************
+     * method used to check login
+     * ----------------------------------
+     *
+     * @param  array $credentials
+     * @return data
+     * **********************************
+     */
+    public function checkLoginStatus($credentials)
+    {
+        return User::where('email', $credentials['email'])
+            ->where('role_id', $credentials['role_id'])
+            ->where('status', UserStatusConstants::APPROVED)
+            ->first();
+    }
+
+    /**
+     *************************************
+     * Function use to update my profile
+     * -----------------------------------
+     * @param object $request
+     * @return data
+     *************************************
+     */
+    public function updateMyProfile($inputArray)
+    {
+        $condition = ['user_id' => auth()->user()->id];
+        $userDetails = [
+            'title' => strip_tags($inputArray['title']),
+            'first_name' => strip_tags($inputArray['first_name']),
+            'middle_name' => strip_tags($inputArray['middle_name']),
+            'last_name' => strip_tags($inputArray['last_name']),
+            'dob' => $inputArray['dob'],
+            'gender' => $inputArray['gender'],
+            'email' => strip_tags($inputArray['email']),
+            'phone' => strip_tags($inputArray['phone']),
+            'updated_by' => auth()->user()->id
+        ];
+        User::where('id', auth()->user()->id)->update($userDetails);
+        $userAddresssDetails = [
+            'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
+            'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
+            'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
+            'zip' => strip_tags($inputArray['zip']),
+            'address' => strip_tags($inputArray['address']),
+            'current_address' => strip_tags($inputArray['current_address'])
+        ];
+        UserAddress::updateOrCreate($condition, $userAddresssDetails);
+
+        if (!empty($inputArray['flag']) && $inputArray['flag'] == 'apply-job') {
+            $job = Job::where('id', $inputArray['job_id'])->where('status', StatusConstants::ACTIVE)->first();
+            $applyJob = new ApplyJob();
+            $applyJob->job_id = $inputArray['job_id'];
+            $applyJob->candidate_id = $inputArray['userId'];
+            $applyJob->employer_id = $job['employer_id'];
+            $applyJob->status = ApplyJobStatusConstants::APPLICATION_SENT;
+            $applyJob->save();
+        }
+        return auth()->user()->id;
+    }
+
+    /**
+     * **********************************
+     * method used to update last login
+     * ----------------------------------
+     *
+     * @param int $userId
+     * @return data
+     * **********************************
+     */
+    public function updateLastLogin($userId)
+    {
+        return $this->getModel()->where('id', $userId)->update(
+            [
+                'last_login' => date('Y-m-d H:i:s')
+            ]
+        );
+    }
+
+    /**
+     * **********************************
+     * method used to save contact
+     * ----------------------------------
+     *
+     * @param object $request
+     * @return data
+     * **********************************
+     */
+    public function saveContact($inputArray)
+    {
+        $contact = new ContactMessage();
+        $contact->name = strip_tags($inputArray['name']);
+        $contact->email = strip_tags($inputArray['email']);
+        $contact->message = strip_tags($inputArray['message']);
+        $contact->save();
+        $this->saveContactMail($contact->name, $contact->email, $contact->message);
+        $LastInsertId = $contact->id;
+    }
+
+    /**
+     * ********************************************
+     * method used to send common mail to add user
+     * --------------------------------------------
+     *
+     * @param  array $inputArray
+     * @return data
+     * ********************************************
+    */
+    public function saveContactMail($name, $email, $message)
+    {
+        try {
+            Mail::to(env('MAIL_FROM_ADDRESS'))->send(new SaveContactMail($name, $email, $message));
+        } catch (\Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage(),
+                ]
+            );
+        }
+        return $email;
+    }
+}

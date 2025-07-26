@@ -4,15 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EmployerDetail extends Model
 {
     use HasFactory;
 
+    protected $table= 'employer_details';
+
     protected $fillable = [
         'employer_id',
         'company_name',
         'company_logo',
+        'company_website',
         'company_description',
         'company_contact_person',
         'company_contact_email',
@@ -47,5 +51,10 @@ class EmployerDetail extends Model
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function jobCategory()
+    {
+        return $this->belongsTo(JobCategory::class, 'job_category_id');
     }
 }

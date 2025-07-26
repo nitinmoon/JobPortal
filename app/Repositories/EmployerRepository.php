@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Repositories\BaseRepository;
 use App\Models\Constants\UserRoleConstants;
 use App\Models\EmployerDetail;
+use App\Models\UserAddress;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
@@ -33,11 +34,11 @@ class EmployerRepository extends BaseRepository
             $user->title = '1';
             $user->email = $inputArray['email'];
             $user->verify_otp = $otp;
-            $user->role_id = UserRoleConstants::USER_ROLE_EMPLOYER;
+            $user->role_id = UserRoleConstants::EMPLOYER;
             $user->save();
         } else {
             $checkEmailRole = $this->getModel()->where('email', $inputArray['email'])
-            ->where('role_id', UserRoleConstants::USER_ROLE_EMPLOYER)
+            ->where('role_id', UserRoleConstants::EMPLOYER)
             ->first();
             if ($checkEmailRole == null) {
                 return 'Invalid_User';
@@ -100,7 +101,7 @@ class EmployerRepository extends BaseRepository
             'employer_details.company_contact_no',
         )
         ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'users.id')
-        ->where('users.role_id', UserRoleConstants::USER_ROLE_EMPLOYER);
+        ->where('users.role_id', UserRoleConstants::EMPLOYER);
         if (!empty($filterData['employer'])) {
             $queryBuilder = $queryBuilder->where('users.id', $filterData['employer']);
         }
@@ -112,10 +113,10 @@ class EmployerRepository extends BaseRepository
             }
         }
         if (isset($filterData['status'])) {
-            if ($filterData['status'] == '0') {
-                $queryBuilder = $queryBuilder->where('users.status', '0');
-            } else {
+            if ($filterData['status'] == '1') {
                 $queryBuilder = $queryBuilder->where('users.status', '1');
+            } else {
+                $queryBuilder = $queryBuilder->where('users.status', '2');
             }
         }
         return $queryBuilder->orderBy('users.id', 'desc')->withTrashed()->get();
@@ -159,7 +160,7 @@ class EmployerRepository extends BaseRepository
      * @return int $employerId
      **************************************
      */
-    public function addUpdateEmployer($inputArray)
+    public function addUpdateEmployer($inputArray, $password)
     {
         $condition = ['employer_id' => $inputArray['employerId']];
         if ($inputArray['employerId'] == 0) {
@@ -169,12 +170,14 @@ class EmployerRepository extends BaseRepository
             $user->middle_name = strip_tags($inputArray['middle_name']);
             $user->last_name = strip_tags($inputArray['last_name']);
             $user->email = strip_tags($inputArray['email']);
+            $user->password = bcrypt($password);
             $user->phone = strip_tags($inputArray['phone']);
             $user->dob = strip_tags($inputArray['dob']);
             $user->gender = strip_tags($inputArray['gender']);
-            $user->role_id = UserRoleConstants::USER_ROLE_EMPLOYER;
+            $user->role_id = UserRoleConstants::EMPLOYER;
             $user->created_by = auth()->user()->id;
             $user->save();
+            addUserMail($user->id, $password);
             $LastInsertId = $user->id;
         } else {
             $this->getModel()->where('id', $inputArray['employerId'])->update(
@@ -187,7 +190,7 @@ class EmployerRepository extends BaseRepository
                     'phone' => $inputArray['phone'],
                     'dob' => $inputArray['dob'],
                     'gender' => strip_tags($inputArray['gender']),
-                    'role_id' => UserRoleConstants::USER_ROLE_EMPLOYER,
+                    'role_id' => UserRoleConstants::EMPLOYER,
                     'updated_by' => auth()->user()->id
                 ]
             );
@@ -195,19 +198,21 @@ class EmployerRepository extends BaseRepository
         }
         $employerDetails = [
             'employer_id' => $LastInsertId,
+            'company_name' => strip_tags($inputArray['company_name']),
+            'company_website' => strip_tags($inputArray['company_website']),
+            'company_contact_person' => strip_tags($inputArray['company_contact_person']),
+            'company_contact_email' => strip_tags($inputArray['company_contact_email']),
+            'company_contact_no' => $inputArray['company_contact_no'],
+            'job_category_id' => $inputArray['job_category_id'],
+            'foundation_date' => $inputArray['foundation_date'],
+            'no_of_employees' => $inputArray['no_of_employees'],
+            'gst_no' => strip_tags($inputArray['gst_no']),
+            'company_description' => $inputArray['company_description'],
             'company_address' => strip_tags($inputArray['company_address']),
             'zip' => strip_tags($inputArray['zip']),
             'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
             'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
             'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
-            'company_name' => strip_tags($inputArray['company_name']),
-            'company_contact_person' => strip_tags($inputArray['company_contact_person']),
-            'company_contact_email' => strip_tags($inputArray['company_contact_email']),
-            'company_contact_no' => $inputArray['company_contact_no'],
-            'company_description' => $inputArray['company_description'],
-            'foundation_date' => $inputArray['foundation_date'],
-            'no_of_employees' => $inputArray['no_of_employees'],
-            'gst_no' => strip_tags($inputArray['gst_no']),
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id
         ];
@@ -248,7 +253,7 @@ class EmployerRepository extends BaseRepository
                 'phone' => $inputArray['phone'],
                 'dob' => $inputArray['dob'],
                 'gender' => strip_tags($inputArray['gender']),
-                'role_id' => UserRoleConstants::USER_ROLE_EMPLOYER,
+                'role_id' => UserRoleConstants::EMPLOYER,
                 'updated_by' => auth()->user()->id
             ]
         );
@@ -292,7 +297,7 @@ class EmployerRepository extends BaseRepository
 
         $queryBuilder = User::select('users.id', 'users.title', 'users.first_name', 'users.last_name')
             ->where('users.portal_access', '1')
-            ->where('users.role_id', UserRoleConstants::USER_ROLE_EMPLOYER);
+            ->where('users.role_id', UserRoleConstants::EMPLOYER);
 
         if (!empty($searchString) && $searchString != '') {
             $queryBuilder = $queryBuilder->where('users.title', 'LIKE', "%{$searchString}%")
@@ -300,5 +305,114 @@ class EmployerRepository extends BaseRepository
                 ->orWhere('users.last_name', 'LIKE', "%{$searchString}%");
         }
         return $queryBuilder->orderBy('users.first_name')->limit(10)->get();
+    }
+
+    /**
+     *****************************************
+     * Function use to get user details by id
+     * ---------------------------------------
+     * @param int $employerId
+     * @return data
+     **************************************
+     */
+    public function getUserDetails($employerId)
+    {
+        return User::select(
+            'users.id',
+            'users.title',
+            'users.first_name',
+            'users.middle_name',
+            'users.last_name',
+            'users.email',
+            'users.phone',
+            'users.dob',
+            'users.gender',
+            'users.role_id',
+            'users.status',
+            'user_addresses.address',
+            'user_addresses.current_address',
+            'user_addresses.zip',
+            'user_addresses.country_id',
+            'user_addresses.state_id',
+            'user_addresses.city_id',
+            'countries.name as country_name',
+            'states.name as state_name',
+            'cities.name as city_name',
+        )
+        ->leftJoin('user_addresses', 'user_addresses.user_id', '=', 'users.id')
+        ->leftJoin('countries', 'countries.id', '=', 'user_addresses.country_id')
+        ->leftJoin('states', 'states.id', '=', 'user_addresses.state_id')
+        ->leftJoin('cities', 'cities.id', '=', 'user_addresses.city_id')
+        ->where('users.id', $employerId)
+        ->first();
+    }
+
+    /**
+     ******************************************
+     * Function use to update company profile
+     * ----------------------------------------
+     * @param object $request
+     * @return data
+     ******************************************
+     */
+    public function updateCompanyProfile($inputArray)
+    {
+        $condition = ['employer_id' => auth()->user()->id];
+        $companyDetails = [
+            'company_name' => strip_tags($inputArray['company_name']),
+            'company_website' => strip_tags($inputArray['company_website']),
+            'company_contact_person' => strip_tags($inputArray['company_contact_person']),
+            'company_contact_email' => strip_tags($inputArray['company_contact_email']),
+            'company_contact_no' => $inputArray['company_contact_no'],
+            'foundation_date' => $inputArray['foundation_date'],
+            'no_of_employees' => $inputArray['no_of_employees'],
+            'gst_no' => $inputArray['gst_no'],
+            'company_description' => $inputArray['company_description'],
+            'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
+            'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
+            'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
+            'zip' => strip_tags($inputArray['zip']),
+            'company_address' => strip_tags($inputArray['company_address']),
+            'updated_by' => auth()->user()->id,
+        ];
+        EmployerDetail::updateOrCreate($condition, $companyDetails);
+        return auth()->user()->id;
+    }
+
+    /**
+     * *****************************************
+     * method used to update profile basic info
+     * -----------------------------------------
+     * @param userId
+     * @param inputdata
+     * @return data
+     * @description input (user details)
+     * ******************************************
+     */
+    public function updateCompanyLogo($userId, $inputdata)
+    {
+        $condition = ['employer_id' => auth()->user()->id];
+        $companyDetails = [
+            'company_logo' => $inputdata['company_logo'],
+            'updated_by' => auth()->user()->id,
+        ];
+        EmployerDetail::updateOrCreate($condition, $companyDetails);
+        return auth()->user()->id;
+    }
+
+    /**
+     * **********************************
+     * method used to get all employers
+     * ----------------------------------
+     * @param userId
+     * @param inputdata
+     * @return data
+     * @description input (user details)
+     * **********************************
+     */
+    public function getCompanies()
+    {
+       return EmployerDetail::select('id', 'company_name', 'employer_id')
+       ->get();
     }
 }

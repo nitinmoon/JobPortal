@@ -26,6 +26,7 @@
     <link href="{{ asset('backend/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/assets/css/custom-css.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/css/bootstrap-toaster.min.css">
     <!-- Template Main CSS File -->
     <link href="{{ asset('backend/assets/css/style.css') }}" rel="stylesheet">
 </head>
@@ -36,9 +37,13 @@
     <!-- Vendor JS Files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ asset('backend/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Load TinyMCE first -->
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
+
     <!-- Template Main JS File -->
     <script src="{{ asset('backend/assets/js/main.js') }}"></script>
     <script src="{{ asset('backend/assets/js/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-toaster@5.2.0-beta1.1/dist/umd/bootstrap-toaster.min.js"></script>
     <!-- jQuery validation -->
     <script src="{{ asset('backend/assets/js/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/jquery-validation/additional-methods.min.js') }}"></script>

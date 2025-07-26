@@ -51,7 +51,7 @@ class CandidateController extends Controller
      */
     public function index(Request $request)
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_ADMIN) {
+        if (auth()->user()->role_id != UserRoleConstants::SUPER_ADMIN) {
             return back();
         }
         if ($request->ajax()) {
@@ -225,18 +225,18 @@ class CandidateController extends Controller
      * @return view
      * **************************************
      */
-    public function database(Request $request)
-    {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_EMPLOYER) {
-            return back();
-        }
-        if ($request->ajax()) {
-            return $this->candidateService->databaseAjaxDatatable($request);
-        }
-        $jobType = getJobType();
-        $jobTitle = getJobTitle();
-        return view('backend.database.index', compact('jobType', 'jobTitle'));
-    }
+    // public function database(Request $request)
+    // {
+    //     if (auth()->user()->role_id != UserRoleConstants::EMPLOYER) {
+    //         return back();
+    //     }
+    //     if ($request->ajax()) {
+    //         return $this->candidateService->databaseAjaxDatatable($request);
+    //     }
+    //     $jobType = getJobType();
+    //     $jobTitle = getJobTitle();
+    //     return view('backend.database.index', compact('jobType', 'jobTitle'));
+    // }
 
     /**
      * ***************************************
@@ -274,4 +274,29 @@ class CandidateController extends Controller
             return $this->applyJobService->candidateApplyJobsAjaxDatatable($request);
         }
     }
+
+    /**
+     * ****************************
+     * method use to view profile
+     * ----------------------------
+     * @param int $authId
+     * @return jsonResponse
+     * ****************************
+     */
+    // public function myProfile()
+    // {
+    //     $title = getEnum('users', 'title');
+    //     $genders = getEnum('users', 'gender');
+    //     $states = [];
+    //     $cities = [];
+    //     $countries = $this->countryService->getAllCountry();
+    //     return view(
+    //         'frontend.candidate.my-profile',
+    //         compact(
+    //             'title',
+    //             'genders',
+    //             'countries'
+    //         )
+    //     );
+    // }
 }

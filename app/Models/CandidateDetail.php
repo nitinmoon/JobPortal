@@ -13,17 +13,26 @@ class CandidateDetail extends Model
 
     protected $fillable = [
         'candidate_id',
-        'address',
-        'country_id',
-        'state_id',
-        'city_id',
-        'zip',
-        'resume_file',
+        'designation_id',
+        'job_category_id',
+        'job_type_id',
+        'work_type_id',
+        'current_salary',
+        'expected_salary',
+        'shift',
         'experience',
+        'marital_status',
         'education',
         'skills',
+        'resume_headline',
+        'description',
+        'profile_summary',
+        'languages',
+        'resume_file',
+        'availability_to_join',
+        'status',
         'created_by',
-        'updated_by'
+        'updated_by',
     ];
 
     public function candidate()
@@ -31,18 +40,23 @@ class CandidateDetail extends Model
         return $this->belongsTo(User::class, 'candidate_id');
     }
 
-    public function country()
+    public function designation()
     {
-        return $this->belongsTo(Country::class, 'country_id');
+        return $this->belongsTo(Designation::class, 'designation_id');
     }
 
-    public function state()
+    public function jobCategory()
     {
-        return $this->belongsTo(State::class, 'state_id');
+        return $this->belongsTo(JobCategory::class, 'job_category_id');
     }
 
-    public function city()
+    public function jobType()
     {
-        return $this->belongsTo(City::class, 'city_id');
+        return $this->belongsTo(JobType::class, 'job_type_id');
+    }
+
+    public function workType()
+    {
+        return $this->belongsTo(WorkType::class, 'work_type_id');
     }
 }

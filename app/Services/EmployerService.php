@@ -3,18 +3,26 @@
 namespace App\Services;
 
 use App\Mail\OtpVerificationEmail;
+use App\Repositories\ApplyJobRepository;
 use App\Repositories\EmployerRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class EmployerService
 {
     private $employerRepository;
+    private $userRepository;
+    private $applyJobRepository;
 
     public function __construct(
-        EmployerRepository $employerRepository
+        EmployerRepository $employerRepository,
+        UserRepository $userRepository,
+        ApplyJobRepository $applyJobRepository
     ) {
         $this->employerRepository = $employerRepository;
+        $this->userRepository = $userRepository;
+        $this->applyJobRepository = $applyJobRepository;
     }
 
     /**
@@ -128,16 +136,13 @@ class EmployerService
                 function ($row) {
                     if ($row->deleted_at == null) {
                         $activeChecked = "";
-                                if ($row->status == 1) {
-                                    $activeChecked = 'checked';
-                                }
-                        return '<input type="hidden" name="_token" value="'.csrf_token().'">
-                        <label class="switch">
-                        <input type="hidden" name="active" value="0">
-                        <input type="checkbox" class="change-employer-status" name="status" data-url="'. route('changeEmployerStatus') .'" id="' . $row->id . '" '.$activeChecked.'>
-                        <span class="slider round"></span>
-                        <input type="hidden" name="action" value="submit" />
-                        </label>';
+                        if ($row->status == 1) {
+                            $activeChecked = 'checked';
+                        }
+                        return '<div class="form-check form-switch">
+                        <input class="form-check-input change-employer-status" type="checkbox" data-url="' . route('changeEmployerStatus') . '"
+                            id="' . $row->id . '" ' . $activeChecked . '>
+                        </div>';
                     } else {
                         return getActiveInactiveStatusBadge($row->status);
                     }
@@ -218,16 +223,17 @@ class EmployerService
     }
 
     /**
-     **************************************
-     * Function use to add update employer
-     * ------------------------------------
+     *******************************************
+     * Function is used to add update employer
+     * -----------------------------------------
      * @param array $inputArray
      * @return data
-     **************************************
+     *******************************************
      */
     public function addUpdateEmployer($inputArray)
     {
-        $this->employerRepository->addUpdateEmployer($inputArray);
+        $password = randPasswordString(8);
+        $this->employerRepository->addUpdateEmployer($inputArray, $password);
     }
 
     /**
@@ -267,6 +273,62 @@ class EmployerService
      */
     public function getUserDetails($employerId)
     {
-        return $this->employerRepository->getById($employerId);
+        return $this->employerRepository->getUserDetails($employerId);
+    }
+
+    /**
+     ******************************************
+     * Function use to update company profile
+     * ----------------------------------------
+     * @param array $inputArray
+     * @return data
+     ******************************************
+     */
+    public function updateCompanyProfile($inputArray)
+    {
+        return $this->employerRepository->updateCompanyProfile($inputArray);
+    }
+
+     /**
+     * *****************************************
+     * method used to update profile basic info
+     * -----------------------------------------
+     * @param userId
+     * @param inputdata
+     * @return data
+     * @description input (user details)
+     * ******************************************
+     */
+    public function updateCompanyLogo($userId, $inputdata)
+    {
+        return $this->employerRepository->updateCompanyLogo($userId, $inputdata);
+    }
+
+    /**
+     * **********************************
+     * method used to get all employers
+     * ----------------------------------
+     * @param userId
+     * @param inputdata
+     * @return data
+     * @description input (user details)
+     * **********************************
+     */
+    public function getCompanies()
+    {
+       return $this->employerRepository->getCompanies();
+    }
+
+    /**
+     ************************************
+     * Function use to get applied jobs
+     * ----------------------------------
+     * @param string $total
+     * @return data
+     ************************************
+    */
+    public function getCandidateResumes($employerId)
+    {
+        return $this->applyJobRepository->getCandidateResumes($employerId);
     }
 }

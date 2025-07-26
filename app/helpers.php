@@ -1,9 +1,12 @@
 <?php
 
+use App\Mail\AddUserMail;
 use App\Models\ActivityLog;
 use App\Models\ApplyJob;
+use App\Models\Constants\JobStatusConstants;
 use App\Models\Constants\StatusConstants;
 use App\Models\Designation;
+use App\Models\EmployerDetail;
 use App\Models\Job;
 use App\Models\JobCategory;
 use App\Models\JobType;
@@ -11,6 +14,8 @@ use App\Models\Skill;
 use App\Models\User;
 use App\Models\WorkType;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Jenssegers\Agent\Agent;
 use Illuminate\Support\Facades\Request;
 
@@ -48,6 +53,30 @@ if (!function_exists('getEnum')) {
  */
 if (!function_exists('getGender')) {
     function getGender($gender)
+    {
+        if ($gender == '1') {
+            $genderName = "Male";
+        } elseif ($gender == '2') {
+            $genderName = "Female";
+        } elseif ($gender == '3') {
+            $genderName = "Transgenders";
+        } else {
+            $genderName = "Others";
+        }
+        return $genderName;
+    }
+}
+
+/**
+ * ***************************
+ * method use to get gender
+ * ---------------------------
+ * @param string $gender
+ * @return data
+ * ***************************
+ */
+if (!function_exists('getJobGender')) {
+    function getJobGender($gender)
     {
         if ($gender == '1') {
             $genderName = "Male";
@@ -268,19 +297,19 @@ if (!function_exists('getJobAppliedStatusName')) {
         } elseif ($status == '3') {
             $statusName =  'Shortlisted';
         } else {
-            $statusName = '';
+            $statusName = 'Hired';
         }
         return $statusName;
     }
 }
 
 /**
-  **************************
+ **************************
  * method use to get title
  * ---------------------------
  * @param string $title
  * @return data
-  **************************
+ **************************
  */
 if (!function_exists('getTitle')) {
     function getTitle($title)
@@ -291,7 +320,7 @@ if (!function_exists('getTitle')) {
             $titleName = "Mrs";
         } elseif ($title == 3) {
             $titleName = "Miss";
-        } elseif ($title == 4){
+        } elseif ($title == 4) {
             $titleName = "Other";
         } else {
             $titleName = '';
@@ -301,11 +330,11 @@ if (!function_exists('getTitle')) {
 }
 
 /**
-  ************************************
+ ************************************
  * method use to get size array
  * -------------------------------------
  * @return data
-  *************************************
+ *************************************
  */
 if (!function_exists('educationArray')) {
     function educationArray()
@@ -323,11 +352,11 @@ if (!function_exists('educationArray')) {
 }
 
 /**
-  *****************************************
+ *****************************************
  * method use to check candidate ApplyJob
  * ----------------------------------------
  * @return data
-  *****************************************
+ *****************************************
  */
 if (!function_exists('isCandidateApplyJob')) {
     function isCandidateApplyJob($candidateId, $jobId)
@@ -347,11 +376,11 @@ if (!function_exists('isCandidateApplyJob')) {
 if (!function_exists('getUserGender')) {
     function getUserGender($gender)
     {
-        if ($gender == 'M') {
+        if ($gender == '1') {
             $genderName = "Male";
-        } elseif ($gender == 'F') {
+        } elseif ($gender == '2') {
             $genderName = "Female";
-        } elseif ($gender == 'T') {
+        } elseif ($gender == '3') {
             $genderName = "Transgender";
         } else {
             $genderName = "Others";
@@ -361,11 +390,11 @@ if (!function_exists('getUserGender')) {
 }
 
 /**
-  ************************************
+ ************************************
  * method use to get size array
  * -------------------------------------
  * @return data
-  *************************************
+ *************************************
  */
 if (!function_exists('jobCount')) {
     function jobCount($field, $Id)
@@ -375,11 +404,11 @@ if (!function_exists('jobCount')) {
 }
 
 /**
-  *******************************
+ *******************************
  * method use to get users count
  * ------------------------------
  * @return data
-  *******************************
+ *******************************
  */
 if (!function_exists('getDashboardUsersCount')) {
     function getDashboardUsersCount($roleId)
@@ -399,5 +428,285 @@ if (!function_exists('getJobTitle')) {
     function getJobTitle()
     {
         return Job::select('id', 'job_title')->where('status', '1')->orderBy('job_title', 'asc')->get();
+    }
+}
+
+/**
+ * *******************************
+ * method use to get random string
+ * -------------------------------
+ *
+ * @param  string $length
+ * @return data
+ * ******************************
+ */
+if (!function_exists('randPasswordString')) {
+    function randPasswordString($length)
+    {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+        return substr(str_shuffle($chars), 0, $length);
+    }
+}
+
+/**
+ * ********************************************
+ * method used to send common mail to add user
+ * --------------------------------------------
+ *
+ * @param  array $inputArray
+ * @return data
+ * ********************************************
+ */
+if (!function_exists('addUserMail')) {
+    function addUserMail($userId, $password)
+    {
+        $userData = User::find($userId);
+        try {
+            Mail::to($userData->email)->send(new AddUserMail($userData, $password));
+        } catch (\Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json(
+                [
+                    'status' => false,
+                    'msg' => $exception->getMessage(),
+                ]
+            );
+        }
+        return $userData;
+    }
+}
+
+/**
+ * *************************************
+ * method used to return language array
+ * -------------------------------------
+ *
+ * @param  array $inputArray
+ * @return data
+ * *************************************
+ */
+if (!function_exists('getLanguages')) {
+    function getLanguages()
+    {
+        return [
+            'English',
+            'Spanish',
+            'French',
+            'German',
+            'Arabic',
+            'Hindi',
+            'Marathi',
+            'Chinese',
+            'Russian',
+            'Japanese',
+            'Portuguese',
+        ];
+    }
+}
+
+/**
+ * ********************************************
+ * method used to send common mail to add user
+ * --------------------------------------------
+ *
+ * @param  array $inputArray
+ * @return data
+ * ********************************************
+ */
+if (!function_exists('getCompanyDetails')) {
+    function getCompanyDetails($employerId)
+    {
+        $employerDetails = EmployerDetail::where('employer_id', $employerId)->first();
+        // dd($employerDetails);
+        return isset($employerDetails) && $employerDetails != null ? $employerDetails : '';
+    }
+}
+
+/**
+ * ***************************
+ * method use to get gender
+ * ---------------------------
+ * @param string $gender
+ * @return data
+ * ***************************
+ */
+if (!function_exists('getJobStatus')) {
+    function getJobStatus($status)
+    {
+        if ($status == '1') {
+            $statusName = "Pending";
+        } elseif ($status == '2') {
+            $statusName = "Approved";
+        } elseif ($status == '3') {
+            $statusName = "Hold";
+        } else {
+            $statusName = "Rejected";
+        }
+        return $statusName;
+    }
+}
+
+/**
+ * ***************************
+ * method use to get gender
+ * ---------------------------
+ * @param string $status
+ * @return data
+ * ***************************
+ */
+if (!function_exists('getJobStatusColor')) {
+    function getJobStatusColor($status)
+    {
+        if ($status == '1') {
+            $statusColor = "pending";
+        } elseif ($status == '2') {
+            $statusColor = "success";
+        } elseif ($status == '3') {
+            $statusColor = "warning";
+        } else {
+            $statusColor = "danger";
+        }
+        return $statusColor;
+    }
+}
+
+/**
+ ****************************************
+ * method use to get job work type
+ * ---------------------------------------
+ * @return data
+ ****************************************
+ */
+if (!function_exists('getJobSkills')) {
+    function getJobSkills($skillIds)
+    {
+        $skills = Skill::select('id', 'name')->whereIn('id', explode(',', $skillIds))->where('status', '1')->orderBy('name', 'asc')->get();
+        $skillSpan = '';
+        foreach ($skills as $skill) {
+            $skillSpan .= '<span>' . $skill->name . '</span>&emsp;';
+        }
+        return $skillSpan;
+    }
+}
+
+/**
+ ****************************************
+ * method use to get time ago
+ * ---------------------------------------
+ * @return data
+ ****************************************
+ */
+if (!function_exists('getTimeAgo')) {
+    function getTimeAgo($createdDate)
+    {
+        $timestamp = strtotime($createdDate);
+
+        $strTime = array("second", "minute", "hour", "day", "month", "year");
+        $length = array("60", "60", "24", "30", "12", "10");
+
+        $currentTime = time();
+        if ($currentTime >= $timestamp) {
+            $diff     = time() - $timestamp;
+            for ($i = 0; $diff >= $length[$i] && $i < count($length) - 1; $i++) {
+                $diff = $diff / $length[$i];
+            }
+
+            $diff = round($diff);
+            return $diff . " " . $strTime[$i] . " ago ";
+        }
+    }
+}
+
+/**
+ ****************************************
+ * method use to get job applicant count
+ * ---------------------------------------
+ * @return data
+ ****************************************
+ */
+if (!function_exists('getJobApplicantCount')) {
+    function getJobApplicantCount($jobId, $employerId)
+    {
+        return ApplyJob::where('job_id', $jobId)
+            ->where('employer_id', $employerId)
+            ->count();
+    }
+}
+
+/**
+ * ***************************
+ * method use to get gender
+ * ---------------------------
+ * @param string $status
+ * @return data
+ * ***************************
+ */
+if (!function_exists('availabilityToJoin')) {
+    function availabilityToJoin($days)
+    {
+        if ($days == '1') {
+            $duration = "15 Days";
+        } elseif ($days == '2') {
+            $duration = "1 Month";
+        } elseif ($days == '3') {
+            $duration = "2 Months";
+        } else {
+            $duration = "3 Months";
+        }
+        return $duration;
+    }
+}
+
+if (!function_exists('getExperience')) {
+    function getExperience($from_date, $to_date)
+    {
+        $fromDate = new DateTime($from_date);
+        $toDate = new DateTime($to_date);
+        $dd = date_diff($fromDate, $toDate);
+        $experience = ($dd->y == 0) ? $dd->m . " Months" : $dd->y . " Years " . $dd->m . " Months";
+        return $experience;
+    }
+}
+
+if (!function_exists('getMonth')) {
+    function getMonth($input)
+    {
+        // Split the input into year and month
+        list($year, $month) = explode('-', $input);
+        // Create a DateTime object
+        $date = DateTime::createFromFormat('!Y-n', "$year-$month");
+
+        // Format the date to "YYYY Month"
+        $formattedDate = $date->format('M Y');
+
+        return $formattedDate; // Output: 2020 January
+    }
+}
+
+/**
+ *******************************
+ * method use to get users count
+ * ------------------------------
+ * @return data
+ *******************************
+ */
+if (!function_exists('getJobsCount')) {
+    function getJobsCount()
+    {
+        return Job::where('status', StatusConstants::ACTIVE)->count();
+    }
+}
+
+/**
+ *******************************
+ * method use to get users count
+ * ------------------------------
+ * @return data
+ *******************************
+ */
+if (!function_exists('getAppliedJobsCount')) {
+    function getAppliedJobsCount()
+    {
+        return ApplyJob::where('status', StatusConstants::ACTIVE)->count();
     }
 }

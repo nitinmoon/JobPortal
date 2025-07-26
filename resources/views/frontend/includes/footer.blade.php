@@ -5,10 +5,11 @@
                 <div class="col-xl-5 col-lg-4 col-md-12 col-sm-12">
                     <div class="widget">
                         <div class="logo-white">
-                            <img class="logo m-b15" src="{{ asset('frontend/assets/images/logo.png') }}" width="180" alt="" />
+                            <img class="logo m-b15" src="{{ asset('frontend/assets/images/logo/footer-logo.png') }}" width="180" alt="" />
                         </div>
-                        <p class="text-capitalize m-b20">Lorem Ipsum is simply dummy text of the printing and typesetting industry has been the industry's standard dummy text ever since the.</p>
-                        <div class="subscribe-form m-b20">
+                         <p><span style="font-weight: bold;">Liftale Staffing Service</span> is an established professional recruitment & executive search firm catering to human resource needs of the IT and Non-IT organizations.
+                        </p>
+                        <!-- <div class="subscribe-form m-b20">
                             <form class="dzSubscribe" action="script/mailchamp.php" method="post">
                                 <div class="dzSubscribeMsg"></div>
                                 <div class="input-group">
@@ -18,45 +19,43 @@
                                     </span>
                                 </div>
                             </form>
-                        </div>
-                        <ul class="list-inline m-a0">
+                        </div> -->
+                        <!-- <ul class="list-inline m-a0">
                             <li><a target="_blank" href="https://www.facebook.com/" class="site-button white facebook circle "><i class="fab fa-facebook-f"></i></a></li>
                             <li><a target="_blank" href="https://www.google.com/" class="site-button white google-plus circle "><i class="fab fa-google-plus-g"></i></a></li>
                             <li><a target="_blank" href="https://www.linkedin.com/" class="site-button white linkedin circle "><i class="fab fa-linkedin-in"></i></a></li>
                             <li><a target="_blank" href="https://www.instagram.com/" class="site-button white instagram circle "><i class="fab fa-instagram"></i></a></li>
                             <li><a target="_blank" href="https://twitter.com/" class="site-button white twitter circle "><i class="fab fa-twitter"></i></a></li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
                 <div class="col-xl-5 col-lg-5 col-md-8 col-sm-8 col-12">
                     <div class="widget border-0">
-                        <h5 class="m-b30 text-white">Frequently Asked Questions</h5>
+                        <h5 class="m-b30 text-white">Main Links</h5>
                         <ul class="list-2 list-line">
-                            <li><a href="javascript:void(0);">Privacy & Seurty</a></li>
-                            <li><a href="javascript:void(0);">Terms of Serice</a></li>
-                            <li><a href="javascript:void(0);">Communications</a></li>
-                            <li><a href="javascript:void(0);">Referral Terms</a></li>
-                            <li><a href="javascript:void(0);">Lending Licnses</a></li>
-                            <li><a href="javascript:void(0);">Support</a></li>
-                            <li><a href="javascript:void(0);">How It Works</a></li>
-                            <li><a href="javascript:void(0);">For Employers</a></li>
-                            <li><a href="javascript:void(0);">Underwriting</a></li>
-                            <li><a href="javascript:void(0);">Contact Us</a></li>
-                            <li><a href="javascript:void(0);">Lending Licnses</a></li>
-                            <li><a href="javascript:void(0);">Support</a></li>
+                            <li><a href="{{ route('privacy') }}">Privacy & Policy</a></li>
+                            <li><a href="{{ route('terms') }}">Terms and Conditions</a></li>
+                            <li><a href="{{ route('home') }}">Home</a></li>
+                            <li><a href="{{ route('about') }}">About Us</a></li>
+                            <li><a href="{{ route('jobs') }}">Jobs</a></li>
+                            <li><a href="{{ route('it') }}">IT Industries</a></li>
+                            <li><a href="{{ route('noniit') }}">Non-IT Industries</a></li>
+                            <li><a href="{{ route('executive') }}">Executive Search</a></li>
+                            <li><a href="{{ route('Permanent') }}">Permanent Staffing</a></li>
+                            <li><a href="{{ route('Contract') }}">Contract-to-Hire</a></li>
+                            <li><a href="{{ route('client') }}">Client</a></li>
+                            <li><a href="{{ route('contactUs') }}">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-12">
                     <div class="widget border-0">
-                        <h5 class="m-b30 text-white">Find Jobs</h5>
+                        <h5 class="m-b30 text-white">Quick Links</h5>
                         <ul class="list-2 w10 list-line">
-                            <li><a href="javascript:void(0);">US Jobs</a></li>
-                            <li><a href="javascript:void(0);">Canada Jobs</a></li>
-                            <li><a href="javascript:void(0);">UK Jobs</a></li>
-                            <li><a href="javascript:void(0);">Emplois en Fnce</a></li>
-                            <li><a href="javascript:void(0);">Jobs in Deuts</a></li>
-                            <li><a href="javascript:void(0);">Vacatures China</a></li>
+                            <li><a href="{{ route('candidateRegister') }}">Candidate Register</a></li>
+                            <li><a href="{{ route('employerRegister') }}">Employer Register</a></li>
+                            <li><a href="{{ route('candidateLogin') }}">Candidate Login</a></li>
+                            <li><a href="{{ route('employerLogin') }}">Employer Login</a></li>
                         </ul>
                     </div>
                 </div>
@@ -68,8 +67,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <span> © Copyright 2025 by <i class="fa fa-heart m-lr5 text-red heart"></i>
-                        <a href="https://liftale.com/" target="_blank">Liftale </a> All rights reserved.</span>
+                    <span> Copyright ©{{ date('Y') }} @
+                        <a href="https://liftale.com/" target="_blank">Liftale </a> All rights reserved Designed & Maintained by webpixabyte.com</span>
                 </div>
             </div>
         </div>

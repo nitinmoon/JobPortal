@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Models\Constants\UserRoleConstants;
 use App\Models\User;
 use App\Services\LoginService;
 use Illuminate\Support\Facades\Auth;
@@ -52,13 +53,16 @@ class LoginController extends Controller
 
         $data = $request->all();
         if (isset($data['g-recaptcha-response']) && !empty($data['g-recaptcha-response'])) {
-
             // Verify the reCAPTCHA response
-            $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']);
-            // Decode json data
-            $responseData = json_decode($verifyResponse);
+            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => $secretKey,
+                'response' => $_POST['g-recaptcha-response'],
+                'remoteip' => $request->ip(),
+            ]);
+            // Json data
+            $responseBody = $response->json();
             // If reCAPTCHA response is valid
-            if ($responseData->success) {
+            if ($responseBody['success']) {
                 $credentials = $this->validateLoginRequest($request);
                 $user = $this->loginService->checkLoginStatus($credentials);
                 if (!empty($user)) {
@@ -80,7 +84,7 @@ class LoginController extends Controller
                         return response()->json(
                             [
                                 'status' => true,
-                                'redirectRoute' => route('dashboard'),
+                                'redirectRoute' => url('console/dashboard'),
                                 'msg' => 'Login successfully!'
                             ]
                         );
@@ -128,7 +132,7 @@ class LoginController extends Controller
         return view('backend.auth.forgot-password');
     }
 
-      /**
+    /**
      * ***********************************
      * method used to view forgot password
      * --------------------------------------
@@ -145,30 +149,31 @@ class LoginController extends Controller
                 if ($user->portal_access == 0) {
                     return response()->json(
                         [
-                        'status' => 2,
-                        'msg' => 'Account is deactivated!'
-                            ]
+                            'status' => 2,
+                            'msg' => 'Account is deactivated!'
+                        ]
                     );
                 }
                 $this->loginService->sendForgotPasswordLink($credentials);
                 return response()->json(
                     [
-                    'status' => 1,
-                    'msg' => 'Reset password link sent successfully, Please check email!'
-                        ]
-                );
-            }
-                return response()->json(
-                    [
-                    'status' => 0,
-                    'msg' => 'You are not authorized user!'
+                        'status' => 1,
+                        'msg' => 'Reset password link sent successfully, Please check email!'
                     ]
                 );
+            }
+            return response()->json(
+                [
+                    'status' => 0,
+                    'msg' => 'You are not authorized user!'
+                ]
+            );
         } catch (Exception  $exception) {
             return response()->json(
-                ['
+                [
+                    '
                 status' => 0,
-                'msg' => $exception->getMessage()
+                    'msg' => $exception->getMessage()
                 ]
             );
         }
@@ -223,8 +228,8 @@ class LoginController extends Controller
             if (!$checkToken) {
                 return response()->json(
                     [
-                    'status' => '2',
-                    'msg' => 'Invalid token!'
+                        'status' => '2',
+                        'msg' => 'Invalid token!'
                     ]
                 );
             }
@@ -232,25 +237,26 @@ class LoginController extends Controller
             if (empty($user)) {
                 return response()->json(
                     [
-                    'status' => '0',
-                    'msg' => 'Invalid user!'
+                        'status' => '0',
+                        'msg' => 'Invalid user!'
                     ]
                 );
             }
         } catch (Exception $exception) {
             return response()->json(
                 [
-                'status' => '0',
-                'msg' => $exception->getMessage()
+                    'status' => '0',
+                    'msg' => $exception->getMessage()
                 ]
             );
         }
+        $redirectRoute = $user['role_id'] == UserRoleConstants::SUPER_ADMIN ? route('adminLogin') : ($user['role_id'] == UserRoleConstants::EMPLOYER ? route('employerLogin') : route('candidateLogin'));
         $this->loginService->updateResetPassword($user, $request);
         return response()->json(
             [
-            'status' => true,
-            'msg' => 'Password reset successfully!',
-            'redirectRoute' => route('adminLogin')
+                'status' => true,
+                'msg' => 'Password reset successfully!',
+                'redirectRoute' => $redirectRoute
             ]
         );
     }

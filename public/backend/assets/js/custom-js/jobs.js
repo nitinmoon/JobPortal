@@ -21,43 +21,69 @@ $(function () {
         return this.optional(element) || value == value.match(/^[a-zA-Z\s]+$/);
     });
 
-    if($('#jobId').val() != 0) {
-        var experience = $(".experience:checked").val();
-        selectExperience(experience);
-        $('#salary_range').change(function() {
-            var salary = $(this).val();
-            var yearlySalary = Number(salary) * Number(12);
-            $('#yearlySalary').html('( ₹ '+ yearlySalary + ' / Year )');
-        }).change();
-    }
-
-    $('#salary_range').change(function() {
+    $('#salary_range').change(function () {
         var salary = $(this).val();
         var yearlySalary = Number(salary) * Number(12);
-        $('#yearlySalary').html('( ₹ '+ yearlySalary + ' / Year )');
+        $('#yearlySalary').html('( ₹ ' + yearlySalary + ' / Year )');
     });
 
-    $('.experience').click(function() {
-        var experience = $(this).val();
-        selectExperience(experience);
-    });
-
-    $("#yearExperience, #monthExperience, #salary_range").keypress(function (event) {
+    $("#yearExperience, #monthExperience, #salary_range, #vacancy").keypress(function (event) {
         if (event.which != 8 && isNaN(String.fromCharCode(event.which))) {
             event.preventDefault();
         }
     });
 
-    $("#job-form").validate({
+    $('#designation_id').change(function () {
+        $('#error_designation_id').html('');
+    });
+
+    $('#job_category_id').change(function () {
+        $('#error_job_category_id').html('');
+    });
+
+    $('#job_type_id').change(function () {
+        $('#error_job_type_id').html('');
+    });
+
+    $('#work_type_id').change(function () {
+        $('#error_work_type_id').html('');
+    });
+
+    $('#experience').change(function () {
+        $('#error_experience').html('');
+    });
+
+    $('#country_id').change(function () {
+        $('#error_country_id').html('');
+    });
+
+    $('#state_id').change(function () {
+        $('#error_state_id').html('');
+    });
+
+    $('#city_id').change(function () {
+        $('#error_city_id').html('');
+    });
+
+    $("#jobForm").validate({
         rules: {
+            employer_id: {
+                required: true,
+            },
             job_title: {
                 required: true,
                 alphanumsymbol: true,
+            },
+            designation_id: {
+                required: true
             },
             job_category_id: {
                 required: true
             },
             job_type_id: {
+                required: true
+            },
+            work_type_id: {
                 required: true
             },
             country_id: {
@@ -78,11 +104,6 @@ $(function () {
             experience: {
                 required: true
             },
-            year_experience: {
-                required: function () {
-                    return ($("#yearExperience").val() == '' && $("#monthExperience").val() == '') ? true : false;
-                },
-            },
             vacancy: {
                 required: true,
                 min: 1,
@@ -90,15 +111,24 @@ $(function () {
             },
         },
         messages: {
+            employer_id: {
+                required: "Please select employer.",
+            },
             job_title: {
                 required: "Please enter job title.",
                 alphanumsymbol: "Please enter a valid job title.",
+            },
+            designation_id: {
+                required: "Please select designation.",
             },
             job_category_id: {
                 required: "Please select job category.",
             },
             job_type_id: {
                 required: "Please select job type.",
+            },
+            work_type_id: {
+                required: "Please select work type.",
             },
             country_id: {
                 required: "Please select country.",
@@ -111,9 +141,6 @@ $(function () {
             },
             experience: {
                 required: "Please select experience.",
-            },
-            year_experience: {
-                required: "Please enter experience",
             },
             vacancy: {
                 required: "Please enter vacancy.",
@@ -130,8 +157,9 @@ $(function () {
             }
         },
         submitHandler: function () {
-            var href = $('#job-form').attr('action');
-            var serializeData = $('#job-form').serialize();
+            tinymce.triggerSave();
+            var href = $('#jobForm').attr('action');
+            var serializeData = $('#jobForm').serialize();
             $(".error").html('');
             $.ajax({
                 type: 'POST',
@@ -179,6 +207,60 @@ $(function () {
     });
 
     //Change Job Status
+    $(document).on('change', '.change-approval-status', function (e) {
+        e.preventDefault();
+        var jobStatus = $(this).val();
+        var jobId = $(this).attr("job-id");
+        var url = $(this).data("url");
+        Swal.fire({
+            title: 'Change Job Status!',
+            text: "Are you sure you want to change it?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        "job_status": jobStatus,
+                        "jobId": jobId,
+                    },
+                    beforeSend: function () {
+                        $("#preloader").show();
+                    },
+                    success: function (res) {
+                        if (res.status == true) {
+                            Toast.create({
+                                title: "Success!",
+                                message: res.msg,
+                                status: TOAST_STATUS.SUCCESS,
+                                timeout: 5000
+                            });
+                            $(".job-list-table").DataTable().ajax.reload();
+                        } else {
+                            Toast.create({
+                                title: "Error!",
+                                message: res.msg,
+                                status: TOAST_STATUS.DANGER,
+                                timeout: 5000
+                            });
+                        }
+                    },
+                    complete: function () {
+                        $("#preloader").hide();
+                    }
+                });
+            } else {
+                $(".job-list-table").DataTable().ajax.reload();
+            }
+        })
+    });
+
+    //Change Job Status
     $(document).on('click', '.change-job-status', function (e) {
         e.preventDefault();
         var status = $(this).is(":checked") ? '1' : '0';
@@ -212,7 +294,7 @@ $(function () {
                                 status: TOAST_STATUS.SUCCESS,
                                 timeout: 5000
                             });
-                            $(".job-type-table").DataTable().ajax.reload();
+                            $(".job-list-table").DataTable().ajax.reload();
                         } else {
                             Toast.create({
                                 title: "Error!",
@@ -255,6 +337,7 @@ $(function () {
                         status: TOAST_STATUS.SUCCESS,
                         timeout: 5000
                     });
+                    location.reload();
                 } else {
                     Toast.create({
                         title: "Error!",
@@ -263,7 +346,7 @@ $(function () {
                         timeout: 5000
                     });
                 }
-                $(".job-type-table").DataTable().ajax.reload();
+                // $(".job-list-table").DataTable().ajax.reload();
             }
             });
         }
@@ -295,6 +378,7 @@ $(function () {
                                 status: TOAST_STATUS.SUCCESS,
                                 timeout: 5000
                             });
+                            location.reload();
                         } else {
                             Toast.create({
                                 title: "Error!",
@@ -303,7 +387,7 @@ $(function () {
                                 timeout: 5000
                             });
                         }
-                        $(".job-type-table").DataTable().ajax.reload();
+                        // $(".job-list-table").DataTable().ajax.reload();
                     }
                 });
             }

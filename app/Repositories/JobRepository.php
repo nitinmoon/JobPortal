@@ -3,11 +3,16 @@
 namespace App\Repositories;
 
 use App\Models\City;
+use App\Models\Constants\JobStatusConstants;
 use App\Models\Constants\StatusConstants;
 use App\Models\Country;
 use App\Models\Job;
+use App\Models\Skill;
 use App\Models\State;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class JobRepository extends BaseRepository
 {
@@ -27,7 +32,6 @@ class JobRepository extends BaseRepository
     {
         $filterData = $request->all();
         $queryBuilder = $this->getModel();
-        $queryBuilder = $queryBuilder->where('employer_id', auth()->user()->id);
         if ($filterData['job_category_id'] != '') {
             $queryBuilder = $queryBuilder->where('job_category_id', $filterData['job_category_id']);
         }
@@ -61,35 +65,62 @@ class JobRepository extends BaseRepository
      */
     public function addUpdateJob($inputArray)
     {
-        if (isset($inputArray['experience']) && $inputArray['experience'] == 'Experienced') {
-            $yearExp = isset($inputArray['year_experience']) ? $inputArray['year_experience'] : '0';
-            $monthExp = isset($inputArray['month_experience']) ? $inputArray['month_experience'] : '0';
-            $experience = $yearExp.'-'.$monthExp;
-        } else {
-            $experience = $inputArray['experience'];
+        $skillArray = [];
+        foreach ($inputArray['skills'] as $skillName) {
+            $checkSkill = Skill::where('name', $skillName)->first();
+            if ($checkSkill == null) {
+                $skill = new Skill();
+                $skill->name = $skillName;
+                $skill->created_by = auth()->user()->id;
+                $skill->save();
+                $skillArray[] = $skill->id;
+            } else {
+                $skillArray[] = $checkSkill->id; // ← Include existing skill ID
+            }
         }
+
+        // if (!empty($inputArray['upload_file'])) {
+        //     $filePath = config('constants.JOB_FILE');
+        //     $jobId = $inputArray['jobId'];
+        //     // Delete old file
+        //     $oldFileName = Job::where('id', $jobId)->value('upload_file');
+        //     if (!empty($oldFileName)) {
+        //         File::delete($filePath . '/' . $oldFileName);
+        //     }
+        //     // Generate new file name
+        //     $fileName = config('constants.JOB_PREFIX') . $jobId . '_Job.' . $inputArray['upload_file']->getClientOriginalExtension();
+        //     // Create directory if it doesn't exist
+        //     if (!File::exists($filePath)) {
+        //         File::makeDirectory($filePath, 0777, true);
+        //     }
+        //     // Move uploaded file
+        //     $inputArray['upload_file']->move($filePath, $fileName);
+        // }
+
         $condition = ['id' => $inputArray['jobId']];
+        $employer_id = isset($inputArray['employer_id']) ? $inputArray['employer_id'] : auth()->user()->id;
         $data = [
+            'employer_id' => $employer_id,
             'job_title' => strip_tags($inputArray['job_title']),
-            'employer_id' => auth()->user()->id,
             'designation_id' => $inputArray['designation_id'],
             'job_category_id' => $inputArray['job_category_id'],
             'job_type_id' => $inputArray['job_type_id'],
             'work_type_id' => $inputArray['work_type_id'],
-            'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
-            'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
-            'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
-            'experience' => $experience,
+            'skills' => !empty($skillArray) ? implode(',', $skillArray) : '',
+            'experience' => $inputArray['experience'],
             'salary_range' => $inputArray['salary_range'],
             'vacancy' => $inputArray['vacancy'],
             'deadline' => $inputArray['deadline'],
             'gender' => $inputArray['gender'],
             'english_level' => $inputArray['english_level'],
-            'skills' => isset($inputArray['skills']) ? implode(',', $inputArray['skills']) : '',
             'job_description' => $inputArray['job_description'],
             'job_responsibility' => $inputArray['job_responsibility'],
             'educational_requirements' => $inputArray['educational_requirements'],
             'other_benefits' => $inputArray['other_benefits'],
+            'country_id' => isset($inputArray['country_id']) ? $inputArray['country_id'] : null,
+            'state_id' => isset($inputArray['state_id']) ? $inputArray['state_id'] : null,
+            'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
+            // 'upload_file' => isset($fileName) ? $fileName : null,
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id
         ];
@@ -104,11 +135,121 @@ class JobRepository extends BaseRepository
      * @return data
      *********************************
      */
-    public function getAllJobs()
+    public function getAllJobs($request, $count = '')
     {
-        return $this->getModel()
+        $filterData = $request->all();
+        $queryBuilder = Job::select([
+            'jobs.id',
+            'jobs.job_title',
+            'employer_details.company_logo',
+            'employer_details.company_name',
+            'jobs.country_id',
+            'jobs.state_id',
+            'jobs.city_id',
+            'jobs.job_type_id',
+            'jobs.work_type_id',
+            'jobs.salary_range',
+            'jobs.deadline',
+            'jobs.job_status',
+            'countries.name',
+            'states.name',
+            'cities.name',
+            DB::raw('DATE(jobs.created_at) as date')
+        ])
         ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
-        ->where('jobs.status', StatusConstants::ACTIVE)->orderByDesc('jobs.id')->get();
+        ->leftJoin('countries', 'countries.id', '=', 'jobs.country_id')
+        ->leftJoin('states', 'states.id', '=', 'jobs.state_id')
+        ->leftJoin('cities', 'cities.id', '=', 'jobs.city_id');
+        if (isset($filterData['job_title']) && $filterData['job_title'] != '') {
+            $queryBuilder->where('jobs.job_title', 'LIKE', '%'.$filterData['job_title'].'%');
+        }
+        if (isset($filterData['job_category_id']) && $filterData['job_category_id'] != '') {
+            $queryBuilder->where('jobs.job_category_id', $filterData['job_category_id']);
+        }
+        if (isset($filterData['job_category']) && $filterData['job_category'] != '') {
+            $queryBuilder->whereIn('jobs.job_category_id', $filterData['job_category']);
+        }
+        if (isset($filterData['experience']) && $filterData['experience'] != '') {
+            $queryBuilder->where('jobs.experience', $filterData['experience']);
+        }
+        if (isset($filterData['salary_range']) && $filterData['salary_range'] != '') {
+            $queryBuilder->where('jobs.salary_range', $filterData['salary_range']);
+        }
+        if (isset($filterData['job_type']) && $filterData['job_type'] != '') {
+            $queryBuilder->where('jobs.job_type_id', $filterData['job_type']);
+        }
+        if (isset($filterData['work_type']) && $filterData['work_type'] != '') {
+            $queryBuilder->where('jobs.work_type_id', $filterData['work_type']);
+        }
+        if (isset($filterData['location']) && $filterData['location'] != '') {
+            $location = $filterData['location'];
+            $queryBuilder = $queryBuilder->where(function ($query) use ($location) {
+                $query->where('countries.name', $location)
+                    ->orWhere('states.name', $location)
+                    ->orWhere('cities.name', $location);
+            });
+        }
+        $queryBuilder = $queryBuilder->where('jobs.job_status', JobStatusConstants::APPROVED)
+        ->where('jobs.status', StatusConstants::ACTIVE)
+        ->orderByDesc('jobs.id')->take($count)->get();
+
+        foreach ($queryBuilder as $key => $jobData) {
+            $queryBuilder[$key]['jobDetailsRoute'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
+            $queryBuilder[$key]['company_logo_image'] = !empty($jobData->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$jobData->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO'));
+            $queryBuilder[$key]['job_title'] = !empty($jobData->job_title) ? $jobData->job_title : '--';
+            $queryBuilder[$key]['company_address'] = isset($jobData->city_id) ? $jobData->city->name.', '.$jobData->state->name.', '.$jobData->country->name : '';
+            $queryBuilder[$key]['jobType'] = isset($jobData->job_type_id) ? $jobData->jobType->name : '';
+            $queryBuilder[$key]['workType'] = isset($jobData->work_type_id) ? $jobData->workType->name : '';
+            $queryBuilder[$key]['salary_range'] = isset($jobData->salary_range) ? '₹ '.$jobData->salary_range.' / P.A.' : '';
+            $queryBuilder[$key]['time'] = isset($jobData->date) ? getTimeAgo($jobData->date) : '';
+            $queryBuilder[$key]['deadline'] = isset($jobData->deadline) ? date('d M Y', strtotime($jobData->deadline)) : '';
+        }
+        return $queryBuilder;
+    }
+
+    /**
+     *********************************
+     * Method use to get all jobs
+     * -------------------------------
+     * @return data
+     *********************************
+     */
+    public function getEmployerJobsList()
+    {
+        $queryBuilder = Job::withTrashed()->select([
+            'jobs.id',
+            'jobs.job_title',
+            'jobs.employer_id',
+            'jobs.job_category_id',
+            'employer_details.company_logo',
+            'employer_details.company_name',
+            'jobs.country_id',
+            'jobs.state_id',
+            'jobs.city_id',
+            'jobs.job_type_id',
+            'jobs.work_type_id',
+            'jobs.salary_range',
+            'jobs.job_status',
+            'jobs.deleted_at',
+            DB::raw('DATE(jobs.created_at) as date')
+        ])
+        ->leftJoin('employer_details', 'employer_details.employer_id', '=', 'jobs.employer_id')
+        ->where('jobs.employer_id', Auth::user()->id)
+        ->where('jobs.status', StatusConstants::ACTIVE)
+        ->orderByDesc('jobs.id')->withTrashed()->get();
+
+        foreach ($queryBuilder as $key => $jobData) {
+            $queryBuilder[$key]['jobDetailsRoute'] = !empty($jobData->id) ? route('jobDetails', base64_encode($jobData->id)) : '';
+            $queryBuilder[$key]['company_logo_image'] = !empty($jobData->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$jobData->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO'));
+            $queryBuilder[$key]['job_title'] = !empty($jobData->job_title) ? $jobData->job_title : '--';
+            $queryBuilder[$key]['company_address'] = isset($jobData->city_id) ? $jobData->city->name.', '.$jobData->state->name.', '.$jobData->country->name : '';
+            $queryBuilder[$key]['jobType'] = isset($jobData->job_type_id) ? $jobData->jobType->name : '';
+            $queryBuilder[$key]['job_category'] = isset($job->jobCategory->name) ? $job->jobCategory->name : '';
+            $queryBuilder[$key]['jobApplicantCount'] = getJobApplicantCount($jobData->id, Auth::user()->id);
+            $queryBuilder[$key]['jobStatus'] = isset($jobData->job_status) ? getJobStatus($jobData->job_status) : '';
+            $queryBuilder[$key]['jobStatusColor'] = getJobStatusColor($jobData->job_status);
+        }
+        return $queryBuilder;
     }
 
     /**
@@ -122,7 +263,6 @@ class JobRepository extends BaseRepository
     public function jobCategoryFilter($request)
     {
         $filterData = $request->all();
-        // dd($filterData);
         $queryBuilder = Job::select([
             'jobs.id',
             'jobs.job_title',

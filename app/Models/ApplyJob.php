@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ApplyJob extends Model
 {
     use HasFactory;
+    protected $table= 'apply_jobs';
 
     protected $fillable = [
         'job_id',
@@ -15,7 +16,6 @@ class ApplyJob extends Model
         'employer_id',
         'status'
     ];
-
 
     public function job()
     {
@@ -25,6 +25,11 @@ class ApplyJob extends Model
     public function candidate()
     {
         return $this->belongsTo(User::class, 'candidate_id');
+    }
+
+    public function candidateDetail()
+    {
+        return $this->belongsTo(CandidateDetail::class, 'candidate_id');
     }
 
     public function employer()

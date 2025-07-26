@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use App\Mail\ResetPassword;
+use App\Models\Constants\UserRoleConstants;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -202,5 +203,56 @@ class LoginRepository extends BaseRepository
             User::where('id', $userId)->update(['profile_photo' => $fileName]);
         }
         return $userId;
+    }
+
+    /**
+     * *************************************
+     * method used to get sub admin details
+     * -------------------------------------
+     *
+     * @return data
+     * *************************************
+     */
+    public function subAdminDetails()
+    {
+        return User::select('id', 'title', 'first_name', 'middle_name', 'last_name', 'email', 'phone', 'dob', 'gender', 'role_id', 'profile_photo')
+            ->where('role_id', UserRoleConstants::SUB_ADMIN)
+            ->first();
+    }
+
+    /**
+     * ************************************
+     * method used to get sub admin details
+     * ------------------------------------
+     *
+     * @param int $userId
+     * @param array $inputdata
+     * @return data
+     * ************************************
+     */
+    public function updateSubAdminProfile($inputArray)
+    {
+        $subadminDetails = User::select('id', 'role_id')
+            ->where('role_id', UserRoleConstants::SUB_ADMIN)
+            ->first();
+
+        $inputdata = [
+            'title' => $inputArray['title'],
+            'first_name' => $inputArray['first_name'],
+            'middle_name' => $inputArray['middle_name'],
+            'last_name' => $inputArray['last_name'],
+            'email' => $inputArray['email'],
+            'phone' => $inputArray['phone'],
+            'dob' => $inputArray['dob'],
+            'gender' => $inputArray['gender'],
+        ];
+        if ($inputArray['password'] != '' && $inputArray['confirm_password'] != '' && ($inputArray['password'] == $inputArray['confirm_password'])) {
+            $inputdata['password'] = Hash::make($inputArray['password']);
+        } else {
+            unset($inputArray['password']);
+            unset($inputArray['confirm_password']);
+        }
+        $user = User::where('id', $subadminDetails['id'])->update($inputdata);
+        return $user;
     }
 }

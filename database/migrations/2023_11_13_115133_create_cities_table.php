@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->integer('state_id')->unsigned()->comment('foreign key (states)');
             $table->foreign('state_id')->references('id')->on('states');
-            $table->enum('status', [0, 1])->default(1)->comment('0 - Inactive, 1 - Active');
+            $table->enum('status', [1, 2])->default(1)->comment('1 - Active, 2 - Inactive');
             $table->integer('created_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->timestamps();

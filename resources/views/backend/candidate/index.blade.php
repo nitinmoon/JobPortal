@@ -30,7 +30,7 @@
                                                 <option value="">All</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-2">
+                                        <!-- <div class="col-md-2">
                                             <label for="job_title_id" class="form-label">{{ trans('candidate.education') }}</label>
                                             <select class="select2 form-control" id="education" name="education" data-placeholder="Select Education" style="width:100%">
                                                 <option value="">Select</option>
@@ -38,7 +38,7 @@
                                                 <option value="{{ $education }}" {{ (isset($candidateDetails->education) && $candidateDetails->education == $education) ? 'selected' : '' }}>{{ $education }}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-2">
                                             <label for="status" class="form-label">Status</label>
                                             <select class="form-control input-solid" id="status" style="width:100%;">
@@ -78,9 +78,9 @@
                                         <th style="min-width:150px;">Name</th>
                                         <th style="min-width:150px;">Education</th>
                                         <th>Experience</th>
-                                        <th style="min-width:110px;">Contacts</th>
+                                        <th>Contacts</th>
                                         <th>Status</th>
-                                        <th style="min-width:120px;">Action</th>
+                                        <th style="min-width:110px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

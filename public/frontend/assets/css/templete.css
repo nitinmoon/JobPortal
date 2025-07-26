@@ -20,7 +20,7 @@
 	color:#fff;
 }
 .extra-nav{
-	padding: 20px 0;
+	padding: 5px 0;
 }
 .extra-nav .site-button{
 	margin-left:10px;
@@ -659,7 +659,7 @@
 	text-align:left;
 }
 .find-job-bx h2{
-	font-size: 45px;
+	font-size: 36px;
     line-height: 60px;
 	font-weight:500;
 }
@@ -1179,9 +1179,9 @@
 }
 .canditate-des .upload-link {
 	position: absolute;
-	width: 45px;
-	height: 45px;
-	line-height: 45px;
+	width: 35px;
+	height: 35px;
+	line-height: 35px;
 	background: #fff;
 	top: 0;
 	right: 0;
@@ -1311,7 +1311,7 @@
     font-weight: 600;
     color: #333333;
     font-size: 14px;
-    font-family: "roboto",sans-serif;
+    font-family: "Poppins";
 }
 .table-job-bx .criterias{
 	font-size: 13px;
@@ -1352,7 +1352,8 @@
 .job-profile label,
 .submit-resume label,
 .browse-job label{
-	color: #333;
+	/* color: #333; */
+	color: #000;
 }
 .job-bx-title{
 	border-bottom: 1px solid;
@@ -1392,7 +1393,7 @@
 /* Jobs Link */
 .job-links .fa-download,
 .job-links .fa-eye{
-    background-color: var(--primary);
+    background-color: #ffc107;
     color: #fff;
     border: 0;
     border-radius: 5px;
@@ -1405,6 +1406,22 @@
     border: 0;
     border-radius: 5px;
     padding: 7px;
+}
+
+.job-links .bi-pencil-square {
+    background-color: #223d78;
+    color: #fff;
+    border: 0;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+.job-links .bi-box-arrow-up {
+    background-color: #198754;
+    color: #fff;
+    border: 0;
+    border-radius: 5px;
+    padding: 6px;
 }
 
 /* Modal Box Info */
@@ -2008,7 +2025,7 @@
 	display: flex;
 }
 .list-row .list-line p{
-	font-family: 'Lato', sans-serif;
+	font-family: "Poppins";
 }
 .list-row .list-line{
 	list-style: none;
@@ -2476,6 +2493,7 @@
 .main-slider .container{
 	z-index: 99;
 	position: relative;
+	max-width:1400px !important;
 }
 .main-slider:after{
 	content: "";
@@ -2620,11 +2638,11 @@
 .data-typography-1 h5,
 .data-typography-1 h6{
 	color: #232323;
-	font-family: 'Rubik', sans-serif;
+	font-family: "Poppins";
 }
 .data-typography-1{
 	color: #444444;
-	font-family: 'Montserrat', sans-serif;
+	font-family: "Poppins";
 }
 .data-typography-1 .page-wraper{
 	background: #fff;
@@ -2663,7 +2681,8 @@
 	font-weight: 400;
 	line-height: 24px;
 	margin-bottom: 0;
-	color: var(--title);
+	/* color: var(--title); */
+	color: #000;
 }
 .dz-text{
 	font-size: 15px;
@@ -2684,7 +2703,7 @@
 	margin-bottom: 0;
 }
 .site-button.style-1{
-	font-family: 'Rubik', sans-serif;
+	font-family: "Poppins";
 	font-size: 16px;
 	font-weight: 500;
 	padding: 12px 25px;
@@ -2765,7 +2784,7 @@
 @media screen and (max-width:480px){
 	.section-head.style-1 .section-title, .section-head.style-1 .section-title-2, .section-head.style-1 .section-title-3 {
 		font-size: 25px;
-		line-height: 30px;
+		line-height: 35px;
 	}
 }
 /* Header */
@@ -2778,7 +2797,7 @@
 .main-bar.style-1 .header-nav .nav > li > a {
     font-size: 15px;
     font-weight: 400;
-	font-family: 'Roboto', sans-serif;
+	font-family: "Poppins";
 }
 .main-bar.style-1 .header-nav {
     float: right;
@@ -2824,7 +2843,7 @@
     font-weight: 500;
     color: var(--primary);
     font-size: 18px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins';
     margin-bottom: 10px;
 }
 .main-bnr h1 {
@@ -2836,7 +2855,7 @@
     color: var(--primary);
     font-size: 16px;
     font-weight: 500;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins';
 }
 .find-job-bx.style-1{
 	margin-bottom: 20px;
@@ -2860,7 +2879,7 @@
 	color:#000;
 }
 .find-job-bx.style-1 form .form-group .input-group .form-control::placeholder{
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins';
 	font-size: 16px;
 	font-weight: 400;
 	color: #7F93B6;
@@ -2868,7 +2887,7 @@
 }
 .find-job-bx.style-1 form .site-button{
 	padding: 14px 25px;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins';
 	font-size: 14px;
 	font-weight: 500;
 	border-radius: 4px;
@@ -2883,14 +2902,14 @@
     margin-bottom: 0;
 	font-size: 16px;
 	font-weight: 500;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins';
 	color: #142238;
 }
 .main-bnr .banner-content .dz-searches span{
     margin-bottom: 0;
 	font-size: 16px;
 	font-weight: 400;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins';
 	color: rgba(127, 147, 182, 1);
 	margin-left: 5px;
 
@@ -3182,10 +3201,10 @@
 	margin-bottom: 10px;
 }
 .partners-media img{
-	width: 100%;
-    height: 100%;
-	filter: grayscale(1);
-	opacity: 0.4;
+	 width: 80%;
+ height: 100%;
+	/*filter: grayscale(1);*/
+	/*opacity: 0.4;*/
 }
 
 /* Partners-End */
@@ -3232,7 +3251,7 @@
     font-size: 20px;
     font-weight: 500;
     line-height: 24px;
-	font-family: 'Rubik', sans-serif;
+	font-family: "Poppins";
 	color: #232323;
 	transition: all 0.5s;
 	position: relative;
@@ -3452,7 +3471,24 @@
 	font-size: 20px;
 	font-weight: 600;
 }
+.icon-wrapper {
+    display: flex;
+}
+
+.icon-bx-wraper {
+    flex: 1;
+    width: 100%;
+}
+
+.dz-text {
+    line-height: 1.7;
+    min-height: 80px;
+}
 .job-bx-wraper .icon-content {
+	height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     text-align: center;
     padding: 30px;
 	background: var(--rgba-primary-1);
@@ -3602,13 +3638,13 @@
 	right: 10px;
 }
 .job-wrapper .dz-timing span{
-	font-family: 'Rubik', sans-serif;
+	font-family: "Poppins";
 	font-size: 11px;
 	font-weight: 400;
 	margin-right: 10px;
 }
 .job-wrapper .dz-timing a{
-	font-family: 'Rubik', sans-serif;
+	font-family: "Poppins";
 	font-size: 11px;
 	font-weight: 500;
 	color: var(--primary);
@@ -3636,7 +3672,7 @@
 	line-height: 19px;
 }
 .job-wrapper .jobs-profile .Profile-inner .profile-position {
-	font-family: 'Rubik', sans-serif;
+	font-family: "Poppins";
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 17px;
@@ -3656,7 +3692,7 @@
 	padding: 12px 20px;
 }
 .job-wrapper .Profile-inner-2 .dz-buttons .dz-salary {
-    font-family: 'Rubik', sans-serif;
+    font-family: "Poppins";
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.02em;
@@ -3816,7 +3852,7 @@
 	margin-bottom: 0;
 }
 .testimonial-wrapper .testimonial-inner .profile-info span{
-	font-family: 'Rubik', sans-serif;
+	font-family: "Poppins";
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 17px;
@@ -3896,7 +3932,7 @@
 .find-jobs-inner .section-head.style-1 h3{
 	margin-bottom: 0;
 	color:#fff;
-	font-family: 'Roboto', sans-serif;
+	font-family: "Poppins";
 	font-size: 35px;
 	font-weight: 500;
 	line-height: 41px;
@@ -3965,7 +4001,7 @@
 .widget-logo a{
 	display: flex;
 	align-items: center;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins';
 	font-size: 16px;
 	font-weight: 400;
 	color:var(--primary);
@@ -3974,13 +4010,13 @@
 	margin-right: 15px;
 }
 .widget.style-1 h5{
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins';
 	font-weight: 600;
 	color: #142238;
 	margin-top: 5px;
 }
 .widget.style-1 ul li, .widget.style-1 p{
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins';
 	font-size: 15px;
 	font-weight: 400;
 	color: #444444;
@@ -4021,7 +4057,7 @@
 	font-size: 14px;
 	font-weight: 600;
 	line-height: 21px;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins';
 }
 .widget-links,
 .widget-categories,
@@ -4034,7 +4070,7 @@
 	background:  var(--rgba-primary-05);
 	padding: 20px 0;
 	color: #444444;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Poppins';
 	font-size: 14px;
 	font-weight: 400;
 	border-top: 1px solid  var(--rgba-primary-1);

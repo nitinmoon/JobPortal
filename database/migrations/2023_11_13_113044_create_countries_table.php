@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('sortname', 10)->nullable();
             $table->string('name', 150)->nullable();
             $table->string('phonecode', 10)->nullable();
-            $table->enum('status', [0, 1])->default(1)->comment('0 - Inactive, 1 - Active');
+            $table->enum('status', [1, 2])->default(1)->comment('1 - Active, 2 - Inactive');
             $table->integer('created_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->integer('updated_by')->unsigned()->nullable()->comment('Auth/Login User');
             $table->timestamps();

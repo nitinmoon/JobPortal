@@ -15,7 +15,7 @@
         <li class="nav-item">
             <a class="nav-link {{ Request::routeIs('applyJobsCandidates') ? '' : 'collapsed' }}" href="{{ route('applyJobsCandidates') }}">
                 <i class="bi bi-people"></i>
-                <span>Apply Jobs Candidates</span>
+                <span>Applied Jobs Candidates</span>
             </a>
         </li>
         <li class="nav-item">

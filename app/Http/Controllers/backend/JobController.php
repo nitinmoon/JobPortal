@@ -13,6 +13,8 @@ use App\Services\SkillService;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\Constants\UserRoleConstants;
+use App\Services\EmployerService;
+use Illuminate\Support\Facades\File;
 
 class JobController extends Controller
 {
@@ -21,6 +23,7 @@ class JobController extends Controller
     private $stateService;
     private $cityService;
     private $skillService;
+    private $employerService;
 
     public function __construct(
         JobService $jobService,
@@ -28,12 +31,14 @@ class JobController extends Controller
         StateService $stateService,
         CityService $cityService,
         SkillService $skillService,
+        EmployerService $employerService
     ) {
         $this->jobService = $jobService;
         $this->countryService = $countryService;
         $this->stateService = $stateService;
         $this->cityService = $cityService;
         $this->skillService = $skillService;
+        $this->employerService = $employerService;
     }
 
     /**
@@ -46,15 +51,11 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_EMPLOYER) {
-            return back();
-        }
-        $jobCategory = getJobCategory();
-        $jobType = getJobType();
         if ($request->ajax()) {
             return $this->jobService->jobAjaxDatatable($request);
         }
-        saveActivityLog('Job', 'Visit Job List');
+        $jobCategory = getJobCategory();
+        $jobType = getJobType();
         return view('backend.jobs.index', compact('jobCategory', 'jobType'));
     }
 
@@ -68,23 +69,25 @@ class JobController extends Controller
      */
     public function addJob()
     {
-        $designation = getDesignation();
-        $jobCategory = getJobCategory();
-        $jobType = getJobType();
+        $designations = getDesignation();
+        $jobCategories = getJobCategory();
+        $jobTypes = getJobType();
         $jobWorkType = getJobWorkType();
         $countries = $this->countryService->getAllCountry();
         $skills =  getSkills();
-        $gender = getEnum('jobs', 'gender');
-        $englishLevel = getEnum('jobs', 'english_level');
+        $genders = getEnum('jobs', 'gender');
+        $englishLevels = getEnum('jobs', 'english_level');
+        $companies = $this->employerService->getCompanies();
         return view('backend.jobs.add-edit-job', compact(
-            'designation',
-            'jobCategory',
-            'jobType',
+            'designations',
+            'jobCategories',
+            'jobTypes',
             'jobWorkType',
             'countries',
             'skills',
-            'gender',
-            'englishLevel'
+            'genders',
+            'englishLevels',
+            'companies'
         ));
     }
 
@@ -96,18 +99,17 @@ class JobController extends Controller
      * @return view
      * **************************************
      */
-    public function addUpdateJob(JobFormRequest $request)
+    public function adminAddUpdateJob(JobFormRequest $request)
     {
         try {
             $inputArray = $this->validateJobInput($request);
             $this->jobService->addUpdateJob($inputArray);
             $msg = $inputArray['jobId'] == 0 ? 'Job added successfully!' : 'Job updated successfully!';
-            saveActivityLog('Job', $msg);
             return response()->json(
                 [
                     'status' => true,
                     'msg' => $msg,
-                    'redirectRoute' => route('jobs')
+                    'redirectRoute' => route('jobsList')
                 ]
             );
         } catch (Exception  $exception) {
@@ -122,6 +124,31 @@ class JobController extends Controller
     }
 
     /**
+     ********************************************
+     * Function use to validate job  input
+     * -------------------------------------------
+     * @param object $request
+     * @return object request
+     * @description input ('name', 'jobTypeId')
+     ***********************************************************************
+     */
+    private function validateJobInput(Request $request)
+    {
+        $input = $request->only([
+            'jobId', 'employer_id', 'job_title', 'designation_id', 'job_category_id', 'job_type_id', 'work_type_id',
+            'skills', 'experience', 'salary_range', 'vacancy', 'deadline', 'gender', 'english_level',
+            'job_description', 'job_responsibility', 'educational_requirements', 'other_benefits',
+            'country_id', 'state_id', 'city_id'
+        ]);
+
+        if ($request->hasFile('upload_file')) {
+            $input['upload_file'] = $request->file('upload_file');
+        }
+
+        return $input;
+    }
+
+    /**
      * **************************************
      * Method is used to view add job form
      * --------------------------------------
@@ -131,9 +158,9 @@ class JobController extends Controller
     public function editJob($id)
     {
         $jobDetails = $this->jobService->getJobDetails(base64_decode($id));
-        $designation = getDesignation();
-        $jobCategory = getJobCategory();
-        $jobType = getJobType();
+        $designations = getDesignation();
+        $jobCategories = getJobCategory();
+        $jobTypes = getJobType();
         $jobWorkType = getJobWorkType();
         $countries = $this->countryService->getAllCountry();
         $states = [];
@@ -145,44 +172,51 @@ class JobController extends Controller
             $cities = $this->cityService->getCity($jobDetails->state_id);
         }
         $skills =  getSkills();
-        $gender = getEnum('jobs', 'gender');
-        $englishLevel = getEnum('jobs', 'english_level');
+        $genders = getEnum('jobs', 'gender');
+        $englishLevels = getEnum('jobs', 'english_level');
+        $companies = $this->employerService->getCompanies();
         return view('backend.jobs.add-edit-job', compact(
             'jobDetails',
-            'designation',
-            'jobCategory',
-            'jobType',
+            'designations',
+            'jobCategories',
+            'jobTypes',
             'jobWorkType',
             'countries',
             'states',
             'cities',
             'skills',
-            'gender',
-            'englishLevel'
+            'genders',
+            'englishLevels',
+            'companies'
         ));
     }
 
     /**
-     ********************************************
-     * Function use to validate job  input
-     * -------------------------------------------
+     * ***********************************
+     * Function used to change job status
+     * -----------------------------------
      * @param object $request
-     * @return object request
-     * @description input ('name', 'jobTypeId')
-     ***********************************************************************
+     * @return jsonResponse
+     * ***********************************
      */
-    private function validateJobInput(Request $request)
+    public function changeJobApprovalStatus(Request $request)
     {
-        return $request->only(
-            [
-                'jobId', 'job_title', 'designation_id', 'job_category_id', 'job_type_id', 'work_type_id',
-                'country_id', 'state_id', 'city_id', 'experience', 'year_experience', 'month_experience', 'salary_range', 'vacancy', 'deadline',
-                'gender', 'english_level', 'skills', 'job_description', 'job_responsibility',
-                'educational_requirements', 'other_benefits'
-            ]
-        );
+        try {
+            $this->jobService->changeJobApprovalStatus($request);
+            return response()->json(
+                [
+                    'status' => true,
+                    'msg' => 'Status updated successfully!'
+                ]
+            );
+        } catch (Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json([
+                'status' => false,
+                'msg' => $exception->getMessage()
+            ]);
+        }
     }
-
 
     /**
      * ***********************************
@@ -197,7 +231,6 @@ class JobController extends Controller
         try {
             $this->jobService->changeJobStatus($request);
             $msg = $request->status == 1 ?  'Status active successfully!' : 'Status inactive successfully!';
-            saveActivityLog('Job', $msg);
             return response()->json(
                 [
                     'status' => true,
@@ -226,7 +259,6 @@ class JobController extends Controller
     {
         try {
             $this->jobService->deleteJob($jobId);
-            saveActivityLog('Job', 'Job deleted successfully');
             return response()->json(
                 [
                     'status' => true,
@@ -254,7 +286,6 @@ class JobController extends Controller
     {
         try {
             $this->jobService->restoreJob($jobId);
-            saveActivityLog('Job', 'Job restored successfully');
             return response()->json(
                 [
                     'status' => true,
@@ -302,12 +333,14 @@ class JobController extends Controller
      */
     public function downloadResume($fileName = null)
     {
-        try {
-            $file = config('constants.CANDIDATE_RESUME_PATH') . "/" .$fileName;
-            $headers = array(
-                'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            );
-            return response()->download($file, $fileName, $headers);
+         try {
+             $filePath = config('constants.CANDIDATE_RESUME_PATH') . "/" .$fileName;
+
+            if (!File::exists($filePath)) {
+                abort(404, 'Resume file not found.');
+            }
+
+            return response()->download($filePath);
         } catch (Exception $exception) {
             Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
             return response()->json(

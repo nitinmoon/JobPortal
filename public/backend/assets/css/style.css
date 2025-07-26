@@ -13,7 +13,7 @@
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Poppins";
   background: #f6f9ff;
   color: #444444;
 }
@@ -34,7 +34,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Nunito", sans-serif;
+  font-family: "Poppins";
 }
 
 /*--------------------------------------------------------------
@@ -253,7 +253,7 @@ h6 {
   font-size: 18px;
   font-weight: 500;
   color: #012970;
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins";
 }
 
 .card-title span {
@@ -273,7 +273,7 @@ h6 {
 /* Alerts */
 .alert-heading {
   font-weight: 500;
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins";
   font-size: 20px;
 }
 
@@ -322,7 +322,7 @@ h6 {
 /* Breadcrumbs */
 .breadcrumb {
   font-size: 14px;
-  font-family: "Nunito", sans-serif;
+  font-family: "Poppins";
   color: #899bbd;
   font-weight: 600;
 }
@@ -381,21 +381,21 @@ h6 {
 }
 
 .logo img {
-  max-height: 26px;
+  max-height: 60px;
   margin-right: 6px;
 }
 
 .logo span {
   font-size: 26px;
   font-weight: 700;
-  color: #ff9902;
-  font-family: "Nunito", sans-serif;
+  color: #1ab2be;
+  font-family: "Poppins";
 }
 .logo {
   font-size: 26px;
   font-weight: 700;
   color: #000;
-  font-family: "Nunito", sans-serif;
+  font-family: "Poppins";
 }
 .logo:hover {
   color: #000;
@@ -708,9 +708,9 @@ h6 {
   align-items: center;
   font-size: 15px;
   font-weight: 600;
-  color: #4154f1;
+  color: #fff;
   transition: 0.3;
-  background: #F8F0E5;
+  background: #1ab2be;
   padding: 10px 15px;
   border-radius: 4px;
 }
@@ -718,7 +718,7 @@ h6 {
 .sidebar-nav .nav-link i {
   font-size: 16px;
   margin-right: 10px;
-  color: #4154f1;
+  color: #fff;
 }
 
 .sidebar-nav .nav-link.collapsed {
@@ -731,12 +731,12 @@ h6 {
 }
 
 .sidebar-nav .nav-link:hover {
-  color: #4154f1;
-  background: #F8F0E5;
+  color: #fff;
+  background: #1ab2be;
 }
 
 .sidebar-nav .nav-link:hover i {
-  color: #4154f1;
+  color: #fff;
 }
 
 .sidebar-nav .nav-link .bi-chevron-down {
@@ -1268,10 +1268,10 @@ h6 {
 }
 
 .btnOrg {
-  background-color: #ff9902;
+  background-color: #1ab2be;
 }
 .btnOrg:hover {
-  background-color: #ff9902;
+  background-color: #169fa8;
 }
 .badge {
     display: inline-block;

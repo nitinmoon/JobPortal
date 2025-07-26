@@ -1,3 +1,112 @@
 .job-bx-wraper:hover .icon-content i {
-    color:#fff !important;
+    color: #fff !important;
+}
+
+.error,
+.mandatory {
+    color: red !important;
+}
+
+/* preloader start */
+#preloader {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 9999;
+    display: none;
+}
+
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#preloader::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 48%;
+    top: 40%;
+    width: 40px;
+    height: 40px;
+    border-style: solid;
+    border-color: black;
+    border-top-color: transparent;
+    border-width: 4px;
+    border-radius: 50%;
+    -webkit-animation: spin 0.8s linear infinite;
+    animation: spin 0.8s linear infinite;
+}
+
+/* preloader end */
+/* header profile image */
+.rounded-circle {
+    border-radius: 50% !important;
+    height: 45px !important;
+    width: 45px !important;
+}
+/* end header profile image */
+.select2-selection--multiple {
+    min-height: 50px !important;
+    border: 0 !important;
+    /* border: 1px solid #ced4da !important; */
+}
+.select2-container  {
+    border: 0 !important;
+    box-shadow: 0 0 10px 0 rgba(0, 24, 128, 0.1) !important;
+}
+/* .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #e4e4e4;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 0;
+    padding-left: 20px;
+    position: absolute !important;
+} */
+ .js-example-basic-single {
+    width: 100% !important;
  }
+ .viewJobBtn {
+    font-family: "Poppins";
+    font-size: 16px;
+    font-weight: 500;
+    padding: 2px 15px;
+    border-radius: 6px;
+    background-color: #223d78;
+}
+
+.ml-15 {
+    margin-left:15px !important;
+}
+.overlay-black-middle {
+    background-color: #223d78 !important;
+}
+.sticky-header .main-bar .container {
+    max-width: 1400px !important;
+}
+h5 {
+    font-size: 18px !important;
+}

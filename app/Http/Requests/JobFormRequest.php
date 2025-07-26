@@ -32,7 +32,6 @@ class JobFormRequest extends FormRequest
             'city_id' => ['required_if:work_type_id,2,work_type_id,3'],
             'experience' => 'required',
             'vacancy' => 'required',
-            'job_description' => 'required',
         ];
     }
 
@@ -46,8 +45,7 @@ class JobFormRequest extends FormRequest
             'state_id.required_if' => 'Please select state.',
             'city_id.required_if' => 'Please select city.',
             'experience.required' => 'Please select experience.',
-            'vacancy.required' => 'Please enter vacancy.',
-            'job_description.required' => 'Please enter description.'
+            'vacancy.required' => 'Please enter vacancy.'
         ];
     }
 }

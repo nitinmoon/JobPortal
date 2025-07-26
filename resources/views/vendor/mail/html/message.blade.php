@@ -4,9 +4,12 @@
 <x-mail::header :url="config('app.url')">
 <!-- {{ config('app.name') }} -->
 <div class="logo-area">
-    <a href="{{ url('/') }}" style="font-size: 30px;font-weight: bolder;font-family: Lucida Sans;color: #000;">
-        <span style="color: #ff9902;">Job</span> Portal
+    <a class="logo d-flex align-items-center" shref="{{ url('/') }}">
+        <img class="admin-logo" src="{{ asset('frontend/assets/images/logo.png') }}" alt="">
     </a>
+    <!-- <a href="{{ url('/') }}" style="font-size: 30px;font-weight: bolder;font-family: Lucida Sans;color: #000;">
+        <span style="color: #ff9902;">Job</span> Portal
+    </a> -->
 </div>
 </x-mail::header>
 </x-slot:header>

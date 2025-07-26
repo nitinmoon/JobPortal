@@ -70,7 +70,7 @@ $(function() {
     //Change employer Status
     $(document).on('click', '.change-employer-status', function (e) {
         e.preventDefault();
-        var status = $(this).is(":checked") ? '1' : '0';
+        var status = $(this).is(":checked") ? '1' : '2';
         var employerId = $(this).attr("id");
         var url = $(this).data("url");
         Swal.fire({

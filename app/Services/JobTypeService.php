@@ -58,16 +58,13 @@ class JobTypeService
                 function ($row) {
                     if ($row->deleted_at == null) {
                         $activeChecked = "";
-                                if ($row->status == 1) {
-                                    $activeChecked = 'checked';
-                                }
-                        return '<input type="hidden" name="_token" value="'.csrf_token().'">
-                        <label class="switch">
-                        <input type="hidden" name="active" value="0">
-                        <input type="checkbox" class="change-job-type-status" name="status" data-url="' . route('changeJobTypeStatus') . '" id="' . $row->id . '" '.$activeChecked.'>
-                        <span class="slider round"></span>
-                        <input type="hidden" name="action" value="submit" />
-                        </label>';
+                        if ($row->status == 1) {
+                            $activeChecked = 'checked';
+                        }
+                        return '<div class="form-check form-switch">
+                        <input class="form-check-input change-job-type-status" type="checkbox" data-url="' . route('changeJobTypeStatus') . '"
+                            id="' . $row->id . '" ' . $activeChecked . '>
+                        </div>';
                     } else {
                         return getActiveInactiveStatusBadge($row->status);
                     }

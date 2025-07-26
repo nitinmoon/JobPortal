@@ -41,7 +41,6 @@
 	 >image off color
 	 >image on color
  
-
 11. CONTENT SHOW ON IMAGE BOX
  
 12. FORM ELEMENTS
@@ -119,10 +118,12 @@ body, html {
 }
 body {
     background-color: #fff;
-    font-family: 'Lato', sans-serif;
+    /* font-family: 'Lato', sans-serif; */
+    font-family: 'poppins' !important;
     font-size: 16px;
     font-weight: 400;
-    color:#6f6f6f;
+    /* color:#6f6f6f; */
+    color: #000;
     padding: 0;
     margin: 0;
     overflow-x: hidden;
@@ -229,7 +230,7 @@ table {
 
 @media (min-width: 1200px){
 	.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-		max-width: 1400px;
+		max-width: 1200px;
 	}
 }
 
@@ -244,7 +245,7 @@ h4,
 h5,
 h6 {
     color: var(--title);
-    font-family: 'Rubik', sans-serif;
+    font-family: "Poppins";
 }
 h1 a,
 h2 a,
@@ -1388,7 +1389,6 @@ dl dd {
 	background-color:rgba(0,0,0,0.9)
 }
 
-
 /*=== >background image ===*/
 
 .bg-img-fix {
@@ -1738,8 +1738,6 @@ dl dd {
 .dez-box:hover .dez-img-overlay12:before{
 	opacity:0.4;
 }
-
-
 
 /* Overlay Gradient */
 /*---------------------------------------------------------------
@@ -2509,7 +2507,7 @@ blockquote:before {
 /*without top bar*/
 .extra-nav {
     float: right;
-    padding: 26px 0;
+    padding: 5px 0;
     position: relative;
     z-index: 9;
 }
@@ -2663,7 +2661,6 @@ blockquote:before {
 		padding:0 5px;
 	}
 }
-
 
 /*=== >eamil-phone (left) ===*/
 
@@ -2822,7 +2819,7 @@ blockquote:before {
 .logo-footer img {
     height: auto;
 	width: auto;
-	max-width: 180px;
+	max-width: 210px;
 }
 .logo-header span,
 .logo-footer span {
@@ -2939,10 +2936,10 @@ blockquote:before {
 .header-nav .nav > li > a {
     border-radius: 0px;
     color: #000;
-    font-size: 14px;
+    font-size: 16px;
     padding: 30px 12px;
     cursor: pointer;
-	font-weight: 600;
+	/* font-weight: 600; */
 	display: inline-block;
 }
 .header-nav .nav > li > a:hover {
@@ -3005,7 +3002,7 @@ blockquote:before {
     -moz-transition: all 0.15s linear;
     -o-transition: all 0.15s linear;
 	font-weight: 500;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 }
 .header-nav .nav > li .sub-menu li a:hover {
     background-color: #F2F2F2;
@@ -4055,7 +4052,7 @@ header[class*="bg-"] .navbar-toggler span {
     height: 450px;
 }
 .dez-bnr-inr {
-    height: 300px;
+    height: 200px;
     background-size: cover;
     background-position: center center;
     display: table;
@@ -4163,7 +4160,6 @@ header[class*="bg-"] .navbar-toggler span {
 	.dez-bnr-inr.dez-bnr-inr-sm,
 	.dez-bnr-inr {
 		height: 250px;  
-		
 		
 	}
 	.dez-bnr-inr ul li {
@@ -4427,7 +4423,6 @@ header[class*="bg-"] .navbar-toggler span {
 	-o-transition:all 2s ease 2s;
 }
 
-
 /*owl button top to center  */
 
 .owl-btn-top-c .owl-nav {
@@ -4635,7 +4630,7 @@ header[class*="bg-"] .navbar-toggler span {
     margin: 0 -4px;
     list-style: none;
 	text-transform:capitalize;
-	font-family:"Montserrat",sans-serif;
+	font-family:"Poppins";
 }
 .dez-post-meta ul li {
     padding: 0;
@@ -4888,7 +4883,6 @@ header[class*="bg-"] .navbar-toggler span {
 .blog-lg .dez-post-media {
 	border-radius: 4px;
 }
-
 
 /* blog-rounded */
 .blog-rounded [class*="border-"]{
@@ -5190,7 +5184,7 @@ header[class*="bg-"] .navbar-toggler span {
     color: #707070;
     color: rgba(51, 51, 51, 0.7);
     display: block;
-    font-family: "Noto Sans", sans-serif;
+    font-family: "Poppins";
     font-size: 12px;
     font-size: 1.2rem;
     line-height: 1.5;
@@ -6083,12 +6077,12 @@ ol.comment-list li.comment .comment-respond .comment-form p {
 	font-weight:600;
 	font-size:13px;
 	text-transform:uppercase;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	color:#000;
 }
 .widget-testimonial .testimonial-position{
 	text-transform:uppercase;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	color:#888;
 	font-size:12px;
 	font-style: inherit;
@@ -6968,7 +6962,6 @@ a,
 }
 /* Outline */
 
-
 .text-white .site-button.outline {
 	color:#fff;
 }
@@ -7355,8 +7348,6 @@ a,
 .site-button-link.whatsapp.hover:active{
 	color:#01c854;
 }
-
-
 
 .site-button.facebook{
 	background-color:#3B5998;
@@ -7874,7 +7865,7 @@ a,
     color: #777;
 }
 ul[class*="list-"]{
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	font-size:15px;
 }
 
@@ -8311,7 +8302,7 @@ ul[class*="list-"]{
 }
 .acod-head a.collapsed,
 .acod-head a.collapsed:after {
-    color: #3d474a;
+    color: #000;
 }
 .acod-head a:after {
     font-family:"themify";
@@ -8850,7 +8841,7 @@ ul[class*="list-"]{
     padding: 15px;
     position: relative;
 	font-size:15px;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	font-weight: 400;
 }
 .testimonial-detail {
@@ -9304,13 +9295,13 @@ ul[class*="list-"]{
 	font-weight:600;
 	font-size:13px;
 	text-transform:uppercase;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	color:#000;
 }
 .testimonial-9 .testimonial-position,
 .testimonial-10 .testimonial-position{
 	text-transform:uppercase;
-	font-family: "Montserrat",sans-serif;
+	font-family: "Poppins";
 	color:#888;
 	font-size:12px;
 	font-style: inherit;
@@ -10718,8 +10709,6 @@ ul[class*="list-"]{
 		margin-bottom:30px;
 	}
 }
-
-
 
 /*DataTable  pagination */
 
@@ -13013,4 +13002,30 @@ ol.commentlist li .star-rating {
 .btn-primary {
     background-color: var(--primary);
     border-color: var(--primary);
+}
+
+.authBtn {
+    color: #fff;
+    padding: 10px 20px;
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    outline: none;
+    border-width: 0;
+    border-style: solid;
+    border-color: transparent;
+    line-height: 1.42857;
+	border-radius: 3px;
+	font-weight: 400;
+	text-align:center;
+	white-space: pre;
+    /* background-color: #EFBB20; */
+    background-color: #1AB2BE;
+}
+
+.authBtn:hover,
+.authBtn:focus,
+.active > .authBtn {
+    background-color: #223d78;
+    color: #fff;
 }

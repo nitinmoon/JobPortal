@@ -9,9 +9,8 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                         <div class="d-flex justify-content-center py-4">
-                            <a href="{{ route('adminLogin') }}" class="logo d-flex align-items-center w-auto">
-                                <img src="{{ asset('assets/img/logo.png') }}" alt="Admin Logo">
-                                <span class="d-lg-block">Job Portal</span>
+                            <a href="{{ route('home') }}">
+                                <img class="admin-login-logo" src="{{ asset('frontend/assets/images/logo/header-logo.jpg') }}" alt="">
                             </a>
                         </div>
                         <div class="card mb-3">
@@ -41,7 +40,7 @@
                             </div>
                         </div>
                         <div class="credits">
-                            <small>© <?= date('Y') ?> <b>Job Portal</b> - All rights reserved!</small>
+                            <small>© <?= date('Y') ?> <b>Liftale</b> - All rights reserved!</small>
                         </div>
                     </div>
                 </div>

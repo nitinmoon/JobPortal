@@ -11,15 +11,12 @@ class Job extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'employer_id',
         'job_title',
+        'employer_id',
         'designation_id',
         'job_category_id',
         'job_type_id',
         'work_type_id',
-        'country_id',
-        'state_id',
-        'city_id',
         'experience',
         'salary_range',
         'job_description',
@@ -31,10 +28,20 @@ class Job extends Model
         'deadline',
         'gender',
         'english_level',
+        'country_id',
+        'state_id',
+        'city_id',
+        'upload_file',
+        'job_status',
         'status',
         'created_by',
-        'updated_by'
+        'updated_by',
     ];
+
+    public function employer()
+    {
+        return $this->belongsTo(EmployerDetail::class, 'employer_id', 'employer_id');
+    }
 
     public function designation()
     {

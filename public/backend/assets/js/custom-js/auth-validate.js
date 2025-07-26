@@ -60,27 +60,41 @@ $("document").ready(function() {
                         setTimeout(() => {
                             window.location = res.redirectRoute;
                         }, 3000);
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'success'
+                        console.log(res.msg);
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
                     } else if(res.status == '2') {
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'danger'
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
+                        // $.notify({
+                        //     message: res.msg
+                        // },{
+                        //     type: 'danger'
+                        // });
                     } else if(res.status == '3') {
                         $('#error_password').html(res.msg)
                     } else if (res.status == '4'){
                         $("#captchaError").html(res.msg);
                     } else {
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'danger'
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
+                        // $.notify({
+                        //     message: res.msg
+                        // },{
+                        //     type: 'danger'
+                        // });
                     }
                 },
                 complete: function() {
@@ -104,6 +118,16 @@ $("document").ready(function() {
     $(".login-input").keypress(function() {
         $('#error_email').html('');
         $('#error_password').html('');
+    });
+
+    $(".login-pass").change(function () {
+        grecaptcha.reset();
+        $("#error_password").html("");
+        $("#loginSubmitBtn").prop("disabled", false);
+    });
+
+    $("#email").change(function () {
+        grecaptcha.reset();
     });
 
     $(".f_input").keypress(function() {
@@ -139,17 +163,24 @@ $("document").ready(function() {
                 success: function(res) {
                     if (res.status == true) {
                         $('#submit').html('Email Password Reset Link');
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'success'
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
+                        // $.notify({
+                        //     message: res.msg
+                        // },{
+                        //     type: 'success'
+                        // });
                     } else if(res.status == '2') {
                         $('#submit').html('Email Password Reset Link');
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'danger'
+                         Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
                     } else if(res.status == '3') {
                         $('#submit').html('Email Password Reset Link');
@@ -160,10 +191,11 @@ $("document").ready(function() {
                         });
                     } else {
                         $('#submit').html('Email Password Reset Link');
-                        $.notify({
-                            message: res.msg
-                        },{
-                            type: 'danger'
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
                     }
                 },
@@ -241,20 +273,18 @@ $("document").ready(function() {
                         setTimeout(() => {
                             window.location = res.redirectRoute;
                         }, 1000);
-                        $.notify({
-                            // options
-                            message: res.msg
-                        },{
-                            // settings
-                            type: 'success'
+                       Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
                         });
                     } else {
-                        $.notify({
-                            // options
-                            message: res.msg
-                        },{
-                            // settings
-                            type: 'danger'
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
                         });
                     }
                 },
@@ -276,6 +306,22 @@ $("document").ready(function() {
         }
     });
 });
+
 function recaptchaCallback() {
     $("#captchaError").html("");
 };
+
+function togglePassword() {
+    const input = document.getElementById("password");
+    const icon = document.getElementById("eyeIcon");
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    } else {
+        input.type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    }
+}

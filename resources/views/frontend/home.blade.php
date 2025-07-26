@@ -10,14 +10,14 @@
             <div class="dez-bnr-inr-entry align-m">
                 <div class="find-job-bx">
                     <a href="javascript:void(0);" class="site-button button-sm">Find Jobs, Employment & Career Opportunities</a>
-                    <h2>Search Between More Then <br /> <span class="text-primary">50,000</span> Open Jobs.</h2>
+                    <h2>Search for open jobs</h2>
                     <form class="dezPlaceAni" action="category-all-jobs.html">
                         <div class="row">
                             <div class="col-lg-4 col-md-6">
                                 <div class="form-group">
                                     <label>Job Title, Keywords, or Phrase</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="">
+                                        <input type="text" class="form-control" id="job_title" placeholder="">
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="fa fa-search"></i></span>
                                         </div>
@@ -26,35 +26,28 @@
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
-                                    <label>City, State or ZIP</label>
+                                    <label>City, State or Country</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="">
+                                        <input type="text" class="form-control" id="location" placeholder="">
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                                         </div>
                                     </div>
                                 </div>
+                                <span id="error_location" class="error"></span>
                             </div>
                             <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
-                                    <select>
-                                        <option>Select Sector</option>
-                                        <option>Construction</option>
-                                        <option>Corodinator</option>
-                                        <option>Employer</option>
-                                        <option>Financial Career</option>
-                                        <option>Information Technology</option>
-                                        <option>Marketing</option>
-                                        <option>Quality check</option>
-                                        <option>Real Estate</option>
-                                        <option>Sales</option>
-                                        <option>Supporting</option>
-                                        <option>Teaching</option>
+                                    <select id="job_category_id" class="form-control selectpicker" data-live-search="true">
+                                        <option value="">Select Category</option>
+                                        @foreach($jobCategories as $jobCategory)
+                                        <option value="{{ $jobCategory->id }}">{{ $jobCategory->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-6">
-                                <button type="submit" class="site-button btn-block">Find Job</button>
+                                <button type="button" class="site-button btn-block" id="findJobBtn">Find Job</button>
                             </div>
                         </div>
                     </form>
@@ -72,32 +65,42 @@
                 class="our-partners item-center owl-loaded owl-theme owl-carousel owl-none mfp-gallery owl-dots-none">
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner1.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo1.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner2.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo3.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner3.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo4.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner4.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo6.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner5.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/it-industries/Client-logo8.jpg') }}" alt="">
                     </a>
                 </div>
                 <div class="item">
                     <a href="javascript:void(0);" class="partners-media">
-                        <img src="{{ asset('frontend/assets/images/svg/partner6.svg') }}" alt="">
+                        <img src="{{ asset('frontend/assets/images/non-it-industires/Client-logo2.jpg') }}" alt="">
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="javascript:void(0);" class="partners-media">
+                        <img src="{{ asset('frontend/assets/images/non-it-industires/Client-logo5.jpg') }}" alt="">
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="javascript:void(0);" class="partners-media">
+                        <img src="{{ asset('frontend/assets/images/non-it-industires/Client-logo7.jpg') }}" alt="">
                     </a>
                 </div>
             </div>
@@ -110,8 +113,8 @@
         <div class="container">
             <div class="section-head text-center style-1">
                 <h6>How It Work</h6>
-                <h2 class="section-title">Follow Easy 4 Steps</h2>
-                <p>It is a long established fact that a reader will be distracted by the
+                <h2 class="section-title" style="font-size: 36px;">Follow Easy 4 Steps</h2>
+                <p class="mt-2">It is a long established fact that a reader will be distracted by the
                     readable content of a page when looking at its layout.</p>
             </div>
             <div class="row sp20  about-work-inner">
@@ -126,8 +129,8 @@
                                         fill="white" />
                                 </svg>
                             </a>
-                            <a href="company-manage-job.html" class="dez-tilte">Search Jobs</a>
-                            <p class="dz-text">The standard chunk of used below of those interested.</p>
+                            <a href="company-manage-job.html" class="dez-tilte">Job Search</a>
+                            <p class="dz-text">Find your dream job with ease, your career journey starts here.</p>
                         </div>
                     </div>
                 </div>
@@ -154,8 +157,10 @@
                                         fill="white" />
                                 </svg>
                             </a>
-                            <a href="company-manage-job.html" class="dez-tilte">Cv/Resume</a>
-                            <p class="dz-text">The standard chunk of used below of those interested.</p>
+                            <a href="company-manage-job.html" class="dez-tilte">CV/Resume</a>
+                            <p class="dz-text">Stand out with a professionally crafted CV that highlights your true potential.<br>
+                                Upload your resume today and let top employers come to you.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -181,7 +186,7 @@
                                 </svg>
                             </a>
                             <a href="company-manage-job.html" class="dez-tilte">Create Account</a>
-                            <p class="dz-text">The standard chunk of used below of those interested.</p>
+                            <p class="dz-text">Create your free account in minutes and unlock exclusive job opportunities.</p>
                         </div>
                     </div>
                 </div>
@@ -200,7 +205,9 @@
                                 </svg>
                             </a>
                             <a href="company-manage-job.html" class="dez-tilte">Apply Them</a>
-                            <p class="dz-text">The standard chunk of used below of those interested.</p>
+                            <p class="dz-text">Found the perfect job? Apply instantly with just a few clicks.
+                                Take action now – your next career opportunity is waiting!
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -214,124 +221,23 @@
     <div class="section-full job-category content-inner-1 bg-white">
         <div class="container">
             <div class="section-head text-center style-1">
-                <h6>Jobs Category</h6>
-                <h2 class="section-title-3">Choose Your Desire Category </h2>
-                <p>There are many variations of passages of available, but the majority have suffered
+                <h6>Job Categories</h6>
+                <h2 class="section-title-3" style="font-size: 36px !important;text-spacing: 2px">Choose Your Desire Category </h2>
+                <p class="mt-2">There are many variations of passages of available, but the majority have suffered
                     some form, by injected humour, or look even slightly believable.</p>
             </div>
             <div class="row sp20 wrapper-spacing">
+                @foreach($jobCategories as $category)
                 <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
+                    <a href="{{ route('jobs') }}?job_category_id={{ base64_encode($category->id) }}" class="job-bx-wraper">
                         <div class="icon-content">
-                            <i class="fa fa-calculator fa-2x"></i> <!-- Accounting Icon with increased size -->
-                            <h5 class="job-name">Accounting</h5>
-                            <span>100+ Posted New Jobs</span>
+                            <i class="{{ $category->icon }} fa-2x"></i> <!-- Accounting Icon with increased size -->
+                            <h5 class="job-name">{{ $category->name }}</h5>
+                            <!-- <span>100+ Posted New Jobs</span> -->
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-code fa-2x"></i> <!-- Development Icon with increased size -->
-                            <h5 class="job-name">Development</h5>
-                            <span>200+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-laptop fa-2x"></i> <!-- Technology Icon with increased size -->
-                            <h5 class="job-name">Technology</h5>
-                            <span>150+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-newspaper fa-2x"></i> <!-- Media & News Icon with increased size -->
-                            <h5 class="job-name">Media & News</h5>
-                            <span>100+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-heartbeat fa-2x"></i> <!-- Medical Icon with increased size -->
-                            <h5 class="job-name">Medical</h5>
-                            <span>110+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-university fa-2x"></i> <!-- Government Icon with increased size -->
-                            <h5 class="job-name">Government</h5>
-                            <span>250+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-palette fa-2x"></i>
-                            <!-- Design & Creative Icon with increased size -->
-                            <h5 class="job-name">Design & Creative</h5>
-                            <span>150+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-bullhorn fa-2x"></i> <!-- Marketing Icon with increased size -->
-                            <h5 class="job-name">Marketing</h5>
-                            <span>150+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-phone-alt fa-2x"></i>
-                            <!-- Telemarketing Icon with increased size -->
-                            <h5 class="job-name">Telemarketing</h5>
-                            <span>100+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-laptop-code fa-2x"></i>
-                            <!-- Software & Web Icon with increased size -->
-                            <h5 class="job-name">Software & Web</h5>
-                            <span>200+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-cogs fa-2x"></i> <!-- Engineering Icon with increased size -->
-                            <h5 class="job-name">Engineering</h5>
-                            <span>250+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 m-b20 job-wraper">
-                    <a href="company-manage-job.html" class="job-bx-wraper">
-                        <div class="icon-content">
-                            <i class="fa fa-chalkboard-teacher fa-2x"></i>
-                            <!-- Teaching & Education Icon with increased size -->
-                            <h5 class="job-name">Teaching & Education</h5>
-                            <span>150+ Posted New Jobs</span>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
             </div>
         </div>
 
@@ -343,20 +249,13 @@
             <div class="container">
                 <div class="row align-items-center m-b50">
                     <div class="col-md-12 col-lg-6 m-b20">
-                        <h2 class="m-b5">About Us</h2>
-                        <h3 class="fw4">We create unique experiences</h3>
-                        <p class="m-b15">Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-                            1500s, when an unknown printer took a galley of type and. It is a long established
-                            fact that a reader will be distracted by the readable content of a page when looking
-                            at its layout. The point of using Lorem Ipsum is that it has a more-or-less.</p>
-                        <p class="m-b15">It is a long established fact that a reader will be distracted by the
-                            readable content of a page when looking at its layout. The point of using Lorem
-                            Ipsum is that it has a more-or-less.</p>
-                        <a href="javascript:void(0);" class="site-button">Read More</a>
+                        <h2 class="m-b5" style="font-size: 36px;">About Us</h2>
+                        <p class="m-b15">Liftale Staffing Services is an established professional recruitment & executive search firm catering to human resource needs of the IT and Non-IT organizations.</p>
+                        <p class="m-b15">To cope with the market standards and considering the increasing demand from the IT and Non-IT organizations, we aim to provide recruitment solutions for these organizations across the PAN India.</p>
+                        <a href="{{ route('about') }}" class="site-button">Read More</a>
                     </div>
                     <div class="col-md-12 col-lg-6">
-                        <img src="{{ asset('frontend/assets/images/our-work/pic1.jpg') }}" alt="" />
+                        <img src="{{ asset('frontend/assets/images/sections-images/about-us.jpg') }}" alt="" />
                     </div>
                 </div>
 
@@ -369,15 +268,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="m-b10">Make a Difference with Your Online Resume!</h2>
-                    <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
-                    <a href="register.html" class="site-button m-t20 outline outline-2 radius-xl">Create an Account</a>
+                    <a href="{{ route('candidateRegister') }}" class="site-button m-t20 outline outline-2 radius-xl">Create an Account</a>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Our Latest Blog -->
-    <div class="section-full content-inner-2 bg-white">
+    <!-- <div class="section-full content-inner-2 bg-white">
         <div class="container">
             <div class="section-head text-black text-center">
                 <h2 class="text-uppercase m-b0">Our Latest Blog</h2>
@@ -496,7 +394,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Our Latest Blog -->
 
 
@@ -506,132 +404,38 @@
             <div class="latest-jobs-inner">
                 <div class="section-head style-1">
                     <h6>Latest Job</h6>
-                    <h2 class="section-title-3">New Job Offer</h2>
+                    <h2 class="section-title-3" style="font-size: 36px;">New Job Offer</h2>
                     <p class="dz-text-2">More Than +500 Job Offer Everyday</p>
                 </div>
-                <a href="javascript:void(0);" class="site-button style-1">View More..</a>
+                <a href="{{ route('jobs') }}" class="site-button style-1">View More..</a>
             </div>
             <div class="row sp20 m-b20">
+                @foreach($jobs as $job)
                 <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/google.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Google , New York</h5>
-                                <span class="profile-positions">Sr. Product Designer</span>
+                    <a href="{{ route('jobDetails', base64_encode($job->id)) }}">
+                        <div class="job-wrapper m-b20">
+                            <div class="jobs-profile d-flex align-items-center">
+                                <div class="dz-icon"><img src="{{ !empty($job->company_logo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.$job->company_logo))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt=""></div>
+                                <div class="Profile-inner">
+                                    <h5 class="profile-name">{{ isset($job->company_name) ? $job->company_name : '' }} {{ isset($job->country_id) ? ', '.$job->country->name : '' }}</h5>
+                                    <span class="profile-positions">{{ isset($job->job_title) ? $job->job_title : '' }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
+                            <div class="Profile-inner-2">
+                                <p>It is a long established fact that a reader
+                                    of a page when looking at its layout.</p>
+                                <div class="dz-buttons d-flex align-items-center">
+                                    <div class="job-time me-auto">
+                                        <a href="{{ route('jobDetails', base64_encode($job->id)) }}" class="site-button style-3 viewJobBtn">View Job</a>
+                                    </div>
+                                    <div class="dz-salary"><span>{{ isset($job->salary_range) ? $job->salary_range : '' }}</span></div>
+                                </div>
                             </div>
+                            <div class="dz-timing"><a href="javascript:void(0);">{{ isset($job->jobType) ? $job->jobType : '' }}</a>&nbsp;<a href="javascript:void(0);">{{ isset($job->workType) ? $job->workType : '' }}</a></div>
                         </div>
-                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
+                    </a>
                 </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/microsoft.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Microsoft , California</h5>
-                                <span class="profile-positions">Web Designer</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>1 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/amazon.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Amazon , Southfield</h5>
-                                <span class="profile-positions">IT Management</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/github.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Github , Southfield</h5>
-                                <span class="profile-positions">Sr. Product Designer</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/dropbox.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Dropbox , New York</h5>
-                                <span class="profile-positions">Web Designer</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>1 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="job-wrapper m-b20">
-                        <div class="jobs-profile d-flex align-items-center">
-                            <div class="dz-icon"><img src="{{ asset('frontend/assets/images/icons/adobe.png') }}" alt=""></div>
-                            <div class="Profile-inner">
-                                <h5 class="profile-name">Adobe , California</h5>
-                                <span class="profile-positions">IT Management</span>
-                            </div>
-                        </div>
-                        <div class="Profile-inner-2">
-                            <p>It is a long established fact that a reader
-                                of a page when looking at its layout.</p>
-                            <div class="dz-buttons d-flex align-items-center">
-                                <a href="javascript:void(0);" class="site-button style-1">Apply Now</a>
-                                <div class="dz-salary"><span>$560</span>/ Hour</div>
-                            </div>
-                        </div>
-                        <div class="dz-timing"><span>2 Day ago</span><a href="javascript:void(0);">Full Time</a></div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
         </div>
@@ -639,13 +443,11 @@
     <!-- Latest jobs END -->
 
     <!-- Reviews Testimonial -->
-    <div class="section-full content-inner-2 testimonials bg-white">
+    <!-- <div class="section-full content-inner-2 testimonials bg-white">
         <div class="container">
             <div class="section-head style-1 text-center">
-                <h6>Clents Testimonials</h6>
+                <h6>Clients Testimonials</h6>
                 <h2 class="section-title-3">What A Job Holder Says About Us</h2>
-                <p class="dz-text-2">There are many variations of passages of available, but the majority have suffered
-                    some form, by injected humour, or look even slightly believable.</p>
             </div>
             <div class="review-testimonial owl-carousel owl-btn-center-lr owl-btn-3 owl-theme owl-btn-center-lr owl-btn-1 owl-dots-none">
                 <div class="item">
@@ -725,13 +527,27 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Reviews Testimonial END -->
 </div>
 @endsection
 @section('script')
 <script>
     $(function() {
+        $('#findJobBtn').click(function() {
+            var job_title = $('#job_title').val();
+            var place = $('#location').val();
+            var job_category_id = $('#job_category_id').val();
+            if(job_title == '' && place == '' && job_category_id == '') {
+                $('#error_location').html('Please select at least one filter');
+                return false;
+            }
+            location.href = "{{ url('/jobs?job_title=') }}"+ job_title + "&location=" + place + "&job_category_id=" + btoa(job_category_id);
+        });
+
+        $('#job_title, #location, #job_category_id').change(function() {
+            $('#error_location').html('');
+        });
     });
 </script>
 @endsection

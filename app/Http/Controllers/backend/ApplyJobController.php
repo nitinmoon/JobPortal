@@ -33,16 +33,12 @@ class ApplyJobController extends Controller
      */
     public function index(Request $request)
     {
-        if (auth()->user()->role_id != UserRoleConstants::USER_ROLE_EMPLOYER) {
-            return back();
-        }
         $jobCategory = getJobCategory();
         $jobType = getJobType();
         if ($request->ajax()) {
             return $this->applyJobService->applyCandidatesJobAjaxDatatable($request);
         }
         $countries = $this->countryService->getAllCountry();
-        saveActivityLog('Job', 'Visit Apply Job Candidates List');
         return view('backend.apply-jobs.index', compact('jobCategory', 'jobType', 'countries'));
     }
 
