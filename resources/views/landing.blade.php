@@ -70,7 +70,7 @@ Pune 411043.</p>
         
           <div class="span4">
             <div class="logo">
-              <a href="index.html"><img src="{{  asset('landing/img/landingpage-logo.png') }}" alt="" /></a>
+              <a href="{{ url('/') }}"><img src="{{  asset('landing/img/landingpage-logo.png') }}" alt="" /></a>
             </div>
           </div>
           <div class="span8"> 
