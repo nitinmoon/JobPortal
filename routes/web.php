@@ -252,12 +252,18 @@ Route::view('/Contract', 'frontend.Contract')->name('Contract');
 Route::view('/Recruitment-Process-Outsourcing', 'frontend.recruitment-process')->name('recruitmentProcess');
 
 Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index');
+  
     Route::get('/home', 'index')->name('home');
     Route::get('/contact-us', 'contactUs')->name('contactUs');
     Route::post('/save-contact', 'saveContact')->name('saveContact');
     Route::get('/privacy', 'privacy')->name('privacy');
     Route::get('/terms-and-condition', 'terms')->name('terms');
+});
+
+// 👇 Serve static HTML landing page from public/landing/index.html
+Route::get('/', function () {
+       return view('landing');
+
 });
 
 /*

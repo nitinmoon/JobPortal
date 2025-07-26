@@ -166,7 +166,7 @@
 
   .category {
     background: #ffffff;
-    border-left: 5px solid #0056b3;
+    border-left: 5px solid #223D78;
     padding: 20px;
     margin-top: 10px;
     margin-bottom: 20px;
@@ -176,7 +176,7 @@
 
   .category h2 {
     margin-top: 0;
-    color: #0056b3;
+    color: #223D78;
     font-size: 22px;
   }
 

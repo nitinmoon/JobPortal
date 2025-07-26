@@ -91,8 +91,8 @@
     .exec-heading {
         font-size: 32px;
         font-weight: bold;
-        color: #2c3e50;
-        margin-bottom: 10px;
+        color: #223D78;
+        margin-bottom: 10px;2c3e50
     }
 
     .exec-subtitle {
@@ -113,7 +113,7 @@
         font-size: 22px;
         /* color: #2d3436; */
         color: #000;
-        margin-top: 30px;
+        /* margin-top: 10px; */
         margin-bottom: 10px;
     }
 
@@ -143,10 +143,10 @@
     }
 
     .exec-contact {
-        margin-top: 30px;
+        /* margin-top: 30px; */
         background-color: #ecf0f1;
         padding: 20px;
-        border-left: 5px solid #3498db;
+        border-left: 5px solid #223D78;
     }
 </style>
 @endsection
