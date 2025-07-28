@@ -95,14 +95,14 @@ Pune 411043.</p>
           <!--<h2>Liftale IT Services</h2>-->
           <p style="text-align:justify">We are proud to offer comprehensive services in two distinct but equally crucial areas for modern businesses.</p>
          <!-- <a href="#" class="btn btn-theme btn-large da-link">Read more</a>-->
-          <div class="da-img"><img src="img/slides/parallax/1.png" alt="" /></div>
+          <div class="da-img"><img src="{{  asset('landing/img/slides/parallax/1.png') }}" alt="" /></div>
         </div>
         <div class="da-slide">
           <!--<h2>Liftale Staffing Services</h2>-->
           <p style="text-align:justify">We are offering you Solutions Improve and Stimulate your Business.
 </p>
           <!--<a href="#" class="btn btn-primary btn-large da-link">Read more</a>-->
-          <div class="da-img"><img src="img/slides/parallax/111.png" alt="" /></div>
+          <div class="da-img"><img src="{{  asset('landing/img/slides/parallax/111.png') }}" alt="" /></div>
           
         </div>
        <!--<div class="da-slide">
