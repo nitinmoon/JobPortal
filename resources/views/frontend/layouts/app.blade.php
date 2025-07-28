@@ -7,10 +7,10 @@
 	<meta name="author" content="DexignZone">
 	<meta name="robots" content="">
 	<meta name="keywords" content="applicant, candidate, career, companies, employment, freelancer, job board, job directory, Job guru, job listing, job posting, job seeker, recruiting, resume, resume listing">
-	<meta name="description" content="JobBoard: is a flexible and smooth theme to make it simple as possible to create a professional job portal website. It covers all the features that are necessary for job board like searching option, login and register.">
-	<meta property="og:title" content="Job Board - Job Portal HTML Template + RTL and Dark layout">
-	<meta property="og:description" content="JobBoard: is a flexible and smooth theme to make it simple as possible to create a professional job portal website. It covers all the features that are necessary for job board like searching option, login and register.">
-	<meta property="og:image" content="https://job-board.dexignzone.com/xhtml/social-image.png">
+	<meta name="description" content="JobBoard">
+	<meta property="og:title" content="Job Board">
+	<meta property="og:description" content="">
+	<meta property="og:image" content="">
 	<meta name="format-detection" content="telephone=no">
 
 	<!-- MOBILE SPECIFIC -->
@@ -18,7 +18,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
 	<!-- FAVICONS ICON -->
-	<link rel="icon" href="{{ asset('frontend/assets/images/favicon.ico') }}" type="image/x-icon">
+	<!-- <link rel="icon" href="{{ asset('frontend/assets/images/favicon.ico') }}" type="image/x-icon"> -->
+     <link rel="shortcut icon" href="{{ asset('landing/ico/favicon.png') }}" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
