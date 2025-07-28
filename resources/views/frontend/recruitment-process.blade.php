@@ -60,7 +60,7 @@
     .highlight-box {
         background: #f1f3f5;
         padding: 20px;
-        border-left: 4px solid #007bff;
+        border-left: 4px solid #223D78;
         margin-top: 20px;
         border-radius: 5px;
     }
