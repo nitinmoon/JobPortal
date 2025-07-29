@@ -1465,7 +1465,19 @@
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Preferred Shift</label>
-                                        <span class="clearfix font-13">{{ isset($candidateDetails->shift) && $candidateDetails->shift == '1' ? 'Morning' : 'Evening' }}</span>
+                                       <span class="clearfix font-13">
+                                        @if(isset($candidateDetails->shift))
+                                            @if($candidateDetails->shift == '1')
+                                                Morning
+                                            @elseif($candidateDetails->shift == '2')
+                                                Evening
+                                            @else
+                                                Any
+                                            @endif
+                                        @else
+                                            N/A
+                                        @endif
+                                    </span>
                                     </div>
                                     <div class="clearfix m-b20">
                                         <label class="m-b0">Current Salary</label>

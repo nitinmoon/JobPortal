@@ -133,18 +133,18 @@
                 <div class="row text-justify">
                     <div class="contract-hero">
                         <h1>Powered by Liftale Staffing Solutions</h1>
-                        <p class="ml-15">At Liftale Staffing Services, we understand that making the right hire is critical—but sometimes you need more time to be sure. That’s where our Contract-to-Hire model comes in.</p>
+                        <p class="ml-15">At Liftale Staffing Services, we understand that making the right hire is critical but sometimes you need more time to be sure. That’s where our Contract to Hire model comes in.</p>
                     </div>
 
                     <div class="contract-section">
-                        <h2>What is Contract-to-Hire?</h2>
+                        <h2>What is Contract to Hire?</h2>
                         <p class="ml-15">
-                            Contract-to-hire staffing allows companies to bring professionals on board for a trial period before making a full-time employment offer. It’s the perfect way to evaluate a candidate’s fit—culturally and technically—before making a long-term commitment.
+                            Contract to hire staffing allows companies to bring professionals on board for a trial period before making a full-time employment offer. It’s the perfect way to evaluate a candidate’s fit culturally and technically before making a long term commitment.
                         </p>
                     </div>
 
                     <div class="contract-section">
-                        <h2>Why Choose Contract-to-Hire?</h2>
+                        <h2>Why Choose Contract to Hire?</h2>
                         <ul class="core-commitments ml-15">
                             <li>
                                 <strong>Risk Mitigation:</strong><br>
@@ -183,7 +183,7 @@
                         <h2>For Job Seekers</h2>
                         <div class="highlight-box">
                             <p>
-                                A contract-to-hire role can lead to long-term employment. You get:
+                                A contract to hire role can lead to long term employment. You get:
                             </p>
                             <ul>
                                 <li>Opportunity to showcase your skills</li>
@@ -197,9 +197,9 @@
                         <h2>Let’s Get Started</h2>
                         <div class="highlight-box">
                             <p>
-                                Ready to find the right person—or the right position—without the pressure of an immediate commitment?
+                                Ready to find the right person or the right position without the pressure of an immediate commitment?
                             </p>
-                            <p>Contact <span> Staffing Services</span> today and learn how our<span> Contract-to-Hire </span> can work for you.</p>
+                            <p>Contact <span> Staffing Services</span> today and learn how our<span> Contract to Hire </span> can work for you.</p>
                         </div>
                     </div>
                 </div>
