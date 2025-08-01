@@ -17,6 +17,7 @@ use App\Models\UserAddress;
 use App\Repositories\BaseRepository;
 use App\Models\VerifyOtp;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Request;
@@ -158,6 +159,43 @@ class UserRepository extends BaseRepository
     }
 
     /**
+     * ************************************
+     * Method use to update profile photo
+     * ------------------------------------
+     *
+     * @param  array $credentials
+     * @return data
+     * ************************************
+     */
+    public function updateProfilePhoto($request)
+    {
+        $inputArray = $request->all();
+        $userId = auth()->id();
+        $imagepath = config('constants.PROFILE_PATH');
+        if ($request->has('remove_image') && $request->remove_image == 1) {
+            $oldFileName = User::where('id', $userId)->value('profile_photo');
+            if (!empty($oldFileName) && File::exists($imagepath . '/' . $oldFileName)) {
+                File::delete($imagepath . '/' . $oldFileName);
+            }
+            User::where('id', $userId)->update(['profile_photo' => null]);
+        }
+
+        if (!empty($inputArray['profile_photo'])) {
+            $imageName = $userId . '_' . time() . '.' . $inputArray['profile_photo']->extension();
+            $oldFileName = User::where('id', $userId)->value('profile_photo');
+            if (!empty($oldFileName) && File::exists($imagepath . '/' . $oldFileName)) {
+                File::delete($imagepath . '/' . $oldFileName);
+            }
+            if (!file_exists($imagepath)) {
+                mkdir($imagepath, 0777, true);
+            }
+            $inputArray['profile_photo']->move($imagepath, $imageName);
+            User::where('id', $userId)->update(['profile_photo' => $imageName]);
+        }
+        return $userId;
+    }
+
+    /**
      *************************************
      * Function use to update my profile
      * -----------------------------------
@@ -176,6 +214,7 @@ class UserRepository extends BaseRepository
             'dob' => $inputArray['dob'],
             'gender' => $inputArray['gender'],
             'email' => strip_tags($inputArray['email']),
+            'country_code' => strip_tags($inputArray['country_code']),
             'phone' => strip_tags($inputArray['phone']),
             'updated_by' => auth()->user()->id
         ];
@@ -186,8 +225,10 @@ class UserRepository extends BaseRepository
             'city_id' => isset($inputArray['city_id']) ? $inputArray['city_id'] : null,
             'zip' => strip_tags($inputArray['zip']),
             'address' => strip_tags($inputArray['address']),
-            'current_address' => strip_tags($inputArray['current_address'])
         ];
+        if(isset($inputArray['current_address'])) {
+            $userAddresssDetails['current_address'] = strip_tags($inputArray['current_address']);
+        }
         UserAddress::updateOrCreate($condition, $userAddresssDetails);
 
         if (!empty($inputArray['flag']) && $inputArray['flag'] == 'apply-job') {

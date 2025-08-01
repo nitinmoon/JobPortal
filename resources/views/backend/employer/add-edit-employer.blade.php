@@ -1,5 +1,15 @@
 @extends('backend.layouts.app')
 @section('title', 'Employer Form')
+@section('style')
+<style>
+  .iti {
+    width: 100%;
+  }
+  .iti__flag-container {
+    z-index: 4;
+  }
+</style>
+@endsection
 @section('content')
 <div class="pagetitle">
   <h1>{{ isset($employerDetails->id) ? 'Edit' : 'Add' }} {{ trans('employer.employer') }}</h1>
@@ -46,22 +56,26 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                     <input type="email" class="form-control" name="email" placeholder="Enter Email" value="{{ isset($employerDetails->employer->email) ? $employerDetails->employer->email : '' }}">
                     <span class="error" id="error_email"></span>
                 </div>
-                <div class="col-md-3">
-                    <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Phone" maxlength="10" value="{{ isset($employerDetails->employer->phone) ? $employerDetails->employer->phone : '' }}">
-                    <span class="error" id="error_phone"></span>
+                <div class="form-group col-md-6">
+                      <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                      <input type="tel" id="phone" name="phone_visible" class="form-control" placeholder="Enter number" value="{{ isset($employerDetails->employer->phone) ? $employerDetails->employer->phone : '' }}">
+                      <input type="hidden" name="phone" id="phone_hidden" value="{{ isset($employerDetails->employer->phone) ? $employerDetails->employer->phone : '' }}">
+                      <input type="hidden" name="country_code" id="country_code" value="{{ isset($employerDetails->employer->country_code) ? $employerDetails->employer->country_code : '' }}">
+                      <span class="error text-danger" id="error_phone"></span>
                 </div>
-                <div class="col-md-3">
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
                     <label for="dob" class="form-label">Date Of Birth <span class="text-danger">*</span></label>
                     <input type="date" class="form-control" name="dob" placeholder="Enter Dob" value="{{ isset($employerDetails->employer->dob) ? $employerDetails->employer->dob : '' }}" min="1940-01-01" max="{{ date('Y-m-d', strtotime('-18 year', time())) }}">
                     <span class="error" id="error_dob"></span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label for="gender" class="form-label">Gender <span class="text-danger">*</span></label>
                     <select class="form-select js-example-basic-single" name="gender" data-error="#error_gender">
                         <option value="">Select</option>
@@ -227,6 +241,74 @@
 @section('script')
 <script src="{{ asset('backend/assets/js/custom-js/employer.js') }}"></script>
 <script>
+  const input = document.querySelector("#phone");
+  const errorSpan = document.querySelector("#error_phone");
+  const hiddenPhoneInput = document.querySelector("#phone_hidden");
+  const countryCodeInput = document.querySelector("#country_code");
+  const form = input.closest('form');
+
+  const iti = window.intlTelInput(input, {
+    separateDialCode: true,
+    preferredCountries: ["in", "us", "gb"],
+    initialCountry: "auto",
+    nationalMode: false,
+    formatOnDisplay: false,
+    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
+  });
+
+  // If you are pre-filling from database
+  const storedCountryCode = countryCodeInput.value.replace('+', '');
+  const allCountries = window.intlTelInputGlobals.getCountryData();
+
+  let matchedCountry = allCountries.find(c => c.dialCode === storedCountryCode);
+  if (matchedCountry) {
+    iti.setCountry(matchedCountry.iso2);
+  }
+
+  function updatePhoneInputs() {
+    const selectedCountry = iti.getSelectedCountryData();
+    const nationalNumber = input.value.replace(/\s/g, '').trim();
+    const countryCode = '+' + selectedCountry.dialCode;
+
+    hiddenPhoneInput.value = nationalNumber;
+    countryCodeInput.value = countryCode;
+  }
+
+  input.addEventListener('blur', updatePhoneInputs);
+  input.addEventListener('change', updatePhoneInputs);
+  input.addEventListener('keyup', updatePhoneInputs);
+  input.addEventListener('countrychange', updatePhoneInputs);
+
+  form.addEventListener('submit', function (e) {
+    updatePhoneInputs();
+
+    if (!iti.isValidNumber()) {
+      e.preventDefault();
+      const error = iti.getValidationError();
+      let message = "Invalid phone number.";
+
+      switch (error) {
+        case intlTelInputUtils.validationError.TOO_SHORT:
+          message = "The number is too short.";
+          break;
+        case intlTelInputUtils.validationError.TOO_LONG:
+          message = "The number is too long.";
+          break;
+        case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+          message = "Invalid country code.";
+          break;
+        case intlTelInputUtils.validationError.NOT_A_NUMBER:
+          message = "Not a valid number.";
+          break;
+      }
+
+      errorSpan.textContent = message;
+      input.classList.add("is-invalid");
+    } else {
+      errorSpan.textContent = "";
+      input.classList.remove("is-invalid");
+    }
+  });
 $(function() {
   $('.js-example-basic-single').select2();
 

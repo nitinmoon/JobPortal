@@ -22,7 +22,7 @@ class CompanyLogoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_logo' => 'required|max:2048',
+            'company_logo' => 'max:2048',
         ];
     }
     public function messages()

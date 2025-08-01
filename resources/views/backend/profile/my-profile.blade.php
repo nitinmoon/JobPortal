@@ -2,8 +2,20 @@
 @section('title', 'My Profile')
 @section('style')
 <link rel="stylesheet" href="{{ asset('backend/assets/css/custom-css/candidate-profile.css') }}">
+<style>
+  .iti {
+    width: 100%;
+  }
+  .iti__flag-container {
+    z-index: 4;
+  }
+  .sm-btn {
+      border-radius: 3px;
+      font-size: 12px;
+      padding: 0px 3px;
+  }
+</style>
 @endsection
-
 @section('content')
 <div class="pagetitle">
   <h1>My Profile</h1>
@@ -20,26 +32,33 @@
 
       <div class="card">
         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center justify-content-center">
-          <form action="{{ route('updateAdminProfileImage', Auth::user()->id) }}" method="POST" enctype="multipart/form-data" id="updateProfileImg">
+          <form action="{{ route('updateAdminProfileImage') }}" method="POST" enctype="multipart/form-data" id="updateProfileImg">
             @csrf
-            <div class="profile-photo">
-              <label class="file_label" for="file">
-                <span class="cprofile glyphicon glyphicon-camera"></span>
-                <p class="cCamera"><i class="fa fa-camera"></i></p><br>
-                <span class="cprofile">Change Profile</span>
-              </label>
-              <input id="file" type="file" name="profile_photo" accept="image/jpg, image/jpeg, image/png" id="profile_photo" onchange="loadProfile(event)" />
-              <img src="{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}" alt="your image" id="output" width="200" />
+            <div class="text-center mt-2">
+              <input type="hidden" id="defaultImg" value="{{ asset(config('constants.DEFAULT_PROFILE')) }}">
+              <div class="profile-wrapper position-relative d-inline-block text-center">
+                  <img id="profilePreview" src="{{ !empty(Auth::user()->profile_photo) ? 'data:image/jpeg;base64,' . base64_encode(file_get_contents(config('constants.PROFILE_PATH') . '/' . Auth::user()->profile_photo)) : asset(config('constants.DEFAULT_PROFILE')) }}" 
+                      alt="Profile Image"
+                      class="rounded-circle profile-img">
+                  <div class="mt-2 d-flex justify-content-center gap-2">
+                      <label class="btn btn-outline-primary btn-sm mb-0 sm-btn btn-upload">
+                          <i class="fa fa-upload"></i> Upload
+                          <input type="file" name="profile_photo" id="profileImageInput" data-error="#error_profile_photo" accept="image/*" class="d-none">
+                      </label>
+
+                      <button type="button" id="removeProfileImage" class="btn btn-sm btn-outline-danger sm-btn btn-remove">
+                          <i class="fa fa-times"></i> Remove
+                      </button>
+                  </div>
+                  <input type="hidden" name="remove_image" id="remove_profile_photo" value="0">
+                  <span class="error" id="error_profile_photo"></span>
+              </div><br>  
+              <button type="submit" id="updateProfileBtn" class="btn btn-primary mt-3 d-none">Update</button>
             </div>
-            <a class="profileEditBtn"><i class="bi bi-pencil-square"></i></a>
             <div class="col-md-12 text-center mt-2">
-              <button type="submit" id="upload_img" class="btn btn-info btn-sm d-none p-2"><i class="bi bi-upload" aria-hidden="true"></i></button>
-              <button type="button" id="close" class="btn btn-danger btn-sm d-none p-2"><i class="bi bi-x" aria-hidden="true"></i></button>
-              <span id="imageUplaoderro" class="badge bg-danger mt-3"></span>
               <h2>{{ isset(auth()->user()->first_name) ? getTitle(auth()->user()->title).' '.auth()->user()->first_name.' '.auth()->user()->middle_name.' '.auth()->user()->last_name : '--' }}</h2>
               <h3>{{ isset(auth()->user()->role_id) ? auth()->user()->role->name : '--' }}</h3>
             </div>
-            <!-- <img src="{{ !empty($employerDetails->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}" alt="Profile" class="rounded-circle"> -->
           </form>
         </div>
       </div>
@@ -82,7 +101,7 @@
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">Phone</div>
-                <div class="col-lg-9 col-md-8">{{ isset(auth()->user()->phone) ? auth()->user()->phone : '--' }}</div>
+                <div class="col-lg-9 col-md-8">{{ isset(auth()->user()->phone) ? auth()->user()->country_code .' '. auth()->user()->phone : '--' }}</div>
               </div>
 
               <div class="row">
@@ -139,8 +158,12 @@
                 <div class="row mb-3">
                   <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                   <div class="col-lg-9 col-md-8">
-                    <input name="phone" type="text" class="form-control" id="phone" maxlength="10" value="{{ isset(auth()->user()->phone) ? auth()->user()->phone : '' }}">
-                    <span class="error" id="error_phone"></span>
+                      <input type="tel" id="phone" name="phone_visible" class="form-control" placeholder="Enter number" value="{{ isset(auth()->user()->phone) ? auth()->user()->phone : '' }}">
+                      <input type="hidden" name="phone" id="phone_hidden" value="{{ isset(auth()->user()->phone) ? auth()->user()->phone : '' }}">
+                      <input type="hidden" name="country_code" id="country_code" value="{{ isset(auth()->user()->country_code) ? auth()->user()->country_code : '' }}">
+                      <span class="error text-danger" id="error_phone"></span>
+                    <!-- <input name="phone" type="text" class="form-control" id="phone" maxlength="10" value="{{ isset(auth()->user()->phone) ? auth()->user()->phone : '' }}">
+                    <span class="error" id="error_phone"></span> -->
                   </div>
                 </div>
 
@@ -212,15 +235,76 @@
 @section('script')
 <script src="{{ asset('backend/assets/js/custom-js/my-profile.js') }}"></script>
 <script>
+  const input = document.querySelector("#phone");
+  const errorSpan = document.querySelector("#error_phone");
+  const hiddenPhoneInput = document.querySelector("#phone_hidden");
+  const countryCodeInput = document.querySelector("#country_code");
+  const form = input.closest('form');
+
+  const iti = window.intlTelInput(input, {
+    separateDialCode: true,
+    preferredCountries: ["in", "us", "gb"],
+    initialCountry: "auto",
+    nationalMode: false,
+    formatOnDisplay: false,
+    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
+  });
+
+  // If you are pre-filling from database
+  const storedCountryCode = countryCodeInput.value.replace('+', '');
+  const allCountries = window.intlTelInputGlobals.getCountryData();
+
+  let matchedCountry = allCountries.find(c => c.dialCode === storedCountryCode);
+  if (matchedCountry) {
+    iti.setCountry(matchedCountry.iso2);
+  }
+
+  function updatePhoneInputs() {
+    const selectedCountry = iti.getSelectedCountryData();
+    const nationalNumber = input.value.replace(/\s/g, '').trim();
+    const countryCode = '+' + selectedCountry.dialCode;
+
+    hiddenPhoneInput.value = nationalNumber;
+    countryCodeInput.value = countryCode;
+  }
+
+  input.addEventListener('blur', updatePhoneInputs);
+  input.addEventListener('change', updatePhoneInputs);
+  input.addEventListener('keyup', updatePhoneInputs);
+  input.addEventListener('countrychange', updatePhoneInputs);
+
+  form.addEventListener('submit', function (e) {
+    updatePhoneInputs();
+
+    if (!iti.isValidNumber()) {
+      e.preventDefault();
+      const error = iti.getValidationError();
+      let message = "Invalid phone number.";
+
+      switch (error) {
+        case intlTelInputUtils.validationError.TOO_SHORT:
+          message = "The number is too short.";
+          break;
+        case intlTelInputUtils.validationError.TOO_LONG:
+          message = "The number is too long.";
+          break;
+        case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+          message = "Invalid country code.";
+          break;
+        case intlTelInputUtils.validationError.NOT_A_NUMBER:
+          message = "Not a valid number.";
+          break;
+      }
+
+      errorSpan.textContent = message;
+      input.classList.add("is-invalid");
+    } else {
+      errorSpan.textContent = "";
+      input.classList.remove("is-invalid");
+    }
+  });
   $(function() {
     $('.js-example-basic-single').select2();
-
-    $("#close").click(function() {
-      $('#output').attr('src', "{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}");
-      $("#select_img").removeClass('d-none');
-      $("#upload_img").addClass('d-none');
-      $("#close").addClass('d-none');
-    });
 
     $('#country_id').change(function() {
       var countryId = $(this).val();
@@ -273,29 +357,30 @@
         }
       });
     });
-  });
 
-  function loadProfile(event) {
-    $("#imageUplaoderro").html("");
-    var image = document.getElementById("output");
-    if (/\.(jpeg|png|jpg)$/i.test(event.target.files[0].name) === false) {
-      $("#imageUplaoderro").html("Allow only jpg | jpeg | png format");
-      $("#upload_img").addClass('d-none');
-      $("#close").addClass('d-none');
-      $('#output').attr('src', "{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}");
-      return false;
-    }
-    if (event.target.files[0].size >= 2097152) {
-      $("#imageUplaoderro").html("Size must be less than 2 MB");
-      image.src = URL.createObjectURL(event.target.files[0]);
-      $("#upload_img").addClass('d-none');
-      $("#close").addClass('d-none');
-      $('#output').attr('src', "{{ !empty(Auth::user()->profile_photo) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.PROFILE_PATH').'/'.Auth::user()->profile_photo))  : asset(config('constants.DEFAULT_PROFILE')) }}");
-      return false;
-    }
-    image.src = URL.createObjectURL(event.target.files[0]);
-    $('#upload_img').removeClass('d-none');
-    $('#close').removeClass('d-none');
-  }
+     $('#profileImageInput').change(function() {
+        const [file] = this.files;
+        if (file) {
+            $('#profilePreview').attr('src', URL.createObjectURL(file));
+            $('#updateProfileBtn').removeClass('d-none');
+        }
+    });
+
+    $('#removeProfileImage').click(function () {
+        $('#remove_profile_photo').val(1);
+        var defaultImg = $('#defaultImg').val();
+        $('#profilePreview').attr('src', defaultImg);
+        if ($('#removeImageFlag').length === 0) {
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'removeImageFlag',
+                name: 'remove_image',
+                value: '1'
+            }).appendTo('#updateCandidateProfile');
+        }
+        $('#profileImageInput').val('');
+        $('#updateProfileBtn').removeClass('d-none');
+    });
+  });
 </script>
 @endsection

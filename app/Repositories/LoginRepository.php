@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class LoginRepository extends BaseRepository
 {
@@ -189,18 +190,30 @@ class LoginRepository extends BaseRepository
      * @return data
      * *************************************
      */
-    public function updateAdminProfileImage($userId, $inputArray)
+    public function updateAdminProfileImage($request)
     {
-        if (!empty($inputArray['profile_photo'])) {
-            $filePath = config('constants.PROFILE_PATH');
-            $oldFileName = User::where('id', $userId)->pluck('profile_photo');
-            File::delete($filePath . $oldFileName[0]);
-            $fileName  = config('constants.ADMIN_PREFIX'). $userId . '.' . $inputArray['profile_photo']->extension();
-            if (!file_exists($filePath)) {
-                mkdir($filePath, 0777, true);
+        $inputArray = $request->all();
+        $userId = auth()->user()->id;
+        $imagepath = config('constants.PROFILE_PATH');
+        if ($request->has('remove_image') && $request->remove_image == 1) {
+            $oldFileName = User::where('id', $userId)->value('profile_photo');
+            if (!empty($oldFileName) && File::exists($imagepath . '/' . $oldFileName)) {
+                File::delete($imagepath . '/' . $oldFileName);
             }
-            $inputArray['profile_photo']->move($filePath, $fileName);
-            User::where('id', $userId)->update(['profile_photo' => $fileName]);
+            User::where('id', $userId)->update(['profile_photo' => null]);
+        }
+
+        if (!empty($inputArray['profile_photo'])) {
+            $imageName = $userId . '_' . time() . '.' . $inputArray['profile_photo']->extension();
+            $oldFileName = User::where('id', $userId)->value('profile_photo');
+            if (!empty($oldFileName) && File::exists($imagepath . '/' . $oldFileName)) {
+                File::delete($imagepath . '/' . $oldFileName);
+            }
+            if (!file_exists($imagepath)) {
+                mkdir($imagepath, 0777, true);
+            }
+            $inputArray['profile_photo']->move($imagepath, $imageName);
+            User::where('id', $userId)->update(['profile_photo' => $imageName]);
         }
         return $userId;
     }

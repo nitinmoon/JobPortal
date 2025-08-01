@@ -105,7 +105,7 @@ class DashboardController extends Controller
     private function validateAdminProfileInput(Request $request)
     {
         return $request->only(
-            ['title', 'first_name', 'middle_name', 'last_name', 'email', 'phone', 'dob', 'gender']
+            ['title', 'first_name', 'middle_name', 'last_name', 'email', 'country_code', 'phone', 'dob', 'gender']
         );
     }
 
@@ -166,15 +166,18 @@ class DashboardController extends Controller
      * @description (with success message)
      * **************************************
      */
-    public function updateAdminProfileImage(AdminProfileImageRequest $request, $userId)
+    public function updateAdminProfileImage(AdminProfileImageRequest $request)
     {
         try {
             $inputArray = $this->validateImage($request);
-            $this->loginService->updateAdminProfileImage($userId, $inputArray);
+            $this->loginService->updateAdminProfileImage($request);
+            return response()->json([
+                'status' => true,
+                'msg' => "Profile photo updated successfully!",
+            ]);
         } catch (\Exception  $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
-        return back()->with('success', "Profile photo updated successfully");
     }
 
     /**

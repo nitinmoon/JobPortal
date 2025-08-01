@@ -74,7 +74,7 @@
                                         </tr>
                                         <tr>
                                             <th>Phone: </th>
-                                            <td>{{ isset($userDetails->phone) ? $userDetails->phone : '--'}}</td>
+                                            <td>{{ isset($userDetails->phone) ? $userDetails->country_code .' '. $userDetails->phone : '--'}}</td>
                                         </tr>
                                         <tr>
                                             <th>Address: </th>
@@ -152,9 +152,16 @@
                                         <span class="error" id="error_email"></span>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label>Phone</label>
                                             <input type="text" class="form-control" name="phone" id="phone" maxlength="10" value="{{ isset($userDetails->phone) ? $userDetails->phone : '' }}" placeholder="Enter Phone">
+                                        </div>
+                                        <span class="error" id="error_phone"></span> -->
+                                         <div class="form-group">
+                                            <label for="phone">Phone<span class="error">*</span></label>
+                                            <input type="tel" id="phone" name="phone_visible" class="form-control" value="{{ isset($userDetails->phone) ? $userDetails->phone : '' }}" placeholder="Enter phone number">
+                                            <input type="hidden" name="phone" id="phone_hidden" value="{{ isset($userDetails->phone) ? $userDetails->phone : '' }}">
+                                            <input type="hidden" name="country_code" id="country_code" value="{{ isset($userDetails->country_code) ? $userDetails->country_code : '' }}">
                                         </div>
                                         <span class="error" id="error_phone"></span>
                                     </div>
@@ -311,6 +318,85 @@
                     $('#city_id').selectpicker('refresh');
                 }
             });
+        });
+
+        const input = document.querySelector("#phone");
+        const errorSpan = document.querySelector("#error_phone");
+        const hiddenPhoneInput = document.querySelector("#phone_hidden");
+        const countryCodeInput = document.querySelector("#country_code");
+        const form = input.closest('form');
+
+        const iti = window.intlTelInput(input, {
+            separateDialCode: true,
+            preferredCountries: ["in", "us", "gb"],
+            initialCountry: "auto",
+            formatOnDisplay: false,
+            nationalMode: false,
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js"
+        });
+
+        const storedCountryCode = countryCodeInput.value.replace('+', '');
+        const allCountries = window.intlTelInputGlobals.getCountryData();
+
+        let matchedCountry = allCountries.find(c => c.dialCode === storedCountryCode);
+        if (matchedCountry) {
+            iti.setCountry(matchedCountry.iso2);
+        }
+
+        // Set initial country code
+        // countryCodeInput.value = '+' + iti.getSelectedCountryData().dialCode;
+
+        // Update hidden inputs when user changes or blurs input
+        function updatePhoneInputs() {
+            // const fullNumber = iti.getNumber(); // E.164 format
+            const selectedCountry = iti.getSelectedCountryData();
+            const nationalNumber = input.value.replace(/\s/g, '').trim(); // Raw input, without country code
+            const countryCode = '+' + selectedCountry.dialCode;
+            // const nationalNumber = iti.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
+            // const countryCode = '+' + iti.getSelectedCountryData().dialCode;
+
+            hiddenPhoneInput.value = nationalNumber;
+            countryCodeInput.value = countryCode;
+            // hiddenPhoneInput.value = nationalNumber.replace(/\s/g, ''); // remove spaces
+            // hiddenPhoneInput.value = fullNumber;
+            // countryCodeInput.value = countryCode;
+        }
+
+        input.addEventListener('blur', updatePhoneInputs);
+        input.addEventListener('change', updatePhoneInputs);
+        input.addEventListener('keyup', updatePhoneInputs);
+        input.addEventListener('countrychange', updatePhoneInputs);
+
+        // Validate on submit
+        form.addEventListener('submit', function (e) {
+            updatePhoneInputs();
+
+            if (!iti.isValidNumber()) {
+                e.preventDefault();
+                const error = iti.getValidationError();
+                let message = "Invalid phone number.";
+
+                switch (error) {
+                    case intlTelInputUtils.validationError.TOO_SHORT:
+                        message = "The number is too short.";
+                        break;
+                    case intlTelInputUtils.validationError.TOO_LONG:
+                        message = "The number is too long.";
+                        break;
+                    case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+                        message = "Invalid country code.";
+                        break;
+                    case intlTelInputUtils.validationError.NOT_A_NUMBER:
+                        message = "Not a valid number.";
+                        break;
+                }
+
+                errorSpan.textContent = message;
+                input.classList.add("is-invalid");
+            } else {
+                errorSpan.textContent = "";
+                input.classList.remove("is-invalid");
+            }
         });
     });
 </script>

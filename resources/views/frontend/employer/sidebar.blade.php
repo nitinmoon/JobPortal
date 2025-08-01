@@ -3,7 +3,7 @@
                 <div class="canditate-des">
                         <form action="{{ route('updateCompanyLogo') }}" id="updateCompanyLogo" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <div class="profile-wrapper" style="position: relative; display: inline-block;">
+                                <!-- <div class="profile-wrapper" style="position: relative; display: inline-block;">
                                         <a href="javascript:void(0);">
                                                 <img id="logoPreview" src="{{ !empty(getCompanyDetails(auth()->user()->id)['company_logo']) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.getCompanyDetails(Auth::user()->id)['company_logo']))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt="Profile Image" style="width: 150px; height: 145px; border-radius: 50%; object-fit: cover;">
                                         </a>
@@ -11,6 +11,21 @@
                                                 <i class="fa fa-camera"></i>
                                                 <input type="file" id="logoImageInput" name="company_logo" class="update-file" accept="image/*" style="display: none;">
                                         </label>
+                                </div>
+                                <button type="submit" id="updateLogoBtn" class="btn btn-primary mt-3 d-none">Update</button> -->
+                                <input type="hidden" id="defaultLogo" value="{{ asset(config('constants.DEFAULT_COMPANY_LOGO')) }}">
+                                <div class="profile-wrapper position-relative d-inline-block">
+                                        <img id="logoPreview" src="{{ !empty(getCompanyDetails(auth()->user()->id)['company_logo']) ? 'data: image/jpeg;base64,'. \base64_encode(\file_get_contents(config('constants.COMPANY_LOGO_PATH').'/'.getCompanyDetails(Auth::user()->id)['company_logo']))  : asset(config('constants.DEFAULT_COMPANY_LOGO')) }}" alt="Profile Image" style="width: 150px; height: 145px; border-radius: 50%; object-fit: cover;" class="rounded-circle profile-img">
+                                        <div class="mt-2 d-flex justify-content-center gap-2">
+                                                <label class="btn btn-sm btn-outline-primary mb-0">
+                                                <i class="fa fa-upload"></i> Upload
+                                                <input type="file" name="company_logo" id="logoImageInput" data-error="#error_company_logo" class="update-file d-none" accept="image/*">
+                                                </label>
+                                                <button type="button" id="removeLogoImage" class="btn btn-sm btn-outline-danger">
+                                                        <i class="fa fa-times"></i> Remove
+                                                </button>
+                                        </div>
+                                        <span class="error" id="error_profile_photo"></span>
                                 </div>
                                 <button type="submit" id="updateLogoBtn" class="btn btn-primary mt-3 d-none">Update</button>
                         </form>
