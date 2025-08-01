@@ -238,6 +238,7 @@ class CandidateRepository extends BaseRepository
     public function updateCandidateDetails($inputArray)
     {
         $skillArray = [];
+        if (isset($inputArray['skills'])) {
         foreach ($inputArray['skills'] as $skillName) {
             $checkSkill = Skill::where('name', $skillName)->first();
             if ($checkSkill == null) {
@@ -250,6 +251,7 @@ class CandidateRepository extends BaseRepository
                 $skillArray[] = $checkSkill->id; // ← Include existing skill ID
             }
         }
+          }
         $inputArray['candidate_id'] = Auth::user()->id;
         $condition = ['candidate_id' => $inputArray['candidate_id']];
         $candidateDetails = [];

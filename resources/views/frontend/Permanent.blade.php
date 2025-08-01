@@ -128,7 +128,7 @@
         margin-top: 30px;
         background-color: #e2ecf5;
         padding: 20px;
-        border-left: 5px solid #2980b9;
+        border-left: 5px solid #223D78;
     }
 </style>
 

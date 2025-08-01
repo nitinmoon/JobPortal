@@ -57,25 +57,25 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <div class="job-info-box">
-                            <h3 class="m-t0 m-b10 font-weight-700 title-head">{{ !empty($jobDetails->job_title) ? $jobDetails->job_title : '--' }}</h3>
+                        <div class="job-info-box" style="padding-left: 20px;">
+                            <h3 class="m-t0 m-b10 font-weight-700 title-head" style="margin-left: -1rem !important;">{{ !empty($jobDetails->job_title) ? $jobDetails->job_title : '--' }}</h3>
                             <ul class="job-info">
                                 <li><strong>Category:</strong> {{ !empty($jobDetails->jobCategory->name) ? $jobDetails->jobCategory->name : '--' }}</li>
                                 <li><strong>Deadline:</strong> {{ isset($jobDetails->deadline) ? date('d M Y', strtotime($jobDetails->deadline)) : '--' }}</li>
                                 <li><i class="ti-location-pin text-black m-r5"></i> {{ isset($jobDetails->country_id) ? $jobDetails->country->name : '--' }} </li>
                             </ul>
-                            <h5 class="font-weight-600 mt-5">Job Description</h5>
-                            <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
-                            <p style="white-space: normal; padding-left: 5px;">{!! !empty($jobDetails->job_description) ? $jobDetails->job_description : '--' !!}</p>
-                            <h5 class="font-weight-600">Job Responsibility</h5>
-                            <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
-                            <p style="white-space: normal; padding-left: 5px;">{!! !empty($jobDetails->job_responsibility) ? $jobDetails->job_responsibility : '--' !!}</p>
-                            <h5 class="font-weight-600">Educational Requirements</h5>
-                            <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
-                            <p style="white-space: normal; padding-left: 5px;">{!! !empty($jobDetails->educational_requirements) ? $jobDetails->educational_requirements : '--' !!}</p>
-                            <h5 class="font-weight-600">Other Benefits (Facilities)</h5>
-                            <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0"></div>
-                            <p style="white-space: normal; padding-left: 5px;">{!! !empty($jobDetails->other_benefits) ? $jobDetails->other_benefits : '--' !!}</p>
+                            <h5 class="font-weight-600 mt-5" style="margin-left: -1rem !important;">Job Description</h5>
+                            <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0" style="margin-left: -1rem !important;"></div>
+                            <p style="white-space: normal; padding-left: 15px !important;">{!! !empty($jobDetails->job_description) ? $jobDetails->job_description : '--' !!}</p>
+                            <h5 class="font-weight-600" style="margin-left: -1rem !important;">Job Responsibility</h5>
+                            <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0" style="margin-left: -1rem !important;"></div>
+                            <p style="white-space: normal; padding-left: 15px !important;">{!! !empty($jobDetails->job_responsibility) ? $jobDetails->job_responsibility : '--' !!}</p>
+                            <h5 class="font-weight-600" style="margin-left: -1rem !important;">Educational Requirements</h5>
+                            <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0" style="margin-left: -1rem !important;"></div>
+                            <p style="white-space: normal; padding-left: 15px !important;">{!! !empty($jobDetails->educational_requirements) ? $jobDetails->educational_requirements : '--' !!}</p>
+                            <h5 class="font-weight-600" style="margin-left: -1rem !important;">Other Benefits (Facilities)</h5>
+                            <div class="dez-divider divider-2px bg-gray-dark mb-4 mt-0" style="margin-left: -1rem !important;"></div>
+                            <p style="white-space: normal; padding-left: 15px !important;">{!! !empty($jobDetails->other_benefits) ? $jobDetails->other_benefits : '--' !!}</p>
                             @if(!empty(Auth::user()))
                                 @if(isCandidateApplyJob(auth()->user()->id, $jobDetails->id) == '')
                                     @if(auth()->user()->role_id == '3')

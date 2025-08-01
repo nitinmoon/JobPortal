@@ -153,10 +153,14 @@
                                         </div>
                                         <span class="error" id="error_dob"></span>
                                     </div>
+                                    @php
+                                        use Carbon\Carbon;
+                                        $age = isset($userDetails->dob) ? Carbon::parse($userDetails->dob)->age : '';
+                                    @endphp
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
-                                            <label>Age:</label>
-                                            <input type="text" class="form-control" id="age" placeholder="32 Year" readonly>
+                                            <label>Age:(Year)</label>
+                                            <input type="text" class="form-control" id="age" value="{{ $age }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
