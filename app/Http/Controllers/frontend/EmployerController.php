@@ -369,6 +369,7 @@ class EmployerController extends Controller
                 'middle_name',
                 'last_name',
                 'email',
+                'country_code',
                 'phone',
                 'dob',
                 'gender',
@@ -485,25 +486,20 @@ class EmployerController extends Controller
      */
     public function updateCompanyLogo(CompanyLogoRequest $request)
     {
-        // try {
+        try {
             $inputArray = $this->validateLogoImage($request);
-            $imageName  = time().'.'.$inputArray['company_logo']->extension();
-            $imagepath = config('constants.COMPANY_LOGO_PATH');
-            if (!file_exists($imagepath)) {
-                mkdir($imagepath, 0777, true);
-            }
-            $inputArray['company_logo']->move(config('constants.COMPANY_LOGO_PATH'), $imageName);
-            $inputArray['company_logo'] = $imageName;
-            $this->employerService->updateCompanyLogo(auth()->user()->id, $inputArray);
-            return response()->json(
-                [
-                    'status' => true,
-                    'msg' => "Logo updated successfully!"
-                ]
-            );
-        // } catch (\Exception  $exception) {
-        //     return back()->withError($exception->getMessage())->withInput();
-        // }
+            $this->employerService->updateCompanyLogo($request);
+            return response()->json([
+                'status' => true,
+                'msg' => "Logo updated successfully!",
+            ]);
+        } catch (\Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json([
+                'status' => false,
+                'msg' => $exception->getMessage(),
+            ]);
+        }
     }
 
     /**

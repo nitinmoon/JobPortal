@@ -57,7 +57,7 @@
                             <p class="m-b15">{{ isset($candidateDetails->designation->name) ? $candidateDetails->designation->name : '--' }}</p>
                             <ul class="clearfix">
                                 <li><i class="ti-location-pin"></i> {{ isset($userDetails->address) ? $userDetails->address.', '.$userDetails->city_name.', '.$userDetails->state_name.', '.$userDetails->country_name.' - '.$userDetails->zip : '' }}</li>
-                                <li><i class="ti-mobile"></i> {{ isset($userDetails->phone) ? $userDetails->phone : '' }}</li>
+                                <li><i class="ti-mobile"></i> {{ isset($userDetails->phone) ? $userDetails->country_code .' '. $userDetails->phone : '' }}</li>
                                 <li><i class="ti-briefcase"></i> {{ isset($candidateDetails->experience) ? $candidateDetails->experience : '--' }}</li>
                                 <li><i class="ti-email"></i> {{ isset($userDetails->email) ? $userDetails->email : '' }}</li>
                             </ul>

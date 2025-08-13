@@ -171,6 +171,7 @@ class EmployerRepository extends BaseRepository
             $user->last_name = strip_tags($inputArray['last_name']);
             $user->email = strip_tags($inputArray['email']);
             $user->password = bcrypt($password);
+            $user->country_code = strip_tags($inputArray['country_code']);
             $user->phone = strip_tags($inputArray['phone']);
             $user->dob = strip_tags($inputArray['dob']);
             $user->gender = strip_tags($inputArray['gender']);
@@ -187,6 +188,7 @@ class EmployerRepository extends BaseRepository
                     'middle_name' => strip_tags($inputArray['middle_name']),
                     'last_name' => strip_tags($inputArray['last_name']),
                     'email' => strip_tags($inputArray['email']),
+                    'country_code' => strip_tags($inputArray['country_code']),
                     'phone' => $inputArray['phone'],
                     'dob' => $inputArray['dob'],
                     'gender' => strip_tags($inputArray['gender']),
@@ -325,6 +327,7 @@ class EmployerRepository extends BaseRepository
             'users.last_name',
             'users.email',
             'users.phone',
+            'users.country_code',
             'users.dob',
             'users.gender',
             'users.role_id',
@@ -389,15 +392,57 @@ class EmployerRepository extends BaseRepository
      * @description input (user details)
      * ******************************************
      */
-    public function updateCompanyLogo($userId, $inputdata)
+    public function updateCompanyLogo($request)
     {
-        $condition = ['employer_id' => auth()->user()->id];
-        $companyDetails = [
-            'company_logo' => $inputdata['company_logo'],
-            'updated_by' => auth()->user()->id,
-        ];
-        EmployerDetail::updateOrCreate($condition, $companyDetails);
-        return auth()->user()->id;
+        // $condition = ['employer_id' => auth()->user()->id];
+        // $companyDetails = [
+        //     'company_logo' => $inputdata['company_logo'],
+        //     'updated_by' => auth()->user()->id,
+        // ];
+        // EmployerDetail::updateOrCreate($condition, $companyDetails);
+        // return auth()->user()->id;
+
+        // $inputArray = $this->validateLogoImage($request);
+        // $imageName  = time().'.'.$inputArray['company_logo']->extension();
+        // $imagepath = config('constants.COMPANY_LOGO_PATH');
+        // if (!file_exists($imagepath)) {
+        //     mkdir($imagepath, 0777, true);
+        // }
+        // $inputArray['company_logo']->move(config('constants.COMPANY_LOGO_PATH'), $imageName);
+        // $inputArray['company_logo'] = $imageName;
+        // $this->employerService->updateCompanyLogo(auth()->user()->id, $inputArray);
+        // return response()->json(
+        //     [
+        //         'status' => true,
+        //         'msg' => "Logo updated successfully!"
+        //     ]
+        // );
+
+        //new
+        $inputArray = $request->all();
+        $userId = auth()->id();
+        $imagepath = config('constants.COMPANY_LOGO_PATH');
+        if ($request->has('remove_image') && $request->remove_image == 1) {
+            $oldFileName = EmployerDetail::where('employer_id', $userId)->value('company_logo');
+            if (!empty($oldFileName) && File::exists($imagepath . '/' . $oldFileName)) {
+                File::delete($imagepath . '/' . $oldFileName);
+            }
+            EmployerDetail::where('employer_id', $userId)->update(['company_logo' => null]);
+        }
+
+        if (!empty($inputArray['company_logo'])) {
+            $imageName = $userId . '_' . time() . '.' . $inputArray['company_logo']->extension();
+            $oldFileName = EmployerDetail::where('employer_id', $userId)->value('company_logo');
+            if (!empty($oldFileName) && File::exists($imagepath . '/' . $oldFileName)) {
+                File::delete($imagepath . '/' . $oldFileName);
+            }
+            if (!file_exists($imagepath)) {
+                mkdir($imagepath, 0777, true);
+            }
+            $inputArray['company_logo']->move($imagepath, $imageName);
+            EmployerDetail::where('employer_id', $userId)->update(['company_logo' => $imageName]);
+        }
+        return $userId;
     }
 
     /**

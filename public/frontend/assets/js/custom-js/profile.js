@@ -412,9 +412,26 @@ $(function () {
     $('#profileImageInput').change(function() {
         const [file] = this.files;
         if (file) {
-            document.getElementById("profilePreview").src = URL.createObjectURL(file);
+            $('#profilePreview').attr('src', URL.createObjectURL(file));
             $('#updateProfileBtn').removeClass('d-none');
         }
+    });
+
+    $('#removeProfileImage').click(function () {
+        var defaultImg = $('#defaultImg').val();
+        $('#profilePreview').attr('src', defaultImg);
+
+        if ($('#removeImageFlag').length === 0) {
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'removeImageFlag',
+                name: 'remove_image',
+                value: '1'
+            }).appendTo('#updateCandidateProfile');
+        }
+
+        $('#profileImageInput').val('');
+        $('#updateProfileBtn').removeClass('d-none');
     });
 
     $("#updateCandidateProfile").validate({
@@ -494,9 +511,26 @@ $(function () {
     $('#logoImageInput').change(function() {
         const [file] = this.files;
         if (file) {
-            document.getElementById("logoPreview").src = URL.createObjectURL(file);
+            $('#logoPreview').attr('src', URL.createObjectURL(file));
             $('#updateLogoBtn').removeClass('d-none');
         }
+    });
+
+    $('#removeLogoImage').click(function () {
+        var defaultImg = $('#defaultLogo').val();
+        $('#logoPreview').attr('src', defaultImg);
+
+        if ($('#removeLogoFlag').length === 0) {
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'removeLogoFlag',
+                name: 'remove_image',
+                value: '1'
+            }).appendTo('#updateCompanyLogo');
+        }
+
+        $('#logoImageInput').val('');
+        $('#updateLogoBtn').removeClass('d-none');
     });
 
     $("#updateCompanyLogo").validate({

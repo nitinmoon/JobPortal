@@ -110,3 +110,29 @@
 h5 {
     font-size: 18px !important;
 }
+
+.iti {
+    width: 100%;
+}
+
+.profile-wrapper {
+    text-align: center;
+    margin: auto;
+}
+
+.profile-wrapper img {
+    width: 150px !important;
+    height: 150px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.profile-img {
+    width: 150px !important;
+    height: 150px !important;
+    object-fit: cover;
+    border: 3px solid #ccc;
+    padding: 2px;
+}

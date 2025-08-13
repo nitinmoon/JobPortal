@@ -112,16 +112,16 @@ class UserService
      * method used to update profile basic info
      * -----------------------------------------
      * @param userId
-     * @param inputdata
+     * @param inputArray
      * @return data
      * @description input (user details)
      * ******************************************
      */
-    public function updateProfilePhoto($userId, $inputdata)
+    public function updateProfilePhoto($request)
     {
-        $userDetail = $this->userRepository->getById($userId);
-        $user = $this->userRepository->update($userDetail, $inputdata);
-        return $user;
+        return $this->userRepository->updateProfilePhoto($request);
+        // $user = $this->userRepository->update($userDetail, $inputdata);
+        // return $user;
     }
 
     /**

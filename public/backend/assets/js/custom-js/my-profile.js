@@ -655,6 +655,79 @@ $(function () {
             });
         }
     });
+
+     $("#updateProfileImg").validate({
+        rules: {
+            profile_photo: {
+                accept: "jpg,png,jpeg,gif"
+            }
+        },
+        messages: {
+            profile_photo: {
+                accept: "Only image types jpg, png, jpeg, gif are allowed",
+            }
+        },
+        errorClass: "text-danger is-invalid",
+        errorElement: "label",
+        errorPlacement: function (error, element) {
+            var placement = $(element).data('error');
+            if (placement) {
+                $(placement).append(error);
+            } else {
+                error.insertAfter(element);
+            }
+        },
+        submitHandler: function (form, event) {
+            event.preventDefault();
+
+            var formData = new FormData(form);
+            var actionUrl = $(form).attr('action');
+
+            $.ajax({
+                url: actionUrl,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#updateProfileBtn').prop('disabled', true).text('Updating...');
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.status === true) {
+                        Toast.create({
+                            title: "Success!",
+                            message: res.msg,
+                            status: TOAST_STATUS.SUCCESS,
+                            timeout: 5000,
+                        });
+                        location.reload();
+                        $('#updateProfileBtn').addClass('d-none')
+                    } else {
+                        Toast.create({
+                            title: "Error!",
+                            message: res.msg,
+                            status: TOAST_STATUS.DANGER,
+                            timeout: 5000,
+                        });
+                    }
+                },
+                complete: function () {
+                    $('#updateProfileBtn').prop('disabled', false).text('Update Profile');
+                },
+                error: function (err) {
+                    if (err.status == 422) {
+                        let errors = err.responseJSON.errors;
+                        $.each(errors, function (key, value) {
+                            let errorField = $(`[name="${key}"]`);
+                            errorField.addClass('is-invalid');
+                            errorField.after(`<label class="text-danger">${value}</label>`);
+                        });
+                    }
+                }
+            });
+        }
+    });
 });
 function addLoadFile(event) {
     $("#error_company_logo").html("");

@@ -162,6 +162,7 @@ class CandidateController extends Controller
                 'middle_name',
                 'last_name',
                 'email',
+                'country_code',
                 'phone',
                 'dob',
                 'gender',
@@ -358,25 +359,20 @@ class CandidateController extends Controller
      */
     public function updateCandidateProfilePhoto(ProfileImageRequest $request)
     {
-        // try {
-        $inputArray = $this->validateImage($request);
-        $imageName  = time() . '.' . $inputArray['profile_photo']->extension();
-        $imagepath = config('constants.PROFILE_PATH');
-        if (!file_exists($imagepath)) {
-            mkdir($imagepath, 0777, true);
-        }
-        $inputArray['profile_photo']->move(config('constants.PROFILE_PATH'), $imageName);
-        $inputArray['profile_photo'] = $imageName;
-        $this->userService->updateProfilePhoto(auth()->user()->id, $inputArray);
-        return response()->json(
-            [
+        try {
+            $inputArray = $this->validateImage($request);
+            $this->userService->updateProfilePhoto($request);
+            return response()->json([
                 'status' => true,
-                'msg' => "Profile photo updated successfully!"
-            ]
-        );
-        // } catch (\Exception  $exception) {
-        //     return back()->withError($exception->getMessage())->withInput();
-        // }
+                'msg' => "Profile photo updated successfully",
+            ]);
+        } catch (\Exception  $exception) {
+            Log::channel('exceptionLog')->error("Exception: " . $exception->getMessage() . ' in ' . $exception->getFile() . ' StackTrace:' . $exception->getTraceAsString());
+            return response()->json([
+                'status' => false,
+                'msg' => $exception->getMessage(),
+            ]);
+        }
     }
 
     /**

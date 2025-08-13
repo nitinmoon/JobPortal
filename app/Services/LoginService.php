@@ -151,9 +151,9 @@ class LoginService
      * @return data
      * **************************************
      */
-    public function updateAdminProfileImage($userId, $inputdata)
+    public function updateAdminProfileImage($request)
     {
-        return $this->loginRepository->updateAdminProfileImage($userId, $inputdata);
+        return $this->loginRepository->updateAdminProfileImage($request);
     }
 
     /**

@@ -299,9 +299,9 @@ class EmployerService
      * @description input (user details)
      * ******************************************
      */
-    public function updateCompanyLogo($userId, $inputdata)
+    public function updateCompanyLogo($request)
     {
-        return $this->employerRepository->updateCompanyLogo($userId, $inputdata);
+        return $this->employerRepository->updateCompanyLogo($request);
     }
 
     /**

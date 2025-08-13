@@ -69,7 +69,7 @@ Route::middleware(['isAdminLoggedIn'])->group(function () {
             Route::post('/update-admin-profile', 'updateAdminProfile')->name('updateAdminProfile');
             Route::post('/change-password', 'changePassword')->name('changePassword');
             Route::get('/get-apply-job-count', 'getApplyJobCount')->name('getApplyJobCount');
-            Route::post('update-admin-profile-image/{id}', 'updateAdminProfileImage')->name('updateAdminProfileImage');
+            Route::post('update-admin-profile-image', 'updateAdminProfileImage')->name('updateAdminProfileImage');
             Route::get('/sub-admin-profile', 'subAdminProfile')->name('subAdminProfile');
             Route::post('update-sub-admin-profile', 'updateSubAdminProfile')->name('updateSubAdminProfile');
         });

@@ -179,6 +179,7 @@ class EmployerController extends Controller
                 'middle_name',
                 'last_name',
                 'email',
+                'country_code',
                 'phone',
                 'dob',
                 'gender',

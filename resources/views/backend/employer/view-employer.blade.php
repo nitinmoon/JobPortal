@@ -54,7 +54,7 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Phone</div>
-                    <div class="col-lg-9 col-md-8">{{ isset($userDetails->phone) ? $userDetails->phone : '--' }}</div>
+                    <div class="col-lg-9 col-md-8">{{ isset($userDetails->phone) ? $userDetails->country_code . ' ' . $userDetails->phone : '--' }}</div>
                   </div>
 
                   <div class="row">
